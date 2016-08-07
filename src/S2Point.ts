@@ -15,6 +15,10 @@
  */
 
 import {R2Vector} from "./S2Vector";
+/// <reference path="../typings/globals/decimal.js/index.d.ts" />
+import Decimal = require('decimal.js') ;
+
+///re
 /**
  * An S2Point represents a point on the unit sphere as a 3D vector. Usually
  * points are normalized to be unit length, but some methods do not require
@@ -22,8 +26,15 @@ import {R2Vector} from "./S2Vector";
  *
  */
 export class S2Point {
-  constructor(public x:number, public y:number, public z:number) {
-
+  public x: decimal.Decimal;
+  public y: decimal.Decimal;
+  public z: decimal.Decimal;
+  constructor(x:decimal.Decimal|number, y:decimal.Decimal|number, z:decimal.Decimal|number) {
+    this.x = new Decimal(x)  as decimal.Decimal;
+    this.y = new Decimal(y)  as decimal.Decimal ;
+    this.z = new Decimal(z)   as decimal.Decimal;
+    // this.y = typeof(y) === 'number'?new decimal.Decimal(y):y as decimal.Decimal;
+    // this.z = typeof(z) === 'number'?new decimal.Decimal(z):z as decimal.Decimal;
   }
 
   static minus(p1:S2Point, p2:S2Point) {
@@ -31,45 +42,48 @@ export class S2Point {
   }
 
   static neg(p) {
-    return new S2Point(-p.x, -p.y, -p.z);
+    return new S2Point(p.x.negated(), p.y.negated(), p.z.negated());
   }
 
-  public norm2():number {
-    return this.x * this.x + this.y * this.y + this.z * this.z;
+  public norm2():decimal.Decimal {
+    return this.x.pow(2).plus(this.y.pow(2)).plus(this.z.pow(2));
   }
 
-  public norm():number {
-    return Math.sqrt(this.norm2());
+  public norm():decimal.Decimal {
+    return this.norm2().sqrt();
   }
 
-  
+
   static crossProd(p1:S2Point, p2:S2Point):S2Point {
 
     return new S2Point(
-        p1.y * p2.z - p1.z * p2.y,
-        p1.z * p2.x - p1.x * p2.z,
-        p1.x * p2.y - p1.y * p2.x
+        p1.y.times(p2.z).minus(p1.z.times(p2.y)),
+        p1.z.times(p2.x).minus(p1.x.times(p2.z)),
+        // p1.z * p2.x - p1.x * p2.z,
+        p1.x.times(p2.y).minus(p1.y.times(p2.x))
+        // p1.x * p2.y - p1.y * p2.x
     );
   }
 
   static add(p1, p2):S2Point {
-    return new S2Point(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);
+    return new S2Point(p1.x.add(p2.x), p1.y.add(p2.y), p1.z.add(p2.z));
   }
 
   static sub(p1, p2):S2Point {
-    return new S2Point(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
+    return new S2Point(p1.x.sub(p2.x), p1.y.sub(p2.y), p1.z .sub(p2.z));
   }
 
-  public dotProd(that:S2Point):number {
-    return this.x * that.x + this.y * that.y + this.z * that.z;
+  public dotProd(that:S2Point):decimal.Decimal {
+    return this.x.times(that.x).plus(this.y.times(that.y)).plus(this.z.times(that.z));
   }
 
-  public static mul(p, m:number):S2Point {
-    return new S2Point(m * p.x, m * p.y, m * p.z);
+  public static mul(p, m:decimal.Decimal|number):S2Point {
+    let mD = new Decimal(m) as decimal.Decimal;
+    return new S2Point(mD.times(p.x), mD.times(p.y) , mD.times(p.z));
   }
 
-  public static div(p, m:number):S2Point {
-    return new S2Point(p.x / m, p.y / m, p.z / m);
+  public static div(p:S2Point, m:number):S2Point {
+    return new S2Point(p.x.div(m), p.y.div(m), p.z.div(m));
   }
 
   /** return a vector orthogonal to this one */
@@ -77,11 +91,11 @@ export class S2Point {
     let k = this.largestAbsComponent();
     let temp;
     if (k == 1) {
-      temp = new S2Point(1, 0, 0);
+      temp = new S2Point(1,0,0);
     } else if (k == 2) {
-      temp = new S2Point(0, 1, 0);
+      temp = new S2Point(0,1,0);
     } else {
-      temp = new S2Point(0, 0, 1);
+      temp = new S2Point(0,0,1);
     }
     return S2Point.normalize(S2Point.crossProd(this, temp));
   }
@@ -89,14 +103,14 @@ export class S2Point {
   /** Return the index of the largest component fabs */
   public largestAbsComponent():number {
     let temp = S2Point.fabs(this);
-    if (temp.x > temp.y) {
-      if (temp.x > temp.z) {
+    if (temp.x.greaterThan(temp.y)) {
+      if (temp.x.greaterThan(temp.z)) {
         return 0;
       } else {
         return 2;
       }
     } else {
-      if (temp.y > temp.z) {
+      if (temp.y.greaterThan(temp.z)) {
         return 1;
       } else {
         return 2;
@@ -105,25 +119,26 @@ export class S2Point {
   }
 
   public static fabs(p:S2Point):S2Point {
-    return new S2Point(Math.abs(p.x), Math.abs(p.y), Math.abs(p.z));
+    return new S2Point(p.x.abs(), p.y.abs(), p.z.abs());
   }
 
   public static normalize(p:S2Point) {
     let norm = p.norm();
 
-    if (norm != 0) {
-      norm = 1.0 / norm;
+    if (!norm.eq(0)) {
+      norm = new Decimal(1).dividedBy(norm);
     }
     return S2Point.mul(p, norm);
   }
 
-  axis(axis:number):number {
+  axis(axis:number):decimal.Decimal {
     return (axis == 0) ? this.x : (axis == 1) ? this.y : this.z;
   }
 
   /** Return the angle between two vectors in radians */
   public angle(va) {
-    return Math.atan2(S2Point.crossProd(this, va).norm(), this.dotProd(va)
+
+    return Decimal.atan2(S2Point.crossProd(this, va).norm(), this.dotProd(va)
     );
   }
 
@@ -132,32 +147,32 @@ export class S2Point {
    * difference of margin.
    */
   aequal(that:S2Point, margin:number):boolean {
-    return (Math.abs(this.x - that.x) < margin) &&
-        (Math.abs(this.y - that.y) < margin) &&
-        (Math.abs(this.z - that.z) < margin);
+    return this.x.minus(that.x).abs().lessThan(margin) &&
+            this.y.minus(that.y).abs().lessThan(margin) &&
+            this.z.minus(that.z).abs().lessThan(margin);
   }
 
   equals(that:S2Point):boolean {
     if (!(that instanceof S2Point)) {
       return false;
     }
-    return this.x == that.x && this.y == that.y && this.z == that.z;
+    return this.x.eq(that.x) && this.y.eq(that.y) && this.z.eq(that.z);
   }
 
   public lessThan(vb:S2Point):boolean {
-    if (this.x < vb.x) {
+    if (this.x.lt(vb.x)) {
       return true;
     }
-    if (vb.x < this.x) {
+    if (vb.x.lt(this.x)) {
       return false;
     }
-    if (this.y < vb.y) {
+    if (this.y.lt(vb.y)) {
       return true;
     }
-    if (vb.y < this.y) {
+    if (vb.y.lt(this.y)) {
       return false;
     }
-    if (this.z < vb.z) {
+    if (this.z.lt(vb.z)) {
       return true;
     }
     return false;
@@ -167,45 +182,42 @@ export class S2Point {
     return (this.lessThan(other) ? -1 : (this.equals(other) ? 0 : 1));
   }
 
-  public toString() {
-    return `(${this.x}, ${this.y}, ${this.z})`;
-  }
 
   toFace():number {
     let face = this.largestAbsComponent();
-    if (this.axis(face) < 0) {
+    if (this.axis(face).lt(0)) {
       face += 3;
     }
     return face;
   }
-  
-  toR2Vector(face:number = this.toFace()): R2Vector {
+
+  toR2Vector(face:number = this.toFace()):R2Vector {
     let u;
     let v;
     switch (face) {
       case 0:
-        u = this.y / this.x;
-        v = this.z / this.x;
+        u = this.y.div(this.x);
+        v = this.z.div(this.x);
         break;
       case 1:
-        u = -this.x / this.y;
-        v = this.z / this.y;
+        u = this.x.neg().div(this.y);
+        v = this.z.div(this.y);
         break;
       case 2:
-        u = -this.x / this.z;
-        v = -this.y / this.z;
+        u = this.x.neg().div(this.z);
+        v = this.y.neg().div(this.z);
         break;
       case 3:
-        u = this.z / this.x;
-        v = this.y / this.x;
+        u = this.z.div(this.x);
+        v = this.y.div(this.x);
         break;
       case 4:
-        u = this.z / this.y;
-        v = -this.x / this.y;
+        u = this.z.div(this.y);
+        v = this.x.neg().div(this.y);
         break;
       case 5:
-        u = -this.y / this.z;
-        v = -this.x / this.z;
+        u = this.y.neg().div(this.z);
+        v = this.x.neg().div(this.z);
         break;
       default:
         throw new Error('Invalid face');
@@ -213,4 +225,8 @@ export class S2Point {
     return new R2Vector(u, v);
   }
 
+
+  toString():string {
+    return `Point(${this.x.toNumber()}, ${this.y.toNumber()}, ${this.z.toNumber()})`;
+  }
 }

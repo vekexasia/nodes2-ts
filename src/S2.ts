@@ -1,7 +1,7 @@
 ///<reference path="../typings/index.d.ts"/>
 
 import {S2Point} from "./S2Point";
-import {S2CellId} from "./S2CellId";
+
 
 const Long = require('long');
 export class S2 {
@@ -30,14 +30,15 @@ export class S2 {
     [3, 2, 0, 1], // bits inverted: (1,1), (1,0), (0,0), (0,1)
     [3, 1, 0, 2], // swapped & inverted: (1,1), (0,1), (0,0), (1,0)
   ];
+  static MAX_LEVEL = 30;
 
-  public static IEEEremainder(f1:number, f2:number) {
-    let r = Math.abs(f2 % f2);
-    if (isNaN(r) || r == f2 || r <= Math.abs(f2) / 2) {
+  public static IEEEremainder(f1:decimal.Decimal, f2:decimal.Decimal) {
+    let r = f1.mod(f2);
+
+    if (/*isNaN(r) ||*/ r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
       return r;
     } else {
-
-      return (f1>=0?1:-1) * (r - f2);
+      return (f1.gte(0)?new Decimal(1):new Decimal(-1)).times(r.minus(f2));
     }
   }
 
@@ -142,14 +143,14 @@ export class S2_Metric {
    */
   public getMinLevel(value:number /*double*/):number /*int*/ {
     if (value <= 0) {
-      return S2CellId.MAX_LEVEL;
+      return S2.MAX_LEVEL;
     }
 
     // This code is equivalent to computing a floating-point "level"
     // value and rounding up.
-    let exponent = S2.exp(value / ((1 << this.dim) * this.deriv));
+    let exponent = S2.exp(value / ((1 << this.dim()) * this.deriv()));
     let level = Math.max(0,
-        Math.min(S2CellId.MAX_LEVEL, -((exponent - 1) >> (this.dim - 1))));
+        Math.min(S2.MAX_LEVEL, -((exponent - 1) >> (this.dim() - 1))));
     // assert (level == S2CellId.MAX_LEVEL || getValue(level) <= value);
     // assert (level == 0 || getValue(level - 1) > value);
     return level;
@@ -164,14 +165,14 @@ export class S2_Metric {
    */
   public getMaxLevel(value:number /*double*/):number {
     if (value <= 0) {
-      return S2CellId.MAX_LEVEL;
+      return S2.MAX_LEVEL;
     }
 
     // This code is equivalent to computing a floating-point "level"
     // value and rounding down.
-    let exponent = S2.exp((1 << this.dim) * this.deriv / value);
+    let exponent = S2.exp((1 << this.dim()) * this.deriv() / value);
     let level = Math.max(0,
-        Math.min(S2CellId.MAX_LEVEL, ((exponent - 1) >> (this.dim - 1))));
+        Math.min(S2.MAX_LEVEL, ((exponent - 1) >> (this.dim() - 1))));
     // assert (level == 0 || getValue(level) >= value);
     // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
     return level;
