@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/assets/cell-tests.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interval.ts" afterPath="$PROJECT_DIR$/src/Interval.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/R1Interval.ts" afterPath="$PROJECT_DIR$/src/R1Interval.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S1Interval.ts" afterPath="$PROJECT_DIR$/src/S1Interval.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2.ts" afterPath="$PROJECT_DIR$/src/S2.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Cell.ts" afterPath="$PROJECT_DIR$/src/S2Cell.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Point.ts" afterPath="$PROJECT_DIR$/src/S2Point.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Projections.ts" afterPath="$PROJECT_DIR$/src/S2Projections.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Vector.ts" afterPath="$PROJECT_DIR$/src/S2Vector.ts" />
     </list>
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,80 +18,6 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-            <file leaf-file-name="generated-locations.json" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/test/generated-locations.json">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="234">
-                    <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="java-gen-locations.json" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/test/java-gen-locations.json">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="112572">
-                    <caret line="8958" column="1" selection-start-line="8958" selection-start-column="1" selection-end-line="8958" selection-end-column="1" />
-                    <folding>
-                      <marker date="1470684975297" expanded="true" signature="4:19" ph="{&quot;id&quot;: &quot;11914230967000104960&quot;...}" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="S2Vector.ts" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-331">
-                    <caret line="110" column="31" selection-start-line="110" selection-start-column="31" selection-end-line="110" selection-end-column="31" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="S2.ts" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/src/S2.ts">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="342">
-                    <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="latlng-tests.json" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/test/assets/latlng-tests.json">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="39564">
-                    <caret line="2198" column="1" selection-start-line="2198" selection-start-column="1" selection-end-line="2198" selection-end-column="1" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="S2Projections.ts" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/src/S2Projections.ts">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="443">
-                    <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
-                    <folding>
-                      <element signature="e#3324#3348#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -154,14 +73,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="S2Cell.ts" pinned="false" current-in-tab="true">
+          <file leaf-file-name="S2Cell.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="219">
-                  <caret line="365" column="21" selection-start-line="365" selection-start-column="21" selection-end-line="365" selection-end-column="21" />
+                <state relative-caret-position="327">
+                  <caret line="371" column="36" selection-start-line="371" selection-start-column="36" selection-end-line="371" selection-end-column="36" />
                   <folding>
                     <element signature="e#0#36#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="cell-tests.json" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/test/assets/cell-tests.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="339">
+                  <caret line="5743" column="14" selection-start-line="5743" selection-start-column="14" selection-end-line="5743" selection-end-column="14" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -398,6 +327,7 @@
         <option value="$PROJECT_DIR$/src/S2Point.ts" />
         <option value="$PROJECT_DIR$/src/S2.ts" />
         <option value="$PROJECT_DIR$/src/S2Vector.ts" />
+        <option value="$PROJECT_DIR$/test/assets/cell-tests.json" />
       </list>
     </option>
   </component>
@@ -476,7 +406,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodes2ts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodes2ts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -912,6 +860,19 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
+      <setting name="environment" value="" />
+      <setting name="specsToExecute" value="" />
+      <setting name="tags" value="" />
+      <setting name="parallelNodes" value="" />
+      <setting name="execInParallel" value="false" />
+      <setting name="programParameters" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="moduleName" value="" />
+      <envMap />
+      <setting name="rowsRange" value="" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -965,12 +926,20 @@
       <workItem from="1470475763113" duration="30913000" />
       <workItem from="1470584103479" duration="5747000" />
       <workItem from="1470641958240" duration="23263000" />
-      <workItem from="1470684998760" duration="3485000" />
+      <workItem from="1470684998760" duration="4193000" />
     </task>
+    <task id="LOCAL-00001" summary="fixed errors and ported intervals to Decimal.js">
+      <created>1470688499993</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1470688499993</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74264000" />
+    <option name="totallyTimeSpent" value="74972000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
@@ -1041,6 +1010,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixed errors and ported intervals to Decimal.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed errors and ported intervals to Decimal.js" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -1069,16 +1042,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/S2Region.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Interval.js" />
     <entry file="file://$PROJECT_DIR$/index.js" />
     <entry file="file://$PROJECT_DIR$/dist/S1Angle.js" />
@@ -1394,14 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-331">
-          <caret line="110" column="31" selection-start-line="110" selection-start-column="31" selection-end-line="110" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/S2.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1410,13 +1365,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="149" column="5" selection-start-line="149" selection-start-column="5" selection-end-line="149" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="365" column="21" selection-start-line="365" selection-start-column="21" selection-end-line="365" selection-end-column="21" />
+        <state relative-caret-position="327">
+          <caret line="371" column="36" selection-start-line="371" selection-start-column="36" selection-end-line="371" selection-end-column="36" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/assets/cell-tests.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="5743" column="14" selection-start-line="5743" selection-start-column="14" selection-end-line="5743" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
