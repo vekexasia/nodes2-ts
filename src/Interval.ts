@@ -1,9 +1,11 @@
+import {S2} from "./S2";
 export abstract class Interval {
-  public lo:number;
-  public hi:number;
+  public lo:decimal.Decimal;
+  public hi:decimal.Decimal;
 
-  constructor(public lo:number, public hi:number) {
-
+  constructor(lo:number|decimal.Decimal, hi:number|decimal.Decimal) {
+    this.lo = S2.toDecimal(lo);
+    this.hi = S2.toDecimal(hi);
   }
 
   /** Return true if the interval is empty, i.e. it contains no points. */
@@ -14,20 +16,20 @@ export abstract class Interval {
    * Return the center of the interval. For empty intervals, the result is
    * arbitrary.
    */
-  public abstract getCenter():number;
+  public abstract getCenter():decimal.Decimal;
 
   /**
    * Return the length of the interval. The length of an empty interval is
    * negative.
    */
-  public abstract getLength():number;
+  public abstract getLength():decimal.Decimal;
 
-  public abstract contains(p:number):boolean;
+  public abstract contains(p:number|decimal.Decimal):boolean;
 
-  public abstract interiorContains(p:number):boolean;
+  public abstract interiorContains(p:number|decimal.Decimal):boolean;
 
   public  toString():string {
-    return "[" + this.lo + ", " + this.hi + "]";
+    return "[" + this.lo.toString() + ", " + this.hi.toString() + "]";
   }
 
 

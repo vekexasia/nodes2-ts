@@ -1,5 +1,6 @@
 import {S2Point} from "./S2Point";
 import Decimal = require('decimal.js') ;
+import {S2} from "./S2";
 
 /**
  * R2Vector represents a vector in the two-dimensional space. It defines the
@@ -107,20 +108,20 @@ export class R2Vector {
 
   // from S2Projections.stToUV (QUADRATIC)
   public static singleStTOUV(_s:number|decimal.Decimal):decimal.Decimal {
-    const s = new Decimal(_s) as decimal.Decimal;
+    const s = S2.toDecimal(_s);
     if (s.gte(0)) {
-      return new Decimal(1)
+      return S2.toDecimal(1)
               .dividedBy(3)
               .times(
                   s.plus(1).pow(2).minus(1)
               );
       // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
     } else {
-      return new Decimal(1)
+      return S2.toDecimal(1)
           .dividedBy(3)
           .times(
-              new Decimal(1)
-                  .minus(new Decimal(1).minus(s).pow(2)
+              S2.toDecimal(1)
+                  .minus(S2.toDecimal(1).minus(s).pow(2)
                   )
           );
       // return (1 / 3.) * (1 - (1 - s) * (1 - s));
@@ -128,14 +129,14 @@ export class R2Vector {
 
   }
   public static singleUVToST(_x:number|decimal.Decimal) {
-    const x = new Decimal(_x) as decimal.Decimal;
+    const x = S2.toDecimal(_x);
     if (x.gte(0)) {
       return Decimal.sqrt(x.times(3).plus(1)).minus(1);
     } else {
-      return new Decimal(1)
+      return S2.toDecimal(1)
           .minus(
               Decimal.sqrt(
-              new Decimal(1).minus(x.times(3)
+                  S2.toDecimal(1).minus(x.times(3)
               )
               )
           )

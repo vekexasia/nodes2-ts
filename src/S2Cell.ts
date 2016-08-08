@@ -13,7 +13,7 @@ export class S2Cell {
 
   private _face:number;
   private _level:number;
-  private _orientation: number;
+  private _orientation:number;
   private _uv:decimal.Decimal[][];
 
   constructor(private cellID:S2CellId) {
@@ -22,13 +22,16 @@ export class S2Cell {
   get id():S2CellId {
     return this.cellID;
   }
+
   get face():number {
     return this._face;
   }
+
   get level():number {
     return this._level;
   }
-  get oriuentation(): number {
+
+  get oriuentation():number {
     return this._orientation;
   }
 
@@ -38,137 +41,141 @@ export class S2Cell {
 
 
 // This is a static method in order to provide named parameters.
-public static fromFacePosLevel(face:number, pos:number, level:number):S2Cell  {
-  return new S2Cell(S2CellId.fromFacePosLevel(face, new Long(pos), level));
-}
+  public static fromFacePosLevel(face:number, pos:number, level:number):S2Cell {
+    return new S2Cell(S2CellId.fromFacePosLevel(face, new Long(pos), level));
+  }
+
 // Convenience methods.
-public static fromPoint(p:S2Point ):S2Cell {
-  return new S2Cell(S2CellId.fromPoint(p))
-}
-public static fromLatLng(ll:S2LatLng): S2Cell {
-  return new S2Cell(S2CellId.fromPoint(ll.toPoint()));
-}
-
-
-public isLeaf():boolean  {
-  return this.level == S2CellId.MAX_LEVEL;
-}
-
-public getVertex(k:number):S2Point  {
-  return S2Point.normalize(this.getVertexRaw(k));
-}
-
-/**
- * Return the k-th vertex of the cell (k = 0,1,2,3). Vertices are returned in
- * CCW order. The points returned by GetVertexRaw are not necessarily unit
- * length.
- */
-public getVertexRaw(k:number):S2Point  {
-  // Vertices are returned in the order SW, SE, NE, NW.
-  return new R2Vector(this.uv[0][(k >> 1) ^ (k & 1)], this.uv[1][k >> 1])
-      .toPoint(this.face);
-  // return S2Projections.faceUvToXyz(this.face, );
-}
-
-public getEdge(k:number):S2Point  {
-  return S2Point.normalize(this.getEdgeRaw(k));
-}
-
-public getEdgeRaw(k:number):S2Point  {
-  switch (k) {
-    case 0:
-      return S2Projections.getVNorm(this.face, this.uv[1][0]); // South
-    case 1:
-      return S2Projections.getUNorm(this.face, this.uv[0][1]); // East
-    case 2:
-      return S2Point.neg(S2Projections.getVNorm(this.face, this.uv[1][1])); // North
-    default:
-      return S2Point.neg(S2Projections.getUNorm(this.face, this.uv[0][0])); // West
-  }
-}
-
-/**
- * Return the inward-facing normal of the great circle passing through the
- * edge from vertex k to vertex k+1 (mod 4). The normals returned by
- * GetEdgeRaw are not necessarily unit length.
- *
- *  If this is not a leaf cell, set children[0..3] to the four children of
- * this cell (in traversal order) and return true. Otherwise returns false.
- * This method is equivalent to the following:
- *
- *  for (pos=0, id=child_begin(); id != child_end(); id = id.next(), ++pos)
- * children[i] = S2Cell(id);
- *
- * except that it is more than two times faster.
- */
-public subdivide():S2Cell[] {
-  // This function is equivalent to just iterating over the child cell ids
-  // and calling the S2Cell constructor, but it is about 2.5 times faster.
-
-  if (this.isLeaf()) {
-    return null;
+  public static fromPoint(p:S2Point):S2Cell {
+    return new S2Cell(S2CellId.fromPoint(p))
   }
 
-  // Compute the cell midpoint in uv-space.
-  R2Vector uvMid = getCenterUV();
+  public static fromLatLng(ll:S2LatLng):S2Cell {
+    return new S2Cell(S2CellId.fromPoint(ll.toPoint()));
+  }
 
-  // Create four children with the appropriate bounds.
-  S2CellId id = this.cellId.childBegin();
-  for (int pos = 0; pos < 4; ++pos, id = id.next()) {
-    S2Cell child = children[pos];
-    child.face = this.face;
-    child.level = (byte) (this.level + 1);
-    child.orientation = (byte) (this.orientation ^ S2.posToOrientation(pos));
-    child.cellId = id;
-    int ij = S2.posToIJ(this.orientation, pos);
-    for (int d = 0; d < 2; ++d) {
-      // The dimension 0 index (i/u) is in bit 1 of ij.
-      int m = 1 - ((ij >> (1 - d)) & 1);
-      child.uv[d][m] = uvMid.get(d);
-      child.uv[d][1 - m] = this.uv[d][1 - m];
+
+  public isLeaf():boolean {
+    return this.level == S2CellId.MAX_LEVEL;
+  }
+
+  public getVertex(k:number):S2Point {
+    return S2Point.normalize(this.getVertexRaw(k));
+  }
+
+  /**
+   * Return the k-th vertex of the cell (k = 0,1,2,3). Vertices are returned in
+   * CCW order. The points returned by GetVertexRaw are not necessarily unit
+   * length.
+   */
+  public getVertexRaw(k:number):S2Point {
+    // Vertices are returned in the order SW, SE, NE, NW.
+    return new R2Vector(this.uv[0][(k >> 1) ^ (k & 1)], this.uv[1][k >> 1])
+        .toPoint(this.face);
+    // return S2Projections.faceUvToXyz(this.face, );
+  }
+
+  public getEdge(k:number):S2Point {
+    return S2Point.normalize(this.getEdgeRaw(k));
+  }
+
+  public getEdgeRaw(k:number):S2Point {
+    switch (k) {
+      case 0:
+        return S2Projections.getVNorm(this.face, this.uv[1][0]); // South
+      case 1:
+        return S2Projections.getUNorm(this.face, this.uv[0][1]); // East
+      case 2:
+        return S2Point.neg(S2Projections.getVNorm(this.face, this.uv[1][1])); // North
+      default:
+        return S2Point.neg(S2Projections.getUNorm(this.face, this.uv[0][0])); // West
     }
   }
-  return true;
-}
 
-/**
- * Return the direction vector corresponding to the center in (s,t)-space of
- * the given cell. This is the point at which the cell is divided into four
- * subcells; it is not necessarily the centroid of the cell in (u,v)-space or
- * (x,y,z)-space. The point returned by GetCenterRaw is not necessarily unit
- * length.
- */
-public getCenter():S2Point {
-  return S2Point.normalize(this.getCenterRaw());
-}
+//
+// /**
+//  * Return the inward-facing normal of the great circle passing through the
+//  * edge from vertex k to vertex k+1 (mod 4). The normals returned by
+//  * GetEdgeRaw are not necessarily unit length.
+//  *
+//  *  If this is not a leaf cell, set children[0..3] to the four children of
+//  * this cell (in traversal order) and return true. Otherwise returns false.
+//  * This method is equivalent to the following:
+//  *
+//  *  for (pos=0, id=child_begin(); id != child_end(); id = id.next(), ++pos)
+//  * children[i] = S2Cell(id);
+//  *
+//  * except that it is more than two times faster.
+//  */
+// public subdivide():S2Cell[] {
+//   // This function is equivalent to just iterating over the child cell ids
+//   // and calling the S2Cell constructor, but it is about 2.5 times faster.
+//
+//   if (this.isLeaf()) {
+//     return null;
+//   }
+//
+//   // Compute the cell midpoint in uv-space.
+//   R2Vector uvMid = getCenterUV();
+//
+//   // Create four children with the appropriate bounds.
+//   S2CellId id = this.cellId.childBegin();
+//   for (int pos = 0; pos < 4; ++pos, id = id.next()) {
+//     S2Cell child = children[pos];
+//     child.face = this.face;
+//     child.level = (byte) (this.level + 1);
+//     child.orientation = (byte) (this.orientation ^ S2.posToOrientation(pos));
+//     child.cellId = id;
+//     int ij = S2.posToIJ(this.orientation, pos);
+//     for (int d = 0; d < 2; ++d) {
+//       // The dimension 0 index (i/u) is in bit 1 of ij.
+//       int m = 1 - ((ij >> (1 - d)) & 1);
+//       child.uv[d][m] = uvMid.get(d);
+//       child.uv[d][1 - m] = this.uv[d][1 - m];
+//     }
+//   }
+//   return true;
+// }
 
-public getCenterRaw():S2Point  {
-  return this.cellID.toPointRaw();
-}
+  /**
+   * Return the direction vector corresponding to the center in (s,t)-space of
+   * the given cell. This is the point at which the cell is divided into four
+   * subcells; it is not necessarily the centroid of the cell in (u,v)-space or
+   * (x,y,z)-space. The point returned by GetCenterRaw is not necessarily unit
+   * length.
+   */
+  public getCenter():S2Point {
+    return S2Point.normalize(this.getCenterRaw());
+  }
 
-/**
- * Return the center of the cell in (u,v) coordinates (see {@code
- * S2Projections}). Note that the center of the cell is defined as the point
- * at which it is recursively subdivided into four children; in general, it is
- * not at the midpoint of the (u,v) rectangle covered by the cell
- */
-public getCenterUV():R2Vector  {
-  const i = new MutableInteger(0);
-  const j = new MutableInteger(0);
-  this.cellID.toFaceIJOrientation(i, j, null);
-  let cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
+  public getCenterRaw():S2Point {
+    return this.cellID.toPointRaw();
+  }
 
-  // TODO(dbeaumont): Figure out a better naming of the variables here (and elsewhere).
-  let si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-  let x = R2Vector.singleStTOUV(new Decimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(si))
-  // let x = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * si);
+  /**
+   * Return the center of the cell in (u,v) coordinates (see {@code
+   * S2Projections}). Note that the center of the cell is defined as the point
+   * at which it is recursively subdivided into four children; in general, it is
+   * not at the midpoint of the (u,v) rectangle covered by the cell
+   */
+  public getCenterUV():R2Vector {
+    const i = new MutableInteger(0);
+    const j = new MutableInteger(0);
+    this.cellID.toFaceIJOrientation(i, j, null);
+    let cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
 
-  let sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-  let y = R2Vector.singleStTOUV(new Decimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(sj))
-  // double y = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sj);
+    // TODO(dbeaumont): Figure out a better naming of the variables here (and elsewhere).
+    let si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
+    let x = R2Vector.singleStTOUV(S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(si))
+    // let x = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * si);
 
-  return new R2Vector(x, y);
-}
+    let sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
+    let y = R2Vector.singleStTOUV(S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(sj))
+    // double y = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sj);
+
+    return new R2Vector(x, y);
+  }
+
 //
 // /**
 //  * Return the average area for cells at the given level.
@@ -219,13 +226,13 @@ public getCenterUV():R2Vector  {
 //  * expensive but it is accurate to 6 digits of precision even for leaf cells
 //  * (whose area is approximately 1e-18).
 //  */
-public exactArea():decimal.Decimal {
-  const v0 = this.getVertex(0);
-  const v1 = this.getVertex(1);
-  const v2 = this.getVertex(2);
-  const v3 = this.getVertex(3);
-  return S2.area(v0, v1, v2) + S2.area(v0, v2, v3);
-}
+  public exactArea():decimal.Decimal {
+    const v0 = this.getVertex(0);
+    const v1 = this.getVertex(1);
+    const v2 = this.getVertex(2);
+    const v3 = this.getVertex(3);
+    return S2.area(v0, v1, v2) + S2.area(v0, v2, v3);
+  }
 
 // //////////////////////////////////////////////////////////////////////
 // S2Region interface (see {@code S2Region} for details):
@@ -254,151 +261,149 @@ public exactArea():decimal.Decimal {
 // also contains the normalized versions of the vertices. Note that the
 // maximum result magnitude is Pi, with a floating-point exponent of 1.
 // Therefore adding or subtracting 2**-51 will always change the result.
-private static MAX_ERROR = new Decimal(1.0).dividedBy(new Decimal(new Long(1).shiftLeft(51).toString());
+  private static MAX_ERROR = S2.toDecimal(1.0).dividedBy(S2.toDecimal(new Long(1).shiftLeft(51).toString()));
 
 // The 4 cells around the equator extend to +/-45 degrees latitude at the
 // midpoints of their top and bottom edges. The two cells covering the
 // poles extend down to +/-35.26 degrees at their vertices.
 // adding kMaxError (as opposed to the C version) because of asin and atan2
 // roundoff errors
-private static POLE_MIN_LAT = Decimal.asin(new Decimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR)
+  private static POLE_MIN_LAT = Decimal.asin(S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR)
 // 35.26 degrees
 
 
-public getRectBound():S2LatLngRect  {
-  if (this.level > 0) {
-    // Except for cells at level 0, the latitude and longitude extremes are
-    // attained at the vertices. Furthermore, the latitude range is
-    // determined by one pair of diagonally opposite vertices and the
-    // longitude range is determined by the other pair.
-    //
-    // We first determine which corner (i,j) of the cell has the largest
-    // absolute latitude. To maximize latitude, we want to find the point in
-    // the cell that has the largest absolute z-coordinate and the smallest
-    // absolute x- and y-coordinates. To do this we look at each coordinate
-    // (u and v), and determine whether we want to minimize or maximize that
-    // coordinate based on the axis direction and the cell's (u,v) quadrant.
-    const u = this.uv[0][0].plus(this.uv[0][1]);
-    const v = this.uv[1][0].plus(this.uv[1][1]);
-    const i = S2Projections.getUAxis(this.face).z.eq(0) ? (u.lt(0)? 1 : 0) : (u.gt(0) ? 1 : 0);
-    const j = S2Projections.getVAxis(this.face).z.eq(0) ? (v.lt(0)? 1 : 0) : (v.gt(0) ? 1 : 0);
+  public getRectBound():S2LatLngRect {
+    if (this.level > 0) {
+      // Except for cells at level 0, the latitude and longitude extremes are
+      // attained at the vertices. Furthermore, the latitude range is
+      // determined by one pair of diagonally opposite vertices and the
+      // longitude range is determined by the other pair.
+      //
+      // We first determine which corner (i,j) of the cell has the largest
+      // absolute latitude. To maximize latitude, we want to find the point in
+      // the cell that has the largest absolute z-coordinate and the smallest
+      // absolute x- and y-coordinates. To do this we look at each coordinate
+      // (u and v), and determine whether we want to minimize or maximize that
+      // coordinate based on the axis direction and the cell's (u,v) quadrant.
+      const u = this.uv[0][0].plus(this.uv[0][1]);
+      const v = this.uv[1][0].plus(this.uv[1][1]);
+      const i = S2Projections.getUAxis(this.face).z.eq(0) ? (u.lt(0) ? 1 : 0) : (u.gt(0) ? 1 : 0);
+      const j = S2Projections.getVAxis(this.face).z.eq(0) ? (v.lt(0) ? 1 : 0) : (v.gt(0) ? 1 : 0);
 
-    let lat = R1Interval.fromPointPair(this.getLatitude(i, j), this.getLatitude(1 - i, 1 - j));
-    lat = lat.expanded(S2Cell.MAX_ERROR).intersection(S2LatLngRect.fullLat());
-    if (lat.lo == -S2.M_PI_2 || lat.hi == S2.M_PI_2) {
-      return new S2LatLngRect(lat, S1Interval.full());
+      let lat = R1Interval.fromPointPair(this.getLatitude(i, j), this.getLatitude(1 - i, 1 - j));
+      lat = lat.expanded(S2Cell.MAX_ERROR).intersection(S2LatLngRect.fullLat());
+      if (lat.lo.eq(-S2.M_PI_2) || lat.hi .eq(S2.M_PI_2)) {
+        return new S2LatLngRect(lat, S1Interval.full());
+      }
+      let lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
+      return new S2LatLngRect(lat, lng.expanded(S2Cell.MAX_ERROR));
     }
-    let lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
-    return new S2LatLngRect(lat, lng.expanded(S2Cell.MAX_ERROR));
+
+
+    // The face centers are the +X, +Y, +Z, -X, -Y, -Z axes in that order.
+    // assert (S2Projections.getNorm(face).get(face % 3) == ((face < 3) ? 1 : -1));
+    switch (this.face) {
+      case 0:
+        return new S2LatLngRect(
+            new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(-S2.M_PI_4, S2.M_PI_4));
+      case 1:
+        return new S2LatLngRect(
+            new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(S2.M_PI_4, 3 * S2.M_PI_4));
+      case 2:
+        return new S2LatLngRect(
+            new R1Interval(S2Cell.POLE_MIN_LAT, S2.M_PI_2), new S1Interval(-S2.M_PI, S2.M_PI));
+      case 3:
+        return new S2LatLngRect(
+            new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(3 * S2.M_PI_4, -3 * S2.M_PI_4));
+      case 4:
+        return new S2LatLngRect(
+            new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(-3 * S2.M_PI_4, -S2.M_PI_4));
+      default:
+        return new S2LatLngRect(
+            new R1Interval(-S2.M_PI_2, -S2Cell.POLE_MIN_LAT), new S1Interval(-S2.M_PI, S2.M_PI));
+    }
+
   }
 
-
-  // The face centers are the +X, +Y, +Z, -X, -Y, -Z axes in that order.
-  // assert (S2Projections.getNorm(face).get(face % 3) == ((face < 3) ? 1 : -1));
-  switch (this.face) {
-    case 0:
-      return new S2LatLngRect(
-          new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(-S2.M_PI_4, S2.M_PI_4));
-    case 1:
-      return new S2LatLngRect(
-          new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(S2.M_PI_4, 3 * S2.M_PI_4));
-    case 2:
-      return new S2LatLngRect(
-          new R1Interval(S2Cell.POLE_MIN_LAT, S2.M_PI_2), new S1Interval(-S2.M_PI, S2.M_PI));
-    case 3:
-      return new S2LatLngRect(
-          new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(3 * S2.M_PI_4, -3 * S2.M_PI_4));
-    case 4:
-      return new S2LatLngRect(
-          new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(-3 * S2.M_PI_4, -S2.M_PI_4));
-    default:
-      return new S2LatLngRect(
-          new R1Interval(-S2.M_PI_2, -S2Cell.POLE_MIN_LAT), new S1Interval(-S2.M_PI, S2.M_PI));
+  public mayIntersect(cell:S2Cell):boolean {
+    return this.cellID.intersects(cell.cellID);
   }
 
-}
+  public contains(p:S2Point):boolean {
+    // We can't just call XYZtoFaceUV, because for points that lie on the
+    // boundary between two faces (i.e. u or v is +1/-1) we need to return
+    // true for both adjacent cells.
 
-public mayIntersect(cell:S2Cell ):boolean  {
-  return this.cellID.intersects(cell.cellID);
-}
-
-public contains(p:S2Point ):boolean  {
-  // We can't just call XYZtoFaceUV, because for points that lie on the
-  // boundary between two faces (i.e. u or v is +1/-1) we need to return
-  // true for both adjacent cells.
-
-  R2Vector uvPoint = S2Projections.faceXyzToUv(this.face, p);
-  if (uvPoint == null) {
-    return false;
+    const uvPoint = p.toR2Vector(this.face);
+    // S2Projections.faceXyzToUv(this.face, p);
+    if (uvPoint == null) {
+      return false;
+    }
+    return (uvPoint.x.gte(this.uv[0][0]) && uvPoint.x.lte(this.uv[0][1])
+    && uvPoint.y.gte(this.uv[1][0]) && uvPoint.y.lte(this.uv[1][1]));
   }
-  return (uvPoint.x() >= this.uv[0][0] && uvPoint.x() <= this.uv[0][1]
-  && uvPoint.y() >= this.uv[1][0] && uvPoint.y() <= this.uv[1][1]);
-}
 
 // The point 'p' does not need to be normalized.
-@Override
-public boolean contains(S2Cell cell) {
-  return this.cellId.contains(cell.cellId);
-}
 
-private void init(S2CellId id) {
-  this.cellId = id;
-  MutableInteger ij[] = new MutableInteger[2];
-  MutableInteger mOrientation = new MutableInteger(0);
-
-  for (int d = 0; d < 2; ++d) {
-    ij[d] = new MutableInteger(0);
+  public contains(cell:S2Cell):boolean {
+    return this.cellID.contains(cell.cellID);
   }
 
-  this.face = (byte) id.toFaceIJOrientation(ij[0], ij[1], mOrientation);
-  this.orientation = (byte) mOrientation.intValue(); // Compress int to a byte.
-  this.level = (byte) id.level();
-  int cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
-  for (int d = 0; d < 2; ++d) {
-    // Compute the cell bounds in scaled (i,j) coordinates.
-    int sijLo = (ij[d].intValue() & -cellSize) * 2 - MAX_CELL_SIZE;
-    int sijHi = sijLo + cellSize * 2;
-    this.uv[d][0] = S2Projections.stToUV((1.0 / MAX_CELL_SIZE) * sijLo);
-    this.uv[d][1] = S2Projections.stToUV((1.0 / MAX_CELL_SIZE) * sijHi);
+  private init(id:S2CellId) {
+    this.cellID = id;
+    const ij:MutableInteger[] = [];
+    const mOrientation = new MutableInteger(0);
+
+    for (let d = 0; d < 2; ++d) {
+      ij[d] = new MutableInteger(0);
+    }
+
+    this._face = id.toFaceIJOrientation(ij[0], ij[1], mOrientation);
+    this._orientation = mOrientation.val; // Compress int to a byte.
+    this._level = id.level();
+    const cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
+    for (let d = 0; d < 2; ++d) {
+      // Compute the cell bounds in scaled (i,j) coordinates.
+      const sijLo = (ij[d].val & -cellSize) * 2 - S2Cell.MAX_CELL_SIZE;
+      const sijHi = sijLo + cellSize * 2;
+
+      const s = S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE);
+      this.uv[d][0] = R2Vector.singleStTOUV(s.times(sijLo))
+      //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijLo);
+      this.uv[d][1] = R2Vector.singleStTOUV(s.times(sijHi));
+      //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijHi);
+    }
   }
-}
 
 
 // Internal method that does the actual work in the constructors.
 
-private double getLatitude(int i, int j) {
-  S2Point p = S2Projections.faceUvToXyz(this.face, this.uv[0][i], this.uv[1][j]);
-  return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
-}
+  private getLatitude(i:number, j:number):decimal.Decimal {
 
-private double getLongitude(int i, int j) {
-  S2Point p = S2Projections.faceUvToXyz(this.face, this.uv[0][i], this.uv[1][j]);
-  return Math.atan2(p.y, p.x);
-}
+    const p = S2Projections.faceUvToXyz(this.face, this.uv[0][i], this.uv[1][j]);
+    return Decimal.atan2(
+        p.z,
+        p.x.pow(2).plus(p.y.pow(2))
+            .sqrt()
+    );
+    // return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
+  }
+
+  private getLongitude(i:number, j:number):decimal.Decimal {
+    const p = S2Projections.faceUvToXyz(this.face, this.uv[0][i], this.uv[1][j]);
+    return Decimal.atan2(
+        p.y,
+        p.x
+    );
+    // Math.atan2(p.y, p.x);
+  }
 
 // Return the latitude or longitude of the cell vertex given by (i,j),
 // where "i" and "j" are either 0 or 1.
 
-@Override
-public String toString() {
-  return "[" + this.face + ", " + this.level + ", " + this.orientation + ", " + this.cellId + "]";
-}
-
-@Override
-public int hashCode() {
-  int value = 17;
-  value = 37 * (37 * (37 * value + this.face) + this.orientation) + this.level;
-  return 37 * value + id().hashCode();
-}
-
-@Override
-public boolean equals(Object that) {
-  if (that instanceof S2Cell) {
-    S2Cell thatCell = (S2Cell) that;
-    return this.face == thatCell.face && this.level == thatCell.level
-        && this.orientation == thatCell.orientation && this.cellId.equals(thatCell.cellId);
+  public  toString():string {
+    return "[" + this._face + ", " + this._level + ", " + this._orientation + ", " + this.cellID + "]";
   }
-  return false;
-}
+
 
 }

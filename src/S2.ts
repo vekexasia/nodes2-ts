@@ -2,7 +2,7 @@
 
 import {S2Point} from "./S2Point";
 
-
+import Decimal = require('decimal.js');
 const Long = require('long');
 export class S2 {
 
@@ -38,7 +38,7 @@ export class S2 {
     if (/*isNaN(r) ||*/ r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
       return r;
     } else {
-      return (f1.gte(0) ? new Decimal(1) : new Decimal(-1)).times(r.minus(f2));
+      return (f1.gte(0) ? S2.toDecimal(1) : S2.toDecimal(-1)).times(r.minus(f2));
     }
   }
 
@@ -165,7 +165,7 @@ export class S2 {
       }
     }
     // Use l'Huilier's formula.
-    return new Decimal(4)
+    return S2.toDecimal(4)
         .times(
             Decimal.atan(
                 Decimal.sqrt(
@@ -201,6 +201,13 @@ export class S2 {
             .minus(ab.angle(bc))
             .plus(bc.angle(ac))
     );
+  }
+
+  public static toDecimal(value:number|decimal.Decimal|string): decimal.Decimal {
+    if (typeof(value) === 'number' || typeof(value) === 'string') {
+      return new Decimal(value) as decimal.Decimal
+    }
+    return value as decimal.Decimal;
   }
 
 }
@@ -283,5 +290,7 @@ export class S2_Metric {
     // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
     return level;
   }
+
+
 
 }

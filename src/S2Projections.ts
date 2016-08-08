@@ -68,6 +68,7 @@
  */
 import {S2} from "./S2";
 import {S2Point} from "./S2Point";
+import {R2Vector} from "./S2Vector";
 export enum Projections {
   S2_LINEAR_PROJECTION, S2_TAN_PROJECTION, S2_QUADRATIC_PROJECTION
 }
@@ -140,5 +141,9 @@ export class S2Projections {
       default:
         return new S2Point(1, 0, 0);
     }
+  }
+
+  public static faceUvToXyz(face: number, u:number|decimal.Decimal, v:number|decimal.Decimal):S2Point {
+    return new R2Vector(u,v).toPoint(face);
   }
 }

@@ -1,14 +1,15 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
 export class S1Interval extends Interval {
-  constructor(public lo:number, public hi:number, checked?:boolean = false) {
+
+  constructor(lo:number|decimal.Decimal, hi:number|decimal.Decimal, checked?:boolean = false) {
     super(lo, hi);
     if (!checked) {
-      if (lo == -S2.M_PI && hi != S2.M_PI) {
-        this.lo = S2.M_PI;
+      if (this.lo.eq(-S2.M_PI) && !this.hi.eq(S2.M_PI)) {
+        this.lo = S2.toDecimal(S2.M_PI);
       }
-      if (hi == -S2.M_PI && lo != S2.M_PI) {
-        this.hi = S2.M_PI;
+      if (this.hi.eq(-S2.M_PI) && !this.lo.eq(S2.M_PI)) {
+        this.hi = S2.toDecimal(S2.M_PI);
       }
     }
   }
@@ -18,25 +19,28 @@ export class S1Interval extends Interval {
    * value -Pi appears only in the Empty() and Full() intervals.
    */
   isValid():boolean {
-    return (Math.abs(this.lo) <= S2.M_PI && Math.abs(this.hi) <= S2.M_PI
-    && !(this.lo == -S2.M_PI && this.hi != S2.M_PI) && !(this.hi == -S2.M_PI && this.lo != S2.M_PI));
+    return this.lo.abs().lte(S2.M_PI) && this.hi.abs().lte(S2.M_PI)
+        && !(this.lo.eq(-S2.M_PI) && !this.hi.eq(S2.M_PI))
+        && !(this.hi.eq(-S2.M_PI) && !this.lo.eq(S2.M_PI));
+    // return (Math.abs(this.lo) <= S2.M_PI && Math.abs(this.hi) <= S2.M_PI
+    // && !(this.lo == -S2.M_PI && this.hi != S2.M_PI) && !(this.hi == -S2.M_PI && this.lo != S2.M_PI));
   }
 
   /** Return true if the interval contains all points on the unit circle. */
   isFull() {
-    return this.hi - this.lo == 2 * S2.M_PI;
+    return this.hi.minus(this.lo).eq(2 * S2.M_PI)
   }
 
 
   /** Return true if the interval is empty, i.e. it contains no points. */
   public  isEmpty() {
-    return this.lo - this.hi == 2 * S2.M_PI;
+    return this.lo.minus(this.hi).eq(2 * S2.M_PI);
   }
 
 
   /* Return true if this.lo > this.hi. (This is true for empty intervals.) */
   public isInverted():boolean {
-    return this.lo > this.hi;
+    return this.lo.gt(this.hi);
   }
 
 
@@ -44,13 +48,14 @@ export class S1Interval extends Interval {
    * Return the midpoint of the interval. For full and empty intervals, the
    * result is arbitrary.
    */
-  public getCenter():number {
-    let center = 0.5 * (this.lo + this.hi);
+  public getCenter():decimal.Decimal {
+    let center = this.lo.plus(this.hi).dividedBy(2);
+    // let center = 0.5 * (this.lo + this.hi);
     if (!this.isInverted()) {
       return center;
     }
     // Return the center in the range (-Pi, Pi].
-    return (center <= 0) ? (center + S2.M_PI) : (center - S2.M_PI);
+    return (center.lte(0)) ? (center.plus(S2.M_PI)) : (center.minus(S2.M_PI));
   }
 
 
@@ -58,14 +63,14 @@ export class S1Interval extends Interval {
    * Return the length of the interval. The length of an empty interval is
    * negative.
    */
-  public getLength():number {
-    let length = this.hi - this.lo;
-    if (length >= 0) {
+  public getLength():decimal.Decimal {
+    let length = this.hi.minus(this.lo);
+    if (length.gte(0)) {
       return length;
     }
-    length += 2 * S2.M_PI;
+    length = length.plus(2 * S2.M_PI);
     // Empty intervals have a negative length.
-    return (length > 0) ? length : -1;
+    return (length.gt(0)) ? length : S2.toDecimal(-1);
   }
 
   /**
@@ -76,7 +81,7 @@ export class S1Interval extends Interval {
    * empty interval.
    */
   public complement():S1Interval {
-    if (this.lo == this.hi) {
+    if (this.lo.eq(this.hi)) {
       return S1Interval.full(); // Singleton.
     }
     return new S1Interval(this.hi, this.lo, true); // Handles
@@ -85,11 +90,12 @@ export class S1Interval extends Interval {
   }
 
   /** Return true if the interval (which is closed) contains the point 'p'. */
-  public contains(p:number):boolean {
+  public contains(_p:number|decimal.Decimal):boolean {
+    let p = S2.toDecimal(_p);
     // Works for empty, full, and singleton intervals.
     // assert (Math.abs(p) <= S2.M_PI);
-    if (p == -S2.M_PI) {
-      p = S2.M_PI;
+    if (p.eq(-S2.M_PI)) {
+      p = S2.toDecimal(S2.M_PI);
     }
     return this.fastContains(p);
   }
@@ -99,26 +105,28 @@ export class S1Interval extends Interval {
    * the normalization of 'p' from -Pi to Pi.
    *
    */
-  public fastContains(p:number):boolean {
+  public fastContains(_p:number|decimal.Decimal):boolean {
+    const p = S2.toDecimal(_p);
     if (this.isInverted()) {
-      return (p >= this.lo || p <= this.hi) && !this.isEmpty();
+      return (p.gte(this.lo) || p.lte(this.hi)) && !this.isEmpty();
     } else {
-      return p >= this.lo && p <= this.hi;
+      return p.gte(this.lo) && p.lte(this.hi);
     }
   }
 
   /** Return true if the interior of the interval contains the point 'p'. */
-  public interiorContains(p:number):boolean {
+  public interiorContains(_p:number|decimal.Decimal):boolean {
     // Works for empty, full, and singleton intervals.
     // assert (Math.abs(p) <= S2.M_PI);
-    if (p == -S2.M_PI) {
-      p = S2.M_PI;
+    let p = S2.toDecimal(_p);
+    if (p.eq(-S2.M_PI)) {
+      p = S2.toDecimal(S2.M_PI);
     }
 
     if (this.isInverted()) {
-      return p > this.lo || p < this.hi;
+      return p.gt(this.lo) || p.lt(this.hi);
     } else {
-      return (p > this.lo && p < this.hi) || this.isFull();
+      return (p.gt(this.lo) && p.lt(this.hi)) || this.isFull();
     }
   }
 
@@ -132,14 +140,14 @@ export class S1Interval extends Interval {
 
     if (this.isInverted()) {
       if (y.isInverted()) {
-        return y.lo >= this.lo && y.hi <= this.hi;
+        return y.lo.gte(this.lo) && y.hi.lte(this.hi);
       }
-      return (y.lo >= this.lo || y.hi <= this.hi) && !this.isEmpty();
+      return (y.lo.gte(this.lo) || y.hi.lte(this.hi)) && !this.isEmpty();
     } else {
       if (y.isInverted()) {
         return this.isFull() || y.isEmpty();
       }
-      return y.lo >= this.lo && y.hi <= this.hi;
+      return y.lo.gte(this.lo) && y.hi.lte(this.hi);
     }
   }
 
@@ -152,14 +160,14 @@ export class S1Interval extends Interval {
   public interiorContainsI(y:S1Interval):boolean {
     if (this.isInverted()) {
       if (!y.isInverted()) {
-        return this.lo > this.lo || y.hi < this.hi;
+        return this.lo.gt(this.lo) || y.hi.lt(this.hi);
       }
-      return (y.lo > this.lo && y.hi < this.hi) || y.isEmpty();
+      return (y.lo.gt(this.lo) && y.hi.lt(this.hi)) || y.isEmpty();
     } else {
       if (y.isInverted()) {
         return this.isFull() || y.isEmpty();
       }
-      return (y.lo > this.lo && y.hi < this.hi) || this.isFull();
+      return (y.lo.gt(this.lo) && y.hi.lt(this.hi)) || this.isFull();
     }
   }
 
@@ -174,12 +182,12 @@ export class S1Interval extends Interval {
     }
     if (this.isInverted()) {
       // Every non-empty inverted interval contains Pi.
-      return y.isInverted() || y.lo <= this.hi || y.hi >= this.lo;
+      return y.isInverted() || y.lo.lte(this.hi) || y.hi.gte(this.lo);
     } else {
       if (y.isInverted()) {
-        return y.lo <= this.hi || y.hi >= this.lo;
+        return y.lo.lte(this.hi) || y.hi.gte(this.lo);
       }
-      return y.lo <= this.hi && y.hi >= this.lo;
+      return y.lo.lte(this.hi) && y.hi.gte(this.lo);
     }
   }
 
@@ -189,16 +197,16 @@ export class S1Interval extends Interval {
    * intervals.
    */
   public interiorIntersects(y:S1Interval):boolean {
-    if (this.isEmpty() || y.isEmpty() || this.lo == this.hi) {
+    if (this.isEmpty() || y.isEmpty() || this.lo.eq(this.hi)) {
       return false;
     }
     if (this.isInverted()) {
-      return y.isInverted() || y.lo < this.hi || y.hi > this.lo;
+      return y.isInverted() || y.lo.lt(this.hi) || y.hi.gt(this.lo);
     } else {
       if (y.isInverted()) {
-        return y.lo < this.hi || y.hi > this.lo;
+        return y.lo.lt(this.hi) || y.hi.gt(this.lo);
       }
-      return (y.lo < this.hi && y.hi > this.lo) || this.isFull();
+      return (y.lo.lt(this.hi) && y.hi.gt(this.lo)) || this.isFull();
     }
   }
 
@@ -206,15 +214,15 @@ export class S1Interval extends Interval {
    * Expand the interval by the minimum amount necessary so that it contains the
    * given point "p" (an angle in the range [-Pi, Pi]).
    */
-  public addPoint(p:number):S1Interval {
+  public addPoint(_p:number|decimal.Decimal):S1Interval {
+    let p = S2.toDecimal(_p);
     // assert (Math.abs(p) <= S2.M_PI);
-    if (p == -S2.M_PI) {
-      p = S2.M_PI;
+    if (p.eq(-S2.M_PI)) {
+      p = S2.toDecimal(S2.M_PI);
     }
 
     if (this.fastContains(p)) {
-      return this; //NOTE: this below was actually the code.
-      // return new S1Interval(this.lo, this.hi);
+      return new S1Interval(this.lo, this.hi);
     }
 
     if (this.isEmpty()) {
@@ -223,7 +231,7 @@ export class S1Interval extends Interval {
       // Compute distance from p to each endpoint.
       let dlo = S1Interval.positiveDistance(p, this.lo);
       let dhi = S1Interval.positiveDistance(this.hi, p);
-      if (dlo < dhi) {
+      if (dlo.lt(dhi)) {
         return new S1Interval(p, this.hi);
       } else {
         return new S1Interval(this.lo, p);
@@ -237,7 +245,8 @@ export class S1Interval extends Interval {
    * a point in this interval. Note that the expansion of an empty interval is
    * always empty. The radius must be non-negative.
    */
-  public  expanded(radius:number):S1Interval {
+  public  expanded(_radius:number|decimal.Decimal):S1Interval {
+    const radius = S2.toDecimal(_radius);
     // assert (radius >= 0);
     if (this.isEmpty()) {
       return this;
@@ -245,14 +254,14 @@ export class S1Interval extends Interval {
 
     // Check whether this interval will be full after expansion, allowing
     // for a 1-bit rounding error when computing each endpoint.
-    if (this.getLength() + 2 * radius >= 2 * S2.M_PI - 1e-15) {
+    if (this.getLength().plus(radius.times(2)).gte(2*S2.M_PI-1e-15)) {
       return S1Interval.full();
     }
 
     // NOTE(dbeaumont): Should this remainder be 2 * M_PI or just M_PI ??
-    let lo = S2.IEEEremainder(this.lo - radius, 2 * S2.M_PI);
-    let hi = S2.IEEEremainder(this.hi + radius, 2 * S2.M_PI);
-    if (lo == -S2.M_PI) {
+    let lo = S2.IEEEremainder(this.lo.minus(radius), 2 * S2.M_PI);
+    let hi = S2.IEEEremainder(this.hi.plus(radius), 2 * S2.M_PI);
+    if (lo.eq(-S2.M_PI)) {
       lo = S2.M_PI;
     }
     return new S1Interval(lo, hi);
@@ -319,7 +328,7 @@ export class S1Interval extends Interval {
         // Either this interval contains y, or the region of intersection
         // consists of two disjoint subintervals. In either case, we want
         // to return the shorter of the two original intervals.
-        if (y.getLength() < this.getLength()) {
+        if (y.getLength().lt(this.getLength())) {
           return y; // is_full() code path
         }
         return this;
@@ -346,13 +355,14 @@ export class S1Interval extends Interval {
    */
   public approxEquals(y:S1Interval, maxError:number):boolean {
     if (this.isEmpty()) {
-      return y.getLength() <= maxError;
+      return y.getLength().lte(maxError);
     }
     if (y.isEmpty()) {
-      return this.getLength() <= maxError;
+      return this.getLength().lte(maxError);
     }
-    return (Math.abs(S2.IEEEremainder(y.lo - this.lo, 2 * S2.M_PI))
-        + Math.abs(S2.IEEEremainder(y.hi - this.hi, 2 * S2.M_PI))) <= maxError;
+    //TODO: fixme decimal->number
+    return (Math.abs(S2.IEEEremainder(y.lo.minus(this.lo), 2 * S2.M_PI))
+        + Math.abs(S2.IEEEremainder(y.hi.minus(this.hi), 2 * S2.M_PI))) <= maxError;
   }
 
   public approxEquals(y:S1Interval):boolean {
@@ -368,9 +378,10 @@ export class S1Interval extends Interval {
     return new S1Interval(-S2.M_PI, S2.M_PI, true);
   }
 
-  static fromPoint(p:number):S1Interval {
-    if (p === -S2.M_PI) {
-      p = S2.M_PI;
+  static fromPoint(_p:number|decimal.Decimal):S1Interval {
+    let p = S2.toDecimal(_p);
+    if (p.eq(-S2.M_PI)) {
+      p = S2.toDecimal(S2.M_PI);
     }
     return new S1Interval(p, p, true);
   }
@@ -381,13 +392,15 @@ export class S1Interval extends Interval {
    * given points. This is equivalent to starting with an empty interval and
    * calling AddPoint() twice, but it is more efficient.
    */
-  static fromPointPair(p1:number, p2:number):S1Interval {
+  static fromPointPair(_p1:number|decimal.Decimal, _p2:number|decimal.Decimal):S1Interval {
     // assert (Math.abs(p1) <= S2.M_PI && Math.abs(p2) <= S2.M_PI);
-    if (p1 == -S2.M_PI) {
-      p1 = S2.M_PI;
+    let p1 = S2.toDecimal(_p1);
+    let p2 = S2.toDecimal(_p2);
+    if (p1.eq(-S2.M_PI)) {
+      p1 = S2.toDecimal(S2.M_PI);
     }
-    if (p2 == -S2.M_PI) {
-      p2 = S2.M_PI;
+    if (p2.eq(-S2.M_PI)) {
+      p2 = S2.toDecimal(S2.M_PI);
     }
     if (S1Interval.positiveDistance(p1, p2) <= S2.M_PI) {
       return new S1Interval(p1, p2, true);
@@ -402,14 +415,16 @@ export class S1Interval extends Interval {
    * it is more numerically stable (it does not lose precision for very small
    * positive distances).
    */
-  public static positiveDistance(a:number, b:number):number {
-    let d = b - a;
-    if (d >= 0) {
+  public static positiveDistance(_a:number|decimal.Decimal, _b:number|decimal.Decimal):decimal.Decimal {
+    const a = S2.toDecimal(_a);
+    const b = S2.toDecimal(_b);
+    let d = b.minus(a);
+    if (d .gte(0)) {
       return d;
     }
     // We want to ensure that if b == Pi and a == (-Pi + eps),
     // the return result is approximately 2*Pi and not zero.
-    return (b + S2.M_PI) - (a - S2.M_PI);
+    return b.plus(S2.M_PI).minus(a.minus(S2.M_PI));
   }
 
 }

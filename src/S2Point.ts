@@ -17,6 +17,7 @@
 import {R2Vector} from "./S2Vector";
 /// <reference path="../typings/globals/decimal.js/index.d.ts" />
 import Decimal = require('decimal.js') ;
+import {S2} from "./S2";
 
 ///re
 /**
@@ -126,7 +127,7 @@ export class S2Point {
     let norm = p.norm();
 
     if (!norm.eq(0)) {
-      norm = new Decimal(1).dividedBy(norm);
+      norm = S2.toDecimal(1).dividedBy(norm);
     }
     return S2Point.mul(p, norm);
   }
