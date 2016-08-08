@@ -40,18 +40,8 @@ export class S2LatLng {
   public lngRadians:decimal.Decimal;
 
   constructor(latRadians:number|decimal.Decimal, lngRadians:number|decimal.Decimal) {
-    if (typeof(latRadians) === 'number') {
-      this.latRadians = new Decimal(latRadians) as decimal.Decimal;
-    } else {
-      this.latRadians = latRadians as decimal.Decimal;
-    }
-    if (typeof(lngRadians) === 'number') {
-      this.lngRadians = new Decimal(lngRadians) as decimal.Decimal;
-    } else {
-      this.lngRadians = lngRadians as decimal.Decimal;
-    }
-
-
+    this.latRadians = new Decimal(latRadians) as decimal.Decimal;
+    this.lngRadians = new Decimal(lngRadians) as decimal.Decimal;
   }
 
 // Clamps the latitude to the range [-90, 90] degrees, and adds or subtracts
@@ -100,7 +90,7 @@ export class S2LatLng {
   }
 
   public static fromDegrees(latDegrees:number|decimal.Decimal, lngDegrees:number|decimal.Decimal):S2LatLng {
-    
+
     return new S2LatLng(S1Angle.degrees(latDegrees).radians, S1Angle.degrees(lngDegrees).radians);
   }
 
@@ -117,7 +107,7 @@ export class S2LatLng {
    */
   public isValid():boolean {
     return this.latRadians.abs().lte(S2.M_PI_2) &&
-            this.lngRadians.abs().lte(S2.M_PI);
+        this.lngRadians.abs().lte(S2.M_PI);
 
   }
 
@@ -146,6 +136,49 @@ export class S2LatLng {
 
   toString():string {
     return `(Lat: ${new S1Angle(this.latRadians).degrees()} - ${this.latRadians}- Lng: ${new S1Angle(this.lngRadians).degrees()} - ${this.lngRadians}`;
+  }
+
+
+  getDistance(other:S2LatLng):S1Angle {
+    // This implements the Haversine formula, which is numerically stable for
+    // small distances but only gets about 8 digits of precision for very large
+    // distances (e.g. antipodal points). Note that 8 digits is still accurate
+    // to within about 10cm for a sphere the size of the Earth.
+    //
+    // This could be fixed with another sin() and cos() below, but at that point
+    // you might as well just convert both arguments to S2Points and compute the
+    // distance that way (which gives about 15 digits of accuracy for all
+    // distances).
+
+    const dLat:decimal.Decimal = other.latRadians.minus(this.latRadians).times(0.5).sin();
+    const dLng:decimal.Decimal = other.lngRadians.minus(this.lngRadians).times(0.5).sin();
+    const x = dLat.pow(2)
+        .plus(
+            dLng.pow(2)
+                .times(this.latRadians.cos())
+                .times(other.latRadians.cos())
+        );
+    // double x = dlat * dlat + dlng * dlng * Math.cos(lat1) * Math.cos(lat2);
+
+    return new S1Angle(
+        (new Decimal(2) as decimal.Decimal)
+            .times(
+                Decimal.atan2(
+                    x.sqrt(),
+                    Decimal.max(
+                        0,
+                        x.neg().plus(1)
+                    )
+                        .sqrt()
+                )
+            )
+  );
+    // Return the distance (measured along the surface of the sphere) to the
+    // given S2LatLng. This is mathematically equivalent to:
+    //
+    // S1Angle::FromRadians(ToPoint().Angle(o.ToPoint())
+    //
+    // but this implementation is slightly more efficient.
   }
 
 }

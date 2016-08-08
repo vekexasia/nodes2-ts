@@ -6,6 +6,9 @@ import Decimal = require('decimal.js');
 import Long = require('long');
 import {S2Point} from "../src/S2Point";
 import {R2Vector} from "../src/S2Vector";
+import {S2LatLngRect} from "../src/S2LatLngRect";
+import {S1Angle} from "../src/S1Angle";
+import {MutableInteger} from "../src/MutableInteger";
 describe('S2CellId', () => {
   describe('java data', () => {
     describe('decoding', () => {
@@ -53,8 +56,11 @@ describe('S2CellId', () => {
             cell: S2CellId.fromToken(item.token)
           }
         });
+        items.forEach(i => {
+          expect(i.item.id).to.be.eq(i.cell.id.toString())
+        })
       });
-      it ('token should match', () => {
+      it('token should match', () => {
         items.forEach(i => {
           expect(i.cell.toToken()).to.be.eq(i.item.token);
         });
@@ -70,7 +76,7 @@ describe('S2CellId', () => {
               R2Vector.singleStTOUV(i.item.t).minus(i.item.v).abs().toNumber(),
               't to v '
           ).to.be.lt(1e-15);
-          
+
           expect(
               R2Vector.singleUVToST(i.item.u).minus(i.item.s).abs().toNumber()
           ).to.be.lt(1e-15);
@@ -87,90 +93,117 @@ describe('S2CellId', () => {
       })
       it('toPoint should match', () => {
         items.forEach(i => {
-          // expect(
-          //     i.cell.toPoint().equals(new S2Point(i.item.point.x,i.item.point.y,i.item.point.z)),
-          //     `${i.cell.toPoint().toString()} - ${i.item.point.x},${i.item.point.y},${i.item.point.z}`
-          // ).is.true;
-
           expect(
-              S2CellId.fromPoint(i.cell.toPoint()).parentL(i.cell.level()).id.toString()
-          ).to.be.eq(i.cell.id.toString())
+              i.cell.toPoint().aequal(new S2Point(i.item.point.x, i.item.point.y, i.item.point.z), 1e-15),
+              `a${i.cell.toPoint().toString()} - ${i.item.point.x},${i.item.point.y},${i.item.point.z}`
+          ).is.true;
         });
       });
-    })
-
-  });
-  describe('real data', () => {
-    //
-    // it('fromPoint', () => {
-    //   genLocs.forEach(item => {
-    //     const s2Point = S2LatLng.fromDegrees(new Decimal(item.lat), new Decimal(item.lng)).toPoint();
-    //     const s2CellId = S2CellId.fromPoint(s2Point).parentL(15);
-    //     console.log(s2CellId);
-    //     const s2LatLng = s2CellId.toLatLng();
-    //     console.log(s2LatLng.toString());
-    //     expect(s2CellId.id.toString()).to.be.equal(item.cellid);
-    //   });
-    // });
-    it('fromToken/toToken', () => {
-      genLocs.map(({token, cellid}) => ({token, cellid}))
-          .forEach(item => {
-
-            const s2CellId = S2CellId.fromToken(item.token);
-            expect(s2CellId.id.toString()).is.equal(item.cellid);
-            expect(s2CellId.toToken()).is.equal(item.token);
-          })
-    });
-    it('should provide level 15 for all test cases', () => {
-      genLocs
-          .forEach(item => {
-            const s2CellId = S2CellId.fromToken(item.token);
-            expect(s2CellId.level()).is.equal(15);
-          });
-    });
-
-    it('fromFaceIj', () => {
-      genLocs.map(({f, i, j, cellid, token}) => ({f, i, j, cellid, token}))
-          .forEach((item, idx)=> {
-            const s2CellId = S2CellId.fromFaceIJ(item.f, item.i, item.j).parentL(15);
-            // const oth = S2CellId.fromToken(item.token);
-            // console.log(s2CellId.level(), oth.level())
-            expect(s2CellId.id.toString()).is.equal(item.cellid, `idx: ${idx}`);
-          })
-    });
-
-    describe('once parsed', () => {
-      it('should calculate same face', () => {
-        genLocs
-            .forEach(item => {
-
-              const s2CellId = S2CellId.fromToken(item.token);
-              expect(s2CellId.face).is.equal(item.f);
-            });
+      it('.next should match', () => {
+        items.forEach(i => {
+          expect(i.cell.next().id.toString())
+              .to.be.eq(i.item.next)
+        });
       });
-      it('should provide a .pos that results in same cellID when reconstructed using fromFacePosLevel', () => {
-        genLocs
-            .forEach(item => {
-              const s2CellId = S2CellId.fromToken(item.token);
-              const other = S2CellId.fromFacePosLevel(
-                  item.f,
-                  s2CellId.pos(),
-                  s2CellId.level()
-              );
-              expect(s2CellId.id.toString()).is.equal(other.id.toString());
-            });
+      it('.prev should match', () => {
+        items.forEach(i => {
+          expect(i.cell.prev().id.toString())
+              .to.be.eq(i.item.prev);
+        })
       });
-      //
-      // it('.toLatLng() should provide same lat lng', () => {
-      //   genLocs
-      //       .forEach(item => {
-      //         const s2CellId = S2CellId.fromToken(item.token);
-      //         const s2LatLng = s2CellId.toLatLng();
-      //         // expect(item.lng).to.be.equal(new S1Angle(s2LatLng.lngRadians).degrees().toString())
-      //         expect(item.lat).to.be.equal(new S1Angle(s2LatLng.latRadians).degrees().toString())
-      //       });
-      // });
+      it('.level should match', () => {
+        items.forEach(i => {
+          expect(i.cell.level())
+              .to.be.eq(i.item.lvl)
+        })
+      });
+      it('.toLatLng should match', () => {
+        items.forEach(i => {
+          // Latitude
+          expect(i.cell.toLatLng().latRadians.toFixed(14))
+              .to.be.eq(
+                  S1Angle.degrees(
+                      i.item.cellCoords.lat
+                  ).radians.toFixed(14)
+          );
+          // Longitude
+          expect(i.cell.toLatLng().lngRadians.toFixed(13))
+              .to.be.eq(
+              S1Angle.degrees(
+                  i.item.cellCoords.lng
+              ).radians.toFixed(13)
+          );
+        });
+      });
+      it('.parent shouold match', () => {
+        items.forEach(i => {
+          expect(i.cell.parent().id.toString())
+              .to.be.eq(i.item.parent)
+        })
+      });
+      it('.parentL(1) shouold match', () => {
+        items.forEach(i => {
+          expect(i.cell.parentL(1).id.toString())
+              .to.be.eq(i.item.parentLvl1)
+        })
+      });
+      it('.rangeMin should match', () => {
+        items.forEach(i => {
+          expect(i.cell.rangeMin().id.toString())
+              .to.be.eq(i.item.rangeMin);
+        })
+      });
+      it('.rangeMax should match', () => {
+        items.forEach(i => {
+          expect(i.cell.rangeMax().id.toString())
+              .to.be.eq(i.item.rangeMax);
+        })
+      });
+
+      it('.face should match', () => {
+        items.forEach(i => {
+          expect(i.cell.face)
+              .to.be.eq(i.item.face);
+        })
+      });
+      it('.toFaceIJOrientation should create correct i,j values', () => {
+        items.forEach(i => {
+          const mi= new MutableInteger(0),mj=new MutableInteger(0);
+          const face = i.cell.toFaceIJOrientation(mi, mj, null);
+          expect(face).to.be.eq(i.cell.face);
+          expect(mi.val).to.be.eq(i.item.i);
+          expect(mj.val).to.be.eq(i.item.j);
+        })
+      });
+      it('.getEdgeNeighbors should match', () => {
+        items.forEach(i => {
+          const edgeIDs = i.cell.getEdgeNeighbors().map(cellId => cellId.id.toString());
+          expect(edgeIDs)
+              .to.be.deep.eq(i.item.neighbors);
+
+
+        });
+      });
+      it('.pos should match', () => {
+        items.forEach(i => {
+          expect(i.cell.pos().toString()).to.be.eq(i.item.pos);
+        });
+      });
+
+      it('.getAllNeighbors should match', () => {
+        items.forEach(i => {
+          const edgeIDs = i.cell.getAllNeighbors(i.cell.level()+1).map(cellId => cellId.id.toString());
+          expect(edgeIDs)
+              .to.be.deep.eq(i.item.allNeighborsLvlP1);
+        });
+      });
+      it('.contains should work with direct parent', () => {
+        items.forEach(i => {
+          expect(i.cell.parent().contains(i.cell)).is.true;
+        });
+      });
 
     });
   });
+
 });

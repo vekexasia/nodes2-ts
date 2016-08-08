@@ -164,10 +164,10 @@ export class S2CellId {
   private  getBits1(i:MutableInteger, j:MutableInteger, k:number, bits:number):number {
     let nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
 
-    bits += this.id.shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
-        .and(((1 << (2 * nbits)) - 1))
-        .shiftLeft(2)
-        .toNumber();
+    bits += (this.id
+            .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
+            .getLowBitsUnsigned()
+            & ((1 << (2 * nbits)) - 1)) << 2;
 
     /*
      * System.out.println("id is: " + id_); System.out.println("bits is " +
@@ -194,8 +194,10 @@ export class S2CellId {
    * necessarily unit length).
    */
   private faceSiTiToXYZ(face:number, si:number, ti:number):S2Point {
+    // console.log('faceSiTiToXYZ', si, ti);
     let kScale = new Decimal(1).dividedBy(S2CellId.MAX_SIZE);
     let uvVector = R2Vector.fromSTVector(new R2Vector(kScale.times(si), kScale.times(ti)));
+    // console.log(uvVector.toString(), uvVector.x.toString());
     return uvVector.toPoint(face);
   }
 
@@ -290,7 +292,6 @@ export class S2CellId {
         new Long(face)
             .shiftLeft(S2CellId.POS_BITS)
             .add(pos.or(1))
-            .toUnsigned()
     ).parentL(level);
     // return new S2CellId((((long) face) << POS_BITS) + (pos | 1)).parent(level);
   }
@@ -351,10 +352,12 @@ export class S2CellId {
         ((((new Long(i.val).getLowBits() ^ (( this.id.getLowBits()) >>> 2)) & 1) != 0)
             ? 2 : 0);
 
+
     // let delta = this.isLeaf() ? 1 : new Long(i.val).and(this.id.getLowBits() >>> 2).and(1).notEquals(1) ? 2 : 0
     // ((i.val ? (((int)id) >>> 2))  & 1  ))
     let si = new Long((i.val << 1) + delta - S2CellId.MAX_SIZE).getLowBits();
     let ti = new Long((j.val << 1) + delta - S2CellId.MAX_SIZE).getLowBits();
+
     return this.faceSiTiToXYZ(face, si, ti);
   }
 
@@ -606,7 +609,7 @@ export class S2CellId {
       // (value * 16) + digit;
     }
 
-    return new S2CellId(value.toUnsigned());
+    return new S2CellId(value);
   }
 
   /**
@@ -626,7 +629,8 @@ export class S2CellId {
       return "X";
     }
 
-    let hex = this.id.toString(16);
+    let hex = this.id.toUnsigned().toString(16);
+
     // Long.toHexString(id).toLowerCase(Locale.ENGLISH);
     let sb = '';
     for (let i = hex.length; i < 16; i++) {
@@ -694,7 +698,7 @@ export class S2CellId {
         S2CellId.fromFaceIJSame(face, i.val, j.val + size, j.val + size < S2CellId.MAX_SIZE).parentL(level)
     );
     neighbors.push(
-        S2CellId.fromFaceIJSame(face, i.val - size, j.val - size, i.val - size >= 0).parentL(level)
+        S2CellId.fromFaceIJSame(face, i.val - size, j.val, i.val - size >= 0).parentL(level)
     );
     // neighbors[0] = fromFaceIJSame(face, i.intValue(), j.intValue() - size,
     //     j.intValue() - size >= 0).parent(level);
@@ -707,7 +711,7 @@ export class S2CellId {
     return neighbors;
   }
 
-//
+
 // /**
 //  * Return the neighbors of closest vertex to this cell at the given level, by
 //  * appending them to "output". Normally there are four neighbors, but the
@@ -717,49 +721,69 @@ export class S2CellId {
 //  * Requires: level < this.evel(), so that we can determine which vertex is
 //  * closest (in particular, level == MAX_LEVEL is not allowed).
 //  */
-// public void getVertexNeighbors(int level, List<S2CellId> output) {
+// public  getVertexNeighbors(level:number):S2CellId[] {
 //   // "level" must be strictly less than this cell's level so that we can
 //   // determine which vertex this cell is closest to.
 //   // assert (level < this.level());
-//   MutableInteger i = new MutableInteger(0);
-//   MutableInteger j = new MutableInteger(0);
-//   int face = toFaceIJOrientation(i, j, null);
+//   const i = new MutableInteger(0);
+//   const j = new MutableInteger(0);
+//   const face = this.toFaceIJOrientation(i, j, null);
 //
 //   // Determine the i- and j-offsets to the closest neighboring cell in each
 //   // direction. This involves looking at the next bit of "i" and "j" to
 //   // determine which quadrant of this->parent(level) this cell lies in.
-//   int halfsize = 1 << (MAX_LEVEL - (level + 1));
-//   int size = halfsize << 1;
-//   boolean isame, jsame;
-//   int ioffset, joffset;
-//   if ((i.intValue() & halfsize) != 0) {
+//   const halfsize = 1 << (S2CellId.MAX_LEVEL - (level + 1));
+//   const size = halfsize << 1;
+//   let isame:boolean, jsame:boolean;
+//   let ioffset, joffset;
+//   if ((i.val & halfsize) != 0) {
 //     ioffset = size;
-//     isame = (i.intValue() + size) < MAX_SIZE;
+//     isame = (i.val + size) < S2CellId.MAX_SIZE;
 //   } else {
 //     ioffset = -size;
-//     isame = (i.intValue() - size) >= 0;
+//     isame = (i.val - size) >= 0;
 //   }
-//   if ((j.intValue() & halfsize) != 0) {
+//   if ((j.val & halfsize) != 0) {
 //     joffset = size;
-//     jsame = (j.intValue() + size) < MAX_SIZE;
+//     jsame = (j.val + size) < S2CellId.MAX_SIZE;
 //   } else {
 //     joffset = -size;
-//     jsame = (j.intValue() - size) >= 0;
+//     jsame = (j.val - size) >= 0;
 //   }
+//   const toRet = [];
+//   toRet.push(this.parentL(level));
 //
-//   output.add(parent(level));
-//   output
-//       .add(fromFaceIJSame(face, i.intValue() + ioffset, j.intValue(), isame)
-//           .parent(level));
-//   output
-//       .add(fromFaceIJSame(face, i.intValue(), j.intValue() + joffset, jsame)
-//           .parent(level));
+//   toRet.push(
+//       S2CellId
+//           .fromFaceIJSame(face, i.val+ ioffset, j.val, isame)
+//           .parentL(level)
+//   );
+//   // output
+//   //     .add(fromFaceIJSame(face, i.intValue() + ioffset, j.intValue(), isame)
+//   //         .parent(level));
+//   toRet.push(
+//       S2CellId
+//           .fromFaceIJSame(face, i.val, j.val+joffset, jsame)
+//           .parentL(level)
+//   );
+//   // output
+//   //     .add(fromFaceIJSame(face, i.intValue(), j.intValue() + joffset, jsame)
+//   //         .parent(level));
 //   // If i- and j- edge neighbors are *both* on a different face, then this
 //   // vertex only has three neighbors (it is one of the 8 cube vertices).
 //   if (isame || jsame) {
-//     output.add(fromFaceIJSame(face, i.intValue() + ioffset,
-//         j.intValue() + joffset, isame && jsame).parent(level));
+//     toRet.push(
+//         S2CellId.fromFaceIJSame(
+//             face,
+//             i.val+ioffset,
+//             j.val+joffset,
+//             isame && jsame
+//         ).parentL(level)
+//     );
+//     // output.add(fromFaceIJSame(face, i.intValue() + ioffset,
+//     //     j.intValue() + joffset, isame && jsame).parent(level));
 //   }
+//   return toRet;
 // }
 
   /**
@@ -858,7 +882,7 @@ export class S2CellId {
         n[1].shiftLeft(32)
             .add(n[0])
             .shiftLeft(1)
-            .add(1).toUnsigned()
+            .add(1)
     );
   }
 
@@ -910,7 +934,7 @@ export class S2CellId {
             )
         )
     ).toNumber();
-    // return Math.max(0, Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
+    // return Math.max(0,  Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
     // return (int) Math.max(0, Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
   }
 
@@ -1003,7 +1027,7 @@ function initLookupCell(level:number, i:number, j:number,
   if (level == S2CellId.LOOKUP_BITS) {
     let ij = (i << S2CellId.LOOKUP_BITS) + j;
     S2CellId.LOOKUP_POS[(ij << 2) + origOrientation] = pos.shiftLeft(2).add(orientation);
-    S2CellId.LOOKUP_IJ[pos.shiftLeft(2).add(origOrientation).toNumber()] = ij << 2 + orientation;
+    S2CellId.LOOKUP_IJ[pos.shiftLeft(2).add(origOrientation).toNumber()] = (ij << 2) + orientation;
     // new Long((ij << 2)).add(orientation);
   } else {
     level++;

@@ -21,7 +21,7 @@ export class S2 {
   // Mask to extract the exponent from a double.
   private static EXPONENT_MASK = Long.fromString('0x7ff0000000000000', true, 16);
   /** Mapping from cell orientation + Hilbert traversal to IJ-index. */
-  public static  POS_TO_ORIENTATION = [S2.SWAP_MASK, 0, 0, S2.INVERT_MASK + S2.SWAP_MASK];
+  public static POS_TO_ORIENTATION = [S2.SWAP_MASK, 0, 0, S2.INVERT_MASK + S2.SWAP_MASK];
 
   public static POS_TO_IJ = [
     // 0 1 2 3
@@ -38,7 +38,7 @@ export class S2 {
     if (/*isNaN(r) ||*/ r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
       return r;
     } else {
-      return (f1.gte(0)?new Decimal(1):new Decimal(-1)).times(r.minus(f2));
+      return (f1.gte(0) ? new Decimal(1) : new Decimal(-1)).times(r.minus(f2));
     }
   }
 
@@ -96,6 +96,112 @@ export class S2 {
     return a.ortho();
   }
 
+  /**
+   * Return the area of triangle ABC. The method used is about twice as
+   * expensive as Girard's formula, but it is numerically stable for both large
+   * and very small triangles. The points do not need to be normalized. The area
+   * is always positive.
+   *
+   *  The triangle area is undefined if it contains two antipodal points, and
+   * becomes numerically unstable as the length of any edge approaches 180
+   * degrees.
+   */
+  static area(a:S2Point, b:S2Point, c:S2Point):decimal.Decimal {
+    // This method is based on l'Huilier's theorem,
+    //
+    // tan(E/4) = sqrt(tan(s/2) tan((s-a)/2) tan((s-b)/2) tan((s-c)/2))
+    //
+    // where E is the spherical excess of the triangle (i.e. its area),
+    // a, b, c, are the side lengths, and
+    // s is the semiperimeter (a + b + c) / 2 .
+    //
+    // The only significant source of error using l'Huilier's method is the
+    // cancellation error of the terms (s-a), (s-b), (s-c). This leads to a
+    // *relative* error of about 1e-16 * s / min(s-a, s-b, s-c). This compares
+    // to a relative error of about 1e-15 / E using Girard's formula, where E is
+    // the true area of the triangle. Girard's formula can be even worse than
+    // this for very small triangles, e.g. a triangle with a true area of 1e-30
+    // might evaluate to 1e-5.
+    //
+    // So, we prefer l'Huilier's formula unless dmin < s * (0.1 * E), where
+    // dmin = min(s-a, s-b, s-c). This basically includes all triangles
+    // except for extremely long and skinny ones.
+    //
+    // Since we don't know E, we would like a conservative upper bound on
+    // the triangle area in terms of s and dmin. It's possible to show that
+    // E <= k1 * s * sqrt(s * dmin), where k1 = 2*sqrt(3)/Pi (about 1).
+    // Using this, it's easy to show that we should always use l'Huilier's
+    // method if dmin >= k2 * s^5, where k2 is about 1e-2. Furthermore,
+    // if dmin < k2 * s^5, the triangle area is at most k3 * s^4, where
+    // k3 is about 0.1. Since the best case error using Girard's formula
+    // is about 1e-15, this means that we shouldn't even consider it unless
+    // s >= 3e-4 or so.
+
+    // We use volatile doubles to force the compiler to truncate all of these
+    // quantities to 64 bits. Otherwise it may compute a value of dmin > 0
+    // simply because it chose to spill one of the intermediate values to
+    // memory but not one of the others.
+    const sa = b.angle(c);
+    const sb = c.angle(a);
+    const sc = a.angle(b);
+    const s = sa.plus(sb).plus(sc).times(0.5);
+    // 0.5 * (sa + sb + sc);
+    if (s.gte(3e-4)) {
+      // Consider whether Girard's formula might be more accurate.
+      const s2 = s.pow(2);
+      const dmin = s.minus(
+          Decimal.max(
+              sa,
+              sb,
+              sc
+          )
+      );
+      if (dmin.lt(s2.pow(2).times(s).times(1e-2))) {
+        // This triangle is skinny enough to consider Girard's formula.
+        const area = S2.girardArea(a, b, c);
+        if (dmin.lt(s.times(area.times(0.1)))) {
+          return area;
+        }
+      }
+    }
+    // Use l'Huilier's formula.
+    return new Decimal(4)
+        .times(
+            Decimal.atan(
+                Decimal.sqrt(
+                    Decimal.max(
+                        0.0,
+                        Decimal.tan(s.times(0.5))
+                            .times(Decimal.tan(s.minus(sa).times(0.5)))
+                            .times(Decimal.tan(s.minus(sb).times(0.5)))
+                            .times(Decimal.tan(s.minus(sc).times(0.5)))
+                    )
+                )
+            )
+        )
+  }
+
+
+  /**
+   * Return the area of the triangle computed using Girard's formula. This is
+   * slightly faster than the Area() method above is not accurate for very small
+   * triangles.
+   */
+  static girardArea(a:S2Point, b:S2Point, c:S2Point):decimal.Decimal {
+    // This is equivalent to the usual Girard's formula but is slightly
+    // more accurate, faster to compute, and handles a == b == c without
+    // a special case.
+
+    const ab = S2Point.crossProd(a, b);
+    const bc = S2Point.crossProd(b, c);
+    const ac = S2Point.crossProd(a, c);
+    return Decimal.max(
+        0,
+        ab.angle(ac)
+            .minus(ab.angle(bc))
+            .plus(bc.angle(ac))
+    );
+  }
 
 }
 
@@ -177,4 +283,5 @@ export class S2_Metric {
     // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
     return level;
   }
+
 }

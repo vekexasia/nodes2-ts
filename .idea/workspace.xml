@@ -2,34 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/nodes2ts_node_modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/generated-locations.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/java-gen-locations.json" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/npm-debug.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/MutableInteger.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S1Angle.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S2CellId.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S2LatLng.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S2Point.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/S2Vector.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/nodes2ts.iml" afterPath="$PROJECT_DIR$/.idea/nodes2ts.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/assets/latlng-tests.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S1Angle.ts" afterPath="$PROJECT_DIR$/src/S1Angle.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2.ts" afterPath="$PROJECT_DIR$/src/S2.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Cell.ts" afterPath="$PROJECT_DIR$/src/S2Cell.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellId.ts" afterPath="$PROJECT_DIR$/src/S2CellId.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2LatLng.ts" afterPath="$PROJECT_DIR$/src/S2LatLng.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Point.ts" afterPath="$PROJECT_DIR$/src/S2Point.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Vector.ts" afterPath="$PROJECT_DIR$/src/S2Vector.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Projections.ts" afterPath="$PROJECT_DIR$/src/S2Projections.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2CellId.test.ts" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLng.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLng.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Point.test.ts" afterPath="$PROJECT_DIR$/test/S2Point.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/java-gen-locations.json" afterPath="$PROJECT_DIR$/test/java-gen-locations.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="$PROJECT_DIR$/tsconfig.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/typings.json" afterPath="$PROJECT_DIR$/typings.json" />
     </list>
     <ignored path="nodes2ts.iws" />
@@ -42,7 +26,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -54,29 +37,210 @@
             <file leaf-file-name="generated-locations.json" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/test/generated-locations.json">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="234">
+                  <state relative-caret-position="260">
                     <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
                     <folding />
                   </state>
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="java-gen-locations.json" pinned="false" current-in-tab="true">
+            <file leaf-file-name="java-gen-locations.json" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/test/java-gen-locations.json">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-3564">
-                    <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+                  <state relative-caret-position="791">
+                    <caret line="8924" column="26" selection-start-line="8924" selection-start-column="26" selection-end-line="8924" selection-end-column="26" />
                     <folding />
                   </state>
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="S2Vector.ts" pinned="false" current-in-tab="false">
+            <file leaf-file-name="S2Vector.ts" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="507">
-                    <caret line="140" column="11" selection-start-line="140" selection-start-column="11" selection-end-line="140" selection-end-column="11" />
+                  <state relative-caret-position="1429">
+                    <caret line="156" column="46" selection-start-line="156" selection-start-column="46" selection-end-line="156" selection-end-column="46" />
                     <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="latlng-tests.json" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/test/assets/latlng-tests.json">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="891">
+                    <caret line="2198" column="1" selection-start-line="2198" selection-start-column="1" selection-end-line="2198" selection-end-column="1" />
+                    <folding>
+                      <marker date="1470659846492" expanded="true" signature="0:56631" ph="[...]" />
+                      <marker date="1470659846492" expanded="true" signature="4:329" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="333:673" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="677:1015" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="1019:1343" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="1347:1686" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="1690:2029" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="2033:2308" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="2312:2647" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="2651:2985" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="2989:3310" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="3314:3648" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="3652:3989" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="3993:4315" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="4319:4655" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="4659:5007" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="5011:5361" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="5365:5702" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="5706:6055" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="6059:6406" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="6410:6710" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="6714:7058" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="7062:7406" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="7410:7744" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="7748:8092" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="8096:8441" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="8445:8778" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="8782:9120" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="9124:9475" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="9479:9831" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="9835:10170" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="10174:10523" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="10527:10878" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="10882:11183" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="11187:11533" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="11537:11882" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="11886:12218" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="12222:12569" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="12573:12921" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="12925:13260" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="13264:13587" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="13591:13929" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="13933:14270" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="14274:14596" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="14600:14935" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="14939:15277" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="15281:15569" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="15573:15907" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="15911:16242" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="16246:16565" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="16569:16902" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="16906:17241" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="17245:17565" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="17569:17907" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="17911:18262" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="18266:18617" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="18621:18956" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="18960:19309" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="19313:19665" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="19669:19971" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="19975:20323" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="20327:20672" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="20676:21008" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="21012:21359" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="21363:21713" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="21717:22052" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="22056:22394" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="22398:22749" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="22753:23104" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="23108:23443" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="23447:23796" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="23800:24150" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="24154:24456" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="24460:24806" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="24810:25156" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="25160:25492" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="25496:25843" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="25847:26194" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="26198:26533" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="26537:26825" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="26829:27132" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="27136:27438" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="27442:27717" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="27721:28022" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="28026:28329" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="28333:28543" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="28547:28847" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="28851:29147" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="29151:29423" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="29427:29724" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="29728:30029" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="30033:30318" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="30322:30658" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="30662:31011" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="31015:31364" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="31368:31701" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="31705:32052" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="32056:32404" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="32408:32708" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="32712:33056" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="33060:33404" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="33408:33738" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="33742:34087" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="34091:34436" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="34440:34773" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="34777:35112" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="35116:35463" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="35467:35815" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="35819:36152" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="36156:36502" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="36506:36852" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="36856:37156" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="37160:37504" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="37508:37849" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="37853:38183" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="38187:38531" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="38535:38880" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="38884:39216" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="39220:39540" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="39544:39879" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="39883:40217" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="40221:40540" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="40544:40876" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="40880:41215" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="41219:41504" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="41508:41839" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="41843:42171" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="42175:42491" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="42495:42825" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="42829:43161" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="43165:43482" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="43486:43820" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="43824:44172" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="44176:44524" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="44528:44861" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="44865:45211" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="45215:45561" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="45565:45863" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="45867:46212" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="46216:46557" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="46561:46891" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="46895:47239" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="47243:47589" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="47593:47924" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="47928:48263" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="48267:48614" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="48618:48962" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="48966:49297" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="49301:49647" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="49651:49997" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="50001:50297" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="50301:50644" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="50648:50990" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="50994:51322" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="51326:51669" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="51673:52017" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="52021:52353" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="52357:52679" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="52683:53020" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="53024:53359" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="53363:53684" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="53688:54024" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="54028:54364" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="54368:54640" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="54644:54976" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="54980:55311" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="55315:55633" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="55637:55968" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="55972:56306" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                      <marker date="1470659846492" expanded="true" signature="56310:56629" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+                    </folding>
                   </state>
                 </provider>
               </entry>
@@ -91,42 +255,15 @@
     <favorites_list name="nodes2ts" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48360655">
+    <splitter split-orientation="horizontal" split-proportion="0.6883681">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="S2LatLng.test.ts" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="342">
-                  <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#41#0" expanded="true" />
-                    <element signature="e#111#150#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="S2Point.test.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#0#39#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="decimal.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/node_modules/decimal.js/decimal.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-6102">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                  </folding>
+                <state relative-caret-position="560">
+                  <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -134,26 +271,76 @@
           <file leaf-file-name="S2Projections.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S2Projections.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="159">
-                  <caret line="247" column="35" selection-start-line="247" selection-start-column="35" selection-end-line="247" selection-end-column="35" />
+                <state relative-caret-position="315">
+                  <caret line="115" column="37" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="true">
+          <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="196">
-                  <caret line="86" column="8" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
+                <state relative-caret-position="870">
+                  <caret line="44" column="10" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
                   <folding>
                     <element signature="e#0#41#0" expanded="true" />
                     <element signature="e#255#294#0" expanded="true" />
-                    <element signature="e#2145#3043#0" expanded="false" />
-                    <element signature="e#4087#4383#0" expanded="false" />
-                    <element signature="e#4445#4621#0" expanded="false" />
-                    <element signature="e#4652#5067#0" expanded="false" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/typings/modules/chai/index.d.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="435">
+                  <caret line="343" column="2" selection-start-line="343" selection-start-column="2" selection-end-line="343" selection-end-column="2" />
+                  <folding>
+                    <element signature="n#AssertionError#0;n#&quot;~chai~assertion-error&quot;#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="S2LatLngRect.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/S2LatLngRect.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="315">
+                  <caret line="470" column="31" selection-start-line="470" selection-start-column="31" selection-end-line="470" selection-end-column="31" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="S2Cell.ts" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="495">
+                  <caret line="330" column="24" selection-start-line="330" selection-start-column="24" selection-end-line="330" selection-end-column="24" />
+                  <folding>
+                    <element signature="e#0#36#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="R1Interval.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/R1Interval.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="305">
+                  <caret line="110" column="10" selection-start-line="110" selection-start-column="10" selection-end-line="110" selection-end-column="10" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Interval.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Interval.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="22" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -165,11 +352,31 @@
           <file leaf-file-name="S2Point.ts" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="149">
-                  <caret line="124" column="16" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
+                <state relative-caret-position="254">
+                  <caret line="193" column="6" selection-start-line="193" selection-start-column="6" selection-end-line="193" selection-end-column="6" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="tsconfig.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tsconfig.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="120">
+                  <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="typings.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/typings.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="80">
+                  <caret line="4" column="55" selection-start-line="4" selection-start-column="55" selection-end-line="4" selection-end-column="55" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -177,24 +384,9 @@
           <file leaf-file-name="S2.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S2.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1692">
-                  <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+                <state relative-caret-position="875">
+                  <caret line="203" column="3" selection-start-line="203" selection-start-column="3" selection-end-line="203" selection-end-column="3" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/typings/modules/decimal.js/index.d.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="450">
-                  <caret line="195" column="48" selection-start-line="195" selection-start-column="48" selection-end-line="195" selection-end-column="48" />
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                    <element signature="n#RoundingMode#0;n#decimal#0" expanded="false" />
-                    <element signature="n#!!block;n#IFormatConfig#0;n#decimal#0" expanded="false" />
-                    <element signature="n#!!block;n#IDecimalConfig#0;n#decimal#0" expanded="false" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -203,7 +395,7 @@
             <entry file="file://$PROJECT_DIR$/typings/index.d.ts">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
-                  <caret line="0" column="44" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+                  <caret line="0" column="41" selection-start-line="0" selection-start-column="41" selection-end-line="0" selection-end-column="41" />
                   <folding />
                 </state>
               </provider>
@@ -212,8 +404,8 @@
           <file leaf-file-name="S2CellId.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S2CellId.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="113">
-                  <caret line="317" column="21" selection-start-line="317" selection-start-column="21" selection-end-line="317" selection-end-column="21" />
+                <state relative-caret-position="442">
+                  <caret line="287" column="21" selection-start-line="287" selection-start-column="21" selection-end-line="287" selection-end-column="21" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                     <element signature="e#671#705#0" expanded="true" />
@@ -225,7 +417,7 @@
           <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/typings/globals/long/index.d.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5688">
+                <state relative-caret-position="6320">
                   <caret line="317" column="8" selection-start-line="317" selection-start-column="4" selection-end-line="317" selection-end-column="8" />
                   <folding />
                 </state>
@@ -235,12 +427,19 @@
           <file leaf-file-name="S2LatLng.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="185">
-                  <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                    <element signature="e#596#630#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="145">
+                  <caret line="109" column="13" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="365">
+                  <caret line="192" column="10" selection-start-line="192" selection-start-column="10" selection-end-line="192" selection-end-column="10" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -248,8 +447,8 @@
           <file leaf-file-name="S1Angle.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/S1Angle.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="322">
-                  <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
+                <state relative-caret-position="60">
+                  <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
@@ -284,25 +483,29 @@
         <option value="$PROJECT_DIR$/test/mocha.opts" />
         <option value="$PROJECT_DIR$/typings/globals/long/index.d.ts" />
         <option value="$PROJECT_DIR$/src/Index.ts" />
-        <option value="$PROJECT_DIR$/tsconfig.json" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/gulpfile.ts" />
         <option value="$PROJECT_DIR$/test/S1Angle.ts" />
         <option value="$PROJECT_DIR$/test/CheckAgainstGeneratedlocations.ts" />
         <option value="$PROJECT_DIR$/test/CheckAgainstGeneratedlocations.test.ts" />
-        <option value="$PROJECT_DIR$/typings.json" />
         <option value="$PROJECT_DIR$/test/generated-locations.json" />
-        <option value="$PROJECT_DIR$/src/S2.ts" />
-        <option value="$PROJECT_DIR$/src/S2LatLng.ts" />
         <option value="$PROJECT_DIR$/src/S1Angle.ts" />
         <option value="$PROJECT_DIR$/typings/modules/decimal.js/index.d.ts" />
-        <option value="$PROJECT_DIR$/test/java-gen-locations.json" />
         <option value="$PROJECT_DIR$/test/S2Point.test.ts" />
-        <option value="$PROJECT_DIR$/test/S2LatLng.test.ts" />
-        <option value="$PROJECT_DIR$/src/S2CellId.ts" />
         <option value="$PROJECT_DIR$/src/S2Vector.ts" />
-        <option value="$PROJECT_DIR$/src/S2Point.ts" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/typings.json" />
+        <option value="$PROJECT_DIR$/test/assets/latlng-tests.json" />
+        <option value="$PROJECT_DIR$/src/S2LatLng.ts" />
+        <option value="$PROJECT_DIR$/test/S2LatLng.test.ts" />
+        <option value="$PROJECT_DIR$/test/java-gen-locations.json" />
+        <option value="$PROJECT_DIR$/src/S2CellId.ts" />
         <option value="$PROJECT_DIR$/test/S2CellId.test.ts" />
+        <option value="$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts" />
+        <option value="$PROJECT_DIR$/src/S2.ts" />
+        <option value="$PROJECT_DIR$/src/S2Projections.ts" />
+        <option value="$PROJECT_DIR$/src/S2Point.ts" />
+        <option value="$PROJECT_DIR$/src/S2Cell.ts" />
       </list>
     </option>
   </component>
@@ -325,8 +528,8 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="27" />
-    <option name="width" value="1920" />
-    <option name="height" value="1053" />
+    <option name="width" value="1200" />
+    <option name="height" value="1893" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -353,43 +556,12 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -400,7 +572,7 @@
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value="S2Vec&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;R2&#9;null&#9;null&#10;s2Ve&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;S2LatL&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;R2V&#9;null&#9;null&#10;S2Po&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Point.ts&#10;S2La&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;s2po&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2Point.ts&#10;S2Lat&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="R1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S2Vec&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;R2&#9;null&#9;null&#10;s2Ve&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;S2LatL&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;R2V&#9;null&#9;null&#10;S2Po&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Point.ts&#10;S2La&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;s2po&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2Point.ts&#10;S2Lat&#9;null&#9;null" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
     <property name="js.last.introduce.type" value="CONST" />
   </component>
@@ -433,11 +605,19 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
-      <method />
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
@@ -453,9 +633,17 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
-      <method />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
@@ -817,19 +1005,6 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
-      <setting name="environment" value="" />
-      <setting name="specsToExecute" value="" />
-      <setting name="tags" value="" />
-      <setting name="parallelNodes" value="" />
-      <setting name="execInParallel" value="false" />
-      <setting name="programParameters" value="" />
-      <setting name="workingDirectory" value="" />
-      <setting name="moduleName" value="" />
-      <envMap />
-      <setting name="rowsRange" value="" />
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-interpreter>project</node-interpreter>
       <node-options />
@@ -882,67 +1057,68 @@
       <workItem from="1470401097463" duration="10856000" />
       <workItem from="1470475763113" duration="30913000" />
       <workItem from="1470584103479" duration="5747000" />
+      <workItem from="1470641958240" duration="23263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47516000" />
+    <option name="totallyTimeSpent" value="70779000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="0" />
+    <frame x="0" y="27" width="1200" height="1893" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46994534" sideWeight="0.08974359" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44153005" sideWeight="0.9102564" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.441462" sideWeight="0.9102564" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15277778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15277778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.4957265" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32895488" sideWeight="0.4957265" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46994534" sideWeight="0.08974359" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46994534" sideWeight="0.08974359" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46994534" sideWeight="0.9102564" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15277778" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.441462" sideWeight="0.9102564" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15277778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.4957265" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -961,10 +1137,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/S2Point.ts</url>
-          <line>217</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts</url>
           <line>9</line>
           <option name="timeStamp" value="1" />
@@ -976,21 +1148,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>121</line>
-          <option name="timeStamp" value="5" />
+          <line>49</line>
+          <properties />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>114</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>123</line>
-          <option name="timeStamp" value="7" />
+          <line>174</line>
+          <properties />
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="8" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -999,39 +1168,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3006">
-          <caret line="181" column="17" selection-start-line="181" selection-start-column="17" selection-end-line="181" selection-end-column="17" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/S2.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1082,7 +1218,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1094,34 +1229,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Interval.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/R1Interval.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="159" column="22" selection-start-line="159" selection-start-column="22" selection-end-line="159" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#36#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/typings/main.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/S2.js" />
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Index.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1131,20 +1240,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gulpfile.js" />
-    <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1153,9 +1253,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1168,156 +1265,308 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/CheckAgainstGeneratedlocations.test.ts" />
-    <entry file="file://$PROJECT_DIR$/typings/modules/chai/index.d.ts">
+    <entry file="file://$PROJECT_DIR$/typings/globals/long/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="404" column="26" selection-start-line="404" selection-start-column="20" selection-end-line="404" selection-end-column="26" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="n#AssertionError#0;n#&quot;~chai~assertion-error&quot;#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+        <state relative-caret-position="6320">
+          <caret line="317" column="8" selection-start-line="317" selection-start-column="4" selection-end-line="317" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/typings/index.d.ts">
+    <entry file="file://$PROJECT_DIR$/typings/modules/decimal.js/index.d.ts" />
+    <entry file="file://$PROJECT_DIR$/node_modules/decimal.js/decimal.js" />
+    <entry file="file://$PROJECT_DIR$/test/generated-locations.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="44" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+        <state relative-caret-position="260">
+          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/typings.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="14" column="58" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
+        <state relative-caret-position="80">
+          <caret line="4" column="55" selection-start-line="4" selection-start-column="55" selection-end-line="4" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2.ts">
+    <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/typings.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1692">
-          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/typings/globals/long/index.d.ts">
+    <entry file="file://$PROJECT_DIR$/src/MutableInteger.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5688">
-          <caret line="317" column="8" selection-start-line="317" selection-start-column="4" selection-end-line="317" selection-end-column="8" />
+        <state relative-caret-position="80">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/typings/modules/decimal.js/index.d.ts">
+    <entry file="file://$PROJECT_DIR$/test/assets/latlng-tests.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="195" column="48" selection-start-line="195" selection-start-column="48" selection-end-line="195" selection-end-column="48" />
+        <state relative-caret-position="891">
+          <caret line="2198" column="1" selection-start-line="2198" selection-start-column="1" selection-end-line="2198" selection-end-column="1" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#RoundingMode#0;n#decimal#0" expanded="false" />
-            <element signature="n#!!block;n#IFormatConfig#0;n#decimal#0" expanded="false" />
-            <element signature="n#!!block;n#IDecimalConfig#0;n#decimal#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#596#630#0" expanded="true" />
+            <marker date="1470659846492" expanded="true" signature="0:56631" ph="[...]" />
+            <marker date="1470659846492" expanded="true" signature="4:329" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="333:673" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="677:1015" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="1019:1343" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="1347:1686" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="1690:2029" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="2033:2308" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="2312:2647" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="2651:2985" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="2989:3310" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="3314:3648" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="3652:3989" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="3993:4315" ph="{&quot;latR&quot;: &quot;-1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="4319:4655" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="4659:5007" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="5011:5361" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="5365:5702" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="5706:6055" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="6059:6406" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="6410:6710" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="6714:7058" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="7062:7406" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="7410:7744" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="7748:8092" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="8096:8441" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="8445:8778" ph="{&quot;latR&quot;: &quot;-1.294452528562461&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="8782:9120" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="9124:9475" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="9479:9831" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="9835:10170" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="10174:10523" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="10527:10878" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="10882:11183" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="11187:11533" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="11537:11882" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="11886:12218" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="12222:12569" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="12573:12921" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="12925:13260" ph="{&quot;latR&quot;: &quot;-1.0355620228499687&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="13264:13587" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="13591:13929" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="13933:14270" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="14274:14596" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="14600:14935" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="14939:15277" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="15281:15569" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="15573:15907" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="15911:16242" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="16246:16565" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="16569:16902" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="16906:17241" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="17245:17565" ph="{&quot;latR&quot;: &quot;-0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="17569:17907" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="17911:18262" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="18266:18617" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="18621:18956" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="18960:19309" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="19313:19665" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="19669:19971" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="19975:20323" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="20327:20672" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="20676:21008" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="21012:21359" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="21363:21713" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="21717:22052" ph="{&quot;latR&quot;: &quot;-0.5177810114249843&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="22056:22394" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="22398:22749" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="22753:23104" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="23108:23443" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="23447:23796" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="23800:24150" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="24154:24456" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="24460:24806" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="24810:25156" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="25160:25492" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="25496:25843" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="25847:26194" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="26198:26533" ph="{&quot;latR&quot;: &quot;-0.2588905057124921&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="26537:26825" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="26829:27132" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="27136:27438" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="27442:27717" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="27721:28022" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="28026:28329" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="28333:28543" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="28547:28847" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="28851:29147" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="29151:29423" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="29427:29724" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="29728:30029" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="30033:30318" ph="{&quot;latR&quot;: &quot;0.0&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="30322:30658" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="30662:31011" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="31015:31364" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="31368:31701" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="31705:32052" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="32056:32404" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="32408:32708" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="32712:33056" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="33060:33404" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="33408:33738" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="33742:34087" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="34091:34436" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="34440:34773" ph="{&quot;latR&quot;: &quot;0.2588905057124924&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="34777:35112" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="35116:35463" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="35467:35815" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="35819:36152" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="36156:36502" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="36506:36852" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="36856:37156" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="37160:37504" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="37508:37849" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="37853:38183" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="38187:38531" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="38535:38880" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="38884:39216" ph="{&quot;latR&quot;: &quot;0.5177810114249846&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="39220:39540" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="39544:39879" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="39883:40217" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="40221:40540" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="40544:40876" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="40880:41215" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="41219:41504" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="41508:41839" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="41843:42171" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="42175:42491" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="42495:42825" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="42829:43161" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="43165:43482" ph="{&quot;latR&quot;: &quot;0.7766715171374766&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="43486:43820" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="43824:44172" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="44176:44524" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="44528:44861" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="44865:45211" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="45215:45561" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="45565:45863" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="45867:46212" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="46216:46557" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="46561:46891" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="46895:47239" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="47243:47589" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="47593:47924" ph="{&quot;latR&quot;: &quot;1.0355620228499691&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="47928:48263" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="48267:48614" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="48618:48962" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="48966:49297" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="49301:49647" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="49651:49997" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="50001:50297" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="50301:50644" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="50648:50990" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="50994:51322" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="51326:51669" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="51673:52017" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="52021:52353" ph="{&quot;latR&quot;: &quot;1.2944525285624615&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="52357:52679" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="52683:53020" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="53024:53359" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="53363:53684" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="53688:54024" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="54028:54364" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="54368:54640" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="54644:54976" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="54980:55311" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="55315:55633" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="55637:55968" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="55972:56306" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
+            <marker date="1470659846492" expanded="true" signature="56310:56629" ph="{&quot;latR&quot;: &quot;1.5533430342749532&quot;...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/S1Angle.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
+        <state relative-caret-position="60">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/decimal.js/decimal.js">
+    <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6102">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Projections.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="247" column="35" selection-start-line="247" selection-start-column="35" selection-end-line="247" selection-end-column="35" />
+        <state relative-caret-position="381">
+          <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#111#150#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/generated-locations.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+        <state relative-caret-position="560">
+          <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
+    <entry file="file://$PROJECT_DIR$/typings/modules/chai/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="140" column="11" selection-start-line="140" selection-start-column="11" selection-end-line="140" selection-end-column="11" />
+        <state relative-caret-position="435">
+          <caret line="343" column="2" selection-start-line="343" selection-start-column="2" selection-end-line="343" selection-end-column="2" />
+          <folding>
+            <element signature="n#AssertionError#0;n#&quot;~chai~assertion-error&quot;#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2LatLngRect.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="470" column="31" selection-start-line="470" selection-start-column="31" selection-end-line="470" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/java-gen-locations.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3564">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        <state relative-caret-position="791">
+          <caret line="8924" column="26" selection-start-line="8924" selection-start-column="26" selection-end-line="8924" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="44" column="10" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#255#294#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2Vector.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1429">
+          <caret line="156" column="46" selection-start-line="156" selection-start-column="46" selection-end-line="156" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/S2CellId.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="317" column="21" selection-start-line="317" selection-start-column="21" selection-end-line="317" selection-end-column="21" />
+        <state relative-caret-position="442">
+          <caret line="287" column="21" selection-start-line="287" selection-start-column="21" selection-end-line="287" selection-end-column="21" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#671#705#0" expanded="true" />
@@ -1325,27 +1574,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="109" column="13" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="192" column="10" selection-start-line="192" selection-start-column="10" selection-end-line="192" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/typings/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="41" selection-start-line="0" selection-start-column="41" selection-end-line="0" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2Projections.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="115" column="37" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Interval.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="22" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/R1Interval.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="110" column="10" selection-start-line="110" selection-start-column="10" selection-end-line="110" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="875">
+          <caret line="203" column="3" selection-start-line="203" selection-start-column="3" selection-end-line="203" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="124" column="16" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
+        <state relative-caret-position="254">
+          <caret line="193" column="6" selection-start-line="193" selection-start-column="6" selection-end-line="193" selection-end-column="6" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
+    <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="86" column="8" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
+        <state relative-caret-position="495">
+          <caret line="330" column="24" selection-start-line="330" selection-start-column="24" selection-end-line="330" selection-end-column="24" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#255#294#0" expanded="true" />
-            <element signature="e#2145#3043#0" expanded="false" />
-            <element signature="e#4087#4383#0" expanded="false" />
-            <element signature="e#4445#4621#0" expanded="false" />
-            <element signature="e#4652#5067#0" expanded="false" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -29,7 +29,7 @@ export class S2Point {
   public x: decimal.Decimal;
   public y: decimal.Decimal;
   public z: decimal.Decimal;
-  constructor(x:decimal.Decimal|number, y:decimal.Decimal|number, z:decimal.Decimal|number) {
+  constructor(x:decimal.Decimal|number|string, y:decimal.Decimal|number|string, z:decimal.Decimal|number|string) {
     this.x = new Decimal(x)  as decimal.Decimal;
     this.y = new Decimal(y)  as decimal.Decimal ;
     this.z = new Decimal(z)   as decimal.Decimal;
