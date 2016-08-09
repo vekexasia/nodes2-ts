@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/nodes2ts.iml" filepath="$PROJECT_DIR$/.idea/nodes2ts.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/nodests.iml" filepath="$PROJECT_DIR$/.idea/modules/nodests.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/nodests_main.iml" filepath="$PROJECT_DIR$/.idea/modules/nodests_main.iml" group="nodests" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nodests_test.iml" filepath="$PROJECT_DIR$/.idea/modules/nodests_test.iml" group="nodests" />
     </modules>
   </component>
 </project>

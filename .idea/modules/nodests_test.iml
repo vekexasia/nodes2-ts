@@ -12,9 +12,7 @@
     <orderEntry type="module" module-name="nodests_main" />
     <orderEntry type="library" name="Gradle: org.json:json:20160212" level="project" />
     <orderEntry type="library" name="Gradle: org.isuper:s2-geometry-library-java:0.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:18.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="nodests_main" />
 </module>

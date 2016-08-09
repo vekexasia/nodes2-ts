@@ -18,8 +18,6 @@ import {S2Cell} from "./S2Cell";
 import {S2Region} from "./S2Region";
 import {S2CellId} from "./S2CellId";
 import {S2CellUnion} from "./S2CellUnion";
-import {S2Point} from "./S2Point";
-import {S2Cap} from "./S2Cap";
 import {S2Projections} from "./S2Projections";
 /**
  * An S2RegionCoverer is a class that allows arbitrary regions to be
@@ -94,9 +92,7 @@ export class S2RegionCoverer {
    * queue entries since for some reason priority_queue<> uses a deque by
    * default.
    */
-  private PriorityQueue<QueueEntry>
-
-  candidateQueue;
+  private candidateQueue:PriorityQueue<QueueEntry>;
 
   /**
    * Default constructor, sets all fields to default values.
@@ -110,7 +106,7 @@ export class S2RegionCoverer {
     this.result = new ArrayList<>();
     // TODO(kirilll?): 10 is a completely random number, work out a better
     // estimate
-    this.candidateQueue = new PriorityQueue<>(10, new QueueEntriesComparator());
+    this.candidateQueue = new PriorityQueue<QueueEntry>();
   }
 
 // Set the minimum and maximum cell level to be used. The default is to use
@@ -322,7 +318,7 @@ export class S2RegionCoverer {
     }
 
     if (candidate.isTerminal) {
-      this.result.push(candidate.cell.id());
+      this.result.push(candidate.cell.id);
       return;
     }
     // assert (candidate.numChildren == 0);
@@ -439,7 +435,7 @@ export class S2RegionCoverer {
     // children first), and then by the number of fully contained children
     // (fewest children first).
 
-    if (!(this.candidateQueue.length == 0 && this.result.length == 0)) {
+    if (!(this.candidateQueue.size() == 0 && this.result.length == 0)) {
       throw new Error('preconditions are not satisfied')
     }
     // Preconditions.checkState(this.candidateQueue.isEmpty() && this.result.isEmpty());
@@ -448,10 +444,10 @@ export class S2RegionCoverer {
     this.candidatesCreatedCounter = 0;
 
     this.getInitialCandidates();
-    while (this.candidateQueue.length !== 0 && (!this.interiorCovering || this.result.length < this.maxCells)) {
+    while (this.candidateQueue.size() !== 0 && (!this.interiorCovering || this.result.length < this.maxCells)) {
       const candidate = this.candidateQueue.poll().candidate;
       // logger.info("Pop: " + candidate.cell.id());
-      if (candidate.cell.level() < this.minLevel || candidate.numChildren == 1
+      if (candidate.cell.level < this.minLevel || candidate.numChildren == 1
           || this.result.length + (this.interiorCovering ? 0 : this.candidateQueue.size()) + candidate.numChildren
           <= this.maxCells) {
         // Expand this candidate into its children.
@@ -513,48 +509,40 @@ class Candidate {
   // elements.
 }
 
-class QueueEntry {
+interface Comparable<T> {
+  compare(other:T):number;
+}
+class PriorityQueue<T extends Comparable<T>> {
+  private items:T[];
+
+  constructor() {
+    this.clear();
+  }
+
+  add(item:T) {
+    this.items.push(item);
+    this.items.sort((a, b) => a.compare(b));
+  }
+
+  clear() {
+    this.items = [];
+  }
+
+  size() {
+    return this.items.length;
+  }
+
+  poll():T {
+    return this.items.splice(0, 1)[0];
+  }
+}
+
+class QueueEntry implements Comparable<QueueEntry> {
+  compare(other:QueueEntry):number {
+    return this.id < other.id ? 1 : (this.id > other.id ? -1 : 0);
+  }
 
   public constructor(public id:number, public candidate:Candidate) {
 
   }
-}
-
-/**
- * We define our own comparison function on QueueEntries in order to make the
- * results deterministic. Using the default less<QueueEntry>, entries of equal
- * priority would be sorted according to the memory address of the candidate.
- */
-static class QueueEntriesComparator implements Comparator<QueueEntry> {
-  @Override
-  public int
-
-  compare(S2RegionCoverer
-
-.
-  QueueEntry
-  x
-,
-  S2RegionCoverer
-.
-  QueueEntry
-  y
-) {
-  return
-  x
-.
-  id < y
-
-.
-  id ?
-  1:(x.id
->
-  y
-.
-  id ?
--
-  1:
-  0
-);
-}
 }
