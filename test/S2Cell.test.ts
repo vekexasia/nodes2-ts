@@ -9,7 +9,8 @@ import {R1Interval} from "../src/R1Interval";
 import {S1Interval} from "../src/S1Interval";
 import {S1Angle} from "../src/S1Angle";
 import {S2Point} from "../src/S2Point";
-
+import {S2Cap} from "../src/S2Cap";
+// S2Cap.addCap()
 describe('S2Cell', () => {
   describe('java data', () => {
     let items: [{item:any, cell:S2Cell}];
@@ -41,7 +42,7 @@ describe('S2Cell', () => {
       items.forEach(
           i => {
             const cell = i.cell as S2Cell;
-            expect(cell.oriuentation).to.be.eq(i.item.orient);
+            expect(cell.orientation).to.be.eq(i.item.orient);
           }
       )
     });

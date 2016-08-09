@@ -38,7 +38,7 @@ export class S2Cell {
     return this._level;
   }
 
-  get oriuentation():number {
+  get orientation():number {
     return this._orientation;
   }
 
@@ -99,50 +99,51 @@ export class S2Cell {
     }
   }
 
-//
-// /**
-//  * Return the inward-facing normal of the great circle passing through the
-//  * edge from vertex k to vertex k+1 (mod 4). The normals returned by
-//  * GetEdgeRaw are not necessarily unit length.
-//  *
-//  *  If this is not a leaf cell, set children[0..3] to the four children of
-//  * this cell (in traversal order) and return true. Otherwise returns false.
-//  * This method is equivalent to the following:
-//  *
-//  *  for (pos=0, id=child_begin(); id != child_end(); id = id.next(), ++pos)
-//  * children[i] = S2Cell(id);
-//  *
-//  * except that it is more than two times faster.
-//  */
-// public subdivide():S2Cell[] {
-//   // This function is equivalent to just iterating over the child cell ids
-//   // and calling the S2Cell constructor, but it is about 2.5 times faster.
-//
-//   if (this.isLeaf()) {
-//     return null;
-//   }
-//
-//   // Compute the cell midpoint in uv-space.
-//   R2Vector uvMid = getCenterUV();
-//
-//   // Create four children with the appropriate bounds.
-//   S2CellId id = this.cellId.childBegin();
-//   for (int pos = 0; pos < 4; ++pos, id = id.next()) {
-//     S2Cell child = children[pos];
-//     child.face = this.face;
-//     child.level = (byte) (this.level + 1);
-//     child.orientation = (byte) (this.orientation ^ S2.posToOrientation(pos));
-//     child.cellId = id;
-//     int ij = S2.posToIJ(this.orientation, pos);
-//     for (int d = 0; d < 2; ++d) {
-//       // The dimension 0 index (i/u) is in bit 1 of ij.
-//       int m = 1 - ((ij >> (1 - d)) & 1);
-//       child.uv[d][m] = uvMid.get(d);
-//       child.uv[d][1 - m] = this.uv[d][1 - m];
-//     }
-//   }
-//   return true;
-// }
+
+/**
+ * Return the inward-facing normal of the great circle passing through the
+ * edge from vertex k to vertex k+1 (mod 4). The normals returned by
+ * GetEdgeRaw are not necessarily unit length.
+ *
+ *  If this is not a leaf cell, set children[0..3] to the four children of
+ * this cell (in traversal order) and return true. Otherwise returns false.
+ * This method is equivalent to the following:
+ *
+ *  for (pos=0, id=child_begin(); id != child_end(); id = id.next(), ++pos)
+ * children[i] = S2Cell(id);
+ *
+ * except that it is more than two times faster.
+ */
+public subdivide():S2Cell[] {
+  // This function is equivalent to just iterating over the child cell ids
+  // and calling the S2Cell constructor, but it is about 2.5 times faster.
+
+  if (this.isLeaf()) {
+    return null;
+  }
+
+  // Compute the cell midpoint in uv-space.
+  // const uvMid = this.getCenterUV();
+  const children:S2Cell[] = new Array(4);
+  // Create four children with the appropriate bounds.
+  let id = this.cellID.childBegin();
+  for (let pos = 0; pos < 4; ++pos, id = id.next()) {
+    children[pos] = new S2Cell(id);
+    // S2Cell child = children[pos];
+    // child.face = this.face;
+    // child.level = (byte) (this.level + 1);
+    // child.orientation = (byte) (this.orientation ^ S2.posToOrientation(pos));
+    // child.cellId = id;
+    // int ij = S2.posToIJ(this.orientation, pos);
+    // for (let d = 0; d < 2; ++d) {
+    //   // The dimension 0 index (i/u) is in bit 1 of ij.
+    //   int m = 1 - ((ij >> (1 - d)) & 1);
+    //   child.uv[d][m] = uvMid.get(d);
+    //   child.uv[d][1 - m] = this.uv[d][1 - m];
+    // }
+  }
+  return children;
+}
 
   /**
    * Return the direction vector corresponding to the center in (s,t)-space of
@@ -183,50 +184,58 @@ export class S2Cell {
     return new R2Vector(x, y);
   }
 
-//
-// /**
-//  * Return the average area for cells at the given level.
-//  */
-// public static double averageArea(int level) {
-//   return S2Projections.AVG_AREA.getValue(level);
-// }
-//
-// /**
-//  * Return the average area of cells at this level. This is accurate to within
-//  * a factor of 1.7 (for S2_QUADRATIC_PROJECTION) and is extremely cheap to
-//  * compute.
-//  */
-// public double averageArea() {
-//   return averageArea(this.level);
-// }
-//
-// /**
-//  * Return the approximate area of this cell. This method is accurate to within
-//  * 3% percent for all cell sizes and accurate to within 0.1% for cells at
-//  * level 5 or higher (i.e. 300km square or smaller). It is moderately cheap to
-//  * compute.
-//  */
-// public double approxArea() {
-//
-//   // All cells at the first two levels have the same area.
-//   if (this.level < 2) {
-//     return averageArea(this.level);
-//   }
-//
-//   // First, compute the approximate area of the cell when projected
-//   // perpendicular to its normal. The cross product of its diagonals gives
-//   // the normal, and the length of the normal is twice the projected area.
-//   double flatArea = 0.5 * S2Point.crossProd(
-//           S2Point.sub(getVertex(2), getVertex(0)), S2Point.sub(getVertex(3), getVertex(1))).norm();
-//
-//   // Now, compensate for the curvature of the cell surface by pretending
-//   // that the cell is shaped like a spherical cap. The ratio of the
-//   // area of a spherical cap to the area of its projected disc turns out
-//   // to be 2 / (1 + sqrt(1 - r*r)) where "r" is the radius of the disc.
-//   // For example, when r=0 the ratio is 1, and when r=1 the ratio is 2.
-//   // Here we set Pi*r*r == flat_area to find the equivalent disc.
-//   return flatArea * 2 / (1 + Math.sqrt(1 - Math.min(S2.M_1_PI * flatArea, 1.0)));
-// }
+
+
+/**
+ * Return the average area of cells at this level. This is accurate to within
+ * a factor of 1.7 (for S2_QUADRATIC_PROJECTION) and is extremely cheap to
+ * compute.
+ */
+public averageArea():number {
+  return S2Projections.AVG_AREA.getValue(this.level);
+}
+/**
+ * Return the approximate area of this cell. This method is accurate to within
+ * 3% percent for all cell sizes and accurate to within 0.1% for cells at
+ * level 5 or higher (i.e. 300km square or smaller). It is moderately cheap to
+ * compute.
+ */
+public  approxArea():number {
+
+  // All cells at the first two levels have the same area.
+  if (this.level < 2) {
+    return this.averageArea();
+  }
+
+  // First, compute the approximate area of the cell when projected
+  // perpendicular to its normal. The cross product of its diagonals gives
+  // the normal, and the length of the normal is twice the projected area.
+  let flatArea = S2Point.crossProd(
+      S2Point.sub(this.getVertex(2), this.getVertex(0)),
+      S2Point.sub(this.getVertex(3), this.getVertex(1))
+  ).norm().times(0.5);
+  // double flatArea = 0.5 * S2Point.crossProd(
+  //         S2Point.sub(getVertex(2), getVertex(0)), S2Point.sub(getVertex(3), getVertex(1))).norm();
+
+  // Now, compensate for the curvature of the cell surface by pretending
+  // that the cell is shaped like a spherical cap. The ratio of the
+  // area of a spherical cap to the area of its projected disc turns out
+  // to be 2 / (1 + sqrt(1 - r*r)) where "r" is the radius of the disc.
+  // For example, when r=0 the ratio is 1, and when r=1 the ratio is 2.
+  // Here we set Pi*r*r == flat_area to find the equivalent disc.
+  return flatArea
+          .times(2)
+          .dividedBy(
+              Decimal.min(
+                  flatArea.times(S2.M_1_PI),
+                  1
+              )
+                  .neg()
+                  .plus(1)
+                  .sqrt()
+                  .plus(1)
+          ).toNumber();
+}
 //
 // /**
 //  * Return the area of this cell as accurately as possible. This method is more

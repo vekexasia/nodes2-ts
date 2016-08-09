@@ -718,79 +718,79 @@ export class S2CellId {
   }
 
 
-// /**
-//  * Return the neighbors of closest vertex to this cell at the given level, by
-//  * appending them to "output". Normally there are four neighbors, but the
-//  * closest vertex may only have three neighbors if it is one of the 8 cube
-//  * vertices.
-//  *
-//  * Requires: level < this.evel(), so that we can determine which vertex is
-//  * closest (in particular, level == MAX_LEVEL is not allowed).
-//  */
-// public  getVertexNeighbors(level:number):S2CellId[] {
-//   // "level" must be strictly less than this cell's level so that we can
-//   // determine which vertex this cell is closest to.
-//   // assert (level < this.level());
-//   const i = new MutableInteger(0);
-//   const j = new MutableInteger(0);
-//   const face = this.toFaceIJOrientation(i, j, null);
-//
-//   // Determine the i- and j-offsets to the closest neighboring cell in each
-//   // direction. This involves looking at the next bit of "i" and "j" to
-//   // determine which quadrant of this->parent(level) this cell lies in.
-//   const halfsize = 1 << (S2CellId.MAX_LEVEL - (level + 1));
-//   const size = halfsize << 1;
-//   let isame:boolean, jsame:boolean;
-//   let ioffset, joffset;
-//   if ((i.val & halfsize) != 0) {
-//     ioffset = size;
-//     isame = (i.val + size) < S2CellId.MAX_SIZE;
-//   } else {
-//     ioffset = -size;
-//     isame = (i.val - size) >= 0;
-//   }
-//   if ((j.val & halfsize) != 0) {
-//     joffset = size;
-//     jsame = (j.val + size) < S2CellId.MAX_SIZE;
-//   } else {
-//     joffset = -size;
-//     jsame = (j.val - size) >= 0;
-//   }
-//   const toRet = [];
-//   toRet.push(this.parentL(level));
-//
-//   toRet.push(
-//       S2CellId
-//           .fromFaceIJSame(face, i.val+ ioffset, j.val, isame)
-//           .parentL(level)
-//   );
-//   // output
-//   //     .add(fromFaceIJSame(face, i.intValue() + ioffset, j.intValue(), isame)
-//   //         .parent(level));
-//   toRet.push(
-//       S2CellId
-//           .fromFaceIJSame(face, i.val, j.val+joffset, jsame)
-//           .parentL(level)
-//   );
-//   // output
-//   //     .add(fromFaceIJSame(face, i.intValue(), j.intValue() + joffset, jsame)
-//   //         .parent(level));
-//   // If i- and j- edge neighbors are *both* on a different face, then this
-//   // vertex only has three neighbors (it is one of the 8 cube vertices).
-//   if (isame || jsame) {
-//     toRet.push(
-//         S2CellId.fromFaceIJSame(
-//             face,
-//             i.val+ioffset,
-//             j.val+joffset,
-//             isame && jsame
-//         ).parentL(level)
-//     );
-//     // output.add(fromFaceIJSame(face, i.intValue() + ioffset,
-//     //     j.intValue() + joffset, isame && jsame).parent(level));
-//   }
-//   return toRet;
-// }
+/**
+ * Return the neighbors of closest vertex to this cell at the given level, by
+ * appending them to "output". Normally there are four neighbors, but the
+ * closest vertex may only have three neighbors if it is one of the 8 cube
+ * vertices.
+ *
+ * Requires: level < this.evel(), so that we can determine which vertex is
+ * closest (in particular, level == MAX_LEVEL is not allowed).
+ */
+public  getVertexNeighbors(level:number):S2CellId[] {
+  // "level" must be strictly less than this cell's level so that we can
+  // determine which vertex this cell is closest to.
+  // assert (level < this.level());
+  const i = new MutableInteger(0);
+  const j = new MutableInteger(0);
+  const face = this.toFaceIJOrientation(i, j, null);
+
+  // Determine the i- and j-offsets to the closest neighboring cell in each
+  // direction. This involves looking at the next bit of "i" and "j" to
+  // determine which quadrant of this->parent(level) this cell lies in.
+  const halfsize = 1 << (S2CellId.MAX_LEVEL - (level + 1));
+  const size = halfsize << 1;
+  let isame:boolean, jsame:boolean;
+  let ioffset, joffset;
+  if ((i.val & halfsize) != 0) {
+    ioffset = size;
+    isame = (i.val + size) < S2CellId.MAX_SIZE;
+  } else {
+    ioffset = -size;
+    isame = (i.val - size) >= 0;
+  }
+  if ((j.val & halfsize) != 0) {
+    joffset = size;
+    jsame = (j.val + size) < S2CellId.MAX_SIZE;
+  } else {
+    joffset = -size;
+    jsame = (j.val - size) >= 0;
+  }
+  const toRet = [];
+  toRet.push(this.parentL(level));
+
+  toRet.push(
+      S2CellId
+          .fromFaceIJSame(face, i.val+ ioffset, j.val, isame)
+          .parentL(level)
+  );
+  // output
+  //     .add(fromFaceIJSame(face, i.intValue() + ioffset, j.intValue(), isame)
+  //         .parent(level));
+  toRet.push(
+      S2CellId
+          .fromFaceIJSame(face, i.val, j.val+joffset, jsame)
+          .parentL(level)
+  );
+  // output
+  //     .add(fromFaceIJSame(face, i.intValue(), j.intValue() + joffset, jsame)
+  //         .parent(level));
+  // If i- and j- edge neighbors are *both* on a different face, then this
+  // vertex only has three neighbors (it is one of the 8 cube vertices).
+  if (isame || jsame) {
+    toRet.push(
+        S2CellId.fromFaceIJSame(
+            face,
+            i.val+ioffset,
+            j.val+joffset,
+            isame && jsame
+        ).parentL(level)
+    );
+    // output.add(fromFaceIJSame(face, i.intValue() + ioffset,
+    //     j.intValue() + joffset, isame && jsame).parent(level));
+  }
+  return toRet;
+}
 
   /**
    * Append all neighbors of this cell at the given level to "output". Two cells
@@ -1023,6 +1023,36 @@ export class S2CellId {
   public  toString():string {
     return "(face=" + this.face + ", pos=" + this.pos().toString(16) + ", level="
         + this.level() + ")";
+  }
+
+  public compareTo(that:S2CellId ):number {
+    return S2CellId.unsignedLongLessThan(this.id, that.id) ? -1 :
+        S2CellId.unsignedLongGreaterThan(this.id, that.id) ? 1 : 0;
+  }
+
+  /**
+   * Returns the position of the id within the given list or a negative value with
+   * the position of the index wher eit should be entered if the id was present
+   */
+  public static binarySearch(ids:S2CellId[], id:Long|string|number|S2CellId, low:number=0 ):number {
+    if (id instanceof S2CellId) {
+      id = (id as S2CellId).id;
+    }
+    let high = ids.length-1;
+
+    while (low <= high) {
+      const mid = (low + high) >>> 1;
+      const midVal = ids[mid].id;
+      let cmp = midVal.compare(id as Long|string|number);
+
+      if (cmp < 0)
+        low = mid + 1;
+      else if (cmp > 0)
+        high = mid - 1;
+      else
+        return mid; // key found
+    }
+    return -(low + 1);  // key not found
   }
 
 }
