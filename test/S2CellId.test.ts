@@ -1,7 +1,6 @@
 import {S2CellId} from "../src/S2CellId";
 import {expect} from "chai";
-const genLocs = require('./generated-locations.json');
-const genJavaLocs = require('./java-gen-locations.json');
+const genJavaLocs = require('./assets/main-tests.json');
 import Decimal = require('decimal.js');
 import Long = require('long');
 import {S2Point} from "../src/S2Point";
@@ -9,6 +8,7 @@ import {R2Vector} from "../src/S2Vector";
 import {S2LatLngRect} from "../src/S2LatLngRect";
 import {S1Angle} from "../src/S1Angle";
 import {MutableInteger} from "../src/MutableInteger";
+import {S2} from "../src/S2";
 describe('S2CellId', () => {
   describe('java data', () => {
     describe('decoding', () => {
@@ -86,9 +86,9 @@ describe('S2CellId', () => {
           ).to.be.lt(1e-15);
 
           expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.s)).toFixed(15))
-              .to.be.eq(new Decimal(i.item.s).toFixed(15));
+              .to.be.eq(S2.toDecimal(i.item.s).toFixed(15));
           expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.t)).toFixed(15))
-              .to.be.eq(new Decimal(i.item.t).toFixed(15));
+              .to.be.eq(S2.toDecimal(i.item.t).toFixed(15));
         });
       })
       it('toPoint should match', () => {
@@ -120,18 +120,18 @@ describe('S2CellId', () => {
       it('.toLatLng should match', () => {
         items.forEach(i => {
           // Latitude
-          expect(i.cell.toLatLng().latRadians.toFixed(14))
+          expect(i.cell.toLatLng().latRadians.toFixed(12))
               .to.be.eq(
                   S1Angle.degrees(
                       i.item.cellCoords.lat
-                  ).radians.toFixed(14)
+                  ).radians.toFixed(12)
           );
           // Longitude
-          expect(i.cell.toLatLng().lngRadians.toFixed(13))
+          expect(i.cell.toLatLng().lngRadians.toFixed(12))
               .to.be.eq(
               S1Angle.degrees(
                   i.item.cellCoords.lng
-              ).radians.toFixed(13)
+              ).radians.toFixed(12)
           );
         });
       });

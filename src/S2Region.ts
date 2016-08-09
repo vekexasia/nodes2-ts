@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// import {S2LatLngRect} from "./S2LatLngRect";
+import {S2Cell} from "./S2Cell";
 /**
  * An S2Region represents a two-dimensional region over the unit sphere. It is
  * an abstract interface with various concrete subtypes.
@@ -28,23 +30,23 @@
 export interface S2Region {
 
   /** Return a bounding spherical cap. */
-  getCapBound():S2Cap;
+  // getCapBound():S2Cap;
 
 
   /** Return a bounding latitude-longitude rectangle. */
-  getRectBound():S2LatLngRect;
+  getRectBound():any;
 
   /**
    * If this method returns true, the region completely contains the given cell.
    * Otherwise, either the region does not contain the cell or the containment
    * relationship could not be determined.
    */
-  contains(cell):boolean;
+  containsC(cell:S2Cell):boolean;
 
   /**
    * If this method returns false, the region does not intersect the given cell.
    * Otherwise, either region intersects the cell, or the intersection
    * relationship could not be determined.
    */
-  mayIntersect(cell):boolean;
+  mayIntersectC(cell:S2Cell):boolean;
 }

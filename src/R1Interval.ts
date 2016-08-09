@@ -1,6 +1,6 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
-
+import Decimal = require('decimal.js');
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a
  * 1-dimensional sphere). It is capable of representing the empty interval
@@ -150,7 +150,7 @@ export class R1Interval extends Interval {
    * Return true if the length of the symmetric difference between the two
    * intervals is at most the given tolerance.
    */
-  public approxEquals(y:R1Interval, maxError:number):boolean {
+  public approxEquals(y:R1Interval, maxError:number=1e-15):boolean {
     if (this.isEmpty()) {
       return y.getLength().lte(maxError);
     }
@@ -162,9 +162,6 @@ export class R1Interval extends Interval {
         .lte(maxError);
   }
 
-  public approxEquals(y:R1Interval):boolean {
-    return this.approxEquals(y, 1e-15);
-  }
 
 
   static empty():R1Interval {

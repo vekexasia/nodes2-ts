@@ -40,8 +40,16 @@ export class S2LatLng {
   public lngRadians:decimal.Decimal;
 
   constructor(latRadians:number|decimal.Decimal, lngRadians:number|decimal.Decimal) {
-    this.latRadians = new Decimal(latRadians) as decimal.Decimal;
-    this.lngRadians = new Decimal(lngRadians) as decimal.Decimal;
+    this.latRadians = S2.toDecimal(latRadians) as decimal.Decimal;
+    this.lngRadians = S2.toDecimal(lngRadians) as decimal.Decimal;
+  }
+
+  get latDegrees() {
+    return new S1Angle(this.latRadians).degrees();
+  }
+
+  get lngDegrees() {
+    return new S1Angle(this.lngRadians).degrees();
   }
 
 // Clamps the latitude to the range [-90, 90] degrees, and adds or subtracts
@@ -82,7 +90,7 @@ export class S2LatLng {
         ),
         S2.IEEEremainder(
             this.lngRadians,
-            new Decimal(2).times(S2.M_PI)
+            S2.toDecimal(2).times(S2.M_PI)
         )
     );
     // return new S2LatLng(Math.max(-S2.M_PI_2, Math.min(S2.M_PI_2, this.latRadians)),
@@ -111,14 +119,23 @@ export class S2LatLng {
 
   }
 
+
+  /**
+   * Scales this point by the given scaling factor.
+   * Note that there is no guarantee that the new point will be <em>valid</em>.
+   */
+  public  mul(m:decimal.Decimal|number):S2LatLng {
+    return new S2LatLng(this.latRadians.times(m), this.lngRadians.times(m));
+  }
+
   public static latitude(p:S2Point) {
     // We use atan2 rather than asin because the input vector is not necessarily
     // unit length, and atan2 is much more accurate than asin near the poles.
     return new S1Angle(
         Decimal.atan2(
             p.z,
-            Decimal.pow(p.x, 2)
-                .plus(Decimal.pow(p.y, 2))
+            p.x.pow(2)
+                .plus(p.y.pow(2))
                 .sqrt()
         )
         // Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y))
@@ -132,10 +149,6 @@ export class S2LatLng {
 
   equals(other:S2LatLng):boolean {
     return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
-  }
-
-  toString():string {
-    return `(Lat: ${new S1Angle(this.latRadians).degrees()} - ${this.latRadians}- Lng: ${new S1Angle(this.lngRadians).degrees()} - ${this.lngRadians}`;
   }
 
 
@@ -161,7 +174,7 @@ export class S2LatLng {
     // double x = dlat * dlat + dlng * dlng * Math.cos(lat1) * Math.cos(lat2);
 
     return new S1Angle(
-        (new Decimal(2) as decimal.Decimal)
+        (S2.toDecimal(2) as decimal.Decimal)
             .times(
                 Decimal.atan2(
                     x.sqrt(),
@@ -172,7 +185,7 @@ export class S2LatLng {
                         .sqrt()
                 )
             )
-  );
+    );
     // Return the distance (measured along the surface of the sphere) to the
     // given S2LatLng. This is mathematically equivalent to:
     //
@@ -181,4 +194,11 @@ export class S2LatLng {
     // but this implementation is slightly more efficient.
   }
 
+  public  toString():string {
+    return "(" + this.latRadians + ", " + this.lngRadians + ")";
+  }
+
+  public toStringDegrees():string {
+    return "(" + this.latDegrees + ", " + this.lngDegrees + ")";
+  }
 }

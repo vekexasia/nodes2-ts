@@ -133,8 +133,14 @@ export class S2CellId {
   private static WRAP_OFFSET = new Long(S2CellId.NUM_FACES).shiftLeft(S2CellId.POS_BITS);
   //new Decimal(S2CellId.NUM_FACES).times(new Decimal(2).pow(S2CellId.POS_BITS));
 
+  public id: Long;
+  constructor(id:Long|string) {
+    if (typeof(id) === 'string') {
+      this.id = Long.fromString(id as string);
+    } else {
+      this.id = id as Long;
+    }
 
-  constructor(public id:Long) {
   }
 
   /** Which cube face this cell belongs to, in the range 0..5. */
@@ -195,7 +201,7 @@ export class S2CellId {
    */
   private faceSiTiToXYZ(face:number, si:number, ti:number):S2Point {
     // console.log('faceSiTiToXYZ', si, ti);
-    let kScale = new Decimal(1).dividedBy(S2CellId.MAX_SIZE);
+    let kScale = S2.toDecimal(1).dividedBy(S2CellId.MAX_SIZE);
     let uvVector = R2Vector.fromSTVector(new R2Vector(kScale.times(si), kScale.times(ti)));
     // console.log(uvVector.toString(), uvVector.x.toString());
     return uvVector.toPoint(face);
@@ -921,8 +927,8 @@ export class S2CellId {
     // Converting from floating-point to integers via static_cast is very slow
     // on Intel processors because it requires changing the rounding mode.
     // Rounding to the nearest integer using FastIntRound() is much faster.
-    let s = new Decimal(_s);
-    let m = new Decimal(S2CellId.MAX_SIZE).dividedBy(2); // scaling multiplier
+    let s = S2.toDecimal(_s);
+    let m = S2.toDecimal(S2CellId.MAX_SIZE).dividedBy(2); // scaling multiplier
     return Decimal.max(
         0,
         Decimal.min(

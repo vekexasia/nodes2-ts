@@ -1,3 +1,6 @@
+
+import Long = require('long');
+import Decimal = require('decimal.js');
 import {S2CellId} from "./S2CellId";
 import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";
@@ -17,6 +20,10 @@ export class S2Cell {
   private _uv:decimal.Decimal[][];
 
   constructor(private cellID:S2CellId) {
+    this._uv = [];
+    this._uv.push([]);
+    this._uv.push([]);
+    this.init(cellID)
   }
 
   get id():S2CellId {
@@ -231,7 +238,7 @@ export class S2Cell {
     const v1 = this.getVertex(1);
     const v2 = this.getVertex(2);
     const v3 = this.getVertex(3);
-    return S2.area(v0, v1, v2) + S2.area(v0, v2, v3);
+    return S2.area(v0, v1, v2).plus(S2.area(v0, v2, v3));
   }
 
 // //////////////////////////////////////////////////////////////////////
@@ -345,7 +352,7 @@ export class S2Cell {
 
 // The point 'p' does not need to be normalized.
 
-  public contains(cell:S2Cell):boolean {
+  public containsC(cell:S2Cell):boolean {
     return this.cellID.contains(cell.cellID);
   }
 

@@ -2,7 +2,7 @@ import {Interval} from "./Interval";
 import {S2} from "./S2";
 export class S1Interval extends Interval {
 
-  constructor(lo:number|decimal.Decimal, hi:number|decimal.Decimal, checked?:boolean = false) {
+  constructor(lo:number|decimal.Decimal, hi:number|decimal.Decimal, checked:boolean = false) {
     super(lo, hi);
     if (!checked) {
       if (this.lo.eq(-S2.M_PI) && !this.hi.eq(S2.M_PI)) {
@@ -262,7 +262,7 @@ export class S1Interval extends Interval {
     let lo = S2.IEEEremainder(this.lo.minus(radius), 2 * S2.M_PI);
     let hi = S2.IEEEremainder(this.hi.plus(radius), 2 * S2.M_PI);
     if (lo.eq(-S2.M_PI)) {
-      lo = S2.M_PI;
+      lo = S2.toDecimal(S2.M_PI);
     }
     return new S1Interval(lo, hi);
   }
@@ -353,21 +353,19 @@ export class S1Interval extends Interval {
    * Return true if the length of the symmetric difference between the two
    * intervals is at most the given tolerance.
    */
-  public approxEquals(y:S1Interval, maxError:number):boolean {
+  public approxEquals(y:S1Interval, maxError:number=1e-9):boolean {
     if (this.isEmpty()) {
       return y.getLength().lte(maxError);
     }
     if (y.isEmpty()) {
       return this.getLength().lte(maxError);
     }
-    //TODO: fixme decimal->number
-    return (Math.abs(S2.IEEEremainder(y.lo.minus(this.lo), 2 * S2.M_PI))
-        + Math.abs(S2.IEEEremainder(y.hi.minus(this.hi), 2 * S2.M_PI))) <= maxError;
+
+    return S2.IEEEremainder(y.lo.minus(this.lo), 2 * S2.M_PI).abs()
+            .plus(S2.IEEEremainder(y.hi.minus(this.hi), 2 * S2.M_PI).abs())
+            .lte(maxError);
   }
 
-  public approxEquals(y:S1Interval):boolean {
-    return this.approxEquals(y, 1e-9);
-  }
 
 
   static empty():S1Interval {
@@ -402,7 +400,7 @@ export class S1Interval extends Interval {
     if (p2.eq(-S2.M_PI)) {
       p2 = S2.toDecimal(S2.M_PI);
     }
-    if (S1Interval.positiveDistance(p1, p2) <= S2.M_PI) {
+    if (S1Interval.positiveDistance(p1, p2).lte(S2.M_PI)) {
       return new S1Interval(p1, p2, true);
     } else {
       return new S1Interval(p2, p1, true);

@@ -1,6 +1,7 @@
 import {S2Point} from "./S2Point";
 /// <reference path="../typings/globals/decimal.js/index.d.ts" />
 import Decimal = require('decimal.js');
+import {S2} from "./S2";
 export class S1Angle {
 
   public radians: decimal.Decimal;
@@ -10,7 +11,7 @@ export class S1Angle {
 
 
   public degrees() {
-    return new Decimal(this.radians).times((180 / Math.PI));
+    return S2.toDecimal(this.radians).times((180 / Math.PI));
   }
 
   //

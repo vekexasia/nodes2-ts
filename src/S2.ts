@@ -32,10 +32,12 @@ export class S2 {
   ];
   static MAX_LEVEL = 30;
 
-  public static IEEEremainder(f1:decimal.Decimal, f2:decimal.Decimal) {
+  public static IEEEremainder(_f1:number|decimal.Decimal, _f2:number|decimal.Decimal) {
+    const f1 = S2.toDecimal(_f1);
+    const f2 = S2.toDecimal(_f2);
     let r = f1.mod(f2);
 
-    if (/*isNaN(r) ||*/ r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
+    if (r.isNaN() || r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
       return r;
     } else {
       return (f1.gte(0) ? S2.toDecimal(1) : S2.toDecimal(-1)).times(r.minus(f2));
@@ -203,12 +205,66 @@ export class S2 {
     );
   }
 
-  public static toDecimal(value:number|decimal.Decimal|string): decimal.Decimal {
+  public static toDecimal(value:number|decimal.Decimal|string):decimal.Decimal {
     if (typeof(value) === 'number' || typeof(value) === 'string') {
       return new Decimal(value) as decimal.Decimal
     }
     return value as decimal.Decimal;
   }
+
+
+  /**
+   * Return true if the points A, B, C are strictly counterclockwise. Return
+   * false if the points are clockwise or colinear (i.e. if they are all
+   * contained on some great circle).
+   *
+   *  Due to numerical errors, situations may arise that are mathematically
+   * impossible, e.g. ABC may be considered strictly CCW while BCA is not.
+   * However, the implementation guarantees the following:
+   *
+   *  If SimpleCCW(a,b,c), then !SimpleCCW(c,b,a) for all a,b,c.
+   *
+   * In other words, ABC and CBA are guaranteed not to be both CCW
+   */
+  public static simpleCCW(a:S2Point, b:S2Point, c:S2Point):boolean {
+    // We compute the signed volume of the parallelepiped ABC. The usual
+    // formula for this is (AxB).C, but we compute it here using (CxA).B
+    // in order to ensure that ABC and CBA are not both CCW. This follows
+    // from the following identities (which are true numerically, not just
+    // mathematically):
+    //
+    // (1) x.CrossProd(y) == -(y.CrossProd(x))
+    // (2) (-x).DotProd(y) == -(x.DotProd(y))
+
+    return S2Point.crossProd(c, a).dotProd(b).gt(0);
+  }
+
+  /**
+   *
+   * Return true if edge AB crosses CD at a point that is interior to both
+   * edges. Properties:
+   *
+   *  (1) SimpleCrossing(b,a,c,d) == SimpleCrossing(a,b,c,d) (2)
+   * SimpleCrossing(c,d,a,b) == SimpleCrossing(a,b,c,d)
+   */
+  public static  simpleCrossing(a:S2Point, b:S2Point, c:S2Point, d:S2Point):boolean {
+    // We compute SimpleCCW() for triangles ACB, CBD, BDA, and DAC. All
+    // of these triangles need to have the same orientation (CW or CCW)
+    // for an intersection to exist. Note that this is slightly more
+    // restrictive than the corresponding definition for planar edges,
+    // since we need to exclude pairs of line segments that would
+    // otherwise "intersect" by crossing two antipodal points.
+
+    const ab = S2Point.crossProd(a, b);
+    const cd = S2Point.crossProd(c, d);
+    const acb = ab.dotProd(c).neg();
+    const cbd = cd.dotProd(b).neg();
+    const bda = ab.dotProd(d);
+    const dac = cd.dotProd(a);
+
+    return (acb.times(cbd).gt(0)) && (cbd.times(bda).gt(0)) && (bda.times(dac).gt(0));
+  }
+
 
 }
 
@@ -290,7 +346,6 @@ export class S2_Metric {
     // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
     return level;
   }
-
 
 
 }

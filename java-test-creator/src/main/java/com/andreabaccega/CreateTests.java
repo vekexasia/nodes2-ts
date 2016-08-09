@@ -91,16 +91,30 @@ public class CreateTests {
       double lat = latRange[0] + (totLat / maxTestCases) * i;
       for (int j = 0; j < maxTestCases + 1; j++) {
         double lng = lngRange[0] + (totLng / maxTestCases) * j;
-        S2Cell s2Cell = new S2Cell(S2CellId.fromLatLng(S2LatLng.fromDegrees(lat, lng)));
+        S2Cell s2Cell = new S2Cell(S2CellId.fromLatLng(S2LatLng.fromDegrees(lat, lng)).parent(
+          levels[(i * (maxTestCases + 1) + j) % levels.length]
+        ));
 
         JSONObject tmp = new JSONObject();
+        tmp.put("id", Long.toString(s2Cell.id().id()));
+        tmp.put("face", s2Cell.face());
+        tmp.put("lvl", s2Cell.level());
+        tmp.put("orient", s2Cell.orientation());
+
         tmp.put("exactArea", toJV(s2Cell.exactArea()));
         tmp.put("center", pointToJO(s2Cell.getCenter()));
-        tmp.put("v0", pointToJO(s2Cell.getVertex(0)));
-        tmp.put("v1", pointToJO(s2Cell.getVertex(1)));
-        tmp.put("v2", pointToJO(s2Cell.getVertex(2)));
-        tmp.put("v3", pointToJO(s2Cell.getVertex(3)));
+        JSONArray vertexArray = new JSONArray();
+        for (int k=0; k<4; k++) {
+          vertexArray.put(pointToJO(s2Cell.getVertex(k)));
+        }
+        tmp.put("vertices", vertexArray);
 
+
+        JSONArray edgeArray = new JSONArray();
+        for (int k=0; k<4; k++) {
+          edgeArray.put(pointToJO(s2Cell.getEdge(k)));
+        }
+        tmp.put("edges", edgeArray);
 
         JSONObject rectBound = new JSONObject();
         rectBound.put("latHI", toJV(s2Cell.getRectBound().latHi().degrees()));
