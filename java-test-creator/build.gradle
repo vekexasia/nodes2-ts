@@ -1,0 +1,16 @@
+group 'com.andreabaccega'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "com.andreabaccega.CreateTests"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.json:json:20160212'
+    compile 'org.isuper:s2-geometry-library-java:0.0.1'
+}
