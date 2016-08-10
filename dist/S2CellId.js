@@ -754,17 +754,16 @@
             j = Math.max(-1, Math.min(S2CellId.MAX_SIZE, j));
             // Find the (s,t) coordinates corresponding to (i,j). At least one
             // of these coordinates will be just outside the range [0, 1].
-            var kScale = 1.0 / S2CellId.MAX_SIZE;
-            var s = kScale * ((i << 1) + 1 - S2CellId.MAX_SIZE);
-            var t = kScale * ((j << 1) + 1 - S2CellId.MAX_SIZE);
+            var kScale = S2_1.S2.toDecimal(1.0).dividedBy(S2CellId.MAX_SIZE);
+            var s = kScale.times(new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+            var t = kScale.times(new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
             // Find the leaf cell coordinates on the adjacent face, and convert
             // them to a cell id at the appropriate level.
             var p = new R2Vector_1.R2Vector(s, t).toPoint(face);
-            // let face = p.toFace();
+            face = p.toFace();
             // face = S2Projections.xyzToFace(p);
             var st = p.toR2Vector(face);
             // R2Vector st = S2Projections.validFaceXyzToUv(face, p);
-            //TODO: cehck .getLowBits here.
             return S2CellId.fromFaceIJ(face, S2CellId.stToIJ(st.x), S2CellId.stToIJ(st.y));
         };
         /**

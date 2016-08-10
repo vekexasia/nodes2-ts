@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.ts" afterPath="$PROJECT_DIR$/gulpfile.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-    </list>
+    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="" />
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -1337,7 +1334,7 @@
       <workItem from="1470684998760" duration="4193000" />
       <workItem from="1470730355738" duration="454000" />
       <workItem from="1470730832641" duration="24045000" />
-      <workItem from="1470762928325" duration="43412000" />
+      <workItem from="1470762928325" duration="43492000" />
     </task>
     <task id="LOCAL-00001" summary="fixed errors and ported intervals to Decimal.js">
       <created>1470688499993</created>
@@ -1381,11 +1378,18 @@
       <option name="project" value="LOCAL" />
       <updated>1470869437234</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Removed useless shit from gulpfile.ts">
+      <created>1470869513873</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1470869513873</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142883000" />
+    <option name="totallyTimeSpent" value="142963000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1398,7 +1402,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1408,7 +1412,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.9059829" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46338797" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46338797" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2451923" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1474,7 +1478,8 @@
     <MESSAGE value="sistemati tests aggiunti per latlngrect&#10;Aggiunto S2Cap&#10;Ancora da testare S2RegionCoverer&#10;" />
     <MESSAGE value="v1.0.0" />
     <MESSAGE value="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid" />
+    <MESSAGE value="Removed useless shit from gulpfile.ts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed useless shit from gulpfile.ts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
