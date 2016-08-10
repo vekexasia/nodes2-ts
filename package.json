@@ -7,9 +7,9 @@
     "test"       : "NODE_ENV=test mocha",
     "wtest"      : "NODE_ENV=test nodemon -q -e ts --exec npm run test",
     "cover"      : "NODE_ENV=test nyc npm t",
-    "prepublish" : "shx rm -rf ./dist/ && npm run build",
-    "build"      : "tsc -d",
-    "postinstall": "npm run prepublish"
+    "//prepuablish" : "shx rm -rf ./dist/ && npm run build",
+    "//build"      : "tsc -d",
+    "//postinstall": "npm run prepublish"
   },
   "typings"        : "./dist/export.d.ts",
   "author"         : "Andrea Baccega",
