@@ -151,6 +151,48 @@ export class S2LatLng {
     return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
   }
 
+  /**
+   * Generates n LatLngs given a distance in km and the number of points wanted.
+   * Generated points will be returned in a Clockwise order starting from North. 
+   * @param _distanceInKm
+   * @param nPoints
+   * @returns {S2LatLng[]}
+   */
+  pointsAtDistance(_distanceInKm:number|decimal.Decimal, nPoints:number=4):S2LatLng[] {
+    const dinstanceInM = S2.toDecimal(_distanceInKm).times(1000);
+    const distToRadius = dinstanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
+    return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
+        .map((p, idx) => {
+          return S2.toDecimal(360).dividedBy(nPoints).times(idx);
+        })
+        .map(bearingDegree => S1Angle.degrees(bearingDegree).radians)
+        .map(bearingRadians => {
+
+          const newLat = this.latRadians.sin()
+              .times(distToRadius.cos())
+              .plus(
+                  this.latRadians.cos()
+                      .times(distToRadius.sin())
+                      .times(bearingRadians.cos())
+              ).asin();
+          const newLng = this.lngRadians
+              .plus(
+                  Decimal.atan2(
+                      bearingRadians.sin()
+                          .times(distToRadius.sin())
+                          .times(this.latRadians.cos()),
+                      distToRadius.cos()
+                          .minus(this.latRadians.sin().times(newLat.sin()))
+                  )
+              );
+          return new S2LatLng(newLat, newLng);
+        });
+
+  }
+ 
+  getEarthDistance(other:S2LatLng):decimal.Decimal {
+    return this.getDistance(other).radians.times(S2LatLng.EARTH_RADIUS_METERS);
+  }
 
   getDistance(other:S2LatLng):S1Angle {
     // This implements the Haversine formula, which is numerically stable for
@@ -200,5 +242,17 @@ export class S2LatLng {
 
   public toStringDegrees():string {
     return "(" + this.latDegrees + ", " + this.lngDegrees + ")";
+  }
+
+  public toGEOJSON() {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: "Point",
+        coordinates: [this.lngDegrees.toNumber(), this.latDegrees.toNumber()]
+      },
+      properties: {}
+
+    }
   }
 }

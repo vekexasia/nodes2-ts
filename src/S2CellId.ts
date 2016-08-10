@@ -17,7 +17,7 @@
 
 const Long = require("long");
 import {S2Point} from "./S2Point";
-import {R2Vector} from "./S2Vector";
+import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
@@ -1028,6 +1028,10 @@ public  getVertexNeighbors(level:number):S2CellId[] {
   public compareTo(that:S2CellId ):number {
     return S2CellId.unsignedLongLessThan(this.id, that.id) ? -1 :
         S2CellId.unsignedLongGreaterThan(this.id, that.id) ? 1 : 0;
+  }
+
+  public equals(that:S2CellId): boolean {
+    return this.compareTo(that) === 0;
   }
 
   /**

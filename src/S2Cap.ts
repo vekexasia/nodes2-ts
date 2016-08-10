@@ -315,6 +315,11 @@ export class S2Cap implements S2Region {
     return !this.complement().intersects(cell, vertices);
   }
 
+  // public mayIntersectC(cell:S2Cell):boolean {
+  //   const toRet = this._mayIntersectC(cell);
+  //   console.log("intersects? ",toRet, cell.id.pos().toString(16), cell.level);
+  //   return toRet;
+  // }
   public  mayIntersectC(cell:S2Cell):boolean {
     // If the cap contains any cell vertex, return true.
     const vertices:S2Point[] = new Array(4);
@@ -357,7 +362,10 @@ export class S2Cap implements S2Region {
     // and the cap does not contain any cell vertex. The only way that they
     // can intersect is if the cap intersects the interior of some edge.
 
-    const sin2Angle = this.height.times(this.height.neg().times(2)); // sin^2(capAngle)
+    const sin2Angle = this.height.times(this.height.neg().plus(2)); // sin^2(capAngle)
+    // if (cell.id.pos().toString(16) === '77c040000000000') {
+    //   console.log("DIOCAN");
+    // }
     for (let k = 0; k < 4; ++k) {
       let edge = cell.getEdgeRaw(k);
       let dot = this.axis.dotProd(edge);
@@ -370,6 +378,9 @@ export class S2Cap implements S2Region {
       }
       // The Norm2() factor is necessary because "edge" is not normalized.
       if (dot.pow(2).gt(sin2Angle.times(edge.norm2()))) {
+        // if (cell.id.pos().toString(16) === '77c040000000000') {
+        //   console.log("DIOCaAN", k, dot.toString(), sin2Angle.toString(), sin2Angle.times(edge.norm2()).toString());
+        // }
         return false; // Entire cap is on the exterior side of this edge.
       }
       // Otherwise, the great circle containing this edge intersects
@@ -437,5 +448,9 @@ export class S2Cap implements S2Region {
 
   public toString():string {
     return "[Point = " + this.axis.toString() + " Height = " + this.height.toString() + "]";
+  }
+  
+  public toGEOJSON(){
+    return this.getRectBound().toGEOJSON();
   }
 }

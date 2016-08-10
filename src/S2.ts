@@ -67,9 +67,14 @@ export class S2 {
     if (v == 0) {
       return 0;
     }
-    //TODO: HMM?
-    // bits = Double.doubleToLongBits(v);
-    // return S2.EXPONENT_MASK.and(bits).shiftRight(S2.EXPONENT_SHIFT).sub(1022);
+    // IT should always be ((int)log(2,v))+1;
+    const start = Math.floor(Math.log(v)/Math.log(2));
+    for(let i= start; i<start+10; i++) {
+      const curVal = Math.abs(v) * Math.pow(2,-i);
+      if (curVal >= 0.5 && curVal < 1 ) {
+        return i;
+      }
+    }
     throw new Error('method not written yet');
     // return (int)((S2.EXPONENT_MASK & bits) >> S2.EXPONENT_SHIFT) - 1022;
   }
@@ -274,12 +279,9 @@ export class S2 {
   }
 
 
+  static Metric = S2Metric
 }
-
-/**
- * Defines an area or a length cell metric.
- */
-export class S2_Metric {
+export class S2Metric {
   private _dim:number;
   private _deriv:decimal.Decimal;
 
@@ -363,3 +365,7 @@ export class S2_Metric {
 
 
 }
+
+/**
+ * Defines an area or a length cell metric.
+ */

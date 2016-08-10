@@ -2,6 +2,8 @@ import {S2Cell} from "../src/S2Cell";
 const genJavaLocs = require('./assets/cell-tests.json');
 import Decimal = require('decimal.js');
 import Long = require('long');
+declare var __dirname;
+
 import {expect} from "chai";
 import {S2CellId} from "../src/S2CellId";
 import {S2LatLngRect} from "../src/S2LatLngRect";
@@ -9,7 +11,9 @@ import {R1Interval} from "../src/R1Interval";
 import {S1Interval} from "../src/S1Interval";
 import {S1Angle} from "../src/S1Angle";
 import {S2Point} from "../src/S2Point";
-import {S2Cap} from "../src/S2Cap";
+// import {S2Cap} from "../src/S2Cap";
+// import {S2RegionCoverer} from "../src/S2RegionCoverer";
+// import {S2LatLng} from "../src/S2LatLng";
 // S2Cap.addCap()
 describe('S2Cell', () => {
   describe('java data', () => {
@@ -116,5 +120,57 @@ describe('S2Cell', () => {
       });
     });
   });
+
+
+  //
+  // it('bauauau', () => {
+  //   let s2Cap = S2Cap.empty();
+  //   const center = S2LatLng.fromDegrees(45.5334, 12.6438);
+  //   const pointsAtDistance = center.pointsAtDistance(20, 16);
+  //   let bits = []
+  //
+  //   s2Cap = s2Cap.addPoint(center.toPoint());
+  //
+  //
+  //   pointsAtDistance
+  //       .map(p => p.toPoint())
+  //       .forEach(p => {
+  //         s2Cap = s2Cap.addPoint(p);
+  //         bits.push(s2Cap.toGEOJSON());
+  //       });
+  //   console.log(s2Cap.axis.toString())
+  //   console.log(s2Cap.height.toString())
+  //   const geoJSONPoints = pointsAtDistance
+  //       .map(p => p.toGEOJSON()) as any
+  //   // console.log(JSON.stringify(s2Cap.toGEOJSON()));
+  //   // if (Math.random() <10) return;
+  //   const coverer = new S2RegionCoverer();
+  //   const bit = coverer.setMaxCells(40)
+  //   // .setMinLevel(7)
+  //       .setMinLevel(10)
+  //       .setMaxLevel(20)
+  //       .setLevelMod(2)
+  //       .getCoveringCells(s2Cap)
+  //       // .map(c => {
+  //       //   console.log(c.toToken()+ ' ' +c.level());
+  //       //   return c;
+  //       // })
+  //       .map(c => new S2Cell(c))
+  //       .map(c => c.toGEOJSON())
+  //       .concat(geoJSONPoints)
+  //       .concat(s2Cap.toGEOJSON())
+  //   // if (Math.random()<10)throw new Error('');
+  //   // .map(c => c.getRectBound())
+  //   // .map(c => c.)
+  //
+  //   require('fs').writeFileSync(__dirname+'/assets/cap-node.json', (JSON.stringify({
+  //     type: 'FeatureCollection',
+  //     features: bit
+  //         // .concat(geoJSONPoints)
+  //   })));
+  //   // console.log(JSON.stringify(bit,null,2));
+  //   // console.log(s2Cap.getRectBound().toString());
+  //   throw new Error('');
+  // });
 
 });

@@ -66,16 +66,16 @@
  * This data was produced using s2cell_unittest and s2cellid_unittest.
  *
  */
-import {S2, S2_Metric} from "./S2";
+import {S2, S2Metric} from "./S2";
 import {S2Point} from "./S2Point";
-import {R2Vector} from "./S2Vector";
-export enum Projections {
+import {R2Vector} from "./R2Vector";
+export enum Projections { 
   S2_LINEAR_PROJECTION, S2_TAN_PROJECTION, S2_QUADRATIC_PROJECTION
 }
 export class S2Projections {
 
-  public static MIN_WIDTH = new S2_Metric(1,S2.M_SQRT2 / 3);
-  public static AVG_AREA = new S2_Metric(2, S2.M_PI / 6); // 0.524)
+  public static MIN_WIDTH= new S2Metric(1,S2.M_SQRT2 / 3);
+  public static AVG_AREA = new S2Metric(2, S2.M_PI / 6); // 0.524)
 
   public static getUNorm(face:number, u:decimal.Decimal):S2Point {
     switch (face) {

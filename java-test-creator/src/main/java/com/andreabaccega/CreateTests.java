@@ -7,9 +7,11 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.geometry.S2.INVERT_MASK;
 import static com.google.common.geometry.S2.SWAP_MASK;
+import static com.google.common.geometry.S2LatLng.EARTH_RADIUS_METERS;
 
 /**
  * Created by abaccega on 09/08/16.
@@ -57,6 +59,20 @@ public class CreateTests {
   }
 
   private static void saveJAToFile(JSONArray jA, String fname) {
+    String name = System.getProperty("user.dir") + "/../test/assets/" + fname;
+    System.out.println("Writing to" + name);
+    try {
+      FileOutputStream out = new FileOutputStream(name);
+      out.write(jA.toString(2).getBytes());
+      out.close();
+    } catch (Exception e) {
+      System.out.println(jA.toString(2));
+      e.printStackTrace();
+      ;
+    }
+  }
+
+  private static void saveJAToFile(JSONObject jA, String fname) {
     String name = System.getProperty("user.dir") + "/../test/assets/" + fname;
     System.out.println("Writing to" + name);
     try {
@@ -140,8 +156,98 @@ public class CreateTests {
 
   }
 
-  private static void calcMainTests() {
+  private static JSONObject coveringTOJsonObject(List<S2CellId>covering) {
+    JSONObject jO = new JSONObject();
+    jO.put("type", "FeatureCollection");
+    JSONArray features = new JSONArray();
+    for (S2CellId cId: covering) {
+      S2Cell c = new S2Cell(cId);
+      JSONObject feature = new JSONObject();
+      feature.put("type", "Feature");
+      feature.put("properties", new JSONObject());
+      feature.put("title", "JAVACell: "+c.id().toToken()+" lvl: "+c.level());
+      JSONObject geometry = new JSONObject();
 
+      JSONArray vertexArray = new JSONArray();
+      for (int i=0; i<5; i++) {
+        S2LatLng s2LatLng = new S2LatLng(c.getVertex(i%4));
+        JSONArray tmp = new JSONArray();
+        tmp.put(s2LatLng.lngDegrees());
+        tmp.put(s2LatLng.latDegrees());
+        vertexArray.put(tmp);
+      }
+      geometry.put("type", "Polygon");
+      geometry.put("coordinates", new JSONArray().put(vertexArray));
+      feature.put("geometry", geometry);
+      features.put(feature);
+    }
+    jO.put("features",features);
+    return jO;
+  }
+
+  private static List<S2Point> calcLocationRadius(S2LatLng location, int meters) {
+    int points = 16;
+    double pivotLat = location.latRadians();
+    double pivotLng = location.lngRadians();
+    List<S2Point> toRet = new ArrayList<S2Point>(points);
+    for (int i = 0; i < points; i++) {
+      double bearingRad = Math.toRadians(360 - 360 * i / (double) points);
+      double destLat = Math.asin(Math.sin(pivotLat) * Math.cos(meters / EARTH_RADIUS_METERS) +
+        Math.cos(pivotLat) * Math.sin(meters / EARTH_RADIUS_METERS) * Math.cos(bearingRad)
+      );
+      double destLng = pivotLng + Math.atan2(
+        Math.sin(bearingRad) * Math.sin(meters / EARTH_RADIUS_METERS) * Math.cos(pivotLat),
+        Math.cos(meters / EARTH_RADIUS_METERS) - Math.sin(pivotLat) * Math.sin(destLat)
+      );
+      S2LatLng s2LatLng = S2LatLng.fromRadians(
+        destLat,
+        destLng
+      );
+//      Log.d("Point", s2LatLng.toStringDegrees());
+      toRet.add(s2LatLng.toPoint());
+
+    }
+    return toRet;
+  }
+
+  private static void bit() {
+    S2Point p = new S2Point(0.6835062002370579, 0.1533304467350615, 0.7136589159686337);
+    S2Cap s2Cap = S2Cap.fromAxisHeight(p, 0.0000049335545988697106191);
+    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
+    s2RegionCoverer.setMinLevel(1);
+    s2RegionCoverer.setMaxLevel(30);
+    s2RegionCoverer.setMaxCells(10);
+    s2RegionCoverer.setLevelMod(1);
+    ArrayList<S2CellId> b = new ArrayList<>(10);
+    s2RegionCoverer.getCovering(s2Cap,b);
+
+    JSONObject jsonObject = coveringTOJsonObject(b);
+
+    saveJAToFile(coveringTOJsonObject(b), "cap.json");
+//    System.out.println(features.toString(1));
+  }
+  private static void bit2() {
+    S2LatLng location = S2LatLng.fromDegrees(45.5334, 12.6438);
+    List<S2Point> s2Points = calcLocationRadius(location, 20000);
+    S2Cap empty = S2Cap.empty().addPoint(location.toPoint());
+    for (S2Point p: s2Points) {
+      empty = empty.addPoint(p);
+    }
+    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
+    s2RegionCoverer.setMinLevel(10);
+    s2RegionCoverer.setMaxLevel(20);
+    s2RegionCoverer.setMaxCells(40);
+    s2RegionCoverer.setLevelMod(2);
+    ArrayList<S2CellId> b = new ArrayList<>(10);
+    s2RegionCoverer.getCovering(empty,b);
+
+    JSONObject jsonObject = coveringTOJsonObject(b);
+
+    saveJAToFile(coveringTOJsonObject(b), "cap2.json");
+  }
+
+  private static void calcMainTests() {
+bit();bit2();
     JSONArray jA = new JSONArray();
 
     for (int i = 0; i < maxTestCases + 1; i++) {

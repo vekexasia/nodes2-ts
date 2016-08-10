@@ -19,6 +19,7 @@ import {S2Region} from "./S2Region";
 import {S2CellId} from "./S2CellId";
 import {S2CellUnion} from "./S2CellUnion";
 import {S2Projections} from "./S2Projections";
+import Decimal = require('decimal.js');
 /**
  * An S2RegionCoverer is a class that allows arbitrary regions to be
  * approximated as unions of cells (S2CellUnion). This is useful for
@@ -97,7 +98,7 @@ export class S2RegionCoverer {
   /**
    * Default constructor, sets all fields to default values.
    */
-  public S2RegionCoverer() {
+  public constructor() {
     this.minLevel = 0;
     this.maxLevel = S2CellId.MAX_LEVEL;
     this.levelMod = 1;
@@ -260,6 +261,7 @@ export class S2RegionCoverer {
    */
   private newCandidate(cell:S2Cell):Candidate {
     if (!this.region.mayIntersectC(cell)) {
+      // console.log("NOT INTERSECTING",this.region);
       return null;
     }
 
@@ -281,8 +283,10 @@ export class S2RegionCoverer {
     const candidate = new Candidate();
     candidate.cell = cell;
     candidate.isTerminal = isTerminal;
+    candidate.numChildren = 0;
     if (!isTerminal) {
-      candidate.children = new Candidate[1 << this.maxChildrenShift()];
+      candidate.children = Array.apply(null, new Array(1<<this.maxChildrenShift()));
+      // protonew Candidate[1 << this.maxChildrenShift()];
     }
     this.candidatesCreatedCounter++;
     return candidate;
@@ -299,6 +303,7 @@ export class S2RegionCoverer {
    * NULL does nothing.
    */
   private addCandidate(candidate:Candidate) {
+
     if (candidate == null) {
       return;
     }
@@ -312,6 +317,7 @@ export class S2RegionCoverer {
     // Expand one level at a time until we hit min_level_ to ensure that
     // we don't skip over it.
     const numLevels = (candidate.cell.level < this.minLevel) ? 1 : this.levelMod;
+
     const numTerminals = this.expandChildren(candidate, candidate.cell, numLevels);
 
     if (candidate.numChildren == 0) {
@@ -334,6 +340,7 @@ export class S2RegionCoverer {
       // number of children that cannot be refined any further.
       const priority = -((((candidate.cell.level << this.maxChildrenShift()) + candidate.numChildren)
       << this.maxChildrenShift()) + numTerminals);
+
       this.candidateQueue.add(new QueueEntry(priority, candidate));
       // logger.info("Push: " + candidate.cell.id() + " (" + priority + ") ");
     }
@@ -347,7 +354,10 @@ export class S2RegionCoverer {
   private expandChildren(candidate:Candidate, cell:S2Cell, numLevels:number):number {
     numLevels--;
 
+
     const childCells = cell.subdivide();
+
+
     let numTerminals = 0;
     for (let i = 0; i < 4; ++i) {
       if (numLevels > 0) {
@@ -357,6 +367,7 @@ export class S2RegionCoverer {
         continue;
       }
       let child = this.newCandidate(childCells[i]);
+
       if (child != null) {
         candidate.children[candidate.numChildren++] = child;
         if (child.isTerminal) {
@@ -364,6 +375,8 @@ export class S2RegionCoverer {
         }
       }
     }
+
+
     return numTerminals;
   }
 
@@ -430,6 +443,7 @@ export class S2RegionCoverer {
     this.candidatesCreatedCounter = 0;
 
     this.getInitialCandidates();
+    
     while (this.candidateQueue.size() !== 0 && (!this.interiorCovering || this.result.length < this.maxCells)) {
       const candidate = this.candidateQueue.poll().candidate;
       // logger.info("Pop: " + candidate.cell.id());
@@ -493,13 +507,17 @@ class Candidate {
   public numChildren:number; // Number of children that intersect the region.
   public children:Candidate[]; // Actual size may be 0, 4, 16, or 64
   // elements.
+  
+  public toString() {
+    return `isTermina: ${this.isTerminal} - Cell: ${this.cell.toString()}`;
+  }
 }
 
 interface Comparable<T> {
   compare(other:T):number;
 }
 class PriorityQueue<T extends Comparable<T>> {
-  private items:T[];
+  public items:T[];
 
   constructor() {
     this.clear();

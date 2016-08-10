@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "umd",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "sourceMap": true
   },
-  "filesGlob": [
+  "files": [
+    "src/export.ts"
+  ],
+  "fasdilesGlob": [
     "src/*.ts",
-    "src/**/*.ts",
+
     "!node_modules/**/*"
   ],
   "exclude": [

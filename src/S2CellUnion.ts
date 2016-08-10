@@ -22,6 +22,7 @@ import {S2Projections} from "./S2Projections";
 import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
+import {S2Cap} from "./S2Cap";
 
 /**
  * An S2CellUnion is a region consisting of cells of various sizes. Typically a
@@ -89,10 +90,6 @@ export class S2CellUnion implements S2Region {
     return this.cellIds[i];
   }
 
-  /** Direct access to the underlying vector for iteration . */
-  public  cellIds():S2CellId[] {
-    return this.cellIds;
-  }
 
   /**
    * Replaces "output" with an expanded version of the cell union where any
@@ -198,14 +195,12 @@ export class S2CellUnion implements S2Region {
   public containsUnion(that:S2CellUnion):boolean {
     // A divide-and-conquer or alternating-skip-search approach
     // may be significantly faster in both the average and worst case.
-    return that.cellIds
-        .reduce((cur:S2CellId, prev:boolean) => prev && this.contains(cur), true);
-    // for (S2CellId id : that) {
-    //   if (!this.contains(id)) {
-    //     return false;
-    //   }
-    // }
-    // return true;
+    for (let i=0; i<that.cellIds.length;i++) {
+      if (!this.contains(that.cellIds[i])) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /** This is a fast operation (logarithmic in the size of the cell union). */
@@ -220,14 +215,13 @@ export class S2CellUnion implements S2Region {
   public intersectsUnion(that:S2CellUnion):boolean {
     // A divide-and-conquer or alternating-skip-search approach
     // may be significantly faster in both the average and worst case.
-    return that.cellIds
-        .reduce((cur:S2CellId, prev:boolean) => prev && this.intersects(cur), true);
-    // for (S2CellId id : union) {
-    //   if (intersects(id)) {
-    //     return true;
-    //   }
-    // }
-    // return false;
+    for (let i=0; i<that.cellIds.length;i++) {
+      if (!this.intersects(that.cellIds[i])) {
+        return false;
+      }
+    }
+    return true;
+    
   }
 
   public getUnion(x:S2CellUnion, y:S2CellUnion) {
@@ -277,13 +271,13 @@ export class S2CellUnion implements S2Region {
     let i = 0;
     let j = 0;
 
-    while (i < x.cellIds.size() && j < y.cellIds.size()) {
+    while (i < x.cellIds.length && j < y.cellIds.length) {
       const imin = x.cellId(i).rangeMin();
       const jmin = y.cellId(j).rangeMin();
       if (imin.greaterThan(jmin)) {
         // Either j->contains(*i) or the two cells are disjoint.
         if (x.cellId(i).lessOrEquals(y.cellId(j).rangeMax())) {
-          this.cellIds.add(x.cellId(i++));
+          this.cellIds.push(x.cellId(i++));
         } else {
           // Advance "j" to the first cell possibly contained by *i.
           j = S2CellId.binarySearch(y.cellIds, imin, j + 1);
@@ -295,7 +289,7 @@ export class S2CellUnion implements S2Region {
       } else if (jmin.greaterThan(imin)) {
         // Identical to the code above with "i" and "j" reversed.
         if (y.cellId(j).lessOrEquals(x.cellId(i).rangeMax())) {
-          this.cellIds.add(y.cellId(j++));
+          this.cellIds.push(y.cellId(j++));
         } else {
           i = S2CellId.binarySearch(x.cellIds, jmin, i + 1);
           if (y.cellId(j).lessOrEquals(x.cellId(i - 1).rangeMax())) {
@@ -305,9 +299,9 @@ export class S2CellUnion implements S2Region {
       } else {
         // "i" and "j" have the same range_min(), so one contains the other.
         if (x.cellId(i).lessThan(y.cellId(j))) {
-          this.cellIds.add(x.cellId(i++));
+          this.cellIds.push(x.cellId(i++));
         } else {
-          this.cellIds.add(y.cellId(j++));
+          this.cellIds.push(y.cellId(j++));
         }
       }
     }
@@ -379,35 +373,35 @@ export class S2CellUnion implements S2Region {
     this.expand(Math.min(minLevel + maxLevelDiff, radiusLevel));
   }
 
-//
-// @Override
-// public S2Cap getCapBound() {
-//   // Compute the approximate centroid of the region. This won't produce the
-//   // bounding cap of minimal area, but it should be close enough.
-//   if (this.cellIds.isEmpty()) {
-//     return S2Cap.empty();
-//   }
-//   S2Point centroid = new S2Point(0, 0, 0);
-//   for (S2CellId id : this) {
-//     double area = S2Cell.averageArea(id.level());
-//     centroid = S2Point.add(centroid, S2Point.mul(id.toPoint(), area));
-//   }
-//   if (centroid.equals(new S2Point(0, 0, 0))) {
-//     centroid = new S2Point(1, 0, 0);
-//   } else {
-//     centroid = S2Point.normalize(centroid);
-//   }
-//
-//   // Use the centroid as the cap axis, and expand the cap angle so that it
-//   // contains the bounding caps of all the individual cells. Note that it is
-//   // *not* sufficient to just bound all the cell vertices because the bounding
-//   // cap may be concave (i.e. cover more than one hemisphere).
-//   S2Cap cap = S2Cap.fromAxisHeight(centroid, 0);
-//   for (S2CellId id : this) {
-//     cap = cap.addCap(new S2Cell(id).getCapBound());
-//   }
-//   return cap;
-// }
+
+public  getCapBound():S2Cap {
+  // Compute the approximate centroid of the region. This won't produce the
+  // bounding cap of minimal area, but it should be close enough.
+  if (this.cellIds.length == 0) {
+    return S2Cap.empty();
+  }
+  let centroid = new S2Point(0, 0, 0);
+  this.cellIds.forEach(id => {
+    let area = S2Cell.averageArea(id.level());
+    centroid = S2Point.add(centroid, S2Point.mul(id.toPoint(), area));
+  });
+  
+  if (centroid.equals(new S2Point(0, 0, 0))) {
+    centroid = new S2Point(1, 0, 0);
+  } else {
+    centroid = S2Point.normalize(centroid);
+  }
+
+  // Use the centroid as the cap axis, and expand the cap angle so that it
+  // contains the bounding caps of all the individual cells. Note that it is
+  // *not* sufficient to just bound all the cell vertices because the bounding
+  // cap may be concave (i.e. cover more than one hemisphere).
+  let cap = new S2Cap(centroid, 0);
+  this.cellIds.forEach(id => {
+    cap = cap.addCap(new S2Cell(id).getCapBound());
+  });
+  return cap;
+}
 
   public getRectBound():S2LatLngRect {
     let bound = S2LatLngRect.empty();
@@ -463,7 +457,7 @@ export class S2CellUnion implements S2Region {
    * @return the sum of the average area of each contained cell's average area
    */
   public averageBasedArea():number {
-    return S2Projections.AVG_AREA.getValue(S2CellId.MAX_LEVEL) * this.leafCellsCovered();
+    return S2.toDecimal(this.leafCellsCovered().toString()).times(S2Projections.AVG_AREA.getValue(S2CellId.MAX_LEVEL)).toNumber();
   }
 
   /**
@@ -535,7 +529,7 @@ export class S2CellUnion implements S2Region {
         size = output.length;
         // A necessary (but not sufficient) condition is that the XOR of the
         // four cells must be zero. This is also very fast to test.
-        if ((output[size - 3].id.and(output[size - 2].id).and(output[size - 1].id)) != id.id()) {
+        if ((output[size - 3].id.and(output[size - 2].id).and(output[size - 1].id)).notEquals(id.id)) {
           break;
         }
 
@@ -543,7 +537,7 @@ export class S2CellUnion implements S2Region {
         // mask that blocks out the two bits that encode the child position of
         // "id" with respect to its parent, then check that the other three
         // children all agree with "mask.
-        let mask = id.lowestOnBit().shiftLeft(1) << 1;
+        let mask = id.lowestOnBit().shiftLeft(1) ;
         mask = mask.add(mask.shiftLeft(1)).not();
         // mask = ~(mask + (mask << 1));
         let idMasked = id.id.and(mask);
