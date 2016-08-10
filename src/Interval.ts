@@ -38,7 +38,7 @@ export abstract class Interval {
    */
   public equals(that:any):boolean {
     if (typeof(that) === typeof(this)) {
-      return this.lo == that.lo && this.hi == that.hi;
+      return this.lo .eq(that.lo) && this.hi.eq(that.hi);
     }
     return false;
   }

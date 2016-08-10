@@ -25,6 +25,7 @@ import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
 import Long = require('long');
+import Decimal = require('decimal.js');
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
  * a plane. The cap is defined by its axis and height. This representation has
@@ -40,6 +41,7 @@ import Long = require('long');
  *
  */
 export class S2Cap implements S2Region {
+
 
   /**
    * Multiply a positive number by this constant to ensure that the result of a
@@ -98,7 +100,9 @@ export class S2Cap implements S2Region {
   public static full():S2Cap {
     return new S2Cap(new S2Point(1, 0, 0), 2);
   }
-
+  getCapBound():S2Cap {
+    return this;
+  }
 
   public area():decimal.Decimal {
     return Decimal.max(

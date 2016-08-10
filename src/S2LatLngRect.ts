@@ -7,6 +7,8 @@ import {S2Point} from "./S2Point";
 import {S1Angle} from "./S1Angle";
 import {S2Cell} from "./S2Cell";
 import {S2EdgeUtil} from "./S2EdgeUtil";
+import {S2Cap} from "./S2Cap";
+import Decimal = require('decimal.js');
 export class S2LatLngRect implements S2Region{
   constructor(public lat:R1Interval, public lng:S1Interval) {
 
@@ -132,6 +134,8 @@ public isEmpty():boolean  {
 
 // Return true if the rectangle is full, i.e. it contains all points.
 public isFull():boolean {
+  // console.log(this.lat.toString());
+  // console.log(S2LatLngRect.fullLat().toString());
   return this.lat.equals(S2LatLngRect.fullLat()) && this.lng.isFull();
 }
 
@@ -183,6 +187,8 @@ public getDistanceLL(p:S2LatLng):S1Angle {
   if (!p.isValid()) {
     throw new Error('point is not valid');
   }
+
+
 
   if (a.lng.contains(p.lngRadians)) {
     return new S1Angle(
@@ -538,47 +544,46 @@ public clone():S2Region {
   return new S2LatLngRect(this.lat, this.lng);
 }
 
-// TODO: S2cap
-// public S2Cap getCapBound() {
-//   // We consider two possible bounding caps, one whose axis passes
-//   // through the center of the lat-long rectangle and one whose axis
-//   // is the north or south pole. We return the smaller of the two caps.
-//
-//   if (isEmpty()) {
-//     return S2Cap.empty();
-//   }
-//
-//   double poleZ, poleAngle;
-//   if (lat.lo() + lat.hi() < 0) {
-//     // South pole axis yields smaller cap.
-//     poleZ = -1;
-//     poleAngle = S2.M_PI_2 + lat.hi();
-//   } else {
-//     poleZ = 1;
-//     poleAngle = S2.M_PI_2 - lat.lo();
-//   }
-//   S2Cap poleCap = S2Cap.fromAxisAngle(new S2Point(0, 0, poleZ), /*S1Angle*/
-//       .radians(poleAngle));
-//
-//   // For bounding rectangles that span 180 degrees or less in longitude, the
-//   // maximum cap size is achieved at one of the rectangle vertices. For
-//   // rectangles that are larger than 180 degrees, we punt and always return a
-//   // bounding cap centered at one of the two poles.
-//   double lngSpan = lng.hi() - lng.lo();
-//   if (Math.IEEEremainder(lngSpan, 2 * S2.M_PI) >= 0) {
-//     if (lngSpan < 2 * S2.M_PI) {
-//       S2Cap midCap = S2Cap.fromAxisAngle(getCenter().toPoint(), /*S1Angle*/
-//           .radians(0));
-//       for (int k = 0; k < 4; ++k) {
-//         midCap = midCap.addPoint(getVertex(k).toPoint());
-//       }
-//       if (midCap.height() < poleCap.height()) {
-//         return midCap;
-//       }
-//     }
-//   }
-//   return poleCap;
-// }
+
+public getCapBound():S2Cap  {
+  // We consider two possible bounding caps, one whose axis passes
+  // through the center of the lat-long rectangle and one whose axis
+  // is the north or south pole. We return the smaller of the two caps.
+
+  if (this.isEmpty()) {
+    return S2Cap.empty();
+  }
+
+  let poleZ, poleAngle;
+  if (this.lat.lo.plus(this.lat.hi).lt(0)) {
+    // South pole axis yields smaller cap.
+    poleZ = -1;
+    poleAngle = this.lat.hi.plus(S2.M_PI_2);
+  } else {
+    poleZ = 1;
+    poleAngle = this.lat.lo.neg().plus(S2.M_PI_2);
+  }
+  
+  const poleCap = S2Cap.fromAxisAngle(new S2Point(0, 0, poleZ), new S1Angle(poleAngle));
+
+  // For bounding rectangles that span 180 degrees or less in longitude, the
+  // maximum cap size is achieved at one of the rectangle vertices. For
+  // rectangles that are larger than 180 degrees, we punt and always return a
+  // bounding cap centered at one of the two poles.
+  const lngSpan = this.lng.hi.minus(this.lng.lo);
+  if (S2.IEEEremainder(lngSpan, 2 * S2.M_PI).gte(0)) {
+    if (lngSpan.lt(2*S2.M_PI)) {
+      let midCap = S2Cap.fromAxisAngle(this.getCenter().toPoint(), new S1Angle(0));
+      for (let k = 0; k < 4; ++k) {
+        midCap = midCap.addPoint(this.getVertex(k).toPoint());
+      }
+      if (midCap.height.lt(poleCap.height)) {
+        return midCap;
+      }
+    }
+  }
+  return poleCap;
+}
 
 
 public  getRectBound():S2LatLngRect {

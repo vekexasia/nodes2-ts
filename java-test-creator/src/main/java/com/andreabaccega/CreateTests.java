@@ -26,6 +26,20 @@ public class CreateTests {
   static double totLng = lngRange[1] - lngRange[0];
 
 
+  private static JSONObject capToJO (S2Cap cap) {
+    JSONObject jO = new JSONObject();
+    jO.put("axis", pointToJO(cap.axis()));
+    jO.put("height", toJV(cap.height()));
+    jO.put("angle", toJV(cap.angle().radians()));
+    return jO;
+  }
+
+  private static JSONObject latLngRectToJO(S2LatLngRect rect) {
+    JSONObject jO = new JSONObject();
+    jO.put("lo", latlngToJO(rect.lo()));
+    jO.put("hi", latlngToJO(rect.hi()));
+    return jO;
+  }
 
   private static JSONObject pointToJO(S2Point sPoint) {
     JSONObject jO = new JSONObject();
@@ -115,13 +129,9 @@ public class CreateTests {
           edgeArray.put(pointToJO(s2Cell.getEdge(k)));
         }
         tmp.put("edges", edgeArray);
-
-        JSONObject rectBound = new JSONObject();
-        rectBound.put("latHI", toJV(s2Cell.getRectBound().latHi().degrees()));
-        rectBound.put("latLO", toJV(s2Cell.getRectBound().latLo().degrees()));
-        rectBound.put("lngHI", toJV(s2Cell.getRectBound().lngHi().degrees()));
-        rectBound.put("lngLO", toJV(s2Cell.getRectBound().lngLo().degrees()));
-        tmp.put("rectBound", rectBound);
+        JSONObject value = latLngRectToJO(s2Cell.getRectBound());
+        value.put("cap", capToJO(s2Cell.getRectBound().getCapBound()));
+        tmp.put("rectBound", value);
 
         jA.put(tmp);
       }
@@ -200,11 +210,8 @@ public class CreateTests {
         }
         jO.put("allNeighborsLvlP1", allNeighJA);
 
-        JSONObject point = new JSONObject();
-
-        point.put("x", Double.toString(s2CellId.toPoint().get(0)));
-        point.put("y", Double.toString(s2CellId.toPoint().get(1)));
-        point.put("z", Double.toString(s2CellId.toPoint().get(2)));
+        S2Point s2Point1 = s2CellId.toPoint();
+        JSONObject point = s2PointToJO("x", Double.toString(s2Point1.get(0)), "y", Double.toString(s2Point1.get(1)), "z", Double.toString(s2Point1.get(2)));
         jO.put("point", point);
 
         JSONObject coordsGiven = new JSONObject();
@@ -222,6 +229,16 @@ public class CreateTests {
     }
 
     saveJAToFile(jA, "main-tests.json");
+  }
+
+  private static JSONObject s2PointToJO(String x, String value, String y, String value2, String z, String value3) {
+    JSONObject point = new JSONObject();
+
+
+    point.put(x, value);
+    point.put(y, value2);
+    point.put(z, value3);
+    return point;
   }
 
   public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {

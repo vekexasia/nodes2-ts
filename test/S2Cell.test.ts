@@ -62,8 +62,8 @@ describe('S2Cell', () => {
             const cell = i.cell as S2Cell;
             const rectBound = cell.getRectBound();
             const origBound = new S2LatLngRect(
-                R1Interval.fromPointPair(S1Angle.degrees(i.item.rectBound.latLO).radians,S1Angle.degrees(i.item.rectBound.latHI).radians),
-                S1Interval.fromPointPair(S1Angle.degrees(i.item.rectBound.lngLO).radians,S1Angle.degrees(i.item.rectBound.lngHI).radians)
+                R1Interval.fromPointPair(S1Angle.degrees(i.item.rectBound.lo.lat).radians,S1Angle.degrees(i.item.rectBound.hi.lat).radians),
+                S1Interval.fromPointPair(S1Angle.degrees(i.item.rectBound.lo.lng).radians,S1Angle.degrees(i.item.rectBound.hi.lng).radians)
             );
             // console.log(`CALC ${rectBound.toString()}\nORIG ${origBound.toString()}`);
             expect(rectBound.approxEquals(origBound)).is.true;

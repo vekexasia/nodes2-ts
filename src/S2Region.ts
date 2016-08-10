@@ -16,6 +16,7 @@
 
 // import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Cell} from "./S2Cell";
+import {S2Cap} from "./S2Cap";
 /**
  * An S2Region represents a two-dimensional region over the unit sphere. It is
  * an abstract interface with various concrete subtypes.
@@ -30,7 +31,7 @@ import {S2Cell} from "./S2Cell";
 export interface S2Region {
 
   /** Return a bounding spherical cap. */
-  // getCapBound():S2Cap;
+   getCapBound():S2Cap;
 
 
   /** Return a bounding latitude-longitude rectangle. */

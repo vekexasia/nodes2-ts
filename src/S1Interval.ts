@@ -28,6 +28,7 @@ export class S1Interval extends Interval {
 
   /** Return true if the interval contains all points on the unit circle. */
   isFull() {
+    // console.log(this.hi.minus(this.lo).eq(2 * S2.M_PI));
     return this.hi.minus(this.lo).eq(2 * S2.M_PI)
   }
 
