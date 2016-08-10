@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="v1.0.0">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java" afterPath="$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellId.ts" afterPath="$PROJECT_DIR$/src/S2CellId.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Cell.test.ts" afterPath="$PROJECT_DIR$/test/S2Cell.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2CellId.test.ts" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/assets/cell-tests.json" afterPath="$PROJECT_DIR$/test/assets/cell-tests.json" />
+    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.ts" afterPath="$PROJECT_DIR$/gulpfile.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,8 +29,8 @@
             <file leaf-file-name="S2Point.ts" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="245">
-                    <caret line="188" column="32" selection-start-line="188" selection-start-column="32" selection-end-line="188" selection-end-column="32" />
+                  <state relative-caret-position="461">
+                    <caret line="200" column="31" selection-start-line="200" selection-start-column="31" selection-end-line="200" selection-end-column="31" />
                     <folding />
                   </state>
                 </provider>
@@ -146,25 +142,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+            <state relative-caret-position="108">
+              <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <element signature="e#254#293#0" expanded="true" />
                 <element signature="e#570#6896#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cap-node.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/assets/cap-node.json">
+      <file leaf-file-name="gulpfile.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gulpfile.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="4261" selection-start-line="0" selection-start-column="4261" selection-end-line="0" selection-end-column="4261" />
+            <state relative-caret-position="180">
+              <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -208,7 +203,7 @@
         <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="501">
-              <caret line="128" column="2" selection-start-line="128" selection-start-column="2" selection-end-line="128" selection-end-column="2" />
+              <caret line="124" column="2" selection-start-line="124" selection-start-column="2" selection-end-line="124" selection-end-column="2" />
               <folding>
                 <element signature="e#190#218#0" expanded="true" />
               </folding>
@@ -542,7 +537,6 @@
       <list>
         <option value="$PROJECT_DIR$/typings/globals/long/index.d.ts" />
         <option value="$PROJECT_DIR$/src/Index.ts" />
-        <option value="$PROJECT_DIR$/gulpfile.ts" />
         <option value="$PROJECT_DIR$/test/S1Angle.ts" />
         <option value="$PROJECT_DIR$/test/CheckAgainstGeneratedlocations.ts" />
         <option value="$PROJECT_DIR$/test/CheckAgainstGeneratedlocations.test.ts" />
@@ -588,9 +582,10 @@
         <option value="$PROJECT_DIR$/test/assets/cap-node.json" />
         <option value="$PROJECT_DIR$/test/S2Cell.test.ts" />
         <option value="$PROJECT_DIR$/src/S2CellId.ts" />
-        <option value="$PROJECT_DIR$/src/S2Point.ts" />
         <option value="$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java" />
         <option value="$PROJECT_DIR$/test/S2CellId.test.ts" />
+        <option value="$PROJECT_DIR$/gulpfile.ts" />
+        <option value="$PROJECT_DIR$/src/S2Point.ts" />
       </list>
     </option>
   </component>
@@ -756,7 +751,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -778,7 +773,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
@@ -804,7 +799,7 @@
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value="S2CellId.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2CellId.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;S2CellId.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Regionco&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;S2CellUnion.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellUnion.ts&#10;S2CellId&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Proje&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Projections.ts&#10;S2cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Cellid.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2Loop.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Cap.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cap.java&#10;S2Cap.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Region&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2Cap&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Re&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;DoubleUtils&#9;PSI&#9;JAVA://com.google.common.math.DoubleUtils&#10;Double.java&#9;FILE&#9;jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/Double.java&#10;S2Cell.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cell.java&#10;S2CellUnion.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellUnion.java&#10;S2LatLng.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLng.java&#10;S2LatLng&#9;null&#9;null&#10;S2.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2.ts&#10;S2EdgeIn&#9;PSI&#9;JAVA://com.google.common.geometry.S2EdgeIndex&#10;S2Loo&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Ed&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2EdgeUtil.ts&#10;S2Lat&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLngRect.ts&#10;index.&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/typings/modules/decimal.js/index.d.ts&#10;S2RegionCoverer.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2RegionCoverer.class&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/4b2c278caa93d58a81c2c771da91af35cee55782/s2-geometry-library-java-0.0.1.jar!/com/google/common/geometry/S2RegionCoverer.class&#10;QueueEntr&#9;null&#9;null&#10;S1Angle.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S1Angle.java&#10;S1Ang&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Angle.ts&#10;S2CellId.j&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;Collections&#9;PSI&#9;JAVA://java.util.Collections&#10;s2cove&#9;PSI&#9;JAVA://com.google.common.geometry.S2RegionCoverer&#10;R1I&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Interval.ts&#10;S2.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2.java&#10;S2EdgeUtil.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2EdgeUtil.java&#10;S2LatLngRect.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLngRect.java&#10;R1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S2Vec&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;R2&#9;null&#9;null&#10;s2Ve&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;S2LatL&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;R2V&#9;null&#9;null&#10;S2Po&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Point.ts&#10;S2La&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;s2po&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2Point.ts" />
+    <property name="SearchEverywhereHistoryKey" value="gulpf&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/gulpfile.ts&#10;S2CellId.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2CellId.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;S2CellId.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Regionco&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;S2CellUnion.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellUnion.ts&#10;S2CellId&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Proje&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Projections.ts&#10;S2cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Cellid.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2Loop.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Cap.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cap.java&#10;S2Cap.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Region&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2Cap&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Re&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;DoubleUtils&#9;PSI&#9;JAVA://com.google.common.math.DoubleUtils&#10;Double.java&#9;FILE&#9;jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/Double.java&#10;S2Cell.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cell.java&#10;S2CellUnion.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellUnion.java&#10;S2LatLng.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLng.java&#10;S2LatLng&#9;null&#9;null&#10;S2.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2.ts&#10;S2EdgeIn&#9;PSI&#9;JAVA://com.google.common.geometry.S2EdgeIndex&#10;S2Loo&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Ed&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2EdgeUtil.ts&#10;S2Lat&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLngRect.ts&#10;index.&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/typings/modules/decimal.js/index.d.ts&#10;S2RegionCoverer.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2RegionCoverer.class&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/4b2c278caa93d58a81c2c771da91af35cee55782/s2-geometry-library-java-0.0.1.jar!/com/google/common/geometry/S2RegionCoverer.class&#10;QueueEntr&#9;null&#9;null&#10;S1Angle.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S1Angle.java&#10;S1Ang&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Angle.ts&#10;S2CellId.j&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;Collections&#9;PSI&#9;JAVA://java.util.Collections&#10;s2cove&#9;PSI&#9;JAVA://com.google.common.geometry.S2RegionCoverer&#10;R1I&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Interval.ts&#10;S2.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2.java&#10;S2EdgeUtil.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2EdgeUtil.java&#10;S2LatLngRect.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLngRect.java&#10;R1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S2Vec&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;R2&#9;null&#9;null&#10;s2Ve&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;S2LatL&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;R2V&#9;null&#9;null&#10;S2Po&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Point.ts&#10;S2La&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
     <property name="js.last.introduce.type" value="CONST" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -1342,7 +1337,7 @@
       <workItem from="1470684998760" duration="4193000" />
       <workItem from="1470730355738" duration="454000" />
       <workItem from="1470730832641" duration="24045000" />
-      <workItem from="1470762928325" duration="43217000" />
+      <workItem from="1470762928325" duration="43412000" />
     </task>
     <task id="LOCAL-00001" summary="fixed errors and ported intervals to Decimal.js">
       <created>1470688499993</created>
@@ -1379,11 +1374,18 @@
       <option name="project" value="LOCAL" />
       <updated>1470860604682</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid">
+      <created>1470869437234</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1470869437234</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142688000" />
+    <option name="totallyTimeSpent" value="142883000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1471,7 +1473,8 @@
     <MESSAGE value="Almost fixed S2RegionCoverer" />
     <MESSAGE value="sistemati tests aggiunti per latlngrect&#10;Aggiunto S2Cap&#10;Ancora da testare S2RegionCoverer&#10;" />
     <MESSAGE value="v1.0.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0.0" />
+    <MESSAGE value="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1794,16 +1797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -1923,7 +1916,7 @@
     <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="501">
-          <caret line="128" column="2" selection-start-line="128" selection-start-column="2" selection-end-line="128" selection-end-column="2" />
+          <caret line="124" column="2" selection-start-line="124" selection-start-column="2" selection-end-line="124" selection-end-column="2" />
           <folding>
             <element signature="e#190#218#0" expanded="true" />
           </folding>
@@ -1966,14 +1959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="188" column="32" selection-start-line="188" selection-start-column="32" selection-end-line="188" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-249">
@@ -2002,13 +1987,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        <state relative-caret-position="108">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#254#293#0" expanded="true" />
             <element signature="e#570#6896#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="200" column="31" selection-start-line="200" selection-start-column="31" selection-end-line="200" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
