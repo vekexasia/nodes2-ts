@@ -5,12 +5,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.geometry.S2.INVERT_MASK;
-import static com.google.common.geometry.S2.SWAP_MASK;
 import static com.google.common.geometry.S2LatLng.EARTH_RADIUS_METERS;
 
 /**
@@ -28,7 +25,7 @@ public class CreateTests {
   static double totLng = lngRange[1] - lngRange[0];
 
 
-  private static JSONObject capToJO (S2Cap cap) {
+  private static JSONObject capToJO(S2Cap cap) {
     JSONObject jO = new JSONObject();
     jO.put("axis", pointToJO(cap.axis()));
     jO.put("height", toJV(cap.height()));
@@ -134,14 +131,43 @@ public class CreateTests {
         tmp.put("exactArea", toJV(s2Cell.exactArea()));
         tmp.put("center", pointToJO(s2Cell.getCenter()));
         JSONArray vertexArray = new JSONArray();
-        for (int k=0; k<4; k++) {
+        for (int k = 0; k < 4; k++) {
           vertexArray.put(pointToJO(s2Cell.getVertex(k)));
         }
         tmp.put("vertices", vertexArray);
 
+        // VERTEX NEIGHBOORS
+        JSONArray vnJALvls = new JSONArray();
+        for (int lvl = 1; lvl <= 10; lvl += 3) {
+          JSONObject jO = new JSONObject()
+            .put("lvl", lvl);
+          ArrayList<S2CellId> vertexNeighbors = new ArrayList<>();
+          s2Cell.id().getVertexNeighbors(lvl, vertexNeighbors);
+          JSONArray vertexNJA = new JSONArray();
+          for (S2CellId vn : vertexNeighbors) {
+            vertexNJA.put(vn.toToken());
+          }
+          jO.put("v", vertexNJA);
+          vnJALvls.put(jO);
+
+        }
+        tmp.put("vertexNeighborsLvl", vnJALvls);
+
+
+        // EDGE NEIGHBORS
+        S2CellId[] edgeNeighbors = new S2CellId[4];
+        s2Cell.id().getEdgeNeighbors(edgeNeighbors);
+
+        JSONArray edgeNJA = new JSONArray();
+        for (S2CellId vn : edgeNeighbors) {
+          edgeNJA.put(vn.toToken());
+        }
+
+        tmp.put("edgeNeighbors", edgeNJA);
+
 
         JSONArray edgeArray = new JSONArray();
-        for (int k=0; k<4; k++) {
+        for (int k = 0; k < 4; k++) {
           edgeArray.put(pointToJO(s2Cell.getEdge(k)));
         }
         tmp.put("edges", edgeArray);
@@ -156,21 +182,21 @@ public class CreateTests {
 
   }
 
-  private static JSONObject coveringTOJsonObject(List<S2CellId>covering) {
+  private static JSONObject coveringTOJsonObject(List<S2CellId> covering) {
     JSONObject jO = new JSONObject();
     jO.put("type", "FeatureCollection");
     JSONArray features = new JSONArray();
-    for (S2CellId cId: covering) {
+    for (S2CellId cId : covering) {
       S2Cell c = new S2Cell(cId);
       JSONObject feature = new JSONObject();
       feature.put("type", "Feature");
       feature.put("properties", new JSONObject());
-      feature.put("title", "JAVACell: "+c.id().toToken()+" lvl: "+c.level());
+      feature.put("title", "JAVACell: " + c.id().toToken() + " lvl: " + c.level());
       JSONObject geometry = new JSONObject();
 
       JSONArray vertexArray = new JSONArray();
-      for (int i=0; i<5; i++) {
-        S2LatLng s2LatLng = new S2LatLng(c.getVertex(i%4));
+      for (int i = 0; i < 5; i++) {
+        S2LatLng s2LatLng = new S2LatLng(c.getVertex(i % 4));
         JSONArray tmp = new JSONArray();
         tmp.put(s2LatLng.lngDegrees());
         tmp.put(s2LatLng.latDegrees());
@@ -181,7 +207,7 @@ public class CreateTests {
       feature.put("geometry", geometry);
       features.put(feature);
     }
-    jO.put("features",features);
+    jO.put("features", features);
     return jO;
   }
 
@@ -212,34 +238,35 @@ public class CreateTests {
 
   private static void bit() {
     S2Point p = new S2Point(0.6835062002370579, 0.1533304467350615, 0.7136589159686337);
-    S2Cap s2Cap = S2Cap.fromAxisHeight(p, 0.0000049335545988697106191);
+    S2Cap s2Cap = S2Cap.fromAxisHeight(p, 0.00012333643099245626815);
     S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
-    s2RegionCoverer.setMinLevel(1);
-    s2RegionCoverer.setMaxLevel(30);
-    s2RegionCoverer.setMaxCells(10);
-    s2RegionCoverer.setLevelMod(1);
-    ArrayList<S2CellId> b = new ArrayList<>(10);
-    s2RegionCoverer.getCovering(s2Cap,b);
+    s2RegionCoverer.setMinLevel(6);
+    s2RegionCoverer.setMaxLevel(16);
+    s2RegionCoverer.setMaxCells(15);
+    s2RegionCoverer.setLevelMod(2);
+    ArrayList<S2CellId> b = new ArrayList<>(15);
+    s2RegionCoverer.getCovering(s2Cap, b);
 
     JSONObject jsonObject = coveringTOJsonObject(b);
 
     saveJAToFile(coveringTOJsonObject(b), "cap.json");
 //    System.out.println(features.toString(1));
   }
+
   private static void bit2() {
     S2LatLng location = S2LatLng.fromDegrees(45.5334, 12.6438);
-    List<S2Point> s2Points = calcLocationRadius(location, 20000);
+    List<S2Point> s2Points = calcLocationRadius(location, 100000);
     S2Cap empty = S2Cap.empty().addPoint(location.toPoint());
-    for (S2Point p: s2Points) {
+    for (S2Point p : s2Points) {
       empty = empty.addPoint(p);
     }
     S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
-    s2RegionCoverer.setMinLevel(10);
+    s2RegionCoverer.setMinLevel(6);
     s2RegionCoverer.setMaxLevel(20);
-    s2RegionCoverer.setMaxCells(40);
+    s2RegionCoverer.setMaxCells(29);
     s2RegionCoverer.setLevelMod(2);
     ArrayList<S2CellId> b = new ArrayList<>(10);
-    s2RegionCoverer.getCovering(empty,b);
+    s2RegionCoverer.getCovering(empty, b);
 
     JSONObject jsonObject = coveringTOJsonObject(b);
 
@@ -247,7 +274,7 @@ public class CreateTests {
   }
 
   private static void calcMainTests() {
-bit();bit2();
+//bit();bit2();
     JSONArray jA = new JSONArray();
 
     for (int i = 0; i < maxTestCases + 1; i++) {
@@ -348,7 +375,6 @@ bit();bit2();
   }
 
   public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
-
 
 
     calcLatLngTests();

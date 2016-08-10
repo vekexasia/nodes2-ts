@@ -959,18 +959,17 @@ public  getVertexNeighbors(level:number):S2CellId[] {
 
     // Find the (s,t) coordinates corresponding to (i,j). At least one
     // of these coordinates will be just outside the range [0, 1].
-    const kScale = 1.0 / S2CellId.MAX_SIZE;
-    let s = kScale * ((i << 1) + 1 - S2CellId.MAX_SIZE);
-    let t = kScale * ((j << 1) + 1 - S2CellId.MAX_SIZE);
-
+    const kScale = S2.toDecimal(1.0).dividedBy(S2CellId.MAX_SIZE) ;
+    let s = kScale.times(new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+    let t = kScale.times(new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
     // Find the leaf cell coordinates on the adjacent face, and convert
     // them to a cell id at the appropriate level.
     let p = new R2Vector(s, t).toPoint(face);
-    // let face = p.toFace();
+    face = p.toFace();
     // face = S2Projections.xyzToFace(p);
     let st = p.toR2Vector(face)
     // R2Vector st = S2Projections.validFaceXyzToUv(face, p);
-    //TODO: cehck .getLowBits here.
+
     return S2CellId.fromFaceIJ(face, S2CellId.stToIJ(st.x), S2CellId.stToIJ(st.y));
   }
 

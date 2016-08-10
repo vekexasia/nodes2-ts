@@ -1,6 +1,7 @@
 import {S2CellId} from "../src/S2CellId";
 import {expect} from "chai";
 const genJavaLocs = require('./assets/main-tests.json');
+const cellTests = require('./assets/cell-tests.json');
 import Decimal = require('decimal.js');
 import Long = require('long');
 import {S2Point} from "../src/S2Point";
@@ -206,4 +207,24 @@ describe('S2CellId', () => {
     });
   });
 
+  describe('cell-tests', () => {
+    it('should calculate vertexNeighbors just fine', () => {
+      cellTests.forEach(c => {
+        const cell = new S2CellId(c.id);
+        c.vertexNeighborsLvl.forEach(vnData => {
+          const calcTokens = cell.getVertexNeighbors(vnData.lvl)
+              .map(vC => vC.toToken())
+          expect(calcTokens, `Cell: ${c.id} ${cell.toToken()} - level ${vnData.lvl}`).to.be.deep.eq(vnData.v);
+        });
+      })
+    });
+    it('should calculate edgeNeighbors just fine', () => {
+      cellTests.forEach(c => {
+        const cell = new S2CellId(c.id);
+        const edgeCellTokens = cell.getEdgeNeighbors().map(eN => eN.toToken());
+        expect(edgeCellTokens).to.be.deep.eq(c.edgeNeighbors);
+
+      })
+    });
+  });
 });
