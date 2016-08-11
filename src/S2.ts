@@ -1,4 +1,4 @@
-///<reference path="../typings/index.d.ts"/>
+
 
 import {S2Point} from "./S2Point";
 

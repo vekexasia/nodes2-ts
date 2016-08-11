@@ -7,42 +7,29 @@
     }
 })(function (require, exports) {
     "use strict";
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
     var S2Cap_1 = require("./S2Cap");
-    var Interval_1 = require('./Interval');
-    exports.Interval = Interval_1.Interval;
-    var MutableInteger_1 = require('./MutableInteger');
-    exports.MutableInteger = MutableInteger_1.MutableInteger;
-    var R1Interval_1 = require('./R1Interval');
-    exports.R1Interval = R1Interval_1.R1Interval;
-    var R2Vector_1 = require('./R2Vector');
-    exports.R2Vector = R2Vector_1.R2Vector;
-    var S1Angle_1 = require('./S1Angle');
-    exports.S1Angle = S1Angle_1.S1Angle;
-    var S1Interval_1 = require('./S1Interval');
-    exports.S1Interval = S1Interval_1.S1Interval;
-    var S2_1 = require('./S2');
-    exports.S2 = S2_1.S2;
-    var S2Cap_2 = require('./S2Cap');
-    exports.S2Cap = S2Cap_2.S2Cap;
-    var S2Cell_1 = require('./S2Cell');
-    exports.S2Cell = S2Cell_1.S2Cell;
-    var S2CellId_1 = require('./S2CellId');
-    exports.S2CellId = S2CellId_1.S2CellId;
-    var S2CellUnion_1 = require('./S2CellUnion');
-    exports.S2CellUnion = S2CellUnion_1.S2CellUnion;
-    // export {S2EdgeIndex} from './S2EdgeIndex';
-    // export {S2EdgeUtil} from './S2EdgeUtil';
-    var S2LatLng_1 = require('./S2LatLng');
-    exports.S2LatLng = S2LatLng_1.S2LatLng;
-    var S2LatLngRect_1 = require('./S2LatLngRect');
-    exports.S2LatLngRect = S2LatLngRect_1.S2LatLngRect;
-    // export {S2Loop} from './S2Loop';
-    var S2Point_1 = require('./S2Point');
-    exports.S2Point = S2Point_1.S2Point;
-    var S2Projections_1 = require('./S2Projections');
-    exports.S2Projections = S2Projections_1.S2Projections;
-    var S2RegionCoverer_1 = require('./S2RegionCoverer');
-    exports.S2RegionCoverer = S2RegionCoverer_1.S2RegionCoverer;
+    __export(require('./Interval'));
+    __export(require('./MutableInteger'));
+    __export(require('./R1Interval'));
+    __export(require('./R2Vector'));
+    __export(require('./S1Angle'));
+    __export(require('./S1Interval'));
+    __export(require('./S2'));
+    __export(require('./S2Cap'));
+    __export(require('./S2Cell'));
+    __export(require('./S2CellId'));
+    __export(require('./S2CellUnion'));
+    // export * from './S2EdgeIndex';
+    // export * from './S2EdgeUtil';
+    __export(require('./S2LatLng'));
+    __export(require('./S2LatLngRect'));
+    // export * from './S2Loop';
+    __export(require('./S2Point'));
+    __export(require('./S2Projections'));
+    __export(require('./S2RegionCoverer'));
     var Utils = (function () {
         function Utils() {
         }

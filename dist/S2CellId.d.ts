@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
 import { S2Point } from "./S2Point";
 import { MutableInteger } from "./MutableInteger";
 import { S2LatLng } from "./S2LatLng";

@@ -7,7 +7,6 @@
     }
 })(function (require, exports) {
     "use strict";
-    /// <reference path="../typings/globals/decimal.js/index.d.ts" />
     var Decimal = require('decimal.js');
     var S2_1 = require("./S2");
     var S1Angle = (function () {

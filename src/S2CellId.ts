@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-///<reference path="../typings/index.d.ts"/>
 
 const Long = require("long");
 import {S2Point} from "./S2Point";

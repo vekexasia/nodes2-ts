@@ -5,19 +5,16 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "dist",
+    "moduleResolution": "node",
     "sourceMap": true
   },
+
   "files": [
+    "typings/4compilation.d.ts",
     "src/export.ts"
   ],
-  "fasdilesGlob": [
-    "src/*.ts",
-
-    "!node_modules/**/*"
-  ],
   "exclude": [
-    "node_modules",
-    "typings/index.d.ts"
+    "node_modules"
   ],
   "compileOnSave": false,
   "atom": {

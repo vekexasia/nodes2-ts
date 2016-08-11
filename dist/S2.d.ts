@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
 import { S2Point } from "./S2Point";
 export declare class S2 {
     static M_PI: number;

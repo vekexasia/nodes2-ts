@@ -15,7 +15,6 @@
  */
 
 import {R2Vector} from "./R2Vector";
-/// <reference path="../typings/globals/decimal.js/index.d.ts" />
 import Decimal = require('decimal.js') ;
 import {S2} from "./S2";
 
