@@ -1,11 +1,11 @@
 import {S2Point} from "./S2Point";
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 import {S2} from "./S2";
 export class S1Angle {
 
   public radians: decimal.Decimal;
   constructor(radians:number|decimal.Decimal) {
-    this.radians = new Decimal(radians) as decimal.Decimal;
+    this.radians = new Decimal(radians);
   }
 
 

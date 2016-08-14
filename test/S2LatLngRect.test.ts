@@ -1,3 +1,5 @@
+/// <reference path="../typings/index.d.ts" />
+/// <reference path="../typings/4compilation.d.ts" />
 import {S2LatLng} from "../src/S2LatLng";
 import {expect} from "chai";
 import Decimal = require('decimal.js');

@@ -18,7 +18,7 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2", "./S2Point", "./S1Angle", "./S2LatLngRect", "./S2LatLng", "./R1Interval", "./S1Interval", 'long', 'decimal.js'], factory);
+        define(["require", "exports", "./S2", "./S2Point", "./S1Angle", "./S2LatLngRect", "./S2LatLng", "./R1Interval", "./S1Interval", 'long', './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -30,7 +30,7 @@
     var R1Interval_1 = require("./R1Interval");
     var S1Interval_1 = require("./S1Interval");
     var Long = require('long');
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     /**
      * This class represents a spherical cap, i.e. a portion of a sphere cut off by
      * a plane. The cap is defined by its axis and height. This representation has
@@ -91,7 +91,7 @@
             return this;
         };
         S2Cap.prototype.area = function () {
-            return Decimal.max(0, this.height)
+            return decimal_1.Decimal.max(0, this.height)
                 .times(S2_1.S2.M_PI)
                 .times(2);
             // return 2 * S2.M_PI * Math.max(0.0, this.height);
@@ -107,7 +107,7 @@
             if (this.isEmpty()) {
                 return new S1Angle_1.S1Angle(-1);
             }
-            return new S1Angle_1.S1Angle(Decimal.asin(this.height.times(0.5).sqrt())
+            return new S1Angle_1.S1Angle(decimal_1.Decimal.asin(this.height.times(0.5).sqrt())
                 .times(2));
         };
         /**
@@ -134,7 +134,7 @@
         S2Cap.prototype.complement = function () {
             // The complement of a full cap is an empty cap, not a singleton.
             // Also make sure that the complement of an empty cap has height 2.
-            var cHeight = this.isFull() ? -1 : Decimal.max(this.height, 0).neg().plus(2);
+            var cHeight = this.isFull() ? -1 : decimal_1.Decimal.max(this.height, 0).neg().plus(2);
             return new S2Cap(S2Point_1.S2Point.neg(this.axis), cHeight);
         };
         /**
@@ -182,7 +182,7 @@
                 // we need to round up the distance calculation. That is, after
                 // calling cap.AddPoint(p), cap.Contains(p) should be true.
                 var dist2 = S2Point_1.S2Point.sub(this.axis, p).norm2();
-                var newHeight = Decimal.max(this.height, S2Cap.ROUND_UP.times(0.5).times(dist2));
+                var newHeight = decimal_1.Decimal.max(this.height, S2Cap.ROUND_UP.times(0.5).times(dist2));
                 return new S2Cap(this.axis, newHeight);
             }
         };
@@ -202,7 +202,7 @@
                 }
                 else {
                     var d = angle.times(0.5).sin();
-                    var newHeight = Decimal.max(this.height, S2Cap.ROUND_UP.times(2).times(d.pow(2)));
+                    var newHeight = decimal_1.Decimal.max(this.height, S2Cap.ROUND_UP.times(2).times(d.pow(2)));
                     return new S2Cap(this.axis, newHeight);
                 }
             }
@@ -249,7 +249,7 @@
                 var sinA = this.height.times(this.height.neg().plus(2)).sqrt();
                 var sinC = axisLatLng.latRadians.cos();
                 if (sinA.lte(sinC)) {
-                    var angleA = Decimal.asin(sinA.dividedBy(sinC));
+                    var angleA = decimal_1.Decimal.asin(sinA.dividedBy(sinC));
                     lng[0] = S2_1.S2.IEEEremainder(axisLatLng.lngRadians.minus(angleA), 2 * S2_1.S2.M_PI);
                     lng[1] = S2_1.S2.IEEEremainder(axisLatLng.lngRadians.plus(angleA), 2 * S2_1.S2.M_PI);
                 }

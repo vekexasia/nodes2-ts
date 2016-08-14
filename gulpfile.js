@@ -1,4 +1,5 @@
-import * as gulp from "gulp";
+
+const gulp = require('gulp');
 const mocha = require('gulp-spawn-mocha');
 const watch = require('gulp-watch');
 gulp.task('test', () => {

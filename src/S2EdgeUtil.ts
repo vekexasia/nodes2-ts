@@ -19,7 +19,7 @@ import {S2Point} from "./S2Point";
 import {S2} from "./S2";
 import {S1Angle} from "./S1Angle";
 
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 /**
  * This class contains various utility functions related to edges. It collects
  * together common code that is needed to implement polygonal geometry such as

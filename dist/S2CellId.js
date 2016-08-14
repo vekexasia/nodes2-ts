@@ -18,7 +18,7 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Point", "./R2Vector", "./S2", "./MutableInteger", "./S2LatLng", 'decimal.js'], factory);
+        define(["require", "exports", "./S2Point", "./R2Vector", "./S2", "./MutableInteger", "./S2LatLng", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -28,7 +28,7 @@
     var S2_1 = require("./S2");
     var MutableInteger_1 = require("./MutableInteger");
     var S2LatLng_1 = require("./S2LatLng");
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     var parseHex = function parseHex(str) {
         return Long.fromString(str, false, 16);
     };
@@ -736,7 +736,7 @@
             // Rounding to the nearest integer using FastIntRound() is much faster.
             var s = S2_1.S2.toDecimal(_s);
             var m = S2_1.S2.toDecimal(S2CellId.MAX_SIZE).dividedBy(2); // scaling multiplier
-            return Decimal.max(0, Decimal.min(m.times(2).minus(1), Decimal.round(m.times(s).plus(m.minus(0.5))))).toNumber();
+            return decimal_1.Decimal.max(0, decimal_1.Decimal.min(m.times(2).minus(1), decimal_1.Decimal.round(m.times(s).plus(m.minus(0.5))))).toNumber();
             // return Math.max(0,  Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
             // return (int) Math.max(0, Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
         };

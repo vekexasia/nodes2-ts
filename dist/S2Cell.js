@@ -3,12 +3,12 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'long', 'decimal.js', "./S2CellId", "./S2Point", "./S2LatLng", "./S2Projections", "./R2Vector", "./MutableInteger", "./S2", "./S2LatLngRect", "./R1Interval", "./S1Interval", "./S2Cap"], factory);
+        define(["require", "exports", 'long', './decimal', "./S2CellId", "./S2Point", "./S2LatLng", "./S2Projections", "./R2Vector", "./MutableInteger", "./S2", "./S2LatLngRect", "./R1Interval", "./S1Interval", "./S2Cap"], factory);
     }
 })(function (require, exports) {
     "use strict";
     var Long = require('long');
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     var S2CellId_1 = require("./S2CellId");
     var S2Point_1 = require("./S2Point");
     var S2LatLng_1 = require("./S2LatLng");
@@ -203,7 +203,7 @@
             // Here we set Pi*r*r == flat_area to find the equivalent disc.
             return flatArea
                 .times(2)
-                .dividedBy(Decimal.min(flatArea.times(S2_1.S2.M_1_PI), 1)
+                .dividedBy(decimal_1.Decimal.min(flatArea.times(S2_1.S2.M_1_PI), 1)
                 .neg()
                 .plus(1)
                 .sqrt()
@@ -327,13 +327,13 @@
         // Internal method that does the actual work in the constructors.
         S2Cell.prototype.getLatitude = function (i, j) {
             var p = S2Projections_1.S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-            return Decimal.atan2(p.z, p.x.pow(2).plus(p.y.pow(2))
+            return decimal_1.Decimal.atan2(p.z, p.x.pow(2).plus(p.y.pow(2))
                 .sqrt());
             // return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
         };
         S2Cell.prototype.getLongitude = function (i, j) {
             var p = S2Projections_1.S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-            return Decimal.atan2(p.y, p.x);
+            return decimal_1.Decimal.atan2(p.y, p.x);
             // Math.atan2(p.y, p.x);
         };
         // Return the latitude or longitude of the cell vertex given by (i,j),
@@ -369,7 +369,7 @@
         // poles extend down to +/-35.26 degrees at their vertices.
         // adding kMaxError (as opposed to the C version) because of asin and atan2
         // roundoff errors
-        S2Cell.POLE_MIN_LAT = Decimal.asin(S2_1.S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR);
+        S2Cell.POLE_MIN_LAT = decimal_1.Decimal.asin(S2_1.S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR);
         return S2Cell;
     }());
     exports.S2Cell = S2Cell;

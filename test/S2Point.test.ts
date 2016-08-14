@@ -1,3 +1,5 @@
+/// <reference path="../typings/index.d.ts" />
+/// <reference path="../typings/4compilation.d.ts" />
 import {S2Point} from "../src/S2Point";
 import {expect} from "chai";
 import {S2LatLng} from "../src/S2LatLng";

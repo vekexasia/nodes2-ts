@@ -2,7 +2,7 @@
 
 import {S2Point} from "./S2Point";
 
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 const Long = require('long');
 export class S2 {
 

@@ -8,7 +8,7 @@ import {S1Angle} from "./S1Angle";
 import {S2Cell} from "./S2Cell";
 import {S2EdgeUtil} from "./S2EdgeUtil";
 import {S2Cap} from "./S2Cap";
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal.ts';
 export class S2LatLngRect implements S2Region {
   constructor(public lat:R1Interval, public lng:S1Interval) {
 

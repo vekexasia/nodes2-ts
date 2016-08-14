@@ -20,7 +20,7 @@ import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 let parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
 };

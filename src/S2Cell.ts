@@ -1,5 +1,5 @@
 import Long = require('long');
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 import {S2CellId} from "./S2CellId";
 import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";

@@ -1,3 +1,5 @@
+/// <reference path="../typings/index.d.ts" />
+/// <reference path="../typings/4compilation.d.ts" />
 import {S2CellId} from "../src/S2CellId";
 import {expect} from "chai";
 const genJavaLocs = require('./assets/main-tests.json');

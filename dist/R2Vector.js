@@ -3,12 +3,12 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Point", 'decimal.js', "./S2"], factory);
+        define(["require", "exports", "./S2Point", './decimal', "./S2"], factory);
     }
 })(function (require, exports) {
     "use strict";
     var S2Point_1 = require("./S2Point");
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     var S2_1 = require("./S2");
     /**
      * R2Vector represents a vector in the two-dimensional space. It defines the
@@ -18,8 +18,8 @@
      */
     var R2Vector = (function () {
         function R2Vector(_x, _y) {
-            this._x = new Decimal(_x);
-            this._y = new Decimal(_y);
+            this._x = new decimal_1.Decimal(_x);
+            this._y = new decimal_1.Decimal(_y);
             // this._x = new Decimal(_x) as decimal.Decimal;
             // this._y = new Decimal(_y) as decimal.Decimal;
         }
@@ -50,7 +50,7 @@
             return new R2Vector(p1._x.plus(p2._x), p1._y.plus(p2._y));
         };
         R2Vector.mul = function (p, _m) {
-            var m = new Decimal(_m);
+            var m = new decimal_1.Decimal(_m);
             return new R2Vector(m.times(p._x), m.times(p._y));
         };
         R2Vector.prototype.norm2 = function () {
@@ -119,11 +119,11 @@
         R2Vector.singleUVToST = function (_x) {
             var x = S2_1.S2.toDecimal(_x);
             if (x.gte(0)) {
-                return Decimal.sqrt(x.times(3).plus(1)).minus(1);
+                return decimal_1.Decimal.sqrt(x.times(3).plus(1)).minus(1);
             }
             else {
                 return S2_1.S2.toDecimal(1)
-                    .minus(Decimal.sqrt(S2_1.S2.toDecimal(1).minus(x.times(3))));
+                    .minus(decimal_1.Decimal.sqrt(S2_1.S2.toDecimal(1).minus(x.times(3))));
             }
         };
         /**

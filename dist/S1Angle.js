@@ -3,15 +3,15 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", 'decimal.js', "./S2"], factory);
+        define(["require", "exports", './decimal', "./S2"], factory);
     }
 })(function (require, exports) {
     "use strict";
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     var S2_1 = require("./S2");
     var S1Angle = (function () {
         function S1Angle(radians) {
-            this.radians = new Decimal(radians);
+            this.radians = new decimal_1.Decimal(radians);
         }
         S1Angle.prototype.degrees = function () {
             return S2_1.S2.toDecimal(this.radians).times((180 / Math.PI));
@@ -55,7 +55,7 @@
             return right.greaterThan(left) ? left : right;
         };
         S1Angle.degrees = function (degrees) {
-            var d = new Decimal(degrees);
+            var d = new decimal_1.Decimal(degrees);
             return new S1Angle(d.times(Math.PI / 180));
         };
         //

@@ -3,12 +3,12 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Point", 'decimal.js'], factory);
+        define(["require", "exports", "./S2Point", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var S2Point_1 = require("./S2Point");
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     var Long = require('long');
     var S2 = (function () {
         function S2() {
@@ -139,7 +139,7 @@
             if (s.gte(3e-4)) {
                 // Consider whether Girard's formula might be more accurate.
                 var s2 = s.pow(2);
-                var dmin = s.minus(Decimal.max(sa, sb, sc));
+                var dmin = s.minus(decimal_1.Decimal.max(sa, sb, sc));
                 if (dmin.lt(s2.pow(2).times(s).times(1e-2))) {
                     // This triangle is skinny enough to consider Girard's formula.
                     var area = S2.girardArea(a, b, c);
@@ -150,10 +150,10 @@
             }
             // Use l'Huilier's formula.
             return S2.toDecimal(4)
-                .times(Decimal.atan(Decimal.sqrt(Decimal.max(0.0, Decimal.tan(s.times(0.5))
-                .times(Decimal.tan(s.minus(sa).times(0.5)))
-                .times(Decimal.tan(s.minus(sb).times(0.5)))
-                .times(Decimal.tan(s.minus(sc).times(0.5)))))));
+                .times(decimal_1.Decimal.atan(decimal_1.Decimal.sqrt(decimal_1.Decimal.max(0.0, decimal_1.Decimal.tan(s.times(0.5))
+                .times(decimal_1.Decimal.tan(s.minus(sa).times(0.5)))
+                .times(decimal_1.Decimal.tan(s.minus(sb).times(0.5)))
+                .times(decimal_1.Decimal.tan(s.minus(sc).times(0.5)))))));
         };
         /**
          * Return the area of the triangle computed using Girard's formula. This is
@@ -167,13 +167,13 @@
             var ab = S2Point_1.S2Point.crossProd(a, b);
             var bc = S2Point_1.S2Point.crossProd(b, c);
             var ac = S2Point_1.S2Point.crossProd(a, c);
-            return Decimal.max(0, ab.angle(ac)
+            return decimal_1.Decimal.max(0, ab.angle(ac)
                 .minus(ab.angle(bc))
                 .plus(bc.angle(ac)));
         };
         S2.toDecimal = function (value) {
             if (typeof (value) === 'number' || typeof (value) === 'string') {
-                return new Decimal(value);
+                return new decimal_1.Decimal(value);
             }
             return value;
         };

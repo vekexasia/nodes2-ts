@@ -1,6 +1,7 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal.ts';
+
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a
  * 1-dimensional sphere). It is capable of representing the empty interval

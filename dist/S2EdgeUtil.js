@@ -18,14 +18,14 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Point", "./S2", "./S1Angle", 'decimal.js'], factory);
+        define(["require", "exports", "./S2Point", "./S2", "./S1Angle", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var S2Point_1 = require("./S2Point");
     var S2_1 = require("./S2");
     var S1Angle_1 = require("./S1Angle");
-    var Decimal = require('decimal.js');
+    var decimal_1 = require('./decimal');
     /**
      * This class contains various utility functions related to edges. It collects
      * together common code that is needed to implement polygonal geometry such as
@@ -781,14 +781,14 @@
                 // to the corresponding great circle. The result is accurate for small
                 // distances but not necessarily for large distances (approaching Pi/2).
                 var sinDist = x.dotProd(aCrossB).abs().dividedBy(aCrossB.norm());
-                return new S1Angle_1.S1Angle(Decimal.asin(Decimal.min(1.0, sinDist)));
+                return new S1Angle_1.S1Angle(decimal_1.Decimal.asin(decimal_1.Decimal.min(1.0, sinDist)));
             }
             // Otherwise, the closest point is either A or B. The cheapest method is
             // just to compute the minimum of the two linear (as opposed to spherical)
             // distances and convert the result to an angle. Again, this method is
             // accurate for small but not large distances (approaching Pi).
-            var linearDist2 = Decimal.min(S2Point_1.S2Point.minus(x, a).norm2(), S2Point_1.S2Point.minus(x, b).norm2());
-            return new S1Angle_1.S1Angle(Decimal.asin(Decimal.min(1.0, linearDist2.sqrt().times(0.5))).times(2));
+            var linearDist2 = decimal_1.Decimal.min(S2Point_1.S2Point.minus(x, a).norm2(), S2Point_1.S2Point.minus(x, b).norm2());
+            return new S1Angle_1.S1Angle(decimal_1.Decimal.asin(decimal_1.Decimal.min(1.0, linearDist2.sqrt().times(0.5))).times(2));
         };
         return S2EdgeUtil;
     }());

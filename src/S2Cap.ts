@@ -25,7 +25,7 @@ import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
 import Long = require('long');
-import Decimal = require('decimal.js');
+import {Decimal} from './decimal';
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
  * a plane. The cap is defined by its axis and height. This representation has
