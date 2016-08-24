@@ -1,6 +1,6 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
-import {Decimal} from './decimal.ts';
+import {Decimal} from './decimal';
 
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a

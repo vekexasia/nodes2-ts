@@ -17,7 +17,7 @@
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
-import {Decimal} from './decimal.ts';
+import {Decimal} from './decimal';
 /**
  * This class represents a point on the unit sphere as a pair of
  * latitude-longitude coordinates. Like the rest of the "geometry" package, the
