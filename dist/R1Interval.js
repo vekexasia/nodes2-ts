@@ -8,13 +8,13 @@ var __extends = (this && this.__extends) || function (d, b) {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./Interval", "./S2", './decimal.ts'], factory);
+        define(["require", "exports", "./Interval", "./S2", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var Interval_1 = require("./Interval");
     var S2_1 = require("./S2");
-    var decimal_ts_1 = require('./decimal.ts');
+    var decimal_1 = require('./decimal');
     /**
      * An R1Interval represents a closed interval on a unit circle (also known as a
      * 1-dimensional sphere). It is capable of representing the empty interval
@@ -133,14 +133,14 @@ var __extends = (this && this.__extends) || function (d, b) {
             if (y.isEmpty()) {
                 return this;
             }
-            return new R1Interval(decimal_ts_1.Decimal.min(this.lo, y.lo), decimal_ts_1.Decimal.max(this.hi, y.hi));
+            return new R1Interval(decimal_1.Decimal.min(this.lo, y.lo), decimal_1.Decimal.max(this.hi, y.hi));
         };
         /**
          * Return the intersection of this interval with the given interval. Empty
          * intervals do not need to be special-cased.
          */
         R1Interval.prototype.intersection = function (y) {
-            return new R1Interval(decimal_ts_1.Decimal.max(this.lo, y.lo), decimal_ts_1.Decimal.min(this.hi, y.hi));
+            return new R1Interval(decimal_1.Decimal.max(this.lo, y.lo), decimal_1.Decimal.min(this.hi, y.hi));
         };
         /**
          * Return true if the length of the symmetric difference between the two

@@ -3,7 +3,7 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S1Interval", "./R1Interval", "./S2LatLng", "./S2", "./S2Point", "./S1Angle", "./S2EdgeUtil", "./S2Cap", './decimal.ts'], factory);
+        define(["require", "exports", "./S1Interval", "./R1Interval", "./S2LatLng", "./S2", "./S2Point", "./S1Angle", "./S2EdgeUtil", "./S2Cap", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -15,7 +15,7 @@
     var S1Angle_1 = require("./S1Angle");
     var S2EdgeUtil_1 = require("./S2EdgeUtil");
     var S2Cap_1 = require("./S2Cap");
-    var decimal_ts_1 = require('./decimal.ts');
+    var decimal_1 = require('./decimal');
     var S2LatLngRect = (function () {
         function S2LatLngRect(lat, lng) {
             this.lat = lat;
@@ -85,7 +85,7 @@
             }
             // Minimum/maximum latitude occurs in the edge interior. This affects the
             // latitude bounds but not the longitude bounds.
-            var absLat = decimal_ts_1.Decimal.acos(ab.z.dividedBy(ab.norm()).abs());
+            var absLat = decimal_1.Decimal.acos(ab.z.dividedBy(ab.norm()).abs());
             if (da.lt(0)) {
                 return new S2LatLngRect(new R1Interval_1.R1Interval(r.lat.lo, absLat), r.lng);
             }
@@ -168,7 +168,7 @@
                 throw new Error('point is not valid');
             }
             if (a.lng.contains(p.lngRadians)) {
-                return new S1Angle_1.S1Angle(decimal_ts_1.Decimal.max(0.0, decimal_ts_1.Decimal.max(p.latRadians.minus(a.lat.hi), a.lat.lo.minus(p.latRadians))));
+                return new S1Angle_1.S1Angle(decimal_1.Decimal.max(0.0, decimal_1.Decimal.max(p.latRadians.minus(a.lat.hi), a.lat.lo.minus(p.latRadians))));
             }
             var interval = new S1Interval_1.S1Interval(a.lng.hi, a.lng.complement().getCenter());
             var aLng = a.lng.lo;
@@ -444,7 +444,7 @@
             // This is the size difference of the two spherical caps, multiplied by
             // the longitude ratio.
             //TODO: check if this.lat.hi & this.lat.lo is radians. 
-            return this.lng.getLength().times(decimal_ts_1.Decimal.sin(this.lat.hi).minus(decimal_ts_1.Decimal.sin(this.lat.lo)).abs());
+            return this.lng.getLength().times(decimal_1.Decimal.sin(this.lat.hi).minus(decimal_1.Decimal.sin(this.lat.lo)).abs());
         };
         /** Return true if two rectangles contains the same set of points. */
         S2LatLngRect.prototype.equals = function (that) {
@@ -556,32 +556,32 @@
             // assert (S2.isUnitLength(x) && x.z >= 0);
             // Compute the angle "theta" from the x-axis (in the x-y plane defined
             // above) where the great circle intersects the given line of latitude.
-            var sinLat = decimal_ts_1.Decimal.sin(lat);
+            var sinLat = decimal_1.Decimal.sin(lat);
             if (sinLat.abs().gte(x.z)) {
                 return false; // The great circle does not reach the given latitude.
             }
             // assert (x.z > 0);
             var cosTheta = sinLat.dividedBy(x.z);
             var sinTheta = cosTheta.pow(2).neg().plus(1).sqrt(); // Math.sqrt(1 - cosTheta * cosTheta);
-            var theta = decimal_ts_1.Decimal.atan2(sinTheta, cosTheta);
+            var theta = decimal_1.Decimal.atan2(sinTheta, cosTheta);
             // Math.atan2(sinTheta, cosTheta);
             // The candidate intersection points are located +/- theta in the x-y
             // plane. For an intersection to be valid, we need to check that the
             // intersection point is contained in the interior of the edge AB and
             // also that it is contained within the given longitude interval "lng".
             // Compute the range of theta values spanned by the edge AB.
-            var abTheta = S1Interval_1.S1Interval.fromPointPair(decimal_ts_1.Decimal.atan2(a.dotProd(y), a.dotProd(x)), decimal_ts_1.Decimal.atan2(b.dotProd(y), b.dotProd(x)));
+            var abTheta = S1Interval_1.S1Interval.fromPointPair(decimal_1.Decimal.atan2(a.dotProd(y), a.dotProd(x)), decimal_1.Decimal.atan2(b.dotProd(y), b.dotProd(x)));
             if (abTheta.contains(theta)) {
                 // Check if the intersection point is also in the given "lng" interval.
                 var isect = S2Point_1.S2Point.add(S2Point_1.S2Point.mul(x, cosTheta), S2Point_1.S2Point.mul(y, sinTheta));
-                if (lng.contains(decimal_ts_1.Decimal.atan2(isect.y, isect.x))) {
+                if (lng.contains(decimal_1.Decimal.atan2(isect.y, isect.x))) {
                     return true;
                 }
             }
             if (abTheta.contains(theta.neg())) {
                 // Check if the intersection point is also in the given "lng" interval.
                 var intersection = S2Point_1.S2Point.sub(S2Point_1.S2Point.mul(x, cosTheta), S2Point_1.S2Point.mul(y, sinTheta));
-                if (lng.contains(decimal_ts_1.Decimal.atan2(intersection.y, intersection.x))) {
+                if (lng.contains(decimal_1.Decimal.atan2(intersection.y, intersection.x))) {
                     return true;
                 }
             }

@@ -18,7 +18,7 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Cell", "./S2CellId", "./S2CellUnion", "./S2Projections", './decimal.ts'], factory);
+        define(["require", "exports", "./S2Cell", "./S2CellId", "./S2CellUnion", "./S2Projections", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -26,7 +26,7 @@
     var S2CellId_1 = require("./S2CellId");
     var S2CellUnion_1 = require("./S2CellUnion");
     var S2Projections_1 = require("./S2Projections");
-    var decimal_ts_1 = require('./decimal.ts');
+    var decimal_1 = require('./decimal');
     /**
      * An S2RegionCoverer is a class that allows arbitrary regions to be
      * approximated as unions of cells (S2CellUnion). This is useful for
@@ -326,7 +326,7 @@
                 // Find the maximum level such that the bounding cap contains at most one
                 // cell vertex at that level.
                 var cap = this.region.getCapBound();
-                var level = decimal_ts_1.Decimal.min(S2Projections_1.S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians.times(2)), decimal_ts_1.Decimal.min(this.maxLevel, S2CellId_1.S2CellId.MAX_LEVEL - 1)).toNumber();
+                var level = decimal_1.Decimal.min(S2Projections_1.S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians.times(2)), decimal_1.Decimal.min(this.maxLevel, S2CellId_1.S2CellId.MAX_LEVEL - 1)).toNumber();
                 if (this.levelMod > 1 && level > this.minLevel) {
                     level -= (level - this.minLevel) % this.levelMod;
                 }

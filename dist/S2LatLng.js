@@ -18,14 +18,14 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S1Angle", "./S2Point", "./S2", './decimal.ts'], factory);
+        define(["require", "exports", "./S1Angle", "./S2Point", "./S2", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
     var S1Angle_1 = require("./S1Angle");
     var S2Point_1 = require("./S2Point");
     var S2_1 = require("./S2");
-    var decimal_ts_1 = require('./decimal.ts');
+    var decimal_1 = require('./decimal');
     /**
      * This class represents a point on the unit sphere as a pair of
      * latitude-longitude coordinates. Like the rest of the "geometry" package, the
@@ -60,8 +60,8 @@
         S2LatLng.prototype.toPoint = function () {
             var phi = this.latRadians;
             var theta = this.lngRadians;
-            var cosphi = decimal_ts_1.Decimal.cos(phi);
-            return new S2Point_1.S2Point(decimal_ts_1.Decimal.cos(theta).times(cosphi), decimal_ts_1.Decimal.sin(theta).times(cosphi), decimal_ts_1.Decimal.sin(phi));
+            var cosphi = decimal_1.Decimal.cos(phi);
+            return new S2Point_1.S2Point(decimal_1.Decimal.cos(theta).times(cosphi), decimal_1.Decimal.sin(theta).times(cosphi), decimal_1.Decimal.sin(phi));
         };
         /**
          * Returns a new S2LatLng based on this instance for which {@link #isValid()}
@@ -76,7 +76,7 @@
         S2LatLng.prototype.normalized = function () {
             // drem(x, 2 * S2.M_PI) reduces its argument to the range
             // [-S2.M_PI, S2.M_PI] inclusive, which is what we want here.
-            return new S2LatLng(decimal_ts_1.Decimal.max(-S2_1.S2.M_PI_2, decimal_ts_1.Decimal.min(S2_1.S2.M_PI_2, this.latRadians)), S2_1.S2.IEEEremainder(this.lngRadians, S2_1.S2.toDecimal(2).times(S2_1.S2.M_PI)));
+            return new S2LatLng(decimal_1.Decimal.max(-S2_1.S2.M_PI_2, decimal_1.Decimal.min(S2_1.S2.M_PI_2, this.latRadians)), S2_1.S2.IEEEremainder(this.lngRadians, S2_1.S2.toDecimal(2).times(S2_1.S2.M_PI)));
             // return new S2LatLng(Math.max(-S2.M_PI_2, Math.min(S2.M_PI_2, this.latRadians)),
             //     S2.IEEEremainder(this.lngRadians, 2 * S2.M_PI));
         };
@@ -104,13 +104,13 @@
         S2LatLng.latitude = function (p) {
             // We use atan2 rather than asin because the input vector is not necessarily
             // unit length, and atan2 is much more accurate than asin near the poles.
-            return new S1Angle_1.S1Angle(decimal_ts_1.Decimal.atan2(p.z, p.x.pow(2)
+            return new S1Angle_1.S1Angle(decimal_1.Decimal.atan2(p.z, p.x.pow(2)
                 .plus(p.y.pow(2))
                 .sqrt()));
         };
         S2LatLng.longitude = function (p) {
             // Note that atan2(0, 0) is defined to be zero.
-            return new S1Angle_1.S1Angle(decimal_ts_1.Decimal.atan2(p.y, p.x));
+            return new S1Angle_1.S1Angle(decimal_1.Decimal.atan2(p.y, p.x));
         };
         S2LatLng.prototype.equals = function (other) {
             return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
@@ -125,7 +125,7 @@
                 .times(distanceToRadius.sin())
                 .times(bearingRadians.cos())).asin();
             var newLng = this.lngRadians
-                .plus(decimal_ts_1.Decimal.atan2(bearingRadians.sin()
+                .plus(decimal_1.Decimal.atan2(bearingRadians.sin()
                 .times(distanceToRadius.sin())
                 .times(this.latRadians.cos()), distanceToRadius.cos()
                 .minus(this.latRadians.sin().times(newLat.sin()))));
@@ -169,7 +169,7 @@
                 .times(other.latRadians.cos()));
             // double x = dlat * dlat + dlng * dlng * Math.cos(lat1) * Math.cos(lat2);
             return new S1Angle_1.S1Angle(S2_1.S2.toDecimal(2)
-                .times(decimal_ts_1.Decimal.atan2(x.sqrt(), decimal_ts_1.Decimal.max(0, x.neg().plus(1))
+                .times(decimal_1.Decimal.atan2(x.sqrt(), decimal_1.Decimal.max(0, x.neg().plus(1))
                 .sqrt())));
             // Return the distance (measured along the surface of the sphere) to the
             // given S2LatLng. This is mathematically equivalent to:
