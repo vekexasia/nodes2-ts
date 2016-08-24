@@ -115,6 +115,22 @@
         S2LatLng.prototype.equals = function (other) {
             return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
         };
+        S2LatLng.prototype.pointAtDistance = function (_distanceInKm, _bearingRadians) {
+            var distanceInM = S2_1.S2.toDecimal(_distanceInKm).times(1000);
+            var distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
+            var bearingRadians = S2_1.S2.toDecimal(_bearingRadians);
+            var newLat = this.latRadians.sin()
+                .times(distanceToRadius.cos())
+                .plus(this.latRadians.cos()
+                .times(distanceToRadius.sin())
+                .times(bearingRadians.cos())).asin();
+            var newLng = this.lngRadians
+                .plus(decimal_ts_1.Decimal.atan2(bearingRadians.sin()
+                .times(distanceToRadius.sin())
+                .times(this.latRadians.cos()), distanceToRadius.cos()
+                .minus(this.latRadians.sin().times(newLat.sin()))));
+            return new S2LatLng(newLat, newLng);
+        };
         /**
          * Generates n LatLngs given a distance in km and the number of points wanted.
          * Generated points will be returned in a Clockwise order starting from North.
@@ -125,26 +141,12 @@
         S2LatLng.prototype.pointsAtDistance = function (_distanceInKm, nPoints) {
             var _this = this;
             if (nPoints === void 0) { nPoints = 4; }
-            var dinstanceInM = S2_1.S2.toDecimal(_distanceInKm).times(1000);
-            var distToRadius = dinstanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
             return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
                 .map(function (p, idx) {
                 return S2_1.S2.toDecimal(360).dividedBy(nPoints).times(idx);
             })
                 .map(function (bearingDegree) { return S1Angle_1.S1Angle.degrees(bearingDegree).radians; })
-                .map(function (bearingRadians) {
-                var newLat = _this.latRadians.sin()
-                    .times(distToRadius.cos())
-                    .plus(_this.latRadians.cos()
-                    .times(distToRadius.sin())
-                    .times(bearingRadians.cos())).asin();
-                var newLng = _this.lngRadians
-                    .plus(decimal_ts_1.Decimal.atan2(bearingRadians.sin()
-                    .times(distToRadius.sin())
-                    .times(_this.latRadians.cos()), distToRadius.cos()
-                    .minus(_this.latRadians.sin().times(newLat.sin()))));
-                return new S2LatLng(newLat, newLng);
-            });
+                .map(function (bearingRadians) { return _this.pointAtDistance(_distanceInKm, bearingRadians); });
         };
         S2LatLng.prototype.getEarthDistance = function (other) {
             return this.getDistance(other).radians.times(S2LatLng.EARTH_RADIUS_METERS);

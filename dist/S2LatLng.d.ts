@@ -48,6 +48,7 @@ export declare class S2LatLng {
     static latitude(p: S2Point): S1Angle;
     static longitude(p: S2Point): S1Angle;
     equals(other: S2LatLng): boolean;
+    pointAtDistance(_distanceInKm: number | decimal.Decimal, _bearingRadians: number | decimal.Decimal): S2LatLng;
     /**
      * Generates n LatLngs given a distance in km and the number of points wanted.
      * Generated points will be returned in a Clockwise order starting from North.

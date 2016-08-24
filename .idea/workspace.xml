@@ -1,49 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="new better exported version">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/decimal.ts" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/gulpfile.ts" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/R1Interval.js" afterPath="$PROJECT_DIR$/dist/R1Interval.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/R1Interval.js.map" afterPath="$PROJECT_DIR$/dist/R1Interval.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/R2Vector.js" afterPath="$PROJECT_DIR$/dist/R2Vector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/R2Vector.js.map" afterPath="$PROJECT_DIR$/dist/R2Vector.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S1Angle.js" afterPath="$PROJECT_DIR$/dist/S1Angle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S1Angle.js.map" afterPath="$PROJECT_DIR$/dist/S1Angle.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2.js" afterPath="$PROJECT_DIR$/dist/S2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2.js.map" afterPath="$PROJECT_DIR$/dist/S2.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2Cap.js" afterPath="$PROJECT_DIR$/dist/S2Cap.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2Cap.js.map" afterPath="$PROJECT_DIR$/dist/S2Cap.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2Cell.js" afterPath="$PROJECT_DIR$/dist/S2Cell.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2Cell.js.map" afterPath="$PROJECT_DIR$/dist/S2Cell.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2CellId.js" afterPath="$PROJECT_DIR$/dist/S2CellId.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2CellId.js.map" afterPath="$PROJECT_DIR$/dist/S2CellId.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js" afterPath="$PROJECT_DIR$/dist/S2EdgeUtil.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js.map" afterPath="$PROJECT_DIR$/dist/S2EdgeUtil.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2LatLng.js" afterPath="$PROJECT_DIR$/dist/S2LatLng.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2LatLng.js.map" afterPath="$PROJECT_DIR$/dist/S2LatLng.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js" afterPath="$PROJECT_DIR$/dist/S2LatLngRect.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js.map" afterPath="$PROJECT_DIR$/dist/S2LatLngRect.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js" afterPath="$PROJECT_DIR$/dist/S2RegionCoverer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js.map" afterPath="$PROJECT_DIR$/dist/S2RegionCoverer.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/R1Interval.ts" afterPath="$PROJECT_DIR$/src/R1Interval.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/R2Vector.ts" afterPath="$PROJECT_DIR$/src/R2Vector.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S1Angle.ts" afterPath="$PROJECT_DIR$/src/S1Angle.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2.ts" afterPath="$PROJECT_DIR$/src/S2.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Cap.ts" afterPath="$PROJECT_DIR$/src/S2Cap.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2Cell.ts" afterPath="$PROJECT_DIR$/src/S2Cell.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellId.ts" afterPath="$PROJECT_DIR$/src/S2CellId.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2EdgeUtil.ts" afterPath="$PROJECT_DIR$/src/S2EdgeUtil.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2LatLng.ts" afterPath="$PROJECT_DIR$/src/S2LatLng.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2LatLngRect.ts" afterPath="$PROJECT_DIR$/src/S2LatLngRect.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2RegionCoverer.ts" afterPath="$PROJECT_DIR$/src/S2RegionCoverer.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Cell.test.ts" afterPath="$PROJECT_DIR$/test/S2Cell.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2CellId.test.ts" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLng.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLng.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Point.test.ts" afterPath="$PROJECT_DIR$/test/S2Point.test.ts" />
-    </list>
+    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="" />
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -113,22 +71,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="187" column="14" selection-start-line="187" selection-start-column="14" selection-end-line="187" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="4compilation.d.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="4compilation.d.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/typings/4compilation.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="378">
               <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CreateTests.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="407">
+              <caret line="261" column="5" selection-start-line="261" selection-start-column="5" selection-end-line="261" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2451#2452#0" expanded="false" />
+                <element signature="e#2486#2487#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="S2LatLng.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="146" column="42" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
+              <folding>
+                <element signature="e#596#630#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -175,7 +149,7 @@
       <file leaf-file-name="S2LatLngRect.test.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/S2LatLngRect.test.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
+            <state relative-caret-position="18">
               <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -194,16 +168,6 @@
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#101#140#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="decimal.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/decimal.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="71" selection-start-line="1" selection-start-column="71" selection-end-line="1" selection-end-column="71" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -613,7 +577,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -642,7 +606,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="typings" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -656,7 +620,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="java-test-creator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -670,13 +634,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
+              <option name="myItemId" value="java-test-creator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -1302,7 +1270,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147163000" />
+    <option name="totallyTimeSpent" value="147368000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1325,15 +1293,13 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.9059829" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4709111" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4709111" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2451923" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32711306" sideWeight="0.49358973" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18215811" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1343,6 +1309,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32711306" sideWeight="0.49358973" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1393,7 +1361,8 @@
     <MESSAGE value="Fixed 2 bug in fromFaceIJWrap&#10; - one due to face not being updated&#10; - the other due to js having a different number bit allocation than java/c causing calculated overflows in the original code to not being taken into account&#10; &#10; Added vertex and edge tests for cellid" />
     <MESSAGE value="Removed useless shit from gulpfile.ts" />
     <MESSAGE value="new better exported version" />
-    <option name="LAST_COMMIT_MESSAGE" value="new better exported version" />
+    <MESSAGE value="exported method to calc point ad distance+bearing" />
+    <option name="LAST_COMMIT_MESSAGE" value="exported method to calc point ad distance+bearing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1523,10 +1492,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2232">
-          <caret line="156" column="25" selection-start-line="156" selection-start-column="25" selection-end-line="156" selection-end-column="25" />
+        <state relative-caret-position="407">
+          <caret line="261" column="5" selection-start-line="261" selection-start-column="5" selection-end-line="261" selection-end-column="5" />
           <folding>
-            <element signature="method#calcLatLngTests#0;class#CreateTests#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2451#2452#0" expanded="false" />
+            <element signature="e#2486#2487#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1640,21 +1611,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dist/export.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="sourcemapFileViewerProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dist/Interval.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1678,7 +1647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1760,9 +1728,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="200">
+          <caret line="146" column="42" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
+          <folding>
+            <element signature="e#596#630#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1804,7 +1774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1812,7 +1781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="54" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1821,7 +1789,7 @@
         <state relative-caret-position="139">
           <caret line="932" column="0" selection-start-line="932" selection-start-column="0" selection-end-line="932" selection-end-column="0" />
           <folding>
-            <element signature="e#626#660#0" expanded="true" />
+            <element signature="e#626#660#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1877,7 +1845,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/S2LatLngRect.test.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
+        <state relative-caret-position="18">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
