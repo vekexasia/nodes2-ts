@@ -151,6 +151,31 @@ export class S2LatLng {
     return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
   }
 
+  pointAtDistance(_distanceInKm:number|decimal.Decimal, _bearingRadians:number|decimal.Decimal) {
+    const distanceInM = S2.toDecimal(_distanceInKm).times(1000);
+    const distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
+    const bearingRadians = S2.toDecimal(_bearingRadians);
+
+    const newLat = this.latRadians.sin()
+        .times(distanceToRadius.cos())
+        .plus(
+            this.latRadians.cos()
+                .times(distanceToRadius.sin())
+                .times(bearingRadians.cos())
+        ).asin();
+    const newLng = this.lngRadians
+        .plus(
+            Decimal.atan2(
+                bearingRadians.sin()
+                    .times(distanceToRadius.sin())
+                    .times(this.latRadians.cos()),
+                distanceToRadius.cos()
+                    .minus(this.latRadians.sin().times(newLat.sin()))
+            )
+        );
+    return new S2LatLng(newLat, newLng);
+  }
+
   /**
    * Generates n LatLngs given a distance in km and the number of points wanted.
    * Generated points will be returned in a Clockwise order starting from North. 
@@ -159,34 +184,12 @@ export class S2LatLng {
    * @returns {S2LatLng[]}
    */
   pointsAtDistance(_distanceInKm:number|decimal.Decimal, nPoints:number=4):S2LatLng[] {
-    const dinstanceInM = S2.toDecimal(_distanceInKm).times(1000);
-    const distToRadius = dinstanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
     return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
         .map((p, idx) => {
           return S2.toDecimal(360).dividedBy(nPoints).times(idx);
         })
         .map(bearingDegree => S1Angle.degrees(bearingDegree).radians)
-        .map(bearingRadians => {
-
-          const newLat = this.latRadians.sin()
-              .times(distToRadius.cos())
-              .plus(
-                  this.latRadians.cos()
-                      .times(distToRadius.sin())
-                      .times(bearingRadians.cos())
-              ).asin();
-          const newLng = this.lngRadians
-              .plus(
-                  Decimal.atan2(
-                      bearingRadians.sin()
-                          .times(distToRadius.sin())
-                          .times(this.latRadians.cos()),
-                      distToRadius.cos()
-                          .minus(this.latRadians.sin().times(newLat.sin()))
-                  )
-              );
-          return new S2LatLng(newLat, newLng);
-        });
+        .map(bearingRadians => this.pointAtDistance(_distanceInKm, bearingRadians));
 
   }
  
