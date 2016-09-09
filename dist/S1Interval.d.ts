@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { Interval } from "./Interval";
 export declare class S1Interval extends Interval {
     constructor(lo: number | decimal.Decimal, hi: number | decimal.Decimal, checked?: boolean);

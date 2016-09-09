@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { S2Region } from "./S2Region";
 import { S2Point } from "./S2Point";
 import { S1Angle } from "./S1Angle";

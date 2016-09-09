@@ -8,6 +8,5 @@
 })(function (require, exports) {
     "use strict";
     exports.Decimal = require('decimal.js');
-    ;
 });
 //# sourceMappingURL=decimal.js.map

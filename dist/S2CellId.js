@@ -18,11 +18,12 @@
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
     }
     else if (typeof define === 'function' && define.amd) {
-        define(["require", "exports", "./S2Point", "./R2Vector", "./S2", "./MutableInteger", "./S2LatLng", './decimal'], factory);
+        define(["require", "exports", 'long', "./S2Point", "./R2Vector", "./S2", "./MutableInteger", "./S2LatLng", './decimal'], factory);
     }
 })(function (require, exports) {
     "use strict";
-    var Long = require("long");
+    //const Long = require("long");
+    var Long = require('long');
     var S2Point_1 = require("./S2Point");
     var R2Vector_1 = require("./R2Vector");
     var S2_1 = require("./S2");

@@ -1,3 +1,5 @@
+/// <reference types="long" />
+import * as Long from 'long';
 import { S2Point } from "./S2Point";
 import { MutableInteger } from "./MutableInteger";
 import { S2LatLng } from "./S2LatLng";
@@ -39,7 +41,7 @@ export declare class S2CellId {
     static MAX_SIZE: number;
     private static maxValueDivs;
     private static maxValueMods;
-    static MAX_UNSIGNED: any;
+    static MAX_UNSIGNED: Long;
     static LOOKUP_BITS: number;
     private static SWAP_MASK;
     private static INVERT_MASK;
@@ -53,7 +55,7 @@ export declare class S2CellId {
     id: Long;
     constructor(id: Long | string);
     /** Which cube face this cell belongs to, in the range 0..5. */
-    face: number;
+    readonly face: number;
     /** Return the lowest-numbered bit that is on for cells at the given level. */
     lowestOnBit(): Long;
     /** The default constructor returns an invalid cell id. */

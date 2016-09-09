@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { S2Point } from "./S2Point";
 export declare class S1Angle {
     radians: decimal.Decimal;

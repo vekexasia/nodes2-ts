@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { Interval } from "./Interval";
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a

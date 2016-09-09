@@ -1,18 +1,3 @@
-/*
- * Copyright 2005 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 (function (factory) {
     if (typeof module === 'object' && typeof module.exports === 'object') {
         var v = factory(require, exports); if (v !== undefined) module.exports = v;
@@ -22,6 +7,22 @@
     }
 })(function (require, exports) {
     "use strict";
+    /*
+     * Copyright 2005 Google Inc.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    ///<reference path="./decimal_augmentation.d.ts"/>
     var S1Angle_1 = require("./S1Angle");
     var S2Point_1 = require("./S2Point");
     var S2_1 = require("./S2");
@@ -119,6 +120,8 @@
             var distanceInM = S2_1.S2.toDecimal(_distanceInKm).times(1000);
             var distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
             var bearingRadians = S2_1.S2.toDecimal(_bearingRadians);
+            this.latRadians.sin();
+            distanceToRadius.cos();
             var newLat = this.latRadians.sin()
                 .times(distanceToRadius.cos())
                 .plus(this.latRadians.cos()

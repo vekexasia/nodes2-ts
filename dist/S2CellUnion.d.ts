@@ -1,3 +1,5 @@
+/// <reference types="long" />
+import * as Long from 'long';
 import { S2Region } from "./S2Region";
 import { S2CellId } from "./S2CellId";
 import { S2Cell } from "./S2Cell";

@@ -1,3 +1,5 @@
+/// <reference path="../src/decimal_augmentation.d.ts" />
+/// <reference types="decimal.js" />
 import { S1Angle } from "./S1Angle";
 import { S2Point } from "./S2Point";
 /**
@@ -18,8 +20,8 @@ export declare class S2LatLng {
     latRadians: decimal.Decimal;
     lngRadians: decimal.Decimal;
     constructor(latRadians: number | decimal.Decimal, lngRadians: number | decimal.Decimal);
-    latDegrees: decimal.Decimal;
-    lngDegrees: decimal.Decimal;
+    readonly latDegrees: decimal.Decimal;
+    readonly lngDegrees: decimal.Decimal;
     /** Convert an S2LatLng to the equivalent unit-length vector (S2Point). */
     toPoint(): S2Point;
     /**

@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { S2CellId } from "./S2CellId";
 import { S2Point } from "./S2Point";
 import { S2LatLng } from "./S2LatLng";
@@ -12,10 +13,10 @@ export declare class S2Cell {
     private _orientation;
     private _uv;
     constructor(cellID: S2CellId);
-    id: S2CellId;
-    face: number;
-    level: number;
-    orientation: number;
+    readonly id: S2CellId;
+    readonly face: number;
+    readonly level: number;
+    readonly orientation: number;
     static fromFacePosLevel(face: number, pos: number, level: number): S2Cell;
     static fromPoint(p: S2Point): S2Cell;
     static fromLatLng(ll: S2LatLng): S2Cell;

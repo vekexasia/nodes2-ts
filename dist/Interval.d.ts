@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 export declare abstract class Interval {
     lo: decimal.Decimal;
     hi: decimal.Decimal;

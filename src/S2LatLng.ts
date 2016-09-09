@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+///<reference path="./decimal_augmentation.d.ts"/>
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
@@ -40,8 +40,8 @@ export class S2LatLng {
   public lngRadians:decimal.Decimal;
 
   constructor(latRadians:number|decimal.Decimal, lngRadians:number|decimal.Decimal) {
-    this.latRadians = S2.toDecimal(latRadians) as decimal.Decimal;
-    this.lngRadians = S2.toDecimal(lngRadians) as decimal.Decimal;
+    this.latRadians = S2.toDecimal(latRadians);
+    this.lngRadians = S2.toDecimal(lngRadians);
   }
 
   get latDegrees() {
@@ -155,7 +155,8 @@ export class S2LatLng {
     const distanceInM = S2.toDecimal(_distanceInKm).times(1000);
     const distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
     const bearingRadians = S2.toDecimal(_bearingRadians);
-
+    this.latRadians.sin();
+    distanceToRadius.cos();
     const newLat = this.latRadians.sin()
         .times(distanceToRadius.cos())
         .plus(

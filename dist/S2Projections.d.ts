@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 /**
  * This class specifies the details of how the cube faces are projected onto the
  * unit sphere. This includes getting the face ordering and orientation correct

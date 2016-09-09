@@ -7,7 +7,7 @@
     "test": "NODE_ENV=test mocha",
     "wtest": "NODE_ENV=test nodemon -q -e ts --exec npm run test",
     "cover": "NODE_ENV=test nyc npm t",
-    "//prepuablish": "shx rm -rf ./dist/ && npm run build",
+    "prepublish": "shx rm -rf ./dist/ && npm run build",
     "clean": "shx rm -rf ./dist",
     "build": "npm run clean && tsc -d",
     "//postinstall": "npm run prepublish"
@@ -20,6 +20,12 @@
     "long": "^3.2.0"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.32",
+    "@types/decimal.js": "0.0.28",
+    "@types/gulp": "^3.8.31",
+    "@types/long": "^3.0.30",
+    "@types/mocha": "^2.2.31",
+    "@types/sinon": "^1.16.29",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-spawn-mocha": "^3.0.0",
@@ -31,7 +37,7 @@
     "shx": "^0.1.2",
     "sinon": "^1.17.5",
     "ts-node": "^1.2.2",
-    "typescript": "^1.8.10"
+    "typescript": "^2.0.0"
   },
   "nyc": {
     "include": [

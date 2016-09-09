@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { R2Vector } from "./R2Vector";
 /**
  * An S2Point represents a point on the unit sphere as a 3D vector. Usually

@@ -1,7 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="" />
+    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="exported method to calc point ad distance+bearing">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/decimal_augmentation.d.ts" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.d.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.js.map" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/nodes2ts.iml" afterPath="$PROJECT_DIR$/.idea/nodes2ts.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellId.ts" afterPath="$PROJECT_DIR$/src/S2CellId.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellUnion.ts" afterPath="$PROJECT_DIR$/src/S2CellUnion.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2LatLng.ts" afterPath="$PROJECT_DIR$/src/S2LatLng.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/decimal.ts" afterPath="$PROJECT_DIR$/src/decimal.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Cell.test.ts" afterPath="$PROJECT_DIR$/test/S2Cell.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2CellId.test.ts" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLng.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLng.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Point.test.ts" afterPath="$PROJECT_DIR$/test/S2Point.test.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="$PROJECT_DIR$/tsconfig.json" />
+    </list>
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -17,6 +95,261 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DockManager">
+    <window id="2">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="S2LatLng.ts" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="371">
+                    <caret line="241" column="0" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
+                    <folding>
+                      <element signature="n#!!doc" expanded="true" />
+                      <element signature="e#646#680#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="S2CellId.ts" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/S2CellId.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="537">
+                    <caret line="165" column="28" selection-start-line="165" selection-start-column="28" selection-end-line="165" selection-end-column="28" />
+                    <folding>
+                      <element signature="e#915#960#0" expanded="false" />
+                      <element signature="n#!!doc;n#S2CellId#0" expanded="false" />
+                      <element signature="e#2345#2413#0" expanded="false" />
+                      <element signature="e#2775#2777#0" expanded="false" />
+                      <element signature="e#2855#4183#0" expanded="false" />
+                      <element signature="e#4282#4451#0" expanded="false" />
+                      <element signature="e#4465#4503#0" expanded="false" />
+                      <element signature="e#4716#4789#0" expanded="false" />
+                      <element signature="e#5574#5647#0" expanded="false" />
+                      <element signature="e#6182#6343#0" expanded="false" />
+                      <element signature="n#!!block;n#constructor#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#6601#6655#0" expanded="false" />
+                      <element signature="e#6661#6696#0" expanded="false" />
+                      <element signature="n#!!doc;n#lowestOnBit#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#lowestOnBit#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#none#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#none#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#sentinel#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#sentinel#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#getBits1#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#7737#7898#0" expanded="false" />
+                      <element signature="e#8116#8439#0" expanded="false" />
+                      <element signature="n#!!doc;n#faceSiTiToXYZ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#faceSiTiToXYZ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#lowestOnBitForLevel#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#toFaceIJOrientation#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#toFaceIJOrientation#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#9918#9982#0" expanded="false" />
+                      <element signature="e#10409#10539#0" expanded="false" />
+                      <element signature="e#10570#11343#0" expanded="false" />
+                      <element signature="e#10578#10649#0" expanded="false" />
+                      <element signature="e#11268#11307#0" expanded="false" />
+                      <element signature="n#!!doc;n#isLeaf#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#isLeaf#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#parentL#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#parentL#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#parent#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#fromFacePosLevel#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#fromFacePosLevel#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#12941#12947#0" expanded="false" />
+                      <element signature="n#!!block;n#fromPoint#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#13313#13315#0" expanded="false" />
+                      <element signature="n#!!block;n#toPoint#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#toPointRaw#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#toPointRaw#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#13758#13833#0" expanded="false" />
+                      <element signature="e#15064#15133#0" expanded="false" />
+                      <element signature="e#15385#15495#0" expanded="false" />
+                      <element signature="n#!!doc;n#toLatLng#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#toLatLng#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#isValid#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#isValid#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#pos#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#level#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#level#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#16662#16702#0" expanded="false" />
+                      <element signature="e#16773#16799#0" expanded="false" />
+                      <element signature="e#16805#16895#0" expanded="false" />
+                      <element signature="e#16900#16962#0" expanded="false" />
+                      <element signature="e#17059#17084#0" expanded="false" />
+                      <element signature="e#17116#17141#0" expanded="false" />
+                      <element signature="e#17173#17198#0" expanded="false" />
+                      <element signature="e#17230#17255#0" expanded="false" />
+                      <element signature="n#!!doc;n#isFace#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#isFace#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#childPosition#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#childPosition#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#18074#18137#0" expanded="false" />
+                      <element signature="n#!!block;n#rangeMin#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#rangeMax#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#19000#19002#0" expanded="false" />
+                      <element signature="n#!!doc;n#contains#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#contains#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#intersects#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#intersects#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#childBegin#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#childBeginL#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#childEnd#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#childEndL#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#20654#20656#0" expanded="false" />
+                      <element signature="n#!!doc;n#next#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#next#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#prev#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#prev#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#nextWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#nextWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#22348#22371#0" expanded="false" />
+                      <element signature="n#!!doc;n#prevWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#prevWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#22790#22813#0" expanded="false" />
+                      <element signature="n#!!block;n#begin#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#end#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#fromToken#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#fromToken#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#23566#23633#0" expanded="false" />
+                      <element signature="e#23661#23729#0" expanded="false" />
+                      <element signature="e#23773#23810#0" expanded="false" />
+                      <element signature="e#23880#24303#0" expanded="false" />
+                      <element signature="e#23943#24226#0" expanded="false" />
+                      <element signature="e#24030#24075#0" expanded="false" />
+                      <element signature="e#24139#24218#0" expanded="false" />
+                      <element signature="n#!!doc;n#toToken#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#toToken#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#24950#24975#0" expanded="false" />
+                      <element signature="e#25143#25192#0" expanded="false" />
+                      <element signature="e#25270#25354#0" expanded="false" />
+                      <element signature="e#25302#25348#0" expanded="false" />
+                      <element signature="n#!!block;n#overflowInParse#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#25908#26190#0" expanded="false" />
+                      <element signature="e#25968#25999#0" expanded="false" />
+                      <element signature="e#26061#26091#0" expanded="false" />
+                      <element signature="n#!!doc;n#getEdgeNeighbors#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#getEdgeNeighbors#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#27317#27390#0" expanded="false" />
+                      <element signature="n#!!doc;n#getVertexNeighbors#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#getVertexNeighbors#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#28318#28388#0" expanded="false" />
+                      <element signature="e#28604#28677#0" expanded="false" />
+                      <element signature="e#29003#29076#0" expanded="false" />
+                      <element signature="e#29082#29141#0" expanded="false" />
+                      <element signature="e#29173#29246#0" expanded="false" />
+                      <element signature="e#29252#29311#0" expanded="false" />
+                      <element signature="e#29492#29501#0" expanded="false" />
+                      <element signature="e#29735#29744#0" expanded="false" />
+                      <element signature="e#30025#30340#0" expanded="false" />
+                      <element signature="e#30211#30269#0" expanded="false" />
+                      <element signature="n#!!block;n#getAllNeighbors#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#30959#31027#0" expanded="false" />
+                      <element signature="e#31377#31440#0" expanded="false" />
+                      <element signature="e#31557#32466#0" expanded="false" />
+                      <element signature="e#31596#31642#0" expanded="false" />
+                      <element signature="e#31663#31724#0" expanded="false" />
+                      <element signature="e#31730#32072#0" expanded="false" />
+                      <element signature="e#32436#32460#0" expanded="false" />
+                      <element signature="e#32491#32561#0" expanded="false" />
+                      <element signature="n#!!doc;n#fromFaceIJ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#fromFaceIJ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#32771#32793#0" expanded="false" />
+                      <element signature="e#32942#33010#0" expanded="false" />
+                      <element signature="e#33470#33537#0" expanded="false" />
+                      <element signature="e#33681#33752#0" expanded="false" />
+                      <element signature="e#34059#34115#0" expanded="false" />
+                      <element signature="n#!!block;n#getBits#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#stToIJ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#stToIJ#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#35387#35461#0" expanded="false" />
+                      <element signature="e#35969#36044#0" expanded="false" />
+                      <element signature="n#!!doc;n#fromFaceIJWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#fromFaceIJWrap#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#36372#36440#0" expanded="false" />
+                      <element signature="e#36771#36837#0" expanded="false" />
+                      <element signature="e#37157#37224#0" expanded="false" />
+                      <element signature="n#!!doc;n#fromFaceIJSame#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#fromFaceIJSame#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#37810#37863#0" expanded="false" />
+                      <element signature="e#37869#37926#0" expanded="false" />
+                      <element signature="n#!!doc;n#unsignedLongLessThan#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#unsignedLongLessThan#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#unsignedLongGreaterThan#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#unsignedLongGreaterThan#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#greaterThan#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#lessOrEquals#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#greaterOrEquals#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#toString#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#compareTo#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#equals#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!doc;n#binarySearch#0;n#S2CellId#0" expanded="false" />
+                      <element signature="n#!!block;n#binarySearch#0;n#S2CellId#0" expanded="false" />
+                      <element signature="e#39678#39717#0" expanded="false" />
+                      <element signature="e#39772#40044#0" expanded="false" />
+                      <element signature="n#!!block;n#initLookupCell#0" expanded="false" />
+                      <element signature="e#40270#40556#0" expanded="false" />
+                      <element signature="e#40562#40977#0" expanded="false" />
+                      <element signature="e#40723#40973#0" expanded="false" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="S2CellUnion.ts" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/S2CellUnion.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="300">
+                    <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+                    <folding>
+                      <element signature="e#595#624#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="S2.ts" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/S2.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="308">
+                    <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="S2Cell.test.ts" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="480">
+                    <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+                    <folding>
+                      <element signature="e#191#219#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="451">
+                    <caret line="212" column="28" selection-start-line="212" selection-start-column="28" selection-end-line="212" selection-end-column="28" />
+                    <folding>
+                      <element signature="e#0#41#0" expanded="true" />
+                      <element signature="e#254#293#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/java-test-creator">
@@ -30,18 +363,7 @@
           <activation />
         </task>
         <projects_view>
-          <tree_state>
-            <PATH>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="nodests" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
-              </PATH_ELEMENT>
-            </PATH>
-          </tree_state>
+          <tree_state />
         </projects_view>
       </state>
     </system>
@@ -54,8 +376,28 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+            <state relative-caret-position="240">
+              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="export.d.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/export.d.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="29" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -64,18 +406,8 @@
       <file leaf-file-name="decimal.d.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/decimal.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="4compilation.d.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/typings/4compilation.d.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="20">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -84,90 +416,67 @@
       <file leaf-file-name="CreateTests.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="261" column="5" selection-start-line="261" selection-start-column="5" selection-end-line="261" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2451#2452#0" expanded="false" />
-                <element signature="e#2486#2487#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="300">
+              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2LatLng.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="146" column="42" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
-              <folding>
-                <element signature="e#596#630#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="S2Cell.test.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
+      <file leaf-file-name="S2Point.d.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/S2Point.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="53" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2CellId.test.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#355#394#0" expanded="true" />
-                <element signature="e#671#6997#0" expanded="false" />
-              </folding>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="420">
+                <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+                <folding>
+                  <marker date="1473425709343" expanded="true" signature="920:1361" ph="{...}" />
+                  <marker date="1473425709343" expanded="true" signature="926:1255" ph="/** Calculates a region covering a circle ...*/" />
+                  <marker date="1473425709343" expanded="true" signature="1613:1625" ph="/*...*/" />
+                  <marker date="1473425709343" expanded="true" signature="1630:1643" ph="/*...*/" />
+                </folding>
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2LatLng.test.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
+      <file leaf-file-name="S2Cell.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#101#142#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1155">
+              <caret line="431" column="14" selection-start-line="431" selection-start-column="9" selection-end-line="431" selection-end-column="14" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2LatLngRect.test.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/S2LatLngRect.test.ts">
+      <file leaf-file-name="S1Angle.d.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/S1Angle.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#101#142#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S2Point.test.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
+      <file leaf-file-name="decimal.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/decimal.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#101#140#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -476,9 +785,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/test/assets/latlng-tests.json" />
-        <option value="$PROJECT_DIR$/test/java-gen-locations.json" />
-        <option value="$PROJECT_DIR$/src/S2Vector.ts" />
         <option value="$PROJECT_DIR$/java-test-proj/src/CreateTests.java" />
         <option value="$PROJECT_DIR$/java-test-proj/build.gradle" />
         <option value="$PROJECT_DIR$/java-test-creator/build.gradle" />
@@ -490,13 +796,11 @@
         <option value="$PROJECT_DIR$/src/S1Interval.ts" />
         <option value="$PROJECT_DIR$/src/S2EdgeIndex.ts" />
         <option value="$PROJECT_DIR$/src/S2Loop.ts" />
-        <option value="$PROJECT_DIR$/src/S2CellUnion.ts" />
         <option value="$PROJECT_DIR$/test/assets/cap.json" />
         <option value="$PROJECT_DIR$/test/assets/cap2.json" />
         <option value="$PROJECT_DIR$/tslint.json" />
         <option value="$PROJECT_DIR$/src/S2Projections.ts" />
         <option value="$PROJECT_DIR$/dist/export.js" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/test/assets/cap-node.json" />
         <option value="$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java" />
         <option value="$PROJECT_DIR$/gulpfile.ts" />
@@ -505,11 +809,8 @@
         <option value="$PROJECT_DIR$/dist/export.d.ts" />
         <option value="$PROJECT_DIR$/src/export.ts" />
         <option value="$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts" />
-        <option value="$PROJECT_DIR$/tsconfig.json" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/typings/index.d.ts" />
         <option value="$PROJECT_DIR$/src/R1Interval.ts" />
-        <option value="$PROJECT_DIR$/src/S2LatLng.ts" />
         <option value="$PROJECT_DIR$/src/S2LatLngRect.ts" />
         <option value="$PROJECT_DIR$/src/S2RegionCoverer.ts" />
         <option value="$PROJECT_DIR$/src/R2Vector.ts" />
@@ -517,16 +818,24 @@
         <option value="$PROJECT_DIR$/src/S2.ts" />
         <option value="$PROJECT_DIR$/src/S2Cap.ts" />
         <option value="$PROJECT_DIR$/src/S2Cell.ts" />
-        <option value="$PROJECT_DIR$/src/S2CellId.ts" />
         <option value="$PROJECT_DIR$/src/S2EdgeUtil.ts" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
-        <option value="$PROJECT_DIR$/test/S2Cell.test.ts" />
         <option value="$PROJECT_DIR$/typings/4compilation.d.ts" />
+        <option value="$PROJECT_DIR$/typings/decimal_fix.d.ts" />
         <option value="$PROJECT_DIR$/src/decimal.ts" />
+        <option value="$PROJECT_DIR$/src/S2LatLng.ts" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/src/decimal_augmentation.d.ts" />
+        <option value="$PROJECT_DIR$/src/S2CellId.ts" />
+        <option value="$PROJECT_DIR$/src/S2CellUnion.ts" />
+        <option value="$PROJECT_DIR$/test/S2Cell.test.ts" />
         <option value="$PROJECT_DIR$/test/S2CellId.test.ts" />
         <option value="$PROJECT_DIR$/test/S2LatLng.test.ts" />
         <option value="$PROJECT_DIR$/test/S2LatLngRect.test.ts" />
         <option value="$PROJECT_DIR$/test/S2Point.test.ts" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -543,14 +852,17 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
   <component name="PhpServers">
     <servers />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="y" value="27" />
-    <option name="width" value="1920" />
-    <option name="height" value="1053" />
+    <option name="width" value="1200" />
+    <option name="height" value="1893" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -578,6 +890,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -596,55 +909,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-test-creator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nodes2ts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-test-creator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -656,7 +922,7 @@
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value="S2Proje&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Projections.ts&#10;gulpf&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/gulpfile.ts&#10;S2CellId.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2CellId.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;S2CellId.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Regionco&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;S2CellUnion.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellUnion.ts&#10;S2CellId&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Cellid.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2Loop.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Cap.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cap.java&#10;S2Cap.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Region&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2Cap&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Re&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;DoubleUtils&#9;PSI&#9;JAVA://com.google.common.math.DoubleUtils&#10;Double.java&#9;FILE&#9;jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/Double.java&#10;S2Cell.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cell.java&#10;S2CellUnion.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellUnion.java&#10;S2LatLng.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLng.java&#10;S2LatLng&#9;null&#9;null&#10;S2.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2.ts&#10;S2EdgeIn&#9;PSI&#9;JAVA://com.google.common.geometry.S2EdgeIndex&#10;S2Loo&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Ed&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2EdgeUtil.ts&#10;S2Lat&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLngRect.ts&#10;index.&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/typings/modules/decimal.js/index.d.ts&#10;S2RegionCoverer.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2RegionCoverer.class&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/4b2c278caa93d58a81c2c771da91af35cee55782/s2-geometry-library-java-0.0.1.jar!/com/google/common/geometry/S2RegionCoverer.class&#10;QueueEntr&#9;null&#9;null&#10;S1Angle.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S1Angle.java&#10;S1Ang&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Angle.ts&#10;S2CellId.j&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;Collections&#9;PSI&#9;JAVA://java.util.Collections&#10;s2cove&#9;PSI&#9;JAVA://com.google.common.geometry.S2RegionCoverer&#10;R1I&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Interval.ts&#10;S2.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2.java&#10;S2EdgeUtil.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2EdgeUtil.java&#10;S2LatLngRect.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLngRect.java&#10;R1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S2Vec&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;R2&#9;null&#9;null&#10;s2Ve&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Vector.ts&#10;S2LatL&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts&#10;R2V&#9;null&#9;null&#10;S2Po&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Point.ts&#10;S2La&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLng.ts" />
+    <property name="SearchEverywhereHistoryKey" value="S2Cell.ts&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Cell&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2CellId.ts&#10;S2Poin&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/test/S2Point.test.ts&#10;S2LatLngRec&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/test/S2LatLngRect.test.ts&#10;S2LatLng.test&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/test/S2LatLng.test.ts&#10;S2CellId.test&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2CellId.ts&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2CellId.ts&#10;2Cell.te&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/test/S2Cell.test.ts&#10;S2CellUnion&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2CellUnion.ts&#10;S2.ts&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2.ts&#10;S2La&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S2LatLng.ts&#10;S2Proje&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Projections.ts&#10;gulpf&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/gulpfile.ts&#10;S2CellId.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2CellId.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;S2Regionco&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;S2CellUnion.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellUnion.ts&#10;S2CellId&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2CellId.ts&#10;S2cell.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cell.ts&#10;S2Cellid.te&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/test/S2CellId.test.ts&#10;S2Loop.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Cap.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cap.java&#10;S2Cap.ts&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Region&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2Cap&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2Cap.ts&#10;S2Re&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2RegionCoverer.ts&#10;DoubleUtils&#9;PSI&#9;JAVA://com.google.common.math.DoubleUtils&#10;Double.java&#9;FILE&#9;jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/Double.java&#10;S2Cell.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Cell.java&#10;S2CellUnion.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellUnion.java&#10;S2LatLng.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLng.java&#10;S2LatLng&#9;null&#9;null&#10;S2EdgeIn&#9;PSI&#9;JAVA://com.google.common.geometry.S2EdgeIndex&#10;S2Loo&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Loop.java&#10;S2Ed&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2EdgeUtil.ts&#10;S2Lat&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/src/S2LatLngRect.ts&#10;index.&#9;FILE&#9;file:///home/andrea/git/personale/nodes2ts/typings/modules/decimal.js/index.d.ts&#10;S2RegionCoverer.java&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2RegionCoverer.java&#10;S2RegionCoverer.class&#9;FILE&#9;jar:///home/andrea/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/4b2c278caa93d58a81c2c771da91af35cee55782/s2-geometry-library-java-0.0.1.jar!/com/google/common/geometry/S2RegionCoverer.class&#10;QueueEntr&#9;null&#9;null&#10;S1Angle.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S1Angle.java&#10;S1Ang&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Angle.ts&#10;S2CellId.j&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java&#10;Collections&#9;PSI&#9;JAVA://java.util.Collections&#10;s2cove&#9;PSI&#9;JAVA://com.google.common.geometry.S2RegionCoverer&#10;R1I&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/R1Interval.ts&#10;S1In&#9;FILE&#9;file:///home/abaccega/git/personale/nodes2ts/src/S1Interval.ts&#10;S2.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2.java&#10;S2EdgeUtil.ja&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2EdgeUtil.java&#10;S2LatLngRect.java&#9;FILE&#9;jar:///home/abaccega/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2LatLngRect.java" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
     <property name="js.last.introduce.type" value="CONST" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -1209,6 +1475,7 @@
       <workItem from="1470924394251" duration="1774000" />
       <workItem from="1470926184907" duration="1137000" />
       <workItem from="1471191560443" duration="1003000" />
+      <workItem from="1473420401303" duration="5349000" />
     </task>
     <task id="LOCAL-00001" summary="fixed errors and ported intervals to Decimal.js">
       <created>1470688499993</created>
@@ -1270,7 +1537,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147368000" />
+    <option name="totallyTimeSpent" value="152717000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1282,10 +1549,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <frame x="0" y="27" width="1200" height="1893" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1293,31 +1559,32 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.9059829" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4709111" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47058824" sideWeight="0.9065171" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2451923" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24479167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18215811" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32667047" sideWeight="0.49358973" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1814236" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32711306" sideWeight="0.49358973" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46994534" sideWeight="0.08974359" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46338797" sideWeight="0.093482904" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1325,18 +1592,18 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.9059829" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45901638" sideWeight="0.9102564" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2451923" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32895488" sideWeight="0.4957265" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18215811" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47058824" sideWeight="0.9065171" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24479167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32667047" sideWeight="0.49358973" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1814236" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
@@ -1368,18 +1635,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts</url>
-          <line>9</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>52</line>
+          <line>50</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>177</line>
+          <line>175</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -1389,13 +1651,25 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/S2CellId.ts</url>
-          <line>740</line>
+          <line>742</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/test/S2CellId.test.ts</url>
-          <line>15</line>
+          <line>13</line>
           <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts</url>
+          <line>9</line>
+          <properties />
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/node_modules/@types/decimal.js/index.d.ts</url>
+          <line>71</line>
+          <properties />
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java</url>
@@ -1452,7 +1726,7 @@
           <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="45" />
+      <option name="time" value="48" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1461,130 +1735,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/assets/main-tests.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/MutableInteger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2Projections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3600">
-          <caret line="214" column="8" selection-start-line="214" selection-start-column="8" selection-end-line="214" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.isuper/s2-geometry-library-java/0.0.1/428a3ad1c3e3637f9442690e8d8cbcce64c01a6e/s2-geometry-library-java-0.0.1-sources.jar!/com/google/common/geometry/S2CellId.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8982">
-          <caret line="556" column="14" selection-start-line="556" selection-start-column="14" selection-end-line="556" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="261" column="5" selection-start-line="261" selection-start-column="5" selection-end-line="261" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2451#2452#0" expanded="false" />
-            <element signature="e#2486#2487#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/assets/cell-tests.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354528">
-          <caret line="19696" column="18" selection-start-line="19696" selection-start-column="5" selection-end-line="19696" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/assets/cap2.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="126" column="21" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/typings/globals/long/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4968">
-          <caret line="277" column="4" selection-start-line="277" selection-start-column="4" selection-end-line="277" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2CellUnion.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="121" column="14" selection-start-line="121" selection-start-column="14" selection-end-line="121" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Point.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/typings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/S1Angle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/S1Angle.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/S2.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Projections.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="79" column="46" selection-start-line="79" selection-start-column="46" selection-end-line="79" selection-end-column="46" />
-          <folding>
-            <element signature="e#3324#3358#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/src/Interval.d.ts" />
-    <entry file="file://$PROJECT_DIR$/dist/export.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/S2Region.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1620,13 +1770,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dist/Interval.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Interval.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -1639,17 +1782,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coverage/R1Interval.ts.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/coverage/R1Interval.ts.html" />
     <entry file="file://$PROJECT_DIR$/src/R1Interval.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1688,31 +1824,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#2#36#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/S2Cap.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-          <folding>
-            <element signature="e#31#65#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1722,16 +1838,6 @@
           <caret line="28" column="16" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
           <folding>
             <element signature="e#597#631#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="146" column="42" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
-          <folding>
-            <element signature="e#596#630#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1754,26 +1860,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gulpfile.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/mocha.opts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1784,96 +1875,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/S2CellId.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="932" column="0" selection-start-line="932" selection-start-column="0" selection-end-line="932" selection-end-column="0" />
-          <folding>
-            <element signature="e#626#660#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/typings/4compilation.d.ts" />
     <entry file="file://$PROJECT_DIR$/typings/globals/decimal.js/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="187" column="14" selection-start-line="187" selection-start-column="14" selection-end-line="187" selection-end-column="14" />
+        <state relative-caret-position="100">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/decimal.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="71" selection-start-line="1" selection-start-column="71" selection-end-line="1" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="53" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#355#394#0" expanded="true" />
-            <element signature="e#671#6997#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#101#142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2LatLngRect.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#101#142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#101#140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="19" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/decimal.d.ts">
+    <entry file="file://$PROJECT_DIR$/typings/decimal_fix.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1881,10 +1892,463 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/typings/4compilation.d.ts">
+    <entry file="file://$PROJECT_DIR$/test/mocha.opts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="40">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/decimal.js/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/decimal.js/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="58" column="32" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/decimal.js/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="582" column="14" selection-start-line="582" selection-start-column="8" selection-end-line="582" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#RoundingMode#0;n#decimal#0" expanded="false" />
+            <element signature="n#!!block;n#IFormatConfig#0;n#decimal#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/decimal.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@types/long/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/decimal_augmentation.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="14" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/decimal.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/S2CellId.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2CellUnion.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+          <folding>
+            <element signature="e#595#624#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2Cell.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+          <folding>
+            <element signature="e#191#219#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2CellId.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="212" column="28" selection-start-line="212" selection-start-column="28" selection-end-line="212" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#254#293#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2LatLng.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="113" column="8" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2LatLngRect.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
+          <folding>
+            <element signature="e#1#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/S2Point.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/Interval.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/R1Interval.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-779">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/S1Angle.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/decimal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/decimal.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/S2Point.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/java-test-creator/src/main/java/com/andreabaccega/CreateTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/export.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="29" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2CellId.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="165" column="28" selection-start-line="165" selection-start-column="28" selection-end-line="165" selection-end-column="28" />
+          <folding>
+            <element signature="e#915#960#0" expanded="false" />
+            <element signature="n#!!doc;n#S2CellId#0" expanded="false" />
+            <element signature="e#2345#2413#0" expanded="false" />
+            <element signature="e#2775#2777#0" expanded="false" />
+            <element signature="e#2855#4183#0" expanded="false" />
+            <element signature="e#4282#4451#0" expanded="false" />
+            <element signature="e#4465#4503#0" expanded="false" />
+            <element signature="e#4716#4789#0" expanded="false" />
+            <element signature="e#5574#5647#0" expanded="false" />
+            <element signature="e#6182#6343#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#6601#6655#0" expanded="false" />
+            <element signature="e#6661#6696#0" expanded="false" />
+            <element signature="n#!!doc;n#lowestOnBit#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#lowestOnBit#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#none#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#none#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#sentinel#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#sentinel#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#getBits1#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#7737#7898#0" expanded="false" />
+            <element signature="e#8116#8439#0" expanded="false" />
+            <element signature="n#!!doc;n#faceSiTiToXYZ#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#faceSiTiToXYZ#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#lowestOnBitForLevel#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#toFaceIJOrientation#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#toFaceIJOrientation#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#9918#9982#0" expanded="false" />
+            <element signature="e#10409#10539#0" expanded="false" />
+            <element signature="e#10570#11343#0" expanded="false" />
+            <element signature="e#10578#10649#0" expanded="false" />
+            <element signature="e#11268#11307#0" expanded="false" />
+            <element signature="n#!!doc;n#isLeaf#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#isLeaf#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#parentL#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#parentL#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#parent#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#fromFacePosLevel#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#fromFacePosLevel#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#12941#12947#0" expanded="false" />
+            <element signature="n#!!block;n#fromPoint#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#13313#13315#0" expanded="false" />
+            <element signature="n#!!block;n#toPoint#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#toPointRaw#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#toPointRaw#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#13758#13833#0" expanded="false" />
+            <element signature="e#15064#15133#0" expanded="false" />
+            <element signature="e#15385#15495#0" expanded="false" />
+            <element signature="n#!!doc;n#toLatLng#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#toLatLng#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#isValid#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#isValid#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#pos#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#level#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#level#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#16662#16702#0" expanded="false" />
+            <element signature="e#16773#16799#0" expanded="false" />
+            <element signature="e#16805#16895#0" expanded="false" />
+            <element signature="e#16900#16962#0" expanded="false" />
+            <element signature="e#17059#17084#0" expanded="false" />
+            <element signature="e#17116#17141#0" expanded="false" />
+            <element signature="e#17173#17198#0" expanded="false" />
+            <element signature="e#17230#17255#0" expanded="false" />
+            <element signature="n#!!doc;n#isFace#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#isFace#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#childPosition#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#childPosition#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#18074#18137#0" expanded="false" />
+            <element signature="n#!!block;n#rangeMin#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#rangeMax#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#19000#19002#0" expanded="false" />
+            <element signature="n#!!doc;n#contains#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#contains#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#intersects#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#intersects#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#childBegin#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#childBeginL#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#childEnd#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#childEndL#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#20654#20656#0" expanded="false" />
+            <element signature="n#!!doc;n#next#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#next#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#prev#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#prev#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#nextWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#nextWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#22348#22371#0" expanded="false" />
+            <element signature="n#!!doc;n#prevWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#prevWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#22790#22813#0" expanded="false" />
+            <element signature="n#!!block;n#begin#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#end#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#fromToken#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#fromToken#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#23566#23633#0" expanded="false" />
+            <element signature="e#23661#23729#0" expanded="false" />
+            <element signature="e#23773#23810#0" expanded="false" />
+            <element signature="e#23880#24303#0" expanded="false" />
+            <element signature="e#23943#24226#0" expanded="false" />
+            <element signature="e#24030#24075#0" expanded="false" />
+            <element signature="e#24139#24218#0" expanded="false" />
+            <element signature="n#!!doc;n#toToken#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#toToken#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#24950#24975#0" expanded="false" />
+            <element signature="e#25143#25192#0" expanded="false" />
+            <element signature="e#25270#25354#0" expanded="false" />
+            <element signature="e#25302#25348#0" expanded="false" />
+            <element signature="n#!!block;n#overflowInParse#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#25908#26190#0" expanded="false" />
+            <element signature="e#25968#25999#0" expanded="false" />
+            <element signature="e#26061#26091#0" expanded="false" />
+            <element signature="n#!!doc;n#getEdgeNeighbors#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#getEdgeNeighbors#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#27317#27390#0" expanded="false" />
+            <element signature="n#!!doc;n#getVertexNeighbors#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#getVertexNeighbors#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#28318#28388#0" expanded="false" />
+            <element signature="e#28604#28677#0" expanded="false" />
+            <element signature="e#29003#29076#0" expanded="false" />
+            <element signature="e#29082#29141#0" expanded="false" />
+            <element signature="e#29173#29246#0" expanded="false" />
+            <element signature="e#29252#29311#0" expanded="false" />
+            <element signature="e#29492#29501#0" expanded="false" />
+            <element signature="e#29735#29744#0" expanded="false" />
+            <element signature="e#30025#30340#0" expanded="false" />
+            <element signature="e#30211#30269#0" expanded="false" />
+            <element signature="n#!!block;n#getAllNeighbors#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#30959#31027#0" expanded="false" />
+            <element signature="e#31377#31440#0" expanded="false" />
+            <element signature="e#31557#32466#0" expanded="false" />
+            <element signature="e#31596#31642#0" expanded="false" />
+            <element signature="e#31663#31724#0" expanded="false" />
+            <element signature="e#31730#32072#0" expanded="false" />
+            <element signature="e#32436#32460#0" expanded="false" />
+            <element signature="e#32491#32561#0" expanded="false" />
+            <element signature="n#!!doc;n#fromFaceIJ#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#fromFaceIJ#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#32771#32793#0" expanded="false" />
+            <element signature="e#32942#33010#0" expanded="false" />
+            <element signature="e#33470#33537#0" expanded="false" />
+            <element signature="e#33681#33752#0" expanded="false" />
+            <element signature="e#34059#34115#0" expanded="false" />
+            <element signature="n#!!block;n#getBits#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#stToIJ#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#stToIJ#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#35387#35461#0" expanded="false" />
+            <element signature="e#35969#36044#0" expanded="false" />
+            <element signature="n#!!doc;n#fromFaceIJWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#fromFaceIJWrap#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#36372#36440#0" expanded="false" />
+            <element signature="e#36771#36837#0" expanded="false" />
+            <element signature="e#37157#37224#0" expanded="false" />
+            <element signature="n#!!doc;n#fromFaceIJSame#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#fromFaceIJSame#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#37810#37863#0" expanded="false" />
+            <element signature="e#37869#37926#0" expanded="false" />
+            <element signature="n#!!doc;n#unsignedLongLessThan#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#unsignedLongLessThan#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#unsignedLongGreaterThan#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#unsignedLongGreaterThan#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#greaterThan#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#lessOrEquals#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#greaterOrEquals#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#toString#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#compareTo#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#equals#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!doc;n#binarySearch#0;n#S2CellId#0" expanded="false" />
+            <element signature="n#!!block;n#binarySearch#0;n#S2CellId#0" expanded="false" />
+            <element signature="e#39678#39717#0" expanded="false" />
+            <element signature="e#39772#40044#0" expanded="false" />
+            <element signature="n#!!block;n#initLookupCell#0" expanded="false" />
+            <element signature="e#40270#40556#0" expanded="false" />
+            <element signature="e#40562#40977#0" expanded="false" />
+            <element signature="e#40723#40973#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2LatLng.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="241" column="0" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#646#680#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/S2Cell.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="431" column="14" selection-start-line="431" selection-start-column="9" selection-end-line="431" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="420">
+            <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+            <folding>
+              <marker date="1473425709343" expanded="true" signature="920:1361" ph="{...}" />
+              <marker date="1473425709343" expanded="true" signature="926:1255" ph="/** Calculates a region covering a circle ...*/" />
+              <marker date="1473425709343" expanded="true" signature="1613:1625" ph="/*...*/" />
+              <marker date="1473425709343" expanded="true" signature="1630:1643" ph="/*...*/" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
           <folding />
         </state>
       </provider>

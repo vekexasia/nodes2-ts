@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-const Long = require("long");
+//const Long = require("long");
+import * as Long from 'long';
 import {S2Point} from "./S2Point";
 import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
 import {Decimal} from './decimal';
+
 let parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
 };

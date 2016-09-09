@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { S1Interval } from "./S1Interval";
 import { R1Interval } from "./R1Interval";
 import { S2LatLng } from "./S2LatLng";

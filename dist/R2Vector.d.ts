@@ -1,3 +1,4 @@
+/// <reference types="decimal.js" />
 import { S2Point } from "./S2Point";
 /**
  * R2Vector represents a vector in the two-dimensional space. It defines the
@@ -9,8 +10,8 @@ export declare class R2Vector {
     private _x;
     private _y;
     constructor(_x: number | decimal.Decimal, _y: number | decimal.Decimal);
-    x: decimal.Decimal;
-    y: decimal.Decimal;
+    readonly x: decimal.Decimal;
+    readonly y: decimal.Decimal;
     get(index: number): decimal.Decimal;
     static fromPointFace(p: S2Point, face: number): R2Vector;
     static add(p1: R2Vector, p2: R2Vector): R2Vector;
