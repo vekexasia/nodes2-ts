@@ -1,84 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="exported method to calc point ad distance+bearing">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/decimal_augmentation.d.ts" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/Interval.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/MutableInteger.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R1Interval.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/R2Vector.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Angle.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S1Interval.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cap.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Cell.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellId.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2CellUnion.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2EdgeUtil.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLng.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2LatLngRect.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Point.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Projections.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2Region.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/S2RegionCoverer.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/decimal.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/export.js.map" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/nodes2ts.iml" afterPath="$PROJECT_DIR$/.idea/nodes2ts.iml" />
+    <list default="true" id="d7a5090c-1a66-46ae-88e1-4a5e2af81756" name="Default" comment="removed dist from git.&#10;fixed decimal augmentation + moved to tsc@2.0.0">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.npmignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellId.ts" afterPath="$PROJECT_DIR$/src/S2CellId.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2CellUnion.ts" afterPath="$PROJECT_DIR$/src/S2CellUnion.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/S2LatLng.ts" afterPath="$PROJECT_DIR$/src/S2LatLng.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/decimal.ts" afterPath="$PROJECT_DIR$/src/decimal.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Cell.test.ts" afterPath="$PROJECT_DIR$/test/S2Cell.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2CellId.test.ts" afterPath="$PROJECT_DIR$/test/S2CellId.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLng.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLng.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" afterPath="$PROJECT_DIR$/test/S2LatLngRect.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/S2Point.test.ts" afterPath="$PROJECT_DIR$/test/S2Point.test.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="$PROJECT_DIR$/tsconfig.json" />
     </list>
     <ignored path="nodes2ts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -373,17 +299,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+            <state relative-caret-position="40">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".npmignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.npmignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="40">
+              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="100">
@@ -456,16 +392,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1155">
               <caret line="431" column="14" selection-start-line="431" selection-start-column="9" selection-end-line="431" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="S1Angle.d.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dist/S1Angle.d.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -785,7 +711,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/java-test-proj/src/CreateTests.java" />
         <option value="$PROJECT_DIR$/java-test-proj/build.gradle" />
         <option value="$PROJECT_DIR$/java-test-creator/build.gradle" />
         <option value="$PROJECT_DIR$/java-test-creator/.gitignore" />
@@ -833,9 +758,10 @@
         <option value="$PROJECT_DIR$/test/S2LatLng.test.ts" />
         <option value="$PROJECT_DIR$/test/S2LatLngRect.test.ts" />
         <option value="$PROJECT_DIR$/test/S2Point.test.ts" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/.npmignore" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -1475,7 +1401,7 @@
       <workItem from="1470924394251" duration="1774000" />
       <workItem from="1470926184907" duration="1137000" />
       <workItem from="1471191560443" duration="1003000" />
-      <workItem from="1473420401303" duration="5349000" />
+      <workItem from="1473420401303" duration="6449000" />
     </task>
     <task id="LOCAL-00001" summary="fixed errors and ported intervals to Decimal.js">
       <created>1470688499993</created>
@@ -1533,11 +1459,18 @@
       <option name="project" value="LOCAL" />
       <updated>1470926051644</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="removed dist from git.&#10;fixed decimal augmentation + moved to tsc@2.0.0">
+      <created>1473425800733</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1473425800733</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="152717000" />
+    <option name="totallyTimeSpent" value="153817000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1629,7 +1562,8 @@
     <MESSAGE value="Removed useless shit from gulpfile.ts" />
     <MESSAGE value="new better exported version" />
     <MESSAGE value="exported method to calc point ad distance+bearing" />
-    <option name="LAST_COMMIT_MESSAGE" value="exported method to calc point ad distance+bearing" />
+    <MESSAGE value="removed dist from git.&#10;fixed decimal augmentation + moved to tsc@2.0.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed dist from git.&#10;fixed decimal augmentation + moved to tsc@2.0.0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1735,21 +1669,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dist/S2Region.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/export.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/export.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -2337,18 +2256,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/npm-debug.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.npmignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
           <folding />
         </state>
       </provider>

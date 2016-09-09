@@ -1,19 +1,30 @@
 {
   "name": "nodes2ts",
-  "version": "1.1.3",
-  "description": "",
+  "version": "1.1.4",
+  "description": "a Typescript porting of the great S2 Geometry library from Google ",
   "main": "dist/export.js",
+  "homepage": "https://github.com/vekexasia/nodes2-ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vekexasia/nodes2-ts"
+  },
+  "keywords": ["s2","s2 geometry", "s2geometry", "geohash"],
+
   "scripts": {
     "test": "NODE_ENV=test mocha",
     "wtest": "NODE_ENV=test nodemon -q -e ts --exec npm run test",
     "cover": "NODE_ENV=test nyc npm t",
     "prepublish": "shx rm -rf ./dist/ && npm run build",
     "clean": "shx rm -rf ./dist",
-    "build": "npm run clean && tsc -d",
+    "build": "tsc -d",
     "//postinstall": "npm run prepublish"
   },
   "typings": "./dist/export.d.ts",
-  "author": "Andrea Baccega",
+  "author": {
+    "url": "http://www.andreabaccega.com/",
+    "email": "vekexasia@gmail.com",
+    "name": "Andrea Baccega"
+  },
   "license": "MIT",
   "dependencies": {
     "decimal.js": "^6.0.0",
