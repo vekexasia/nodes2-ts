@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-///<reference path="./decimal_augmentation.d.ts"/>
+
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
