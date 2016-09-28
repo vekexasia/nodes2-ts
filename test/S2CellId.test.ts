@@ -1,5 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
-/// <reference path="../typings/4compilation.d.ts" />
 import {S2CellId} from "../src/S2CellId";
 import {expect} from "chai";
 const genJavaLocs = require('./assets/main-tests.json');
@@ -182,7 +180,7 @@ describe('S2CellId', () => {
         items.forEach(i => {
           const edgeIDs = i.cell.getEdgeNeighbors().map(cellId => cellId.id.toString());
           expect(edgeIDs)
-              .to.be.deep.eq(i.item.neighbors);
+              .to.be.deep.equal(i.item.neighbors);
 
 
         });
@@ -197,7 +195,7 @@ describe('S2CellId', () => {
         items.forEach(i => {
           const edgeIDs = i.cell.getAllNeighbors(i.cell.level()+1).map(cellId => cellId.id.toString());
           expect(edgeIDs)
-              .to.be.deep.eq(i.item.allNeighborsLvlP1);
+              .to.be.deep.equal(i.item.allNeighborsLvlP1);
         });
       });
       it('.contains should work with direct parent', () => {
@@ -216,7 +214,7 @@ describe('S2CellId', () => {
         c.vertexNeighborsLvl.forEach(vnData => {
           const calcTokens = cell.getVertexNeighbors(vnData.lvl)
               .map(vC => vC.toToken())
-          expect(calcTokens, `Cell: ${c.id} ${cell.toToken()} - level ${vnData.lvl}`).to.be.deep.eq(vnData.v);
+          expect(calcTokens, `Cell: ${c.id} ${cell.toToken()} - level ${vnData.lvl}`).to.be.deep.equal(vnData.v);
         });
       })
     });
@@ -224,7 +222,7 @@ describe('S2CellId', () => {
       cellTests.forEach(c => {
         const cell = new S2CellId(c.id);
         const edgeCellTokens = cell.getEdgeNeighbors().map(eN => eN.toToken());
-        expect(edgeCellTokens).to.be.deep.eq(c.edgeNeighbors);
+        expect(edgeCellTokens).to.be.deep.equal(c.edgeNeighbors);
 
       })
     });

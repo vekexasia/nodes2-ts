@@ -1,5 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
-/// <reference path="../typings/4compilation.d.ts" />
 
 import {S2Cell} from "../src/S2Cell";
 const genJavaLocs = require('./assets/cell-tests.json');

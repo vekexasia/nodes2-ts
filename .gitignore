@@ -2,3 +2,6 @@ node_modules/
 typings/
 coverage/
 .nyc_output/
+src/*.js
+dist/
+.idea

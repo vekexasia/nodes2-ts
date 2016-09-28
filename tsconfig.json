@@ -1,23 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "umd",
-    "emitDecoratorMetadata": true,
+    "target":                 "es5",
+    "module":                 "commonjs",
+    "emitDecoratorMetadata":  true,
     "experimentalDecorators": true,
-    "outDir": "dist",
-    "moduleResolution": "node",
-    "sourceMap": true
+    "outDir":                 "dist",
+    "sourceMap":              true,
+    "moduleResolution":       "node"
   },
-
-  "files": [
-    "typings/4compilation.d.ts",
+  "files":           [
     "src/export.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
-  }
+  "exclude":         [
+    "node_modules/"
+  ]
 }
