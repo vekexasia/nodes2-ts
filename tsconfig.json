@@ -9,7 +9,8 @@
     "moduleResolution":       "node"
   },
   "files":           [
-    "src/export.ts"
+    "src/export.ts",
+    "src/browser.ts"
   ],
   "exclude":         [
     "node_modules/"

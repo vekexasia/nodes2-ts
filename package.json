@@ -21,6 +21,7 @@
     "prepublish": "shx rm -rf ./dist/ && npm run build",
     "clean": "shx rm -rf ./dist",
     "build": "tsc -d",
+    "webpack": "webpack --display-error-details",
     "//postinstall": "npm run prepublish"
   },
   "typings": "./dist/export.d.ts",
@@ -46,7 +47,7 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.32",
-    "@types/decimal.js": "0.0.28",
+    "@types/decimal.js": "0.0.29",
     "@types/gulp": "^3.8.31",
     "@types/long": "^3.0.30",
     "@types/mocha": "^2.2.31",
@@ -62,7 +63,8 @@
     "shx": "^0.1.2",
     "sinon": "^1.17.5",
     "ts-node": "^1.2.2",
-    "typescript": "^2.0.0"
+    "typescript": "^2.0.0",
+    "webpack": "^1.13.2"
   },
   "nyc": {
     "include": [

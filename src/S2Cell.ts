@@ -291,7 +291,7 @@ export class S2Cell {
 // poles extend down to +/-35.26 degrees at their vertices.
 // adding kMaxError (as opposed to the C version) because of asin and atan2
 // roundoff errors
-  private static POLE_MIN_LAT = Decimal.asin(S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR)
+  private static POLE_MIN_LAT = Decimal.asin(S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR);
 // 35.26 degrees
 
 
