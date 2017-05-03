@@ -370,8 +370,8 @@ export class S2LatLngRect implements S2Region {
     // are curved, and at least one of them is concave.
 
     // Precompute the cell vertices as points and latitude-longitudes.
-    const cellV:S2Point[] = [];
-    const cellLl:S2LatLng[] = new S2LatLng[4];
+    const cellV = new Array<S2Point>(4);
+    const cellLl = new Array<S2LatLng>(4);
     for (let i = 0; i < 4; ++i) {
       cellV[i] = cell.getVertex(i); // Must be normalized.
       cellLl[i] = S2LatLng.fromPoint(cellV[i]);
