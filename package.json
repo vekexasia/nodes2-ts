@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/chai": "^3.4.32",
     "@types/decimal.js": "0.0.28",
-    "@types/gulp": "^3.8.31",
+    "@types/gulp": "=3.8.31",
     "@types/long": "^3.0.30",
     "@types/mocha": "^2.2.31",
     "@types/sinon": "^1.16.29",
