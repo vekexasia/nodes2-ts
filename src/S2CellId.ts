@@ -1038,16 +1038,19 @@ public  getVertexNeighbors(level:number):S2CellId[] {
    * Returns the position of the id within the given list or a negative value with
    * the position of the index wher eit should be entered if the id was present
    */
-  public static binarySearch(ids:S2CellId[], id:Long|string|number|S2CellId, low:number=0 ):number {
-    if (id instanceof S2CellId) {
-      id = (id as S2CellId).id;
+  public static binarySearch(ids:S2CellId[], _id:Long|string|S2CellId, low:number=0 ):number {
+    let id:S2CellId;
+    if (_id instanceof S2CellId) {
+      id = _id;
+    } else if(_id instanceof Long) {
+      id = new S2CellId(_id);
     }
     let high = ids.length-1;
 
     while (low <= high) {
       const mid = (low + high) >>> 1;
-      const midVal = ids[mid].id;
-      let cmp = midVal.compare(id as Long|string|number);
+      const midVal = ids[mid];
+      let cmp = midVal.compareTo(id);
 
       if (cmp < 0)
         low = mid + 1;
@@ -1057,6 +1060,16 @@ public  getVertexNeighbors(level:number):S2CellId[] {
         return mid; // key found
     }
     return -(low + 1);  // key not found
+  }
+
+  public static indexedBinarySearch(ids:S2CellId[], id:Long|string|S2CellId, low:number=0 ):number {
+    const toRet = this.binarySearch(ids, id, low)
+    if (toRet >= 0) {
+      return toRet;
+    } else {
+      return -(toRet+1);
+    }
+
   }
 
 }

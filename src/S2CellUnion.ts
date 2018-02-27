@@ -48,7 +48,7 @@ export class S2CellUnion implements S2Region {
    * vector data without copying and clears the given vector. These methods may
    * be called multiple times.
    */
-  public initFromIds(cellIds:Long[]) {
+  public initFromIds(cellIds:Long[]|string[]) {
     this.initRawIds(cellIds);
     this.normalize();
   }
@@ -62,7 +62,7 @@ export class S2CellUnion implements S2Region {
     this.cellIds = cellIds;
   }
 
-  public initRawIds(cellIds:Long[]) {
+  public initRawIds(cellIds:Long[]|string[]) {
     const size = cellIds.length;
     this.cellIds = [];
     for (let i = 0; i < size; i++) {
@@ -88,6 +88,10 @@ export class S2CellUnion implements S2Region {
   /** Convenience methods for accessing the individual cell ids. */
   public cellId(i:number):S2CellId {
     return this.cellIds[i];
+  }
+
+  public getCellIds(): S2CellId[] {
+    return this.cellIds;
   }
 
 
@@ -272,15 +276,17 @@ export class S2CellUnion implements S2Region {
     let j = 0;
 
     while (i < x.cellIds.length && j < y.cellIds.length) {
+
       const imin = x.cellId(i).rangeMin();
       const jmin = y.cellId(j).rangeMin();
+
       if (imin.greaterThan(jmin)) {
         // Either j->contains(*i) or the two cells are disjoint.
         if (x.cellId(i).lessOrEquals(y.cellId(j).rangeMax())) {
           this.cellIds.push(x.cellId(i++));
         } else {
           // Advance "j" to the first cell possibly contained by *i.
-          j = S2CellId.binarySearch(y.cellIds, imin, j + 1);
+          j = S2CellId.indexedBinarySearch(y.cellIds, imin, j + 1);
           // The previous cell *(j-1) may now contain *i.
           if (x.cellId(i).lessOrEquals(y.cellId(j - 1).rangeMax())) {
             --j;
@@ -291,7 +297,7 @@ export class S2CellUnion implements S2Region {
         if (y.cellId(j).lessOrEquals(x.cellId(i).rangeMax())) {
           this.cellIds.push(y.cellId(j++));
         } else {
-          i = S2CellId.binarySearch(x.cellIds, jmin, i + 1);
+          i = S2CellId.indexedBinarySearch(x.cellIds, jmin, i + 1);
           if (y.cellId(j).lessOrEquals(x.cellId(i - 1).rangeMax())) {
             --i;
           }
@@ -507,7 +513,8 @@ public  getCapBound():S2Cap {
     const output:S2CellId[] = [];
     // ArrayList<S2CellId> output = new ArrayList<>(this.cellIds.size());
     // output.ensureCapacity(this.cellIds.size());
-    output.sort((a, b) => a.compareTo(b));
+
+    this.cellIds.sort((a, b) => a.compareTo(b));
     // Collections.sort(this.cellIds);
 
     this.cellIds.forEach(id => {

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.google.common.geometry.S2LatLng.EARTH_RADIUS_METERS;
 
@@ -374,12 +375,84 @@ public class CreateTests {
     return point;
   }
 
+  private static ArrayList<String> cellIdsToStrings(List<S2CellId> cellIds) {
+    ArrayList<String> toRet = new ArrayList<>();
+
+    for (S2CellId cellId : cellIds) {
+      toRet.add(cellId.toToken());
+    }
+    return toRet;
+  }
+  private static void calcUnionTests() {
+    JSONArray jA = new JSONArray();
+    ArrayList<S2CellId> cells = new ArrayList<>();
+    for (int i = 0; i < maxTestCases + 1; i++) {
+      double lat = latRange[0] + (totLat / maxTestCases) * i;
+      for (int j = 0; j < maxTestCases + 1; j++) {
+
+        double lng = lngRange[0] + (totLng / maxTestCases) * j;
+
+        S2LatLng ll = new S2LatLng(S1Angle.degrees(lat), S1Angle.degrees(lng));
+
+        S2CellId s2CellId = S2CellId.fromLatLng(
+          ll
+        ).parent(
+          levels[(i * (maxTestCases + 1) + j) % levels.length]
+        );
+        cells.add(s2CellId);
+      }
+    }
+    Random random = new Random(10000);
+    int maxUnionTests = 30;
+    for (int i = 0; i < maxUnionTests; i++) {
+      JSONObject test = new JSONObject();
+      int firstUnionCells = random.nextInt(10) + 7;
+      int secondUnionCells = random.nextInt(10) + 7;
+      S2CellUnion firstUnion = new S2CellUnion();
+      S2CellUnion scndUnion = new S2CellUnion();
+      ArrayList<S2CellId> firstCells = new ArrayList<>();
+      ArrayList<S2CellId> secondCells = new ArrayList<>();
+      for (int j = 0; j < firstUnionCells; j++) {
+        firstCells.add(cells.get(random.nextInt(cells.size())));
+      }
+      for (int j = 0; j < secondUnionCells; j++) {
+        secondCells.add(cells.get(random.nextInt(cells.size())));
+      }
+
+      test.put("firstCells", cellIdsToStrings(firstCells));
+      test.put("scndCells", cellIdsToStrings(secondCells));
+
+      firstUnion.initFromCellIds(firstCells);
+      scndUnion.initFromCellIds(secondCells);
+
+
+
+      test.put("firstUnionResultCells", cellIdsToStrings(firstUnion.cellIds()));
+      test.put("scndUnionResultCells", cellIdsToStrings(scndUnion.cellIds()));
+
+      S2CellUnion intersection = new S2CellUnion();
+      intersection.getIntersection(firstUnion, scndUnion);
+      test.put("intersectionUnionCells", cellIdsToStrings(intersection.cellIds()));
+
+      S2CellUnion union = new S2CellUnion();
+      intersection.getUnion(firstUnion, scndUnion);
+      test.put("union", cellIdsToStrings(intersection.cellIds()));
+
+      jA.put(test);
+
+    }
+    saveJAToFile(jA, "union-tests.json");
+
+  }
+
   public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
 
 
     calcLatLngTests();
     calcCellsTests();
     calcMainTests();
+
+    calcUnionTests();
 
 
   }
