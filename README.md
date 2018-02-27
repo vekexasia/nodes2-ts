@@ -4,9 +4,10 @@ An extensive port of google's s2 geometry library written in Typescript.
 
 The library uses `decimal.js` and `long` as external libraries to perform the needed math.
 
+Npm package is `nodes2ts`.
 
 #### Tests
-This project is backed by 56 1-by-1 comparison tests between this implementation and the original one.
+This project is backed by 60 1-by-1 comparison tests between this implementation and the original one.
 
 When implementing a not-yet-ported feature, please generate the needed tests by modifiying the java code within `java-test-creator` folder
 
