@@ -60,7 +60,7 @@ export class S2RegionCoverer {
    */
   public static DEFAULT_MAX_CELLS = 8;
 
-  private static FACE_CELLS:S2Cell[] = new Array(6).map(face => S2Cell.fromFacePosLevel(face, 0, 0));
+  private static FACE_CELLS:S2Cell[] = [0, 1, 2, 3, 4, 5].map(face => S2Cell.fromFacePosLevel(face, 0, 0));
 
 
   private minLevel:number;
