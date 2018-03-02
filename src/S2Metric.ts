@@ -1,4 +1,5 @@
 import {S2} from "./S2";
+import {Decimal} from './decimal';
 
 /**
  * Defines an area or a length cell metric.
@@ -27,7 +28,7 @@ export class S2Metric {
     /** Return the value of a metric for cells at the given level. */
     public getValue(level:number):number {
         let scaleFactor = this.dim() * (1 - level);
-        return this.deriv().toNumber() * Math.pow(2, scaleFactor);
+        return this.deriv().times(Math.pow(2, scaleFactor)).toNumber();
     }
 
     /**
