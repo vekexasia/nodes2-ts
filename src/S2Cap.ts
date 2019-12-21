@@ -25,7 +25,7 @@ import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
 import Long = require('long');
-import {Decimal} from './decimal';
+import {Decimal} from 'decimal.js';
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
  * a plane. The cap is defined by its axis and height. This representation has
@@ -51,14 +51,14 @@ export class S2Cap implements S2Region {
   private static ROUND_UP = S2.toDecimal(1).dividedBy(new Long(1).shiftLeft(52).toString()).plus(1);
 
   public axis:S2Point;
-  public height:decimal.Decimal;
+  public height:Decimal;
 
   /**
    * Create a cap given its axis and the cap height, i.e. the maximum projected
    * distance along the cap axis from the cap center. 'axis' should be a
    * unit-length vector.
    */
-  constructor(axis:S2Point, _height:number|decimal.Decimal) {
+  constructor(axis:S2Point, _height:number|Decimal) {
     this.axis = axis;
     this.height = S2.toDecimal(_height);
     // assert (isValid());
@@ -85,7 +85,7 @@ export class S2Cap implements S2Region {
    * Create a cap given its axis and its area in steradians. 'axis' should be a
    * unit-length vector, and 'area' should be between 0 and 4 * M_PI.
    */
-  public static fromAxisArea(axis:S2Point, _area:number|decimal.Decimal):S2Cap {
+  public static fromAxisArea(axis:S2Point, _area:number|Decimal):S2Cap {
     const area = S2.toDecimal(_area);
     // assert (S2.isUnitLength(axis));
     return new S2Cap(axis, area.dividedBy(S2.toDecimal(2).times(S2.M_PI)));
@@ -104,7 +104,7 @@ export class S2Cap implements S2Region {
     return this;
   }
 
-  public area():decimal.Decimal {
+  public area():Decimal {
     return Decimal.max(
         0,
         this.height
@@ -248,8 +248,8 @@ export class S2Cap implements S2Region {
     const capAngle = this.angle().radians;
 
     let allLongitudes = false;
-    const lat:decimal.Decimal[] = Array(2);
-    const lng:decimal.Decimal[] = Array(2);
+    const lat:Decimal[] = Array(2);
+    const lng:Decimal[] = Array(2);
 
     lng[0] = S2.toDecimal(-S2.M_PI);
     lng[1] = S2.toDecimal(S2.M_PI);
@@ -363,9 +363,7 @@ export class S2Cap implements S2Region {
     // can intersect is if the cap intersects the interior of some edge.
 
     const sin2Angle = this.height.times(this.height.neg().plus(2)); // sin^2(capAngle)
-    // if (cell.id.pos().toString(16) === '77c040000000000') {
-    //   console.log("DIOCAN");
-    // }
+
     for (let k = 0; k < 4; ++k) {
       let edge = cell.getEdgeRaw(k);
       let dot = this.axis.dotProd(edge);
@@ -378,9 +376,6 @@ export class S2Cap implements S2Region {
       }
       // The Norm2() factor is necessary because "edge" is not normalized.
       if (dot.pow(2).gt(sin2Angle.times(edge.norm2()))) {
-        // if (cell.id.pos().toString(16) === '77c040000000000') {
-        //   console.log("DIOCaAN", k, dot.toString(), sin2Angle.toString(), sin2Angle.times(edge.norm2()).toString());
-        // }
         return false; // Entire cap is on the exterior side of this edge.
       }
       // Otherwise, the great circle containing this edge intersects
@@ -449,7 +444,7 @@ export class S2Cap implements S2Region {
   public toString():string {
     return "[Point = " + this.axis.toString() + " Height = " + this.height.toString() + "]";
   }
-  
+
   public toGEOJSON(){
     return this.getRectBound().toGEOJSON();
   }

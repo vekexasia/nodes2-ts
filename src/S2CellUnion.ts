@@ -23,7 +23,7 @@ import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
 import {S2Cap} from "./S2Cap";
-
+import {Decimal} from 'decimal.js';
 /**
  * An S2CellUnion is a region consisting of cells of various sizes. Typically a
  * cell union is used to approximate some other shape. There is a tradeoff
@@ -225,7 +225,7 @@ export class S2CellUnion implements S2Region {
       }
     }
     return true;
-    
+
   }
 
   public getUnion(x:S2CellUnion, y:S2CellUnion) {
@@ -391,7 +391,7 @@ public  getCapBound():S2Cap {
     let area = S2Cell.averageArea(id.level());
     centroid = S2Point.add(centroid, S2Point.mul(id.toPoint(), area));
   });
-  
+
   if (centroid.equals(new S2Point(0, 0, 0))) {
     centroid = new S2Point(1, 0, 0);
   } else {
@@ -473,7 +473,7 @@ public  getCapBound():S2Cap {
    * @return approximate area of the cell union
    */
   public approxArea():number {
-    let area:decimal.Decimal = S2.toDecimal(0);
+    let area = S2.toDecimal(0);
     this.cellIds.forEach(id => {
       area = area.plus(new S2Cell(id).approxArea());
     });
@@ -487,7 +487,7 @@ public  getCapBound():S2Cap {
    * @return the exact area of the cell union
    */
   public exactArea():number {
-    let area:decimal.Decimal = S2.toDecimal(0);
+    let area = S2.toDecimal(0);
     this.cellIds.forEach(id => {
       area = area.plus(new S2Cell(id).exactArea());
     });

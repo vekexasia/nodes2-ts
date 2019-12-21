@@ -1,17 +1,16 @@
 import {S2} from "./S2";
-import {Decimal} from './decimal';
-
+import {Decimal} from 'decimal.js';
 /**
  * Defines an area or a length cell metric.
  */
 export class S2Metric {
     private _dim:number;
-    private _deriv:decimal.Decimal;
+    private _deriv:Decimal;
 
     /**
      * Defines a cell metric of the given dimension (1 == length, 2 == area).
      */
-    public constructor(_dim:number|decimal.Decimal, _deriv:number|decimal.Decimal) {
+    public constructor(_dim:number|Decimal, _deriv:number|Decimal) {
         this._dim = S2.toDecimal(_dim).toNumber();
         this._deriv = S2.toDecimal(_deriv);
 
@@ -28,6 +27,7 @@ export class S2Metric {
     /** Return the value of a metric for cells at the given level. */
     public getValue(level:number):number {
         let scaleFactor = this.dim() * (1 - level);
+
         return this.deriv().times(Math.pow(2, scaleFactor)).toNumber();
     }
 
@@ -70,7 +70,7 @@ export class S2Metric {
      * cells have a minimum width of 0.1 or larger. The return value is always a
      * valid level.
      */
-    public getMaxLevel(_value:number|decimal.Decimal /*double*/):number {
+    public getMaxLevel(_value:number|Decimal /*double*/):number {
         const value = S2.toDecimal(_value).toNumber();
         if (value <= 0) {
             return S2.MAX_LEVEL;

@@ -8,7 +8,8 @@ import {S1Angle} from "./S1Angle";
 import {S2Cell} from "./S2Cell";
 import {S2EdgeUtil} from "./S2EdgeUtil";
 import {S2Cap} from "./S2Cap";
-import {Decimal} from './decimal';
+import {Decimal} from 'decimal.js';
+
 export class S2LatLngRect implements S2Region {
   constructor(public lat:R1Interval, public lng:S1Interval) {
 
@@ -506,14 +507,15 @@ export class S2LatLngRect implements S2Region {
 // }
 
   /** Return the surface area of this rectangle on the unit sphere. */
-  public area():decimal.Decimal {
+  public area():Decimal {
     if (this.isEmpty()) {
       return S2.toDecimal(0);
     }
 
     // This is the size difference of the two spherical caps, multiplied by
     // the longitude ratio.
-    //TODO: check if this.lat.hi & this.lat.lo is radians. 
+    //TODO: check if this.lat.hi & this.lat.lo is radians.
+
     return this.lng.getLength().times(Decimal.sin(this.lat.hi).minus(Decimal.sin(this.lat.lo)).abs());
   }
 
@@ -619,7 +621,7 @@ export class S2LatLngRect implements S2Region {
    * Return true if the edge AB intersects the given edge of constant longitude.
    */
   private static /*boolean*/ intersectsLngEdge(a:S2Point, b:S2Point,
-                                               lat:R1Interval, lng:decimal.Decimal|number) {
+                                               lat:R1Interval, lng:Decimal|number) {
     // Return true if the segment AB intersects the given edge of constant
     // longitude. The nice thing about edges of constant longitude is that
     // they are straight lines on the sphere (geodesics).
@@ -632,7 +634,7 @@ export class S2LatLngRect implements S2Region {
   /**
    * Return true if the edge AB intersects the given edge of constant latitude.
    */
-  private static /*boolean*/ intersectsLatEdge(a:S2Point, b:S2Point, lat:number|decimal.Decimal,
+  private static /*boolean*/ intersectsLatEdge(a:S2Point, b:S2Point, lat:number|Decimal,
                                                lng:S1Interval) {
     // Return true if the segment AB intersects the given edge of constant
     // latitude. Unfortunately, lines of constant latitude are curves on

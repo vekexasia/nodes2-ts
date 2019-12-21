@@ -21,7 +21,6 @@ export * from './S2Point';
 export * from './S2Projections';
 export * from './S2Region';
 export * from './S2RegionCoverer';
-export * from './decimal_augmentation'
 
 export class Utils {
 

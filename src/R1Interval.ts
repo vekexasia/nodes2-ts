@@ -1,7 +1,6 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
-import {Decimal} from './decimal';
-
+import {Decimal} from 'decimal.js';
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a
  * 1-dimensional sphere). It is capable of representing the empty interval
@@ -33,22 +32,22 @@ export class R1Interval extends Interval {
     return this.lo.gt(this.hi);
   }
 
-  public getCenter():decimal.Decimal {
+  public getCenter():Decimal {
     return this.lo.plus(this.hi).dividedBy(2);
   }
 
-  public getLength():decimal.Decimal {
+  public getLength():Decimal {
     return this.hi.minus(this.lo);
   }
 
-  public contains(_p:number|decimal.Decimal):boolean {
+  public contains(_p:number|Decimal):boolean {
     const p = S2.toDecimal(_p);
     return p.gte(this.lo) && p.lte(this.hi);
 
   }
 
   /** Return true if the interior of the interval contains the point 'p'. */
-  public interiorContains(_p:number|decimal.Decimal):boolean {
+  public interiorContains(_p:number|Decimal):boolean {
     const p = S2.toDecimal(_p);
     return p.gt(this.lo) && p.lt(this.hi);  }
 
@@ -92,7 +91,7 @@ export class R1Interval extends Interval {
   }
 
   /** Expand the interval so that it contains the given point "p". */
-  public addPoint(_p:number|decimal.Decimal):R1Interval {
+  public addPoint(_p:number|Decimal):R1Interval {
     const p = S2.toDecimal(_p);
     if (this.isEmpty()) {
       return R1Interval.fromPoint(p);
@@ -110,7 +109,7 @@ export class R1Interval extends Interval {
    * point in this interval. Note that the expansion of an empty interval is
    * always empty.
    */
-  public  expanded(_radius:number|decimal.Decimal):R1Interval {
+  public  expanded(_radius:number|Decimal):R1Interval {
     const radius = S2.toDecimal(_radius);
     // assert (radius >= 0);
     if (this.isEmpty()) {
@@ -170,7 +169,7 @@ export class R1Interval extends Interval {
   }
 
 
-  static fromPoint(p:number|decimal.Decimal):R1Interval {
+  static fromPoint(p:number|Decimal):R1Interval {
     return new R1Interval(p, p);
   }
 
@@ -179,7 +178,7 @@ export class R1Interval extends Interval {
    * given points. This is equivalent to starting with an empty interval and
    * calling AddPoint() twice, but it is more efficient.
    */
-  static fromPointPair(_p1:number|decimal.Decimal, _p2:number|decimal.Decimal):R1Interval {
+  static fromPointPair(_p1:number|Decimal, _p2:number|Decimal):R1Interval {
     const p1 = S2.toDecimal(_p1);
     const p2 = S2.toDecimal(_p2);
     if (p1.lte(p2)) {

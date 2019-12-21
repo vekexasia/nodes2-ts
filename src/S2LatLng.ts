@@ -17,7 +17,7 @@
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
-import {Decimal} from './decimal';
+import {Decimal} from 'decimal.js';
 /**
  * This class represents a point on the unit sphere as a pair of
  * latitude-longitude coordinates. Like the rest of the "geometry" package, the
@@ -36,10 +36,10 @@ export class S2LatLng {
   /** The center point the lat/lng coordinate system. */
   public static CENTER = new S2LatLng(0.0, 0.0);
 
-  public latRadians:decimal.Decimal;
-  public lngRadians:decimal.Decimal;
+  public latRadians:Decimal;
+  public lngRadians:Decimal;
 
-  constructor(latRadians:number|decimal.Decimal, lngRadians:number|decimal.Decimal) {
+  constructor(latRadians:number|Decimal, lngRadians:number|Decimal) {
     this.latRadians = S2.toDecimal(latRadians);
     this.lngRadians = S2.toDecimal(lngRadians);
   }
@@ -97,7 +97,7 @@ export class S2LatLng {
     //     S2.IEEEremainder(this.lngRadians, 2 * S2.M_PI));
   }
 
-  public static fromDegrees(latDegrees:number|decimal.Decimal, lngDegrees:number|decimal.Decimal):S2LatLng {
+  public static fromDegrees(latDegrees:number|Decimal, lngDegrees:number|Decimal):S2LatLng {
 
     return new S2LatLng(S1Angle.degrees(latDegrees).radians, S1Angle.degrees(lngDegrees).radians);
   }
@@ -124,7 +124,7 @@ export class S2LatLng {
    * Scales this point by the given scaling factor.
    * Note that there is no guarantee that the new point will be <em>valid</em>.
    */
-  public  mul(m:decimal.Decimal|number):S2LatLng {
+  public  mul(m:Decimal|number):S2LatLng {
     return new S2LatLng(this.latRadians.times(m), this.lngRadians.times(m));
   }
 
@@ -151,12 +151,13 @@ export class S2LatLng {
     return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
   }
 
-  pointAtDistance(_distanceInKm:number|decimal.Decimal, _bearingRadians:number|decimal.Decimal) {
+  pointAtDistance(_distanceInKm:number|Decimal, _bearingRadians:number|Decimal) {
     const distanceInM = S2.toDecimal(_distanceInKm).times(1000);
     const distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
     const bearingRadians = S2.toDecimal(_bearingRadians);
     this.latRadians.sin();
     distanceToRadius.cos();
+
     const newLat = this.latRadians.sin()
         .times(distanceToRadius.cos())
         .plus(
@@ -179,12 +180,12 @@ export class S2LatLng {
 
   /**
    * Generates n LatLngs given a distance in km and the number of points wanted.
-   * Generated points will be returned in a Clockwise order starting from North. 
+   * Generated points will be returned in a Clockwise order starting from North.
    * @param _distanceInKm
    * @param nPoints
    * @returns {S2LatLng[]}
    */
-  pointsAtDistance(_distanceInKm:number|decimal.Decimal, nPoints:number=4):S2LatLng[] {
+  pointsAtDistance(_distanceInKm:number|Decimal, nPoints:number=4):S2LatLng[] {
     return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
         .map((p, idx) => {
           return S2.toDecimal(360).dividedBy(nPoints).times(idx);
@@ -193,8 +194,8 @@ export class S2LatLng {
         .map(bearingRadians => this.pointAtDistance(_distanceInKm, bearingRadians));
 
   }
- 
-  getEarthDistance(other:S2LatLng):decimal.Decimal {
+
+  getEarthDistance(other:S2LatLng):Decimal {
     return this.getDistance(other).radians.times(S2LatLng.EARTH_RADIUS_METERS);
   }
 
@@ -209,8 +210,8 @@ export class S2LatLng {
     // distance that way (which gives about 15 digits of accuracy for all
     // distances).
 
-    const dLat:decimal.Decimal = other.latRadians.minus(this.latRadians).times(0.5).sin();
-    const dLng:decimal.Decimal = other.lngRadians.minus(this.lngRadians).times(0.5).sin();
+    const dLat:Decimal = other.latRadians.minus(this.latRadians).times(0.5).sin();
+    const dLng:Decimal = other.lngRadians.minus(this.lngRadians).times(0.5).sin();
     const x = dLat.pow(2)
         .plus(
             dLng.pow(2)
@@ -220,7 +221,7 @@ export class S2LatLng {
     // double x = dlat * dlat + dlng * dlng * Math.cos(lat1) * Math.cos(lat2);
 
     return new S1Angle(
-        (S2.toDecimal(2) as decimal.Decimal)
+        (S2.toDecimal(2) as Decimal)
             .times(
                 Decimal.atan2(
                     x.sqrt(),

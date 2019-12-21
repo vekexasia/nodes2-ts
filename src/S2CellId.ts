@@ -21,7 +21,7 @@ import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
-import {Decimal} from './decimal';
+import {Decimal} from 'decimal.js';
 
 let parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
@@ -924,7 +924,7 @@ public  getVertexNeighbors(level:number):S2CellId[] {
    * Return the i- or j-index of the leaf cell containing the given s- or
    * t-value.
    */
-  private static stToIJ(_s:number|decimal.Decimal):number {
+  private static stToIJ(_s:number|Decimal):number {
     // Converting from floating-point to integers via static_cast is very slow
     // on Intel processors because it requires changing the rounding mode.
     // Rounding to the nearest integer using FastIntRound() is much faster.

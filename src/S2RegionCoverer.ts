@@ -19,7 +19,7 @@ import {S2Region} from "./S2Region";
 import {S2CellId} from "./S2CellId";
 import {S2CellUnion} from "./S2CellUnion";
 import {S2Projections} from "./S2Projections";
-import {Decimal} from './decimal';
+import {Decimal} from 'decimal.js';
 /**
  * An S2RegionCoverer is a class that allows arbitrary regions to be
  * approximated as unions of cells (S2CellUnion). This is useful for
@@ -443,7 +443,7 @@ export class S2RegionCoverer {
     this.candidatesCreatedCounter = 0;
 
     this.getInitialCandidates();
-    
+
     while (this.candidateQueue.size() !== 0 && (!this.interiorCovering || this.result.length < this.maxCells)) {
       const candidate = this.candidateQueue.poll().candidate;
       // logger.info("Pop: " + candidate.cell.id());
@@ -507,7 +507,7 @@ class Candidate {
   public numChildren:number; // Number of children that intersect the region.
   public children:Candidate[]; // Actual size may be 0, 4, 16, or 64
   // elements.
-  
+
   public toString() {
     return `isTermina: ${this.isTerminal} - Cell: ${this.cell.toString()}`;
   }

@@ -1,6 +1,6 @@
 import {S2Point} from "./S2Point";
-import {Decimal} from './decimal';
 import {S2Metric} from "./S2Metric";
+import {Decimal} from 'decimal.js';
 
 const Long = require('long');
 
@@ -32,7 +32,7 @@ export class S2 {
   ];
   static MAX_LEVEL = 30;
 
-  public static IEEEremainder(_f1:number|decimal.Decimal, _f2:number|decimal.Decimal) {
+  public static IEEEremainder(_f1:number|Decimal, _f2:number|Decimal) {
     const f1 = S2.toDecimal(_f1);
     const f2 = S2.toDecimal(_f2);
     let r = f1.mod(f2);
@@ -121,7 +121,7 @@ export class S2 {
    * becomes numerically unstable as the length of any edge approaches 180
    * degrees.
    */
-  static area(a:S2Point, b:S2Point, c:S2Point):decimal.Decimal {
+  static area(a:S2Point, b:S2Point, c:S2Point):Decimal {
     // This method is based on l'Huilier's theorem,
     //
     // tan(E/4) = sqrt(tan(s/2) tan((s-a)/2) tan((s-b)/2) tan((s-c)/2))
@@ -202,7 +202,7 @@ export class S2 {
    * slightly faster than the Area() method above is not accurate for very small
    * triangles.
    */
-  static girardArea(a:S2Point, b:S2Point, c:S2Point):decimal.Decimal {
+  static girardArea(a:S2Point, b:S2Point, c:S2Point):Decimal {
     // This is equivalent to the usual Girard's formula but is slightly
     // more accurate, faster to compute, and handles a == b == c without
     // a special case.
@@ -218,11 +218,11 @@ export class S2 {
     );
   }
 
-  public static toDecimal(value:number|decimal.Decimal|string):decimal.Decimal {
+  public static toDecimal(value:number|Decimal|string):Decimal {
     if (typeof(value) === 'number' || typeof(value) === 'string') {
-      return new Decimal(value) as decimal.Decimal
+      return new Decimal(value) as Decimal
     }
-    return value as decimal.Decimal;
+    return value as Decimal;
   }
 
 

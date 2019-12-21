@@ -8,8 +8,9 @@
     "sourceMap":              true,
     "moduleResolution":       "node"
   },
-  "files":           [
-    "src/export.ts"
+  "files": [
+    "src/export.ts",
+    "node_modules/decimal.js/decimal.global.d.ts"
   ],
   "exclude":         [
     "node_modules/"

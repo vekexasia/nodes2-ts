@@ -274,6 +274,31 @@ public class CreateTests {
     saveJAToFile(coveringTOJsonObject(b), "cap2.json");
   }
 
+  private static void covering() {
+    S2LatLngRect s2LatLngRect = S2LatLngRect.fromPointPair(
+      S2LatLng.fromDegrees(45.319323121350145, 12.122039794921875),
+      S2LatLng.fromDegrees(45.79529713006591, 9.485321044921877)
+      );
+
+    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
+    s2RegionCoverer.setMinLevel(6);
+    s2RegionCoverer.setMaxLevel(20);
+    s2RegionCoverer.setMaxCells(29);
+    s2RegionCoverer.setLevelMod(1);
+    ArrayList<S2CellId> b = new ArrayList<>(10);
+    s2RegionCoverer.getCovering(s2LatLngRect, b);
+
+
+    JSONArray jA = new JSONArray();
+    for (S2CellId a: b) {
+      jA.put(a.toToken());
+    }
+    saveJAToFile(coveringTOJsonObject(b), "covering.json");
+    saveJAToFile(jA, "covering.tokens.json");
+
+
+  }
+
   private static void calcMainTests() {
 //bit();bit2();
     JSONArray jA = new JSONArray();
@@ -453,6 +478,8 @@ public class CreateTests {
     calcMainTests();
 
     calcUnionTests();
+
+    covering();
 
 
   }

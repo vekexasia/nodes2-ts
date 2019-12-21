@@ -1,8 +1,9 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
+import {Decimal} from 'decimal.js';
 export class S1Interval extends Interval {
 
-  constructor(lo:number|decimal.Decimal, hi:number|decimal.Decimal, checked:boolean = false) {
+  constructor(lo:number|Decimal, hi:number|Decimal, checked:boolean = false) {
     super(lo, hi);
     if (!checked) {
       if (this.lo.eq(-S2.M_PI) && !this.hi.eq(S2.M_PI)) {
@@ -49,7 +50,7 @@ export class S1Interval extends Interval {
    * Return the midpoint of the interval. For full and empty intervals, the
    * result is arbitrary.
    */
-  public getCenter():decimal.Decimal {
+  public getCenter():Decimal {
     let center = this.lo.plus(this.hi).dividedBy(2);
     // let center = 0.5 * (this.lo + this.hi);
     if (!this.isInverted()) {
@@ -64,7 +65,7 @@ export class S1Interval extends Interval {
    * Return the length of the interval. The length of an empty interval is
    * negative.
    */
-  public getLength():decimal.Decimal {
+  public getLength():Decimal {
     let length = this.hi.minus(this.lo);
     if (length.gte(0)) {
       return length;
@@ -91,7 +92,7 @@ export class S1Interval extends Interval {
   }
 
   /** Return true if the interval (which is closed) contains the point 'p'. */
-  public contains(_p:number|decimal.Decimal):boolean {
+  public contains(_p:number|Decimal):boolean {
     let p = S2.toDecimal(_p);
     // Works for empty, full, and singleton intervals.
     // assert (Math.abs(p) <= S2.M_PI);
@@ -106,7 +107,7 @@ export class S1Interval extends Interval {
    * the normalization of 'p' from -Pi to Pi.
    *
    */
-  public fastContains(_p:number|decimal.Decimal):boolean {
+  public fastContains(_p:number|Decimal):boolean {
     const p = S2.toDecimal(_p);
     if (this.isInverted()) {
       return (p.gte(this.lo) || p.lte(this.hi)) && !this.isEmpty();
@@ -116,7 +117,7 @@ export class S1Interval extends Interval {
   }
 
   /** Return true if the interior of the interval contains the point 'p'. */
-  public interiorContains(_p:number|decimal.Decimal):boolean {
+  public interiorContains(_p:number|Decimal):boolean {
     // Works for empty, full, and singleton intervals.
     // assert (Math.abs(p) <= S2.M_PI);
     let p = S2.toDecimal(_p);
@@ -215,7 +216,7 @@ export class S1Interval extends Interval {
    * Expand the interval by the minimum amount necessary so that it contains the
    * given point "p" (an angle in the range [-Pi, Pi]).
    */
-  public addPoint(_p:number|decimal.Decimal):S1Interval {
+  public addPoint(_p:number|Decimal):S1Interval {
     let p = S2.toDecimal(_p);
     // assert (Math.abs(p) <= S2.M_PI);
     if (p.eq(-S2.M_PI)) {
@@ -246,8 +247,9 @@ export class S1Interval extends Interval {
    * a point in this interval. Note that the expansion of an empty interval is
    * always empty. The radius must be non-negative.
    */
-  public  expanded(_radius:number|decimal.Decimal):S1Interval {
+  public  expanded(_radius:number|Decimal):S1Interval {
     const radius = S2.toDecimal(_radius);
+    const radiusN = S2.toDecimal(_radius).toNumber();
     // assert (radius >= 0);
     if (this.isEmpty()) {
       return this;
@@ -255,7 +257,7 @@ export class S1Interval extends Interval {
 
     // Check whether this interval will be full after expansion, allowing
     // for a 1-bit rounding error when computing each endpoint.
-    if (this.getLength().plus(radius.times(2)).gte(2*S2.M_PI-1e-15)) {
+    if (this.getLength().plus(radiusN * 2).gte(2*S2.M_PI-1e-15)) {
       return S1Interval.full();
     }
 
@@ -377,7 +379,7 @@ export class S1Interval extends Interval {
     return new S1Interval(-S2.M_PI, S2.M_PI, true);
   }
 
-  static fromPoint(_p:number|decimal.Decimal):S1Interval {
+  static fromPoint(_p:number|Decimal):S1Interval {
     let p = S2.toDecimal(_p);
     if (p.eq(-S2.M_PI)) {
       p = S2.toDecimal(S2.M_PI);
@@ -391,7 +393,7 @@ export class S1Interval extends Interval {
    * given points. This is equivalent to starting with an empty interval and
    * calling AddPoint() twice, but it is more efficient.
    */
-  static fromPointPair(_p1:number|decimal.Decimal, _p2:number|decimal.Decimal):S1Interval {
+  static fromPointPair(_p1:number|Decimal, _p2:number|Decimal):S1Interval {
     // assert (Math.abs(p1) <= S2.M_PI && Math.abs(p2) <= S2.M_PI);
     let p1 = S2.toDecimal(_p1);
     let p2 = S2.toDecimal(_p2);
@@ -414,7 +416,7 @@ export class S1Interval extends Interval {
    * it is more numerically stable (it does not lose precision for very small
    * positive distances).
    */
-  public static positiveDistance(_a:number|decimal.Decimal, _b:number|decimal.Decimal):decimal.Decimal {
+  public static positiveDistance(_a:number|Decimal, _b:number|Decimal):Decimal {
     const a = S2.toDecimal(_a);
     const b = S2.toDecimal(_b);
     let d = b.minus(a);

@@ -1,10 +1,10 @@
 import {S2Point} from "./S2Point";
-import {Decimal} from './decimal';
 import {S2} from "./S2";
+import {Decimal} from 'decimal.js';
 export class S1Angle {
 
-  public radians: decimal.Decimal;
-  constructor(radians:number|decimal.Decimal) {
+  public radians: Decimal;
+  constructor(radians:number|Decimal) {
     this.radians = new Decimal(radians);
   }
 
@@ -59,7 +59,7 @@ export class S1Angle {
     return right.greaterThan(left) ? left : right;
   }
 
-  public static degrees(degrees:number|decimal.Decimal):S1Angle {
+  public static degrees(degrees:number|Decimal):S1Angle {
     let d = new Decimal(degrees);
     return new S1Angle(d.times(Math.PI/180));
   }

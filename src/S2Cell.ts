@@ -1,5 +1,4 @@
 import Long = require('long');
-import {Decimal} from './decimal';
 import {S2CellId} from "./S2CellId";
 import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";
@@ -11,13 +10,14 @@ import {S2LatLngRect} from "./S2LatLngRect";
 import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cap} from "./S2Cap";
+import {Decimal} from 'decimal.js';
 export class S2Cell {
   private static MAX_CELL_SIZE = 1 << S2CellId.MAX_LEVEL;
 
   private _face:number;
   private _level:number;
   private _orientation:number;
-  private _uv:decimal.Decimal[][];
+  private _uv:Decimal[][];
 
   constructor(private cellID:S2CellId) {
     this._uv = [];
@@ -249,7 +249,7 @@ export class S2Cell {
 //  * expensive but it is accurate to 6 digits of precision even for leaf cells
 //  * (whose area is approximately 1e-18).
 //  */
-  public exactArea():decimal.Decimal {
+  public exactArea():Decimal {
     const v0 = this.getVertex(0);
     const v1 = this.getVertex(1);
     const v2 = this.getVertex(2);
@@ -270,6 +270,7 @@ export class S2Cell {
     // It's possible to show that the two vertices that are furthest from
     // the (u,v)-origin never determine the maximum cap size (this is a
     // possible future optimization).
+
     const u = this._uv[0][0].plus(this._uv[0][1]).times(0.5);
     const v = this._uv[1][0].plus(this._uv[1][1]).times(0.5);
 
@@ -402,7 +403,7 @@ export class S2Cell {
 
 // Internal method that does the actual work in the constructors.
 
-  private getLatitude(i:number, j:number):decimal.Decimal {
+  private getLatitude(i:number, j:number):Decimal {
 
     const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
     return Decimal.atan2(
@@ -413,7 +414,7 @@ export class S2Cell {
     // return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
   }
 
-  private getLongitude(i:number, j:number):decimal.Decimal {
+  private getLongitude(i:number, j:number):Decimal {
     const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
     return Decimal.atan2(
         p.y,

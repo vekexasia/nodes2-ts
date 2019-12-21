@@ -1,7 +1,6 @@
 import {S2Point} from "./S2Point";
-import {Decimal} from './decimal';
 import {S2} from "./S2";
-
+import {Decimal} from 'decimal.js';
 /**
  * R2Vector represents a vector in the two-dimensional space. It defines the
  * basic geometrical operations for 2D vectors, e.g. cross product, addition,
@@ -9,13 +8,13 @@ import {S2} from "./S2";
  *
  */
 export class R2Vector {
-  private _x: decimal.Decimal;
-  private _y: decimal.Decimal;
-  constructor(_x:number|decimal.Decimal, _y:number|decimal.Decimal) {
-    this._x = new Decimal(_x) as decimal.Decimal;
-    this._y = new Decimal(_y) as decimal.Decimal;
-    // this._x = new Decimal(_x) as decimal.Decimal;
-    // this._y = new Decimal(_y) as decimal.Decimal;
+  private _x: Decimal;
+  private _y: Decimal;
+  constructor(_x:number|Decimal, _y:number|Decimal) {
+    this._x = new Decimal(_x) as Decimal;
+    this._y = new Decimal(_y) as Decimal;
+    // this._x = new Decimal(_x) as Decimal;
+    // this._y = new Decimal(_y) as Decimal;
   }
 
   get x() {
@@ -27,7 +26,7 @@ export class R2Vector {
   }
 
 
-  public get(index:number):decimal.Decimal{
+  public get(index:number):Decimal{
     if (index > 1) {
       throw new Error(`Index out fo bounds error ${index}`);
     }
@@ -41,24 +40,24 @@ export class R2Vector {
     return new R2Vector(p1._x.plus(p2._x), p1._y.plus(p2._y));
   }
 
-  public static mul(p:R2Vector, _m:number|decimal.Decimal):R2Vector {
-    const m:decimal.Decimal = new Decimal(_m) as decimal.Decimal;
+  public static mul(p:R2Vector, _m:number|Decimal):R2Vector {
+    const m:Decimal = new Decimal(_m) as Decimal;
     return new R2Vector(m.times(p._x), m.times(p._y));
   }
 
-  public norm2():decimal.Decimal {
+  public norm2():Decimal {
     return this.x.pow(2).plus(this.y.pow(2));
   }
 
-  public static dotProd(p1:R2Vector, p2:R2Vector):decimal.Decimal {
+  public static dotProd(p1:R2Vector, p2:R2Vector):Decimal {
     return p1.x.times(p2.x).plus(p1.y.times(p2.y));
   }
 
-  public dotProd(that:R2Vector):decimal.Decimal {
+  public dotProd(that:R2Vector):Decimal {
     return R2Vector.dotProd(this, that);
   }
 
-  public crossProd(that:R2Vector):decimal.Decimal {
+  public crossProd(that:R2Vector):Decimal {
     return this.x.times(that.y).minus(this.y.times(that.x));
   }
 
@@ -103,43 +102,39 @@ export class R2Vector {
       R2Vector.singleStTOUV(stVector.x),
       R2Vector.singleStTOUV(stVector.y)
     );
-    
+
   }
 
   // from S2Projections.stToUV (QUADRATIC)
-  public static singleStTOUV(_s:number|decimal.Decimal):decimal.Decimal {
-    const s = S2.toDecimal(_s);
-    if (s.gte(0)) {
-      return S2.toDecimal(1)
-              .dividedBy(3)
-              .times(
-                  s.plus(1).pow(2).minus(1)
-              );
+  public static singleStTOUV(_s:number|Decimal):Decimal {
+    const s = S2.toDecimal(_s).toNumber();
+    if (s >= 0) {
+      return S2.toDecimal(1/3 * (Math.pow(s + 1, 2) - 1));
+      // return S2.toDecimal(1)
+      //         .dividedBy(3)
+      //         .times(
+      //             s.plus(1).pow(2).minus(1)
+      //         );
       // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
     } else {
-      return S2.toDecimal(1)
-          .dividedBy(3)
-          .times(
-              S2.toDecimal(1)
-                  .minus(S2.toDecimal(1).minus(s).pow(2)
-                  )
-          );
+      return S2.toDecimal(1/3 * (1 - Math.pow((1 - s), 2)));
+      // return S2.toDecimal(1)
+      //     .dividedBy(3)
+      //     .times(
+      //         S2.toDecimal(1)
+      //             .minus(S2.toDecimal(1).minus(s).pow(2)
+      //             )
+      //     );
       // return (1 / 3.) * (1 - (1 - s) * (1 - s));
     }
 
   }
-  public static singleUVToST(_x:number|decimal.Decimal) {
-    const x = S2.toDecimal(_x);
-    if (x.gte(0)) {
-      return Decimal.sqrt(x.times(3).plus(1)).minus(1);
+  public static singleUVToST(_x:number | Decimal) {
+    const x = S2.toDecimal(_x).toNumber();
+    if (x >= 0) {
+      return S2.toDecimal(Math.sqrt(x * 3 + 1) - 1);
     } else {
-      return S2.toDecimal(1)
-          .minus(
-              Decimal.sqrt(
-                  S2.toDecimal(1).minus(x.times(3)
-              )
-              )
-          )
+      return S2.toDecimal(1 - Math.sqrt( 1 - x * 3));
     }
   }
 

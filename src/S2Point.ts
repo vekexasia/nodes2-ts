@@ -15,8 +15,8 @@
  */
 
 import {R2Vector} from "./R2Vector";
-import Decimal = require('decimal.js') ;
 import {S2} from "./S2";
+import {Decimal} from 'decimal.js';
 
 ///re
 /**
@@ -26,15 +26,15 @@ import {S2} from "./S2";
  *
  */
 export class S2Point {
-  public x: decimal.Decimal;
-  public y: decimal.Decimal;
-  public z: decimal.Decimal;
-  constructor(x:decimal.Decimal|number|string, y:decimal.Decimal|number|string, z:decimal.Decimal|number|string) {
-    this.x = new Decimal(x)  as decimal.Decimal;
-    this.y = new Decimal(y)  as decimal.Decimal ;
-    this.z = new Decimal(z)   as decimal.Decimal;
-    // this.y = typeof(y) === 'number'?new decimal.Decimal(y):y as decimal.Decimal;
-    // this.z = typeof(z) === 'number'?new decimal.Decimal(z):z as decimal.Decimal;
+  public x: Decimal;
+  public y: Decimal;
+  public z: Decimal;
+  constructor(x:Decimal|number|string, y:Decimal|number|string, z:Decimal|number|string) {
+    this.x = new Decimal(x);
+    this.y = new Decimal(y);
+    this.z = new Decimal(z);
+    // this.y = typeof(y) === 'number'?new Decimal(y):y as Decimal;
+    // this.z = typeof(z) === 'number'?new Decimal(z):z as Decimal;
   }
 
   static minus(p1:S2Point, p2:S2Point) {
@@ -45,17 +45,16 @@ export class S2Point {
     return new S2Point(p.x.negated(), p.y.negated(), p.z.negated());
   }
 
-  public norm2():decimal.Decimal {
+  public norm2():Decimal {
     return this.x.pow(2).plus(this.y.pow(2)).plus(this.z.pow(2));
   }
 
-  public norm():decimal.Decimal {
+  public norm():Decimal {
     return this.norm2().sqrt();
   }
 
 
   static crossProd(p1:S2Point, p2:S2Point):S2Point {
-
     return new S2Point(
         p1.y.times(p2.z).minus(p1.z.times(p2.y)),
         p1.z.times(p2.x).minus(p1.x.times(p2.z)),
@@ -73,12 +72,12 @@ export class S2Point {
     return new S2Point(p1.x.sub(p2.x), p1.y.sub(p2.y), p1.z .sub(p2.z));
   }
 
-  public dotProd(that:S2Point):decimal.Decimal {
+  public dotProd(that:S2Point):Decimal {
     return this.x.times(that.x).plus(this.y.times(that.y)).plus(this.z.times(that.z));
   }
 
-  public static mul(p, m:decimal.Decimal|number):S2Point {
-    let mD = new Decimal(m) as decimal.Decimal;
+  public static mul(p, m:Decimal|number):S2Point {
+    let mD = new Decimal(m) as Decimal;
     return new S2Point(mD.times(p.x), mD.times(p.y) , mD.times(p.z));
   }
 
@@ -131,7 +130,7 @@ export class S2Point {
     return S2Point.mul(p, norm);
   }
 
-  axis(axis:number):decimal.Decimal {
+  axis(axis:number):Decimal {
     return (axis == 0) ? this.x : (axis == 1) ? this.y : this.z;
   }
 
