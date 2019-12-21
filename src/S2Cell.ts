@@ -10,14 +10,13 @@ import {S2LatLngRect} from "./S2LatLngRect";
 import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cap} from "./S2Cap";
-import {Decimal} from 'decimal.js';
 export class S2Cell {
   private static MAX_CELL_SIZE = 1 << S2CellId.MAX_LEVEL;
 
   private _face:number;
   private _level:number;
   private _orientation:number;
-  private _uv:Decimal[][];
+  private _uv:number[][];
 
   constructor(private cellID:S2CellId) {
     this._uv = [];
@@ -172,11 +171,11 @@ export class S2Cell {
 
     // TODO(dbeaumont): Figure out a better naming of the variables here (and elsewhere).
     let si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let x = R2Vector.singleStTOUV(S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(si))
+    let x = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * si)
     // let x = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * si);
 
     let sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let y = R2Vector.singleStTOUV(S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE).times(sj))
+    let y = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * sj)
     // double y = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sj);
 
     return new R2Vector(x, y);
@@ -219,7 +218,7 @@ export class S2Cell {
     let flatArea = S2Point.crossProd(
         S2Point.sub(this.getVertex(2), this.getVertex(0)),
         S2Point.sub(this.getVertex(3), this.getVertex(1))
-    ).norm().times(0.5);
+    ).norm() * 0.5;
     // double flatArea = 0.5 * S2Point.crossProd(
     //         S2Point.sub(getVertex(2), getVertex(0)), S2Point.sub(getVertex(3), getVertex(1))).norm();
 
@@ -229,18 +228,7 @@ export class S2Cell {
     // to be 2 / (1 + sqrt(1 - r*r)) where "r" is the radius of the disc.
     // For example, when r=0 the ratio is 1, and when r=1 the ratio is 2.
     // Here we set Pi*r*r == flat_area to find the equivalent disc.
-    return flatArea
-        .times(2)
-        .dividedBy(
-            Decimal.min(
-                flatArea.times(S2.M_1_PI),
-                1
-            )
-                .neg()
-                .plus(1)
-                .sqrt()
-                .plus(1)
-        ).toNumber();
+    return flatArea *2 / (Math.sqrt((Math.min(flatArea * S2.M_1_PI, 1) * -1)+1)+1);
   }
 
 //
@@ -249,12 +237,12 @@ export class S2Cell {
 //  * expensive but it is accurate to 6 digits of precision even for leaf cells
 //  * (whose area is approximately 1e-18).
 //  */
-  public exactArea():Decimal {
+  public exactArea() {
     const v0 = this.getVertex(0);
     const v1 = this.getVertex(1);
     const v2 = this.getVertex(2);
     const v3 = this.getVertex(3);
-    return S2.area(v0, v1, v2).plus(S2.area(v0, v2, v3));
+    return S2.area(v0, v1, v2) + (S2.area(v0, v2, v3));
   }
 
 // //////////////////////////////////////////////////////////////////////
@@ -271,8 +259,8 @@ export class S2Cell {
     // the (u,v)-origin never determine the maximum cap size (this is a
     // possible future optimization).
 
-    const u = this._uv[0][0].plus(this._uv[0][1]).times(0.5);
-    const v = this._uv[1][0].plus(this._uv[1][1]).times(0.5);
+    const u = this._uv[0][0] + (this._uv[0][1]) * (0.5);
+    const v = this._uv[1][0] + (this._uv[1][1]) * (0.5);
 
     let cap = new S2Cap(S2Point.normalize(S2Projections.faceUvToXyz(this.face, u, v)), 0);
     for (let k = 0; k < 4; ++k) {
@@ -285,14 +273,15 @@ export class S2Cell {
 // also contains the normalized versions of the vertices. Note that the
 // maximum result magnitude is Pi, with a floating-point exponent of 1.
 // Therefore adding or subtracting 2**-51 will always change the result.
-  private static MAX_ERROR = S2.toDecimal(1.0).dividedBy(S2.toDecimal(new Long(1).shiftLeft(51).toString()));
+//   private static MAX_ERROR = S2.toDecimal(1.0).dividedBy(S2.toDecimal(new Long(1).shiftLeft(51).toString()));
+  private static MAX_ERROR = 1/new Long(1).shiftLeft(51).toNumber();
 
 // The 4 cells around the equator extend to +/-45 degrees latitude at the
 // midpoints of their top and bottom edges. The two cells covering the
 // poles extend down to +/-35.26 degrees at their vertices.
 // adding kMaxError (as opposed to the C version) because of asin and atan2
 // roundoff errors
-  private static POLE_MIN_LAT = Decimal.asin(S2.toDecimal(1.0).dividedBy(3).sqrt()).minus(S2Cell.MAX_ERROR)
+  private static POLE_MIN_LAT = Math.asin(Math.sqrt(1/3)) - S2Cell.MAX_ERROR;
 // 35.26 degrees
 
 
@@ -309,14 +298,14 @@ export class S2Cell {
       // absolute x- and y-coordinates. To do this we look at each coordinate
       // (u and v), and determine whether we want to minimize or maximize that
       // coordinate based on the axis direction and the cell's (u,v) quadrant.
-      const u = this._uv[0][0].plus(this._uv[0][1]);
-      const v = this._uv[1][0].plus(this._uv[1][1]);
-      const i = S2Projections.getUAxis(this.face).z.eq(0) ? (u.lt(0) ? 1 : 0) : (u.gt(0) ? 1 : 0);
-      const j = S2Projections.getVAxis(this.face).z.eq(0) ? (v.lt(0) ? 1 : 0) : (v.gt(0) ? 1 : 0);
+      const u = this._uv[0][0] + (this._uv[0][1]);
+      const v = this._uv[1][0] + (this._uv[1][1]);
+      const i = S2Projections.getUAxis(this.face).z == 0 ? (u < 0 ? 1 : 0) : (u > 0 ? 1 : 0);
+      const j = S2Projections.getVAxis(this.face).z == 0 ? (v < 0 ? 1 : 0) : (v > 0 ? 1 : 0);
 
       let lat = R1Interval.fromPointPair(this.getLatitude(i, j), this.getLatitude(1 - i, 1 - j));
       lat = lat.expanded(S2Cell.MAX_ERROR).intersection(S2LatLngRect.fullLat());
-      if (lat.lo.eq(-S2.M_PI_2) || lat.hi .eq(S2.M_PI_2)) {
+      if (lat.lo == (-S2.M_PI_2) || lat.hi  == (S2.M_PI_2)) {
         return new S2LatLngRect(lat, S1Interval.full());
       }
       let lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
@@ -364,8 +353,8 @@ export class S2Cell {
     if (uvPoint == null) {
       return false;
     }
-    return (uvPoint.x.gte(this._uv[0][0]) && uvPoint.x.lte(this._uv[0][1])
-    && uvPoint.y.gte(this._uv[1][0]) && uvPoint.y.lte(this._uv[1][1]));
+    return (uvPoint.x >= (this._uv[0][0]) && uvPoint.x <= (this._uv[0][1])
+    && uvPoint.y >= (this._uv[1][0]) && uvPoint.y <= (this._uv[1][1]));
   }
 
 // The point 'p' does not need to be normalized.
@@ -392,10 +381,10 @@ export class S2Cell {
       const sijLo = (ij[d].val & -cellSize) * 2 - S2Cell.MAX_CELL_SIZE;
       const sijHi = sijLo + cellSize * 2;
 
-      const s = S2.toDecimal(1).dividedBy(S2Cell.MAX_CELL_SIZE);
-      this._uv[d][0] = R2Vector.singleStTOUV(s.times(sijLo))
+      const s = 1/S2Cell.MAX_CELL_SIZE;
+      this._uv[d][0] = R2Vector.singleStTOUV(s * (sijLo))
       //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijLo);
-      this._uv[d][1] = R2Vector.singleStTOUV(s.times(sijHi));
+      this._uv[d][1] = R2Vector.singleStTOUV(s * (sijHi));
       //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijHi);
     }
   }
@@ -403,20 +392,19 @@ export class S2Cell {
 
 // Internal method that does the actual work in the constructors.
 
-  private getLatitude(i:number, j:number):Decimal {
+  private getLatitude(i:number, j:number) {
 
     const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-    return Decimal.atan2(
+    return Math.atan2(
         p.z,
-        p.x.pow(2).plus(p.y.pow(2))
-            .sqrt()
+        Math.sqrt(p.x * p.x + p.y * p.y)
     );
     // return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
   }
 
-  private getLongitude(i:number, j:number):Decimal {
+  private getLongitude(i:number, j:number) {
     const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-    return Decimal.atan2(
+    return Math.atan2(
         p.y,
         p.x
     );
@@ -433,7 +421,7 @@ export class S2Cell {
   public toGEOJSON() {
     const coords = [this.getVertex(0),this.getVertex(1),this.getVertex(2),this.getVertex(3),this.getVertex(0)]
         .map(v => S2LatLng.fromPoint(v))
-        .map(v => ([v.lngDegrees.toNumber(), v.latDegrees.toNumber()]))
+        .map(v => ([v.lngDegrees, v.latDegrees]))
 
     // const rectJSON = this.getRectBound().toGEOJSON();
     return {

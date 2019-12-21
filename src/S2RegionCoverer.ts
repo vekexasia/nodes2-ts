@@ -391,7 +391,7 @@ export class S2RegionCoverer {
       // cell vertex at that level.
       const cap = this.region.getCapBound();
       let level = Decimal.min(
-          S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians.times(2)),
+          S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians * 2),
           Decimal.min(this.maxLevel, S2CellId.MAX_LEVEL - 1)
       ).toNumber();
       if (this.levelMod > 1 && level > this.minLevel) {

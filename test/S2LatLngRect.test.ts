@@ -1,14 +1,11 @@
 
 import {S2LatLng} from "../src/S2LatLng";
 import {expect} from "chai";
-import Decimal = require('decimal.js');
-import {S1Angle} from "../src/S1Angle";
-import {S2CellId} from "../src/S2CellId";
-import Long = require('long');
 import {S2Point} from "../src/S2Point";
 import {S2} from "../src/S2";
 import {S2LatLngRect} from "../src/S2LatLngRect";
 const genLocs = require('./assets/cell-tests.json');
+import {Decimal} from 'decimal.js';
 describe('S2LatLngRect', () => {
   it('should return correct Cap', () => {
     genLocs.forEach(i => {
@@ -21,10 +18,10 @@ describe('S2LatLngRect', () => {
       expect(capBound.axis.aequal(new S2Point(i.rectBound.cap.axis.x,i.rectBound.cap.axis.y,i.rectBound.cap.axis.z), 1e-15))
           .is.true;
 
-      expect(capBound.angle().radians.minus(i.rectBound.cap.angle).abs().toNumber())
+      expect(new Decimal(capBound.angle().radians).minus(i.rectBound.cap.angle).abs().toNumber())
           .to.be.lessThan(1e-15);
 
-      expect(capBound.height.minus(i.rectBound.cap.height).abs().toNumber())
+      expect(new Decimal(capBound.height).minus(i.rectBound.cap.height).abs().toNumber())
           .to.be.lessThan(1e-15);
     });
   });
@@ -109,13 +106,13 @@ describe('S2LatLngRect', () => {
 
     it('getDistanceLL', () => {
       const tmp = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
-      expect(tmp.getDistanceLL(S2LatLng.CENTER).radians.toNumber()).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(0)).radians.toNumber()).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(1)).radians.toNumber()).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(2)).radians.toNumber()).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(3)).radians.toNumber()).is.eq(0);
-      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(2,0)).degrees().toNumber()).is.eq(1.5);
-      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(0,2)).degrees().toNumber()-1.5).is.lessThan(1e-15)
+      expect(tmp.getDistanceLL(S2LatLng.CENTER).radians).is.eq(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(0)).radians).is.eq(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(1)).radians).is.eq(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(2)).radians).is.eq(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(3)).radians).is.eq(0);
+      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(2,0)).degrees()).is.eq(1.5);
+      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(0,2)).degrees()-1.5).is.lessThan(1e-13)
     })
 
 

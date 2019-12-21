@@ -69,7 +69,6 @@
 import {S2, S2Metric} from "./S2";
 import {S2Point} from "./S2Point";
 import {R2Vector} from "./R2Vector";
-import {Decimal} from 'decimal.js';
 export enum Projections {
   S2_LINEAR_PROJECTION, S2_TAN_PROJECTION, S2_QUADRATIC_PROJECTION
 }
@@ -78,7 +77,7 @@ export class S2Projections {
   public static MIN_WIDTH= new S2Metric(1,S2.M_SQRT2 / 3);
   public static AVG_AREA = new S2Metric(2, S2.M_PI / 6); // 0.524)
 
-  public static getUNorm(face:number, u:Decimal):S2Point {
+  public static getUNorm(face:number, u: number):S2Point {
     switch (face) {
       case 0:
         return new S2Point(u, -1, 0);
@@ -95,7 +94,7 @@ export class S2Projections {
     }
   }
 
-  public static getVNorm(face:number, v:Decimal):S2Point {
+  public static getVNorm(face:number, v:number):S2Point {
     switch (face) {
       case 0:
         return new S2Point(-v, 0, 1);
@@ -147,7 +146,7 @@ export class S2Projections {
     }
   }
 
-  public static faceUvToXyz(face: number, u:number|Decimal, v:number|Decimal):S2Point {
+  public static faceUvToXyz(face: number, u:number, v:number):S2Point {
     return new R2Vector(u,v).toPoint(face);
   }
 }

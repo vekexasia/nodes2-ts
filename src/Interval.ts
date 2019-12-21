@@ -1,12 +1,10 @@
-import {S2} from "./S2";
-import {Decimal} from 'decimal.js';
 export abstract class Interval {
-  public lo:Decimal;
-  public hi:Decimal;
+  public lo: number;
+  public hi: number;
 
-  constructor(lo:number|Decimal, hi:number|Decimal) {
-    this.lo = S2.toDecimal(lo);
-    this.hi = S2.toDecimal(hi);
+  constructor(lo:number, hi:number) {
+    this.lo = lo;
+    this.hi = hi;
   }
 
   /** Return true if the interval is empty, i.e. it contains no points. */
@@ -17,17 +15,17 @@ export abstract class Interval {
    * Return the center of the interval. For empty intervals, the result is
    * arbitrary.
    */
-  public abstract getCenter():Decimal;
+  public abstract getCenter(): number;
 
   /**
    * Return the length of the interval. The length of an empty interval is
    * negative.
    */
-  public abstract getLength():Decimal;
+  public abstract getLength(): number;
 
-  public abstract contains(p:number|Decimal):boolean;
+  public abstract contains(p:number):boolean;
 
-  public abstract interiorContains(p:number|Decimal):boolean;
+  public abstract interiorContains(p:number):boolean;
 
   public  toString():string {
     return "[" + this.lo.toString() + ", " + this.hi.toString() + "]";
@@ -39,7 +37,7 @@ export abstract class Interval {
    */
   public equals(that:any):boolean {
     if (typeof(that) === typeof(this)) {
-      return this.lo .eq(that.lo) && this.hi.eq(that.hi);
+      return this.lo == that.lo && this.hi == that.hi;
     }
     return false;
   }

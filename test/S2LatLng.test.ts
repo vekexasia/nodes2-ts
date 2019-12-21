@@ -1,6 +1,5 @@
 import {S2LatLng} from "../src/S2LatLng";
 import {expect} from "chai";
-import Decimal = require('decimal.js');
 import {S1Angle} from "../src/S1Angle";
 import {S2CellId} from "../src/S2CellId";
 import Long = require('long');
@@ -9,23 +8,24 @@ import {S2} from "../src/S2";
 import {S2Cap} from "../src/S2Cap";
 import {S2RegionCoverer} from "../src/S2RegionCoverer";
 import {S2Cell} from "../src/S2Cell";
+import {Decimal} from 'decimal.js';
 const genLocs = require('./assets/latlng-tests.json');
 describe('S2LatLng', () => {
   describe('creators', () => {
     it('should be able to create from radians', () => {
       genLocs.forEach(item => {
         const s2LatLng = new S2LatLng(item.latR, item.lngR);
-        expect(s2LatLng.latRadians.toString()).to.be.eq(S2.toDecimal(item.latR).toString())
-        expect(s2LatLng.lngRadians.toString()).to.be.eq(S2.toDecimal(item.lngR).toString())
+        expect(s2LatLng.latRadians.toString()).to.be.eq(item.latR.toString())
+        expect(s2LatLng.lngRadians.toString()).to.be.eq(item.lngR.toString())
       });
     });
     it('should be able to create from degrees', () => {
       genLocs
           .forEach(item => {
         const s2LatLng = S2LatLng.fromDegrees(item.latD, item.lngD);
-        expect(s2LatLng.latRadians.toFixed(15)).to.be.eq(S2.toDecimal(item.latR).toFixed(15))
+        expect(s2LatLng.latRadians).to.be.closeTo(new Decimal(item.latR).toNumber(), 1e-13)
 
-        expect(s2LatLng.lngRadians.toFixed(15)).to.be.eq(S2.toDecimal(item.lngR).toFixed(15))
+        expect(s2LatLng.lngRadians).to.be.closeTo(new Decimal(item.lngR).toNumber(), 1e-13)
       });
     });
 
@@ -39,14 +39,14 @@ describe('S2LatLng', () => {
                 item.point.y,
                 item.point.z
             ));
-            expect(s2LatLng.latRadians.toFixed(14)).to.be.eq(S2.toDecimal(item.latR).toFixed(14));
-            expect(s2LatLng.lngRadians.toFixed(14)).to.be.eq(S2.toDecimal(item.lngR).toFixed(14));
+            expect(s2LatLng.latRadians.toFixed(14)).to.be.eq(new Decimal(item.latR).toFixed(14));
+            expect(s2LatLng.lngRadians.toFixed(14)).to.be.eq(new Decimal(item.lngR).toFixed(14));
           })
     });
   });
 
   describe('once created', () => {
-    let items = [];
+    let items: Array<{item: any, ll: S2LatLng}> = [];
     before(() => {
       items = genLocs.map(item => {
         return {
@@ -59,14 +59,14 @@ describe('S2LatLng', () => {
     it('should calculate distance correctly', () => {
       items.forEach(item => {
         expect(item.ll.getDistance(S2LatLng.CENTER).radians.toFixed(13))
-            .to.be.eq(S2.toDecimal(item.item.distToCenter).toFixed(13));
+            .to.be.eq(new Decimal(item.item.distToCenter).toFixed(13));
       });
     });
 
     it('should calc dist to degrees correctly', () => {
       items.forEach(item => {
         expect(item.ll.getDistance(S2LatLng.CENTER).degrees().toFixed(11))
-            .to.be.eq(S2.toDecimal(item.item.distToCenterD).toFixed(11));
+            .to.be.eq(new Decimal(item.item.distToCenterD).toFixed(11));
       });
     });
 
@@ -87,26 +87,26 @@ describe('S2LatLng', () => {
         const pointsAtDistance = S2LatLng.CENTER.pointsAtDistance(10, 4);
         expect(pointsAtDistance.length).to.be.eq(4);
         pointsAtDistance.forEach(p => {
-          expect(p.getEarthDistance(S2LatLng.CENTER).toNumber()).to.be.eq(10*1000);
+          expect(p.getEarthDistance(S2LatLng.CENTER)).to.be.eq(10*1000);
         });
 
-        // expect(pointsAtDistance[1].getEarthDistance(pointsAtDistance[3]).toNumber()).to.be.eq(2*10*1000);
+        // expect(pointsAtDistance[1].getEarthDistance(pointsAtDistance[3])).to.be.eq(2*10*1000);
       });
       it('should be able to generate opposite points every points/2', () => {
         const points = 16;
         const pointsAtDistance = S2LatLng.CENTER.pointsAtDistance(10, points);
         // opposite test.
         for (let i=0; i<points/2;i++) {
-          expect(pointsAtDistance[i].getEarthDistance(pointsAtDistance[i+points/2]).toNumber()).to.be.eq(2*10*1000);
+          expect(pointsAtDistance[i].getEarthDistance(pointsAtDistance[i+points/2])).to.be.eq(2*10*1000);
         }
       });
 
       it('every generated adj point should be equally distant', () => {
         const points = 16;
         const pointsAtDistance = S2LatLng.CENTER.pointsAtDistance(10, points);
-        const firstDistance = pointsAtDistance[0].getEarthDistance(pointsAtDistance[1]).toNumber();
+        const firstDistance = pointsAtDistance[0].getEarthDistance(pointsAtDistance[1]);
         for(let i=0;i<points-1; i++) {
-          expect(pointsAtDistance[i].getEarthDistance(pointsAtDistance[i+1]).toNumber()).to.be.eq(firstDistance);
+          expect(pointsAtDistance[i].getEarthDistance(pointsAtDistance[i+1])).to.be.closeTo(firstDistance, 1e-10);
         }
       });
       /**/

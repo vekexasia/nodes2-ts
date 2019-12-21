@@ -1,16 +1,15 @@
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
-import {Decimal} from 'decimal.js';
 export class S1Angle {
 
-  public radians: Decimal;
-  constructor(radians:number|Decimal) {
-    this.radians = new Decimal(radians);
+  public radians: number;
+  constructor(radians:number) {
+    this.radians = radians;
   }
 
 
   public degrees() {
-    return S2.toDecimal(this.radians).times((180 / Math.PI));
+    return this.radians * 180/Math.PI;
   }
 
   //
@@ -36,19 +35,19 @@ export class S1Angle {
   }
 
   public lessThan(that:S1Angle):boolean {
-    return this.radians.lt(that.radians);
+    return this.radians < (that.radians);
   }
 
   public greaterThan(that:S1Angle):boolean {
-    return this.radians .gt(that.radians);
+    return this.radians > (that.radians);
   }
 
   public lessOrEquals(that:S1Angle):boolean {
-    return this.radians .lte(that.radians);
+    return this.radians <= (that.radians);
   }
 
   public greaterOrEquals(that:S1Angle):boolean {
-    return this.radians .gte(that.radians);
+    return this.radians >= (that.radians);
   }
 
   public static max(left:S1Angle, right:S1Angle):S1Angle {
@@ -59,9 +58,8 @@ export class S1Angle {
     return right.greaterThan(left) ? left : right;
   }
 
-  public static degrees(degrees:number|Decimal):S1Angle {
-    let d = new Decimal(degrees);
-    return new S1Angle(d.times(Math.PI/180));
+  public static degrees(degrees:number):S1Angle {
+    return new S1Angle(degrees * (Math.PI/180));
   }
 
 //

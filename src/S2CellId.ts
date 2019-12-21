@@ -202,8 +202,8 @@ export class S2CellId {
    */
   private faceSiTiToXYZ(face:number, si:number, ti:number):S2Point {
     // console.log('faceSiTiToXYZ', si, ti);
-    let kScale = S2.toDecimal(1).dividedBy(S2CellId.MAX_SIZE);
-    let uvVector = R2Vector.fromSTVector(new R2Vector(kScale.times(si), kScale.times(ti)));
+    let kScale = 1/ S2CellId.MAX_SIZE;
+    let uvVector = R2Vector.fromSTVector(new R2Vector(kScale*si, kScale * ti));
     // console.log(uvVector.toString(), uvVector.x.toString());
     return uvVector.toPoint(face);
   }
@@ -924,23 +924,20 @@ public  getVertexNeighbors(level:number):S2CellId[] {
    * Return the i- or j-index of the leaf cell containing the given s- or
    * t-value.
    */
-  private static stToIJ(_s:number|Decimal):number {
+  private static stToIJ(s:number):number {
     // Converting from floating-point to integers via static_cast is very slow
     // on Intel processors because it requires changing the rounding mode.
     // Rounding to the nearest integer using FastIntRound() is much faster.
-    let s = S2.toDecimal(_s);
-    let m = S2.toDecimal(S2CellId.MAX_SIZE).dividedBy(2); // scaling multiplier
-    return Decimal.max(
+    let m = S2CellId.MAX_SIZE / 2; // scaling multiplier
+    return Math.max(
         0,
-        Decimal.min(
-            m.times(2).minus(1),
-            Decimal.round(
-                m.times(s).plus(
-                    m.minus(0.5)
-                )
+        Math.min(
+            m * 2 - 1,
+            Math.round(
+                m*s+m-0.5
             )
         )
-    ).toNumber();
+    );
     // return Math.max(0,  Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
     // return (int) Math.max(0, Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
   }
@@ -960,9 +957,9 @@ public  getVertexNeighbors(level:number):S2CellId[] {
 
     // Find the (s,t) coordinates corresponding to (i,j). At least one
     // of these coordinates will be just outside the range [0, 1].
-    const kScale = S2.toDecimal(1.0).dividedBy(S2CellId.MAX_SIZE) ;
-    let s = kScale.times(new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
-    let t = kScale.times(new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+    const kScale = 1/S2CellId.MAX_SIZE;
+    let s = kScale * (new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+    let t = kScale * (new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
     // Find the leaf cell coordinates on the adjacent face, and convert
     // them to a cell id at the appropriate level.
     let p = new R2Vector(s, t).toPoint(face);

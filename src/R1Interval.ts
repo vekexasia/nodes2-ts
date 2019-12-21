@@ -1,6 +1,5 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
-import {Decimal} from 'decimal.js';
 /**
  * An R1Interval represents a closed interval on a unit circle (also known as a
  * 1-dimensional sphere). It is capable of representing the empty interval
@@ -23,33 +22,28 @@ import {Decimal} from 'decimal.js';
 
 export class R1Interval extends Interval {
 
-
-
-
-
   /** Return true if the interval is empty, i.e. it contains no points. */
   public isEmpty() {
-    return this.lo.gt(this.hi);
+    return this.lo > this.hi;
   }
 
-  public getCenter():Decimal {
-    return this.lo.plus(this.hi).dividedBy(2);
+  public getCenter() {
+    return (this.lo + this.hi)/2;
   }
 
-  public getLength():Decimal {
-    return this.hi.minus(this.lo);
+  public getLength() {
+    return this.hi - this.lo;
   }
 
-  public contains(_p:number|Decimal):boolean {
-    const p = S2.toDecimal(_p);
-    return p.gte(this.lo) && p.lte(this.hi);
+  public contains(p:number):boolean {
+    return p >= this.lo && p <= this.hi;
 
   }
 
   /** Return true if the interior of the interval contains the point 'p'. */
-  public interiorContains(_p:number|Decimal):boolean {
-    const p = S2.toDecimal(_p);
-    return p.gt(this.lo) && p.lt(this.hi);  }
+  public interiorContains(p:number):boolean {
+    return p > this.lo && p < this.hi;
+  }
 
   /**
    * Return true if the interval contains the given interval 'y'. Works for
@@ -59,7 +53,7 @@ export class R1Interval extends Interval {
     if (y.isEmpty()) {
       return true;
     }
-    return y.lo.gte(this.lo) && y.hi.lte(this.hi);
+    return y.lo >= this.lo && y.hi <= this.hi;
   }
 
 
@@ -67,7 +61,7 @@ export class R1Interval extends Interval {
     if (y.isEmpty()) {
       return true;
     }
-    return y.lo.gt(this.lo) && y.hi.lt(this.hi);
+    return y.lo > this.lo && y.hi < this.hi;
   }
 
   /**
@@ -75,10 +69,10 @@ export class R1Interval extends Interval {
    * have any points in common.
    */
   public intersects(y:R1Interval):boolean {
-    if (this.lo.lte(y.lo)) {
-      return y.lo.lte(this.hi) && y.lo.lte(y.hi);
+    if (this.lo <= y.lo) {
+      return y.lo <= (this.hi) && y.lo <= (y.hi);
     } else {
-      return this.lo.lte(y.hi) && this.lo.lte(this.hi);
+      return this.lo <= (y.hi) && this.lo <= (this.hi);
     }
   }
 
@@ -87,17 +81,16 @@ export class R1Interval extends Interval {
    * given interval (including its boundary).
    */
   public interiorIntersects(y:R1Interval):boolean {
-    return y.lo.lt( this.hi) && this.lo.lt(y.hi) && this.lo.lt(this.hi) && y.lo.lte(y.hi);
+    return y.lo < (this.hi) && this.lo < (y.hi) && this.lo < (this.hi) && y.lo <= (y.hi);
   }
 
   /** Expand the interval so that it contains the given point "p". */
-  public addPoint(_p:number|Decimal):R1Interval {
-    const p = S2.toDecimal(_p);
+  public addPoint(p:number):R1Interval {
     if (this.isEmpty()) {
       return R1Interval.fromPoint(p);
-    } else if (p.lt(this.lo)) {
+    } else if (p < (this.lo)) {
       return new R1Interval(p, this.hi);
-    } else if (p.gt(this.hi)) {
+    } else if (p > (this.hi)) {
       return new R1Interval(this.lo, p);
     } else {
       return new R1Interval(this.lo, this.hi);
@@ -109,13 +102,12 @@ export class R1Interval extends Interval {
    * point in this interval. Note that the expansion of an empty interval is
    * always empty.
    */
-  public  expanded(_radius:number|Decimal):R1Interval {
-    const radius = S2.toDecimal(_radius);
+  public  expanded(radius:number):R1Interval {
     // assert (radius >= 0);
     if (this.isEmpty()) {
       return this;
     }
-    return new R1Interval(this.lo.minus(radius), this.hi.plus(radius));
+    return new R1Interval(this.lo - radius, this.hi + radius);
   }
 
   /**
@@ -130,8 +122,8 @@ export class R1Interval extends Interval {
       return this;
     }
     return new R1Interval(
-        Decimal.min(this.lo, y.lo),
-        Decimal.max(this.hi, y.hi)
+        Math.min(this.lo, y.lo),
+        Math.max(this.hi, y.hi)
     );
   }
 
@@ -141,8 +133,8 @@ export class R1Interval extends Interval {
    */
   public intersection(y:R1Interval):R1Interval {
     return new R1Interval(
-        Decimal.max(this.lo, y.lo),
-        Decimal.min(this.hi, y.hi)
+        Math.max(this.lo, y.lo),
+        Math.min(this.hi, y.hi)
     );
   }
 
@@ -152,14 +144,12 @@ export class R1Interval extends Interval {
    */
   public approxEquals(y:R1Interval, maxError:number=1e-15):boolean {
     if (this.isEmpty()) {
-      return y.getLength().lte(maxError);
+      return y.getLength() <= (maxError);
     }
     if (y.isEmpty()) {
-      return this.getLength().lte( maxError);
+      return this.getLength() <= ( maxError);
     }
-    return y.lo.minus(this.lo).abs()
-        .plus(y.hi.minus(this.hi).abs())
-        .lte(maxError);
+    return Math.abs(y.lo - (this.lo))  + Math.abs(y.hi - this.hi) <= (maxError);
   }
 
 
@@ -169,7 +159,7 @@ export class R1Interval extends Interval {
   }
 
 
-  static fromPoint(p:number|Decimal):R1Interval {
+  static fromPoint(p:number):R1Interval {
     return new R1Interval(p, p);
   }
 
@@ -178,10 +168,8 @@ export class R1Interval extends Interval {
    * given points. This is equivalent to starting with an empty interval and
    * calling AddPoint() twice, but it is more efficient.
    */
-  static fromPointPair(_p1:number|Decimal, _p2:number|Decimal):R1Interval {
-    const p1 = S2.toDecimal(_p1);
-    const p2 = S2.toDecimal(_p2);
-    if (p1.lte(p2)) {
+  static fromPointPair(p1:number, p2:number):R1Interval {
+    if (p1 <= (p2)) {
       return new R1Interval(p1, p2);
     } else {
       return new R1Interval(p2, p1);

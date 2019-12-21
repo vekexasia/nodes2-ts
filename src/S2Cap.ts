@@ -25,7 +25,6 @@ import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
 import Long = require('long');
-import {Decimal} from 'decimal.js';
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
  * a plane. The cap is defined by its axis and height. This representation has
@@ -48,19 +47,19 @@ export class S2Cap implements S2Region {
    * floating point operation is at least as large as the true
    * infinite-precision result.
    */
-  private static ROUND_UP = S2.toDecimal(1).dividedBy(new Long(1).shiftLeft(52).toString()).plus(1);
+   private static ROUND_UP = 1/new Long(1).shiftLeft(52).toNumber() + 1;
 
   public axis:S2Point;
-  public height:Decimal;
+  public height:number;
 
   /**
    * Create a cap given its axis and the cap height, i.e. the maximum projected
    * distance along the cap axis from the cap center. 'axis' should be a
    * unit-length vector.
    */
-  constructor(axis:S2Point, _height:number|Decimal) {
+  constructor(axis:S2Point, height:number) {
     this.axis = axis;
-    this.height = S2.toDecimal(_height);
+    this.height = height;
     // assert (isValid());
   }
 
@@ -75,9 +74,9 @@ export class S2Cap implements S2Region {
     // Computing it as 2*(sin(angle/2)**2) gives much better precision.
 
     // assert (S2.isUnitLength(axis));
-    const d = angle.radians.times(0.5).sin();
+    const d = Math.sin(angle.radians * 0.5);
     // ecimal.sin(0.5 * angle.radians.times(0.5));
-    return new S2Cap(axis, d.pow(2).times(2));
+    return new S2Cap(axis, d*d*2);
 
   }
 
@@ -85,10 +84,9 @@ export class S2Cap implements S2Region {
    * Create a cap given its axis and its area in steradians. 'axis' should be a
    * unit-length vector, and 'area' should be between 0 and 4 * M_PI.
    */
-  public static fromAxisArea(axis:S2Point, _area:number|Decimal):S2Cap {
-    const area = S2.toDecimal(_area);
+  public static fromAxisArea(axis:S2Point, area:number):S2Cap {
     // assert (S2.isUnitLength(axis));
-    return new S2Cap(axis, area.dividedBy(S2.toDecimal(2).times(S2.M_PI)));
+    return new S2Cap(axis, area/ (2*S2.M_PI));
   }
 
   /** Return an empty cap, i.e. a cap that contains no points. */
@@ -126,10 +124,9 @@ export class S2Cap implements S2Region {
       return new S1Angle(-1);
     }
     return new S1Angle(
-        Decimal.asin(
-            this.height.times(0.5).sqrt()
-        )
-            .times(2)
+        Math.asin(
+            Math.sqrt(this.height* 0.5)
+        ) * 2
     );
   }
 
@@ -138,17 +135,17 @@ export class S2Cap implements S2Region {
    * than 2.
    */
   public isValid():boolean {
-    return S2.isUnitLength(this.axis) && this.height.lte(2);
+    return S2.isUnitLength(this.axis) && this.height <= 2;
   }
 
   /** Return true if the cap is empty, i.e. it contains no points. */
   public  isEmpty():boolean {
-    return this.height.lt(0);
+    return this.height < (0);
   }
 
   /** Return true if the cap is full, i.e. it contains all points. */
   public isFull():boolean {
-    return this.height.gte(2);
+    return this.height >= (2);
   }
 
   /**
@@ -160,7 +157,7 @@ export class S2Cap implements S2Region {
   public complement():S2Cap {
     // The complement of a full cap is an empty cap, not a singleton.
     // Also make sure that the complement of an empty cap has height 2.
-    let cHeight = this.isFull() ? -1 : Decimal.max(this.height, 0).neg().plus(2);
+    let cHeight = this.isFull() ? -1 : Math.max(this.height, 0) * -1 + 2;
     return new S2Cap(S2Point.neg(this.axis), cHeight);
   }
 
@@ -172,7 +169,7 @@ export class S2Cap implements S2Region {
     if (this.isFull() || other.isEmpty()) {
       return true;
     }
-    return this.angle().radians.gte(this.axis.angle(other.axis).plus(other.angle().radians));
+    return this.angle().radians >= (this.axis.angle(other.axis) + (other.angle().radians));
   }
 
   /**
@@ -193,7 +190,7 @@ export class S2Cap implements S2Region {
    */
   public  interiorContains(p:S2Point):boolean {
     // assert (S2.isUnitLength(p));
-    return this.isFull() || S2Point.sub(this.axis, p).norm2().lt(this.height.times(2));
+    return this.isFull() || S2Point.sub(this.axis, p).norm2() < (this.height * 2);
   }
 
   /**
@@ -211,7 +208,7 @@ export class S2Cap implements S2Region {
       // we need to round up the distance calculation. That is, after
       // calling cap.AddPoint(p), cap.Contains(p) should be true.
       let dist2 = S2Point.sub(this.axis, p).norm2();
-      let newHeight = Decimal.max(this.height, S2Cap.ROUND_UP.times(0.5).times(dist2));
+      let newHeight = Math.max(this.height, S2Cap.ROUND_UP * (0.5) * (dist2));
       return new S2Cap(this.axis, newHeight);
     }
   }
@@ -225,12 +222,12 @@ export class S2Cap implements S2Region {
       // See comments for FromAxisAngle() and AddPoint(). This could be
       // optimized by doing the calculation in terms of cap heights rather
       // than cap opening angles.
-      let angle = this.axis.angle(other.axis).plus(other.angle().radians);
-      if (angle.gte(S2.M_PI)) {
+      let angle = this.axis.angle(other.axis) + (other.angle().radians);
+      if (angle >= (S2.M_PI)) {
         return new S2Cap(this.axis, 2); //Full cap
       } else {
-        let d = angle.times(0.5).sin();
-        let newHeight = Decimal.max(this.height, S2Cap.ROUND_UP.times(2).times(d.pow(2)));
+        let d = Math.sin(angle*(0.5));
+        let newHeight = Math.max(this.height, S2Cap.ROUND_UP * 2 * d * d);
         return new S2Cap(this.axis, newHeight);
       }
     }
@@ -248,22 +245,22 @@ export class S2Cap implements S2Region {
     const capAngle = this.angle().radians;
 
     let allLongitudes = false;
-    const lat:Decimal[] = Array(2);
-    const lng:Decimal[] = Array(2);
+    const lat:number[] = new Array(2);
+    const lng:number[] = new Array(2);
 
-    lng[0] = S2.toDecimal(-S2.M_PI);
-    lng[1] = S2.toDecimal(S2.M_PI);
+    lng[0] = -S2.M_PI;
+    lng[1] = S2.M_PI;
 
     // Check whether cap includes the south pole.
-    lat[0] = axisLatLng.latRadians.minus(capAngle);
-    if (lat[0].lte(-S2.M_PI_2)) {
-      lat[0] = S2.toDecimal(-S2.M_PI_2);
+    lat[0] = axisLatLng.latRadians - (capAngle);
+    if (lat[0] <= (-S2.M_PI_2)) {
+      lat[0] = -S2.M_PI_2;
       allLongitudes = true;
     }
     // Check whether cap includes the north pole.
-    lat[1] = axisLatLng.latRadians.plus(capAngle);
-    if (lat[1].gte(S2.M_PI_2)) {
-      lat[1] = S2.toDecimal(S2.M_PI_2);
+    lat[1] = axisLatLng.latRadians + (capAngle);
+    if (lat[1] >= (S2.M_PI_2)) {
+      lat[1] = S2.M_PI_2;
       allLongitudes = true;
     }
     if (!allLongitudes) {
@@ -280,13 +277,13 @@ export class S2Cap implements S2Region {
 
       // double sinA = Math.sqrt(this.height * (2 - this.height));
       // double sinC = Math.cos(axisLatLng.lat().radians());
-      const sinA = this.height.times(this.height.neg().plus(2)).sqrt();
-      const sinC = axisLatLng.latRadians.cos();
-      if (sinA.lte(sinC)) {
-        const angleA = Decimal.asin(sinA.dividedBy(sinC));
-        lng[0] = S2.IEEEremainder(axisLatLng.lngRadians.minus(angleA),
+      const sinA = Math.sqrt(this.height * (2 - this.height));
+      const sinC = Math.cos(axisLatLng.latRadians)
+      if (sinA <= (sinC)) {
+        const angleA = Math.asin(sinA / (sinC));
+        lng[0] = S2.IEEEremainder(axisLatLng.lngRadians - (angleA),
             2 * S2.M_PI);
-        lng[1] = S2.IEEEremainder(axisLatLng.lngRadians.plus(angleA),
+        lng[1] = S2.IEEEremainder(axisLatLng.lngRadians + (angleA),
             2 * S2.M_PI);
       }
     }
@@ -343,7 +340,7 @@ export class S2Cap implements S2Region {
     // If the cap is a hemisphere or larger, the cell and the complement of the
     // cap are both convex. Therefore since no vertex of the cell is contained,
     // no other interior point of the cell is contained either.
-    if (this.height.gte(1)) {
+    if (this.height >= (1)) {
       return false;
     }
 
@@ -362,12 +359,12 @@ export class S2Cap implements S2Region {
     // and the cap does not contain any cell vertex. The only way that they
     // can intersect is if the cap intersects the interior of some edge.
 
-    const sin2Angle = this.height.times(this.height.neg().plus(2)); // sin^2(capAngle)
+    const sin2Angle = this.height * (this.height * -1 + 2); // sin^2(capAngle)
 
     for (let k = 0; k < 4; ++k) {
       let edge = cell.getEdgeRaw(k);
       let dot = this.axis.dotProd(edge);
-      if (dot.gt(0)) {
+      if (dot > 0) {
         // The axis is in the interior half-space defined by the edge. We don't
         // need to consider these edges, since if the cap intersects this edge
         // then it also intersects the edge on the opposite side of the cell
@@ -375,15 +372,15 @@ export class S2Cap implements S2Region {
         continue;
       }
       // The Norm2() factor is necessary because "edge" is not normalized.
-      if (dot.pow(2).gt(sin2Angle.times(edge.norm2()))) {
+      if (dot * dot > (sin2Angle * edge.norm2())) {
         return false; // Entire cap is on the exterior side of this edge.
       }
       // Otherwise, the great circle containing this edge intersects
       // the interior of the cap. We just need to check whether the point
       // of closest approach occurs between the two edge endpoints.
       const dir = S2Point.crossProd(edge, this.axis);
-      if (dir.dotProd(vertices[k]).lt(0)
-          && dir.dotProd(vertices[(k + 1) & 3]).gt(0)) {
+      if (dir.dotProd(vertices[k]) < (0)
+          && dir.dotProd(vertices[(k + 1) & 3]) > (0)) {
         return true;
       }
     }
@@ -393,7 +390,7 @@ export class S2Cap implements S2Region {
   public contains(p:S2Point):boolean {
     // The point 'p' should be a unit-length vector.
     // assert (S2.isUnitLength(p));
-    return S2Point.sub(this.axis, p).norm2().lte(this.height.times(2));
+    return S2Point.sub(this.axis, p).norm2() <= (this.height * 2);
 
   }
 
@@ -434,11 +431,11 @@ export class S2Cap implements S2Region {
    * the given cap "other".
    */
   public approxEquals(other:S2Cap, maxError:number = 1e-14):boolean {
-    return (this.axis.aequal(other.axis, maxError) && this.height.minus(other.height).lte(maxError))
-        || (this.isEmpty() && other.height.lte(maxError))
-        || (other.isEmpty() && this.height.lte(maxError))
-        || (this.isFull() && other.height.gte(2 - maxError))
-        || (other.isFull() && this.height.gte(2 - maxError));
+    return (this.axis.aequal(other.axis, maxError) && this.height - (other.height) <= (maxError))
+        || (this.isEmpty() && other.height <= (maxError))
+        || (other.isEmpty() && this.height <= (maxError))
+        || (this.isFull() && other.height >= (2 - maxError))
+        || (other.isFull() && this.height >= (2 - maxError));
   }
 
   public toString():string {

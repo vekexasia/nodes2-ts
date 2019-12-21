@@ -23,7 +23,6 @@ import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
 import {S2Cap} from "./S2Cap";
-import {Decimal} from 'decimal.js';
 /**
  * An S2CellUnion is a region consisting of cells of various sizes. Typically a
  * cell union is used to approximate some other shape. There is a tradeoff
@@ -371,7 +370,7 @@ export class S2CellUnion implements S2Region {
     // Find the maximum level such that all cells are at least "min_radius"
     // wide.
     const radiusLevel = S2Projections.MIN_WIDTH.getMaxLevel(minRadius.radians);
-    if (radiusLevel == 0 && minRadius.radians.gt(S2Projections.MIN_WIDTH.getValue(0))) {
+    if (radiusLevel == 0 && minRadius.radians > (S2Projections.MIN_WIDTH.getValue(0))) {
       // The requested expansion is greater than the width of a face cell.
       // The easiest way to handle this is to expand twice.
       this.expand(0);
@@ -463,7 +462,7 @@ public  getCapBound():S2Cap {
    * @return the sum of the average area of each contained cell's average area
    */
   public averageBasedArea():number {
-    return S2.toDecimal(this.leafCellsCovered().toString()).times(S2Projections.AVG_AREA.getValue(S2CellId.MAX_LEVEL)).toNumber();
+    return this.leafCellsCovered().mul(S2Projections.AVG_AREA.getValue(S2CellId.MAX_LEVEL)).toNumber();
   }
 
   /**
@@ -473,11 +472,11 @@ public  getCapBound():S2Cap {
    * @return approximate area of the cell union
    */
   public approxArea():number {
-    let area = S2.toDecimal(0);
+    let area = 0;
     this.cellIds.forEach(id => {
-      area = area.plus(new S2Cell(id).approxArea());
+      area = area + (new S2Cell(id).approxArea());
     });
-    return area.toNumber();
+    return area;
   }
 
   /**
@@ -487,11 +486,11 @@ public  getCapBound():S2Cap {
    * @return the exact area of the cell union
    */
   public exactArea():number {
-    let area = S2.toDecimal(0);
+    let area = 0;
     this.cellIds.forEach(id => {
-      area = area.plus(new S2Cell(id).exactArea());
+      area = area + new S2Cell(id).exactArea();
     });
-    return area.toNumber();
+    return area;
   }
 
 

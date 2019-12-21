@@ -32,15 +32,13 @@ export class S2 {
   ];
   static MAX_LEVEL = 30;
 
-  public static IEEEremainder(_f1:number|Decimal, _f2:number|Decimal) {
-    const f1 = S2.toDecimal(_f1);
-    const f2 = S2.toDecimal(_f2);
-    let r = f1.mod(f2);
+  public static IEEEremainder(f1:number, f2:number): number {
+    let r = f1 % f2;
 
-    if (r.isNaN() || r.eq(f2) || r.lessThanOrEqualTo(f2.abs().dividedBy(2))) {
+    if (isNaN(r) || r == (f2) || r <= (Math.abs(f2) / 2)) {
       return r;
     } else {
-      return (f1.gte(0) ? S2.toDecimal(1) : S2.toDecimal(-1)).times(r.minus(f2));
+      return (f1 >= (0) ? 1 : -1) * (r - f2);
     }
   }
 
@@ -49,7 +47,7 @@ export class S2 {
    * useful for assertions).
    */
   public static isUnitLength(p:S2Point):boolean {
-    return p.norm2().minus(1).abs().lte(1e-15);
+    return Math.abs(p.norm2() - 1) <= (1e-15);
   }
 
   /**
@@ -121,7 +119,7 @@ export class S2 {
    * becomes numerically unstable as the length of any edge approaches 180
    * degrees.
    */
-  static area(a:S2Point, b:S2Point, c:S2Point):Decimal {
+  static area(a:S2Point, b:S2Point, c:S2Point) {
     // This method is based on l'Huilier's theorem,
     //
     // tan(E/4) = sqrt(tan(s/2) tan((s-a)/2) tan((s-b)/2) tan((s-c)/2))
@@ -159,37 +157,34 @@ export class S2 {
     const sa = b.angle(c);
     const sb = c.angle(a);
     const sc = a.angle(b);
-    const s = sa.plus(sb).plus(sc).times(0.5);
+    const s = sa+ (sb)+ (sc) * (0.5);
     // 0.5 * (sa + sb + sc);
-    if (s.gte(3e-4)) {
+    if (s >= (3e-4)) {
       // Consider whether Girard's formula might be more accurate.
-      const s2 = s.pow(2);
-      const dmin = s.minus(
-          Decimal.max(
+      const s2 = s * 2;
+      const dmin = s - Math.max(
               sa,
               sb,
               sc
-          )
-      );
-      if (dmin.lt(s2.pow(2).times(s).times(1e-2))) {
+          );
+      if (dmin < (s2 * s2 * (s) * (1e-2))) {
         // This triangle is skinny enough to consider Girard's formula.
         const area = S2.girardArea(a, b, c);
-        if (dmin.lt(s.times(area.times(0.1)))) {
+        if (dmin < (s * (area * (0.1)))) {
           return area;
         }
       }
     }
     // Use l'Huilier's formula.
-    return S2.toDecimal(4)
-        .times(
-            Decimal.atan(
-                Decimal.sqrt(
-                    Decimal.max(
+    return 4 * (
+            Math.atan(
+                Math.sqrt(
+                    Math.max(
                         0.0,
-                        Decimal.tan(s.times(0.5))
-                            .times(Decimal.tan(s.minus(sa).times(0.5)))
-                            .times(Decimal.tan(s.minus(sb).times(0.5)))
-                            .times(Decimal.tan(s.minus(sc).times(0.5)))
+                        Math.tan(s * (0.5))
+                             * (Math.tan(s - (sa) * (0.5)))
+                             * (Math.tan(s - (sb) * (0.5)))
+                             * (Math.tan(s - (sc) * (0.5)))
                     )
                 )
             )
@@ -202,7 +197,7 @@ export class S2 {
    * slightly faster than the Area() method above is not accurate for very small
    * triangles.
    */
-  static girardArea(a:S2Point, b:S2Point, c:S2Point):Decimal {
+  static girardArea(a:S2Point, b:S2Point, c:S2Point) {
     // This is equivalent to the usual Girard's formula but is slightly
     // more accurate, faster to compute, and handles a == b == c without
     // a special case.
@@ -210,21 +205,11 @@ export class S2 {
     const ab = S2Point.crossProd(a, b);
     const bc = S2Point.crossProd(b, c);
     const ac = S2Point.crossProd(a, c);
-    return Decimal.max(
+    return Math.max(
         0,
-        ab.angle(ac)
-            .minus(ab.angle(bc))
-            .plus(bc.angle(ac))
+        ab.angle(ac) - ab.angle(bc) + bc.angle(ac)
     );
   }
-
-  public static toDecimal(value:number|Decimal|string):Decimal {
-    if (typeof(value) === 'number' || typeof(value) === 'string') {
-      return new Decimal(value) as Decimal
-    }
-    return value as Decimal;
-  }
-
 
   /**
    * Return true if the points A, B, C are strictly counterclockwise. Return
@@ -249,7 +234,7 @@ export class S2 {
     // (1) x.CrossProd(y) == -(y.CrossProd(x))
     // (2) (-x).DotProd(y) == -(x.DotProd(y))
 
-    return S2Point.crossProd(c, a).dotProd(b).gt(0);
+    return S2Point.crossProd(c, a).dotProd(b) > 0;
   }
 
   /**
@@ -270,12 +255,12 @@ export class S2 {
 
     const ab = S2Point.crossProd(a, b);
     const cd = S2Point.crossProd(c, d);
-    const acb = ab.dotProd(c).neg();
-    const cbd = cd.dotProd(b).neg();
+    const acb = ab.dotProd(c) * -1;
+    const cbd = cd.dotProd(b) * -1;
     const bda = ab.dotProd(d);
     const dac = cd.dotProd(a);
 
-    return (acb.times(cbd).gt(0)) && (cbd.times(bda).gt(0)) && (bda.times(dac).gt(0));
+    return (acb * (cbd) > (0)) && (cbd * (bda) > (0)) && (bda * (dac) > (0));
   }
 
   static Metric = S2Metric

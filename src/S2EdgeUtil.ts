@@ -775,8 +775,8 @@ public static getDistance(x:S2Point , a:S2Point , b:S2Point , aCrossB:S2Point=S2
     // to the corresponding great circle. The result is accurate for small
     // distances but not necessarily for large distances (approaching Pi/2).
 
-    const sinDist = x.dotProd(aCrossB).abs().dividedBy( aCrossB.norm());
-    return new S1Angle(Decimal.asin(Decimal.min(1.0, sinDist)));
+    const sinDist = Math.abs(x.dotProd(aCrossB)) / ( aCrossB.norm());
+    return new S1Angle(Math.asin(Math.min(1.0, sinDist)));
   }
 
   // Otherwise, the closest point is either A or B. The cheapest method is
@@ -784,14 +784,14 @@ public static getDistance(x:S2Point , a:S2Point , b:S2Point , aCrossB:S2Point=S2
   // distances and convert the result to an angle. Again, this method is
   // accurate for small but not large distances (approaching Pi).
 
-  const linearDist2 = Decimal.min(S2Point.minus(x, a).norm2(), S2Point.minus(x, b).norm2());
+  const linearDist2 = Math.min(S2Point.minus(x, a).norm2(), S2Point.minus(x, b).norm2());
   return new S1Angle(
-      Decimal.asin(
-          Decimal.min(
+      Math.asin(
+          Math.min(
               1.0,
-              linearDist2.sqrt().times(0.5)
+              Math.sqrt(linearDist2) * 0.5
           )
-      ).times(2)
+      ) * 2
   );
 }
 //

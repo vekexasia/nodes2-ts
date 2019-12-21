@@ -8,13 +8,11 @@ import {Decimal} from 'decimal.js';
  *
  */
 export class R2Vector {
-  private _x: Decimal;
-  private _y: Decimal;
-  constructor(_x:number|Decimal, _y:number|Decimal) {
-    this._x = new Decimal(_x) as Decimal;
-    this._y = new Decimal(_y) as Decimal;
-    // this._x = new Decimal(_x) as Decimal;
-    // this._y = new Decimal(_y) as Decimal;
+  private _x: number;
+  private _y: number;
+  constructor(_x:number, _y:number) {
+    this._x = _x;
+    this._y = _y;
   }
 
   get x() {
@@ -26,7 +24,7 @@ export class R2Vector {
   }
 
 
-  public get(index:number):Decimal{
+  public get(index:number) {
     if (index > 1) {
       throw new Error(`Index out fo bounds error ${index}`);
     }
@@ -37,38 +35,37 @@ export class R2Vector {
     return p.toR2Vector(face);
   }
   public static  add(p1:R2Vector, p2:R2Vector):R2Vector {
-    return new R2Vector(p1._x.plus(p2._x), p1._y.plus(p2._y));
+    return new R2Vector(p1._x + (p2._x), p1._y + (p2._y));
   }
 
-  public static mul(p:R2Vector, _m:number|Decimal):R2Vector {
-    const m:Decimal = new Decimal(_m) as Decimal;
-    return new R2Vector(m.times(p._x), m.times(p._y));
+  public static mul(p:R2Vector, m:number):R2Vector {
+    return new R2Vector(m * (p._x), m * (p._y));
   }
 
-  public norm2():Decimal {
-    return this.x.pow(2).plus(this.y.pow(2));
+  public norm2() {
+    return this.x * this.x + this.y * this.y;
   }
 
-  public static dotProd(p1:R2Vector, p2:R2Vector):Decimal {
-    return p1.x.times(p2.x).plus(p1.y.times(p2.y));
+  public static dotProd(p1:R2Vector, p2:R2Vector) {
+    return p1.x * (p2.x) + (p1.y * (p2.y));
   }
 
-  public dotProd(that:R2Vector):Decimal {
+  public dotProd(that:R2Vector) {
     return R2Vector.dotProd(this, that);
   }
 
-  public crossProd(that:R2Vector):Decimal {
-    return this.x.times(that.y).minus(this.y.times(that.x));
+  public crossProd(that:R2Vector) {
+    return this.x*(that.y) - (this.y*(that.x));
   }
 
   public lessThan(vb:R2Vector):boolean {
-    if (this.x.lt(vb.x)) {
+    if (this.x < (vb.x)) {
       return true;
     }
-    if (vb.x.lt(this.x)) {
+    if (vb.x < (this.x)) {
       return false;
     }
-    if (this.y.lt(vb.y)) {
+    if (this.y < (vb.y)) {
       return true;
     }
     return false;
@@ -106,35 +103,31 @@ export class R2Vector {
   }
 
   // from S2Projections.stToUV (QUADRATIC)
-  public static singleStTOUV(_s:number|Decimal):Decimal {
-    const s = S2.toDecimal(_s).toNumber();
+  public static singleStTOUV(s:number): number {
     if (s >= 0) {
-      return S2.toDecimal(1/3 * (Math.pow(s + 1, 2) - 1));
-      // return S2.toDecimal(1)
-      //         .dividedBy(3)
-      //         .times(
-      //             s.plus(1).pow(2).minus(1)
-      //         );
+      // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
+      return new Decimal(1)
+              .dividedBy(3)
+              .times(
+                  new Decimal(s).plus(1).pow(2).minus(1)
+              ).toNumber();
       // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
     } else {
-      return S2.toDecimal(1/3 * (1 - Math.pow((1 - s), 2)));
-      // return S2.toDecimal(1)
-      //     .dividedBy(3)
-      //     .times(
-      //         S2.toDecimal(1)
-      //             .minus(S2.toDecimal(1).minus(s).pow(2)
-      //             )
-      //     );
+      // return (1 / 3.) * (1 - (1 - s) * (1 - s));
+      return new Decimal(1)
+          .dividedBy(3)
+          .times(
+              new Decimal(1).minus(new Decimal(1).minus(s).pow(2))
+          ).toNumber();
       // return (1 / 3.) * (1 - (1 - s) * (1 - s));
     }
 
   }
-  public static singleUVToST(_x:number | Decimal) {
-    const x = S2.toDecimal(_x).toNumber();
+  public static singleUVToST(x:number) {
     if (x >= 0) {
-      return S2.toDecimal(Math.sqrt(x * 3 + 1) - 1);
+      return (Math.sqrt(x * 3 + 1) - 1);
     } else {
-      return S2.toDecimal(1 - Math.sqrt( 1 - x * 3));
+      return (1 - Math.sqrt( 1 - x * 3));
     }
   }
 
@@ -148,13 +141,13 @@ export class R2Vector {
       case 0:
         return new S2Point(1, this.x, this.y);
       case 1:
-        return new S2Point(this.x.neg(), 1, this.y);
+        return new S2Point(this.x * -1 , 1, this.y);
       case 2:
-        return new S2Point(this.x.neg(), this.y.neg(), 1);
+        return new S2Point(this.x * -1, this.y * -1, 1);
       case 3:
-        return new S2Point(-1, this.y.neg(), this.x.neg());
+        return new S2Point(-1, this.y * -1, this.x * -1);
       case 4:
-        return new S2Point(this.y, -1, this.x.neg());
+        return new S2Point(this.y, -1, this.x * -1);
       default:
         return new S2Point(this.y, this.x, -1);
     }

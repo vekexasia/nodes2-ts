@@ -17,7 +17,6 @@
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
-import {Decimal} from 'decimal.js';
 /**
  * This class represents a point on the unit sphere as a pair of
  * latitude-longitude coordinates. Like the rest of the "geometry" package, the
@@ -36,12 +35,12 @@ export class S2LatLng {
   /** The center point the lat/lng coordinate system. */
   public static CENTER = new S2LatLng(0.0, 0.0);
 
-  public latRadians:Decimal;
-  public lngRadians:Decimal;
+  public latRadians: number;
+  public lngRadians: number;
 
-  constructor(latRadians:number|Decimal, lngRadians:number|Decimal) {
-    this.latRadians = S2.toDecimal(latRadians);
-    this.lngRadians = S2.toDecimal(lngRadians);
+  constructor(latRadians:number, lngRadians:number) {
+    this.latRadians = latRadians;
+    this.lngRadians = lngRadians;
   }
 
   get latDegrees() {
@@ -59,12 +58,12 @@ export class S2LatLng {
   public  toPoint():S2Point {
     const phi = this.latRadians;
     const theta = this.lngRadians;
-    const cosphi = Decimal.cos(phi);
+    const cosphi = Math.cos(phi);
 
     return new S2Point(
-        Decimal.cos(theta).times(cosphi),
-        Decimal.sin(theta).times(cosphi),
-        Decimal.sin(phi));
+        Math.cos(theta) * (cosphi),
+        Math.sin(theta)* (cosphi),
+        Math.sin(phi));
   }
 
   /**
@@ -79,25 +78,25 @@ export class S2LatLng {
    */
   public normalized():S2LatLng {
     // drem(x, 2 * S2.M_PI) reduces its argument to the range
-    // [-S2.M_PI, S2.M_PI] inclusive, which is what we want here.
+    // [-S2.M_PI, Math.atan2PI] inclusive, which is what we want here.
     return new S2LatLng(
-        Decimal.max(
+        Math.max(
             -S2.M_PI_2,
-            Decimal.min(
+            Math.min(
                 S2.M_PI_2,
                 this.latRadians
             )
         ),
         S2.IEEEremainder(
             this.lngRadians,
-            S2.toDecimal(2).times(S2.M_PI)
+            2* (S2.M_PI)
         )
     );
     // return new S2LatLng(Math.max(-S2.M_PI_2, Math.min(S2.M_PI_2, this.latRadians)),
     //     S2.IEEEremainder(this.lngRadians, 2 * S2.M_PI));
   }
 
-  public static fromDegrees(latDegrees:number|Decimal, lngDegrees:number|Decimal):S2LatLng {
+  public static fromDegrees(latDegrees:number, lngDegrees:number):S2LatLng {
 
     return new S2LatLng(S1Angle.degrees(latDegrees).radians, S1Angle.degrees(lngDegrees).radians);
   }
@@ -114,8 +113,8 @@ export class S2LatLng {
    * longitude is between -180 and 180 degrees inclusive.
    */
   public isValid():boolean {
-    return this.latRadians.abs().lte(S2.M_PI_2) &&
-        this.lngRadians.abs().lte(S2.M_PI);
+    return Math.abs(this.latRadians) <= (S2.M_PI_2) &&
+        Math.abs(this.lngRadians) <= (S2.M_PI);
 
   }
 
@@ -124,55 +123,38 @@ export class S2LatLng {
    * Scales this point by the given scaling factor.
    * Note that there is no guarantee that the new point will be <em>valid</em>.
    */
-  public  mul(m:Decimal|number):S2LatLng {
-    return new S2LatLng(this.latRadians.times(m), this.lngRadians.times(m));
+  public  mul(m:number):S2LatLng {
+    return new S2LatLng(this.latRadians* (m), this.lngRadians* (m));
   }
 
   public static latitude(p:S2Point) {
     // We use atan2 rather than asin because the input vector is not necessarily
     // unit length, and atan2 is much more accurate than asin near the poles.
-    return new S1Angle(
-        Decimal.atan2(
-            p.z,
-            p.x.pow(2)
-                .plus(p.y.pow(2))
-                .sqrt()
-        )
-        // Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y))
-    );
+    return new S1Angle(Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y)));
   }
 
   public static longitude(p:S2Point):S1Angle {
     // Note that atan2(0, 0) is defined to be zero.
-    return new S1Angle(Decimal.atan2(p.y, p.x));
+    return new S1Angle(Math.atan2(p.y, p.x));
   }
 
   equals(other:S2LatLng):boolean {
     return other.latRadians === this.latRadians && other.lngRadians === this.lngRadians;
   }
 
-  pointAtDistance(_distanceInKm:number|Decimal, _bearingRadians:number|Decimal) {
-    const distanceInM = S2.toDecimal(_distanceInKm).times(1000);
-    const distanceToRadius = distanceInM.dividedBy(S2LatLng.EARTH_RADIUS_METERS);
-    const bearingRadians = S2.toDecimal(_bearingRadians);
-    this.latRadians.sin();
-    distanceToRadius.cos();
+  pointAtDistance(distanceInKM:number, bearingRadians:number) {
+    const distanceInM = distanceInKM * 1000;
+    const distanceToRadius = distanceInM / (S2LatLng.EARTH_RADIUS_METERS);
 
-    const newLat = this.latRadians.sin()
-        .times(distanceToRadius.cos())
-        .plus(
-            this.latRadians.cos()
-                .times(distanceToRadius.sin())
-                .times(bearingRadians.cos())
-        ).asin();
-    const newLng = this.lngRadians
-        .plus(
-            Decimal.atan2(
-                bearingRadians.sin()
-                    .times(distanceToRadius.sin())
-                    .times(this.latRadians.cos()),
-                distanceToRadius.cos()
-                    .minus(this.latRadians.sin().times(newLat.sin()))
+    const newLat = Math.asin(Math.sin(this.latRadians) * Math.cos(distanceToRadius)
+        + (
+          Math.cos(this.latRadians) * Math.sin(distanceToRadius) * Math.cos(bearingRadians)
+      ));
+    const newLng = this.lngRadians +  Math.atan2(
+                Math.sin(bearingRadians)
+                    * (Math.sin(distanceToRadius))
+                    * (Math.cos(this.latRadians)),
+                Math.cos(distanceToRadius) - (Math.sin(this.latRadians) * Math.sin(newLat)
             )
         );
     return new S2LatLng(newLat, newLng);
@@ -185,18 +167,16 @@ export class S2LatLng {
    * @param nPoints
    * @returns {S2LatLng[]}
    */
-  pointsAtDistance(_distanceInKm:number|Decimal, nPoints:number=4):S2LatLng[] {
+  pointsAtDistance(_distanceInKm:number, nPoints:number=4):S2LatLng[] {
     return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
-        .map((p, idx) => {
-          return S2.toDecimal(360).dividedBy(nPoints).times(idx);
-        })
+        .map((p, idx) => 360 / nPoints * idx)
         .map(bearingDegree => S1Angle.degrees(bearingDegree).radians)
         .map(bearingRadians => this.pointAtDistance(_distanceInKm, bearingRadians));
 
   }
 
-  getEarthDistance(other:S2LatLng):Decimal {
-    return this.getDistance(other).radians.times(S2LatLng.EARTH_RADIUS_METERS);
+  getEarthDistance(other:S2LatLng) {
+    return this.getDistance(other).radians * (S2LatLng.EARTH_RADIUS_METERS);
   }
 
   getDistance(other:S2LatLng):S1Angle {
@@ -210,26 +190,21 @@ export class S2LatLng {
     // distance that way (which gives about 15 digits of accuracy for all
     // distances).
 
-    const dLat:Decimal = other.latRadians.minus(this.latRadians).times(0.5).sin();
-    const dLng:Decimal = other.lngRadians.minus(this.lngRadians).times(0.5).sin();
-    const x = dLat.pow(2)
-        .plus(
-            dLng.pow(2)
-                .times(this.latRadians.cos())
-                .times(other.latRadians.cos())
-        );
-    // double x = dlat * dlat + dlng * dlng * Math.cos(lat1) * Math.cos(lat2);
+    const dLat = Math.sin((other.latRadians - this.latRadians)*0.5);
+    const dLng = Math.sin((other.lngRadians - this.lngRadians)*0.5);
+    const x = dLat*dLat + dLng*dLng * Math.cos(this.latRadians) * Math.cos(other.latRadians);
 
     return new S1Angle(
-        (S2.toDecimal(2) as Decimal)
-            .times(
-                Decimal.atan2(
-                    x.sqrt(),
-                    Decimal.max(
-                        0,
-                        x.neg().plus(1)
+        2
+            * (
+                Math.atan2(
+                    Math.sqrt(x),
+                    Math.sqrt(
+                      Math.max(
+                          0,
+                        (x * -1) + 1
+                      )
                     )
-                        .sqrt()
                 )
             )
     );
@@ -254,7 +229,7 @@ export class S2LatLng {
       type: 'Feature',
       geometry: {
         type: "Point",
-        coordinates: [this.lngDegrees.toNumber(), this.latDegrees.toNumber()]
+        coordinates: [this.lngDegrees, this.latDegrees]
       },
       properties: {}
 

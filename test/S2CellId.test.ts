@@ -2,14 +2,14 @@ import {S2CellId} from "../src/S2CellId";
 import {expect} from "chai";
 const genJavaLocs = require('./assets/main-tests.json');
 const cellTests = require('./assets/cell-tests.json');
-import Decimal = require('decimal.js');
 import Long = require('long');
 import {S2Point} from "../src/S2Point";
 import {R2Vector} from "../src/R2Vector";
-import {S2LatLngRect} from "../src/S2LatLngRect"; 
+import {S2LatLngRect} from "../src/S2LatLngRect";
 import {S1Angle} from "../src/S1Angle";
 import {MutableInteger} from "../src/MutableInteger";
 import {S2} from "../src/S2";
+import {Decimal} from 'decimal.js';
 describe('S2CellId', () => {
   describe('java data', () => {
     describe('decoding', () => {
@@ -69,27 +69,27 @@ describe('S2CellId', () => {
       it('bau', () => {
         items.forEach(i => {
           expect(
-              R2Vector.singleStTOUV(i.item.s).minus(i.item.u).abs().toNumber()
+              new Decimal(R2Vector.singleStTOUV(i.item.s)).minus(i.item.u).abs().toNumber()
           )
               .to.be.lt(1e-15);
 
           expect(
-              R2Vector.singleStTOUV(i.item.t).minus(i.item.v).abs().toNumber(),
+              new Decimal(R2Vector.singleStTOUV(i.item.t)).minus(i.item.v).abs().toNumber(),
               't to v '
           ).to.be.lt(1e-15);
 
           expect(
-              R2Vector.singleUVToST(i.item.u).minus(i.item.s).abs().toNumber()
+              new Decimal(R2Vector.singleUVToST(i.item.u)).minus(i.item.s).abs().toNumber()
           ).to.be.lt(1e-15);
 
           expect(
-              R2Vector.singleUVToST(i.item.v).minus(i.item.t).abs().toNumber()
+              new Decimal(R2Vector.singleUVToST(i.item.v)).minus(i.item.t).abs().toNumber()
           ).to.be.lt(1e-15);
 
-          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.s)).toFixed(15))
-              .to.be.eq(S2.toDecimal(i.item.s).toFixed(15));
-          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.t)).toFixed(15))
-              .to.be.eq(S2.toDecimal(i.item.t).toFixed(15));
+          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.s)))
+              .to.be.closeTo(new Decimal(i.item.s).toNumber(), 1e-10);
+          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.t)))
+              .to.be.closeTo(new Decimal(i.item.t).toNumber(), 1e-10);
         });
       })
       it('toPoint should match', () => {
