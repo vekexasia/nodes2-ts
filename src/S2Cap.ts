@@ -102,13 +102,11 @@ export class S2Cap implements S2Region {
     return this;
   }
 
-  public area():Decimal {
-    return Decimal.max(
+  public area() {
+    return Math.max(
         0,
         this.height
-    )
-        .times(S2.M_PI)
-        .times(2);
+    ) * S2.M_PI * 2;
     // return 2 * S2.M_PI * Math.max(0.0, this.height);
   }
 
