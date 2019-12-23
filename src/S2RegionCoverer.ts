@@ -19,7 +19,6 @@ import {S2Region} from "./S2Region";
 import {S2CellId} from "./S2CellId";
 import {S2CellUnion} from "./S2CellUnion";
 import {S2Projections} from "./S2Projections";
-import {Decimal} from 'decimal.js';
 /**
  * An S2RegionCoverer is a class that allows arbitrary regions to be
  * approximated as unions of cells (S2CellUnion). This is useful for
@@ -390,10 +389,10 @@ export class S2RegionCoverer {
       // Find the maximum level such that the bounding cap contains at most one
       // cell vertex at that level.
       const cap = this.region.getCapBound();
-      let level = Decimal.min(
+      let level = Math.min(
           S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians * 2),
-          Decimal.min(this.maxLevel, S2CellId.MAX_LEVEL - 1)
-      ).toNumber();
+          Math.min(this.maxLevel, S2CellId.MAX_LEVEL - 1)
+      );
       if (this.levelMod > 1 && level > this.minLevel) {
         level -= (level - this.minLevel) % this.levelMod;
       }

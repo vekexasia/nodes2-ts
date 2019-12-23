@@ -1,6 +1,5 @@
 import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
-import {Decimal} from 'decimal.js';
 
 const Long = require('long');
 

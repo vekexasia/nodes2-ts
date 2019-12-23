@@ -9,8 +9,7 @@
     "moduleResolution":       "node"
   },
   "files": [
-    "src/export.ts",
-    "node_modules/decimal.js/decimal.global.d.ts"
+    "src/export.ts"
   ],
   "exclude":         [
     "node_modules/"

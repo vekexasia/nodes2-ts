@@ -2,7 +2,6 @@
 import {S2Cell} from "../src/S2Cell";
 const genJavaLocs = require('./assets/cell-tests.json');
 import Long = require('long');
-import {Decimal} from 'decimal.js'
 declare var __dirname;
 
 import {expect} from "chai";
@@ -56,8 +55,8 @@ describe('S2Cell', () => {
       items.forEach(
           i => {
             const cell = i.cell as S2Cell;
-            expect(new Decimal(cell.exactArea()).minus(i.item.exactArea).abs().toNumber())
-                .to.be.lt(1e-5);
+            expect(cell.exactArea())
+              .to.be.closeTo(parseFloat(i.item.exactArea), 1e-5);
           }
       )
     });

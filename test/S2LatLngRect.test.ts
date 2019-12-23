@@ -5,7 +5,6 @@ import {S2Point} from "../src/S2Point";
 import {S2} from "../src/S2";
 import {S2LatLngRect} from "../src/S2LatLngRect";
 const genLocs = require('./assets/cell-tests.json');
-import {Decimal} from 'decimal.js';
 describe('S2LatLngRect', () => {
   it('should return correct Cap', () => {
     genLocs.forEach(i => {
@@ -18,11 +17,11 @@ describe('S2LatLngRect', () => {
       expect(capBound.axis.aequal(new S2Point(i.rectBound.cap.axis.x,i.rectBound.cap.axis.y,i.rectBound.cap.axis.z), 1e-15))
           .is.true;
 
-      expect(new Decimal(capBound.angle().radians).minus(i.rectBound.cap.angle).abs().toNumber())
-          .to.be.lessThan(1e-15);
+      expect(capBound.angle().radians)
+        .to.be.closeTo(parseFloat(i.rectBound.cap.angle), 1e-15);
+      expect(capBound.height)
+        .to.be.closeTo(parseFloat(i.rectBound.cap.height), 1e-15);
 
-      expect(new Decimal(capBound.height).minus(i.rectBound.cap.height).abs().toNumber())
-          .to.be.lessThan(1e-15);
     });
   });
 

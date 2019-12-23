@@ -1,10 +1,6 @@
 import { S2CellUnion } from '../src/S2CellUnion';
 import { S2CellId } from '../src/S2CellId';
 import {expect} from "chai";
-
-import Decimal = require('decimal.js');
-import Long = require('long');
-import { create } from 'domain';
 declare var __dirname;
 
 // import {S2Cap} from "../src/S2Cap";

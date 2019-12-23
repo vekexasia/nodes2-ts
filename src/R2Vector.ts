@@ -1,6 +1,4 @@
 import {S2Point} from "./S2Point";
-import {S2} from "./S2";
-import {Decimal} from 'decimal.js';
 /**
  * R2Vector represents a vector in the two-dimensional space. It defines the
  * basic geometrical operations for 2D vectors, e.g. cross product, addition,
@@ -105,21 +103,9 @@ export class R2Vector {
   // from S2Projections.stToUV (QUADRATIC)
   public static singleStTOUV(s:number): number {
     if (s >= 0) {
-      // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
-      return new Decimal(1)
-              .dividedBy(3)
-              .times(
-                  new Decimal(s).plus(1).pow(2).minus(1)
-              ).toNumber();
-      // return (1 / 3.) * ((1 + s) * (1 + s) - 1);
+      return (1 / 3) * ((1 + s) * (1 + s) - 1);
     } else {
-      // return (1 / 3.) * (1 - (1 - s) * (1 - s));
-      return new Decimal(1)
-          .dividedBy(3)
-          .times(
-              new Decimal(1).minus(new Decimal(1).minus(s).pow(2))
-          ).toNumber();
-      // return (1 / 3.) * (1 - (1 - s) * (1 - s));
+      return (1 / 3) * (1 - (1 - s) * (1 - s));
     }
 
   }

@@ -5,11 +5,9 @@ const cellTests = require('./assets/cell-tests.json');
 import Long = require('long');
 import {S2Point} from "../src/S2Point";
 import {R2Vector} from "../src/R2Vector";
-import {S2LatLngRect} from "../src/S2LatLngRect";
 import {S1Angle} from "../src/S1Angle";
 import {MutableInteger} from "../src/MutableInteger";
-import {S2} from "../src/S2";
-import {Decimal} from 'decimal.js';
+
 describe('S2CellId', () => {
   describe('java data', () => {
     describe('decoding', () => {
@@ -68,28 +66,24 @@ describe('S2CellId', () => {
       });
       it('bau', () => {
         items.forEach(i => {
-          expect(
-              new Decimal(R2Vector.singleStTOUV(i.item.s)).minus(i.item.u).abs().toNumber()
-          )
-              .to.be.lt(1e-15);
+          expect(R2Vector.singleStTOUV(parseFloat(i.item.s)))
+            .to.be.closeTo(parseFloat(i.item.u),1e-15);
 
-          expect(
-              new Decimal(R2Vector.singleStTOUV(i.item.t)).minus(i.item.v).abs().toNumber(),
-              't to v '
-          ).to.be.lt(1e-15);
+          expect(R2Vector.singleStTOUV(parseFloat(i.item.t)))
+            .to.be.closeTo(parseFloat(i.item.v),1e-15);
 
-          expect(
-              new Decimal(R2Vector.singleUVToST(i.item.u)).minus(i.item.s).abs().toNumber()
-          ).to.be.lt(1e-15);
+          expect(R2Vector.singleUVToST(parseFloat(i.item.u)))
+            .to.be.closeTo(parseFloat(i.item.s),1e-15);
 
-          expect(
-              new Decimal(R2Vector.singleUVToST(i.item.v)).minus(i.item.t).abs().toNumber()
-          ).to.be.lt(1e-15);
+          expect(R2Vector.singleUVToST(parseFloat(i.item.v)))
+            .to.be.closeTo(parseFloat(i.item.t),1e-15);
 
-          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.s)))
-              .to.be.closeTo(new Decimal(i.item.s).toNumber(), 1e-10);
-          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(i.item.t)))
-              .to.be.closeTo(new Decimal(i.item.t).toNumber(), 1e-10);
+
+
+          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(parseFloat(i.item.s))))
+              .to.be.closeTo(parseFloat(i.item.s), 1e-15);
+          expect(R2Vector.singleUVToST(R2Vector.singleStTOUV(parseFloat(i.item.t))))
+              .to.be.closeTo(parseFloat(i.item.t), 1e-15);
         });
       })
       it('toPoint should match', () => {

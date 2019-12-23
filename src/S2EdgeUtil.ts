@@ -18,7 +18,6 @@
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
 import {S1Angle} from "./S1Angle";
-import {Decimal} from 'decimal.js';
 
 /**
  * This class contains various utility functions related to edges. It collects

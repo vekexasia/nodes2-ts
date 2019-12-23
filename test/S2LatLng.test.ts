@@ -8,7 +8,6 @@ import {S2} from "../src/S2";
 import {S2Cap} from "../src/S2Cap";
 import {S2RegionCoverer} from "../src/S2RegionCoverer";
 import {S2Cell} from "../src/S2Cell";
-import {Decimal} from 'decimal.js';
 const genLocs = require('./assets/latlng-tests.json');
 describe('S2LatLng', () => {
   describe('creators', () => {
@@ -23,9 +22,9 @@ describe('S2LatLng', () => {
       genLocs
           .forEach(item => {
         const s2LatLng = S2LatLng.fromDegrees(item.latD, item.lngD);
-        expect(s2LatLng.latRadians).to.be.closeTo(new Decimal(item.latR).toNumber(), 1e-13)
+        expect(s2LatLng.latRadians).to.be.closeTo(parseFloat(item.latR), 1e-13)
 
-        expect(s2LatLng.lngRadians).to.be.closeTo(new Decimal(item.lngR).toNumber(), 1e-13)
+        expect(s2LatLng.lngRadians).to.be.closeTo(parseFloat(item.lngR), 1e-13)
       });
     });
 
@@ -39,8 +38,8 @@ describe('S2LatLng', () => {
                 item.point.y,
                 item.point.z
             ));
-            expect(s2LatLng.latRadians.toFixed(14)).to.be.eq(new Decimal(item.latR).toFixed(14));
-            expect(s2LatLng.lngRadians.toFixed(14)).to.be.eq(new Decimal(item.lngR).toFixed(14));
+            expect(s2LatLng.latRadians.toFixed(14)).to.be.eq(parseFloat(item.latR).toFixed(14));
+            expect(s2LatLng.lngRadians.toFixed(14)).to.be.eq(parseFloat(item.lngR).toFixed(14));
           })
     });
   });
@@ -59,14 +58,14 @@ describe('S2LatLng', () => {
     it('should calculate distance correctly', () => {
       items.forEach(item => {
         expect(item.ll.getDistance(S2LatLng.CENTER).radians.toFixed(13))
-            .to.be.eq(new Decimal(item.item.distToCenter).toFixed(13));
+            .to.be.eq(parseFloat(item.item.distToCenter).toFixed(13));
       });
     });
 
     it('should calc dist to degrees correctly', () => {
       items.forEach(item => {
         expect(item.ll.getDistance(S2LatLng.CENTER).degrees().toFixed(11))
-            .to.be.eq(new Decimal(item.item.distToCenterD).toFixed(11));
+            .to.be.eq(parseFloat(item.item.distToCenterD).toFixed(11));
       });
     });
 

@@ -31,13 +31,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/long": "^4.0.0",
-    "decimal.js": "^10.2.0",
     "long": "^4.0.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.32",
     "@types/gulp": "=3.8.31",
+    "@types/long": "^4.0.0",
     "@types/mocha": "^2.2.31",
     "@types/sinon": "^1.16.29",
     "chai": "^3.5.0",
