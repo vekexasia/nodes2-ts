@@ -52,7 +52,7 @@ Also, for some classes, an extra `toGEOJSON` method is provided to let developer
 - Convert Lat/Lng to S2CellId
 ```typescript
 const cellId = S2CellId.fromPoint(
-  S2LatLng.fromDegrees(10 /*latitude*/, 11 /*longitude*/)
+  S2LatLng.fromDegrees(10 /*latitude*/, 11 /*longitude*/).toPoint()
 );
 ```
 
