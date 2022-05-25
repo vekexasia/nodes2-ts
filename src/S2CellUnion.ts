@@ -535,7 +535,7 @@ public  getCapBound():S2Cap {
         size = output.length;
         // A necessary (but not sufficient) condition is that the XOR of the
         // four cells must be zero. This is also very fast to test.
-        if ((output[size - 3].id.and(output[size - 2].id).and(output[size - 1].id)).notEquals(id.id)) {
+        if ((output[size - 3].id.xor(output[size - 2].id).xor(output[size - 1].id)).notEquals(id.id)) {
           break;
         }
 

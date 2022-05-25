@@ -11,6 +11,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.json:json:20160212'
-    compile 'org.isuper:s2-geometry-library-java:0.0.1'
+    implementation 'org.json:json:20160212'
+    implementation 'org.isuper:s2-geometry-library-java:0.0.1'
 }

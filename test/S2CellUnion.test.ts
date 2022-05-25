@@ -1,6 +1,7 @@
 import { S2CellUnion } from '../src/S2CellUnion';
 import { S2CellId } from '../src/S2CellId';
 import {expect} from "chai";
+import { S2Cell } from '../src/S2Cell';
 declare var __dirname;
 
 // import {S2Cap} from "../src/S2Cap";
@@ -8,6 +9,7 @@ declare var __dirname;
 // import {S2LatLng} from "../src/S2LatLng";
 // S2Cap.addCap()
 const unionTests = require('./assets/union-tests.json');
+const cellTests = require('./assets/cell-tests.json');
 function createUnionFromTokensList(tokens:string[]):S2CellUnion {
   let s2CellUnion = new S2CellUnion();
   s2CellUnion.initFromIds(tokens.map(token => S2CellId.fromToken(token))
@@ -65,6 +67,24 @@ describe('S2CellUnion', () => {
     newUnion2.getIntersectionUU(unionOne, unionTwo);
     // console.log(newUnion2.getCellIds().map((c: S2CellId) => `${c.toToken()} - ${c.id.toString()}`).join('\n'));
   });
+
+  it('should normalize correctly', () => {
+    // Test case for https://github.com/vekexasia/nodes2-ts/issues/16
+    const cellUnion = new S2CellUnion();
+    const s2CellIDs = ["357ca571", "357ca573", "357ca575", "357ca577"].map(token=>S2CellId.fromToken(token).id);
+    cellUnion.initFromIds(s2CellIDs);
+    expect(cellUnion.getCellIds().map(id=>id.toToken())).to.be.deep.eq(['357ca574']);
+
+    cellTests.forEach((test) => {
+      const cell = new S2Cell(new S2CellId(test.id))
+      const { children } = test;
+
+      const cellUnion = new S2CellUnion();
+      cellUnion.initFromIds(children.map(token=>S2CellId.fromToken(token).id))
+
+      expect(cellUnion.getCellIds().map(id=>id.toToken())).to.be.deep.eq([cell.id.toToken()]);
+    })
+  })
 
 
 });

@@ -5,3 +5,4 @@ coverage/
 src/*.js
 dist/
 .idea
+java-test-creator/bin/

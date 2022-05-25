@@ -21,7 +21,7 @@ public class CreateTests {
   static int levels[] = new int[]{
     16, 15, 16, 14
   };
-  static int maxTestCases = 12;
+  static int maxTestCases = 24;
   static double totLat = latRange[1] - latRange[0];
   static double totLng = lngRange[1] - lngRange[0];
 
@@ -131,6 +131,20 @@ public class CreateTests {
 
         tmp.put("exactArea", toJV(s2Cell.exactArea()));
         tmp.put("center", pointToJO(s2Cell.getCenter()));
+
+        // Children
+        S2Cell[] vertexChildren = new S2Cell[4];
+        JSONArray childrenArray = new JSONArray();
+        for (int k = 0; k < vertexChildren.length; ++k) {
+          vertexChildren[k] = new S2Cell(new S2CellId());
+        }
+        s2Cell.subdivide(vertexChildren);
+        for (S2Cell vc: vertexChildren) {
+          childrenArray.put(vc.id().toToken());
+        }
+
+        tmp.put("children", childrenArray);
+
         JSONArray vertexArray = new JSONArray();
         for (int k = 0; k < 4; k++) {
           vertexArray.put(pointToJO(s2Cell.getVertex(k)));
