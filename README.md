@@ -1,13 +1,19 @@
-### Node S2Geometry Typescript
+### Node S2 Geometry Typescript
+<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown
+"/>
+<img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white
+"/>
 
-An extensive port of google's s2 geometry library written in Typescript.
 
-The library uses `decimal.js` and `long` as external libraries to perform the needed math.
+An extensive port of google's s2 geometry library written in TypeScript.
+
+The only direct dependency is `long` to perform the needed math.
 
 Npm package is `nodes2ts`.
 
 #### Tests
-This project is backed by 60 1-by-1 comparison tests between this implementation and the original one.
+This project is backed by 60+ 1-by-1 comparison tests between this implementation and the original one.
 
 When implementing a not-yet-ported feature, please generate the needed tests by modifiying the java code within `java-test-creator` folder
 
@@ -78,6 +84,16 @@ console.log(cell.toGEOJSON());
 // copy the output and paste it on http://geojson.io/
 ```
 
+## Contributing
 
+The library was initially conceived to be used in both server and client env leveraging TypeScript peculiarities.
+
+If you wish to contribute please make sure, wherever applicable, to create a tiny merge request to ease the code 
+review of the proposed changes.
+
+## Want to connect with the author?
+
+If you wish to contact the library author for business (or any other) proposal you can write an email to `vekexasia` 
+<at> gmail <dot> com.
 
 
