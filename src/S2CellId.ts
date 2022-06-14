@@ -278,7 +278,7 @@ export class S2CellId {
     let i = 0;
     let j = 0;
     for (let k = 7; k >= 0; --k) {
-      let nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
+      const nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
 
       bits += (this.id
               .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
@@ -600,7 +600,7 @@ export class S2CellId {
   }
 
   private static childEndAsLong(id: Long) {
-    let oldLsb = S2CellId.lowestOnBit(id);
+    const oldLsb = S2CellId.lowestOnBit(id);
 
     return id.add(oldLsb).add(oldLsb.shiftRightUnsigned(2));
   }
@@ -791,9 +791,9 @@ export class S2CellId {
    * neighbors are guaranteed to be distinct.
    */
   public getEdgeNeighbors():S2CellId[] {
-    let level = this.level();
-    let size = this.getSizeIJ();
-    let face = this.face;
+    const level = this.level();
+    const size = this.getSizeIJ();
+    const face = this.face;
 
     const ijo = this.toIJOrientation();
     const i = S2CellId.getI(ijo);
@@ -886,11 +886,11 @@ public getVertexNeighbors(level:number):S2CellId[] {
     // normalize (i,j) to a known position within the cell because nbrLevel
     // may be larger than this cell's level.
     const size = this.getSizeIJ()
-    let face = this.face;
+    const face = this.face;
     const i = S2CellId.getI(ijo) & -size;
     const j = S2CellId.getJ(ijo) & -size;
 
-    let nbrSize = S2CellId.getSizeIJ(nbrLevel);
+    const nbrSize = S2CellId.getSizeIJ(nbrLevel);
 
     // assert (nbrSize <= size);
 

@@ -1,4 +1,4 @@
-const exponent = require('math-float64-exponent');
+import exponent = require("math-float64-exponent");
 export class Platform {
   public static IEEEremainder(f1: number, f2: number): number {
     // let r = f1 % f2;

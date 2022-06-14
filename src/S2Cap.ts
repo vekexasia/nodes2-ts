@@ -422,7 +422,7 @@ export class S2Cap implements S2Region {
    * Return true if the cap axis and height differ by at most "max_error" from
    * the given cap "other".
    */
-  public approxEquals(other:S2Cap, maxError:number = 1e-14):boolean {
+  public approxEquals(other:S2Cap, maxError = 1e-14):boolean {
     const r2 = this.radius.getLength2();
     const otherR2 = other.radius.getLength2();
 
