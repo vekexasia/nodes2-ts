@@ -4,7 +4,6 @@ import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";
 import {S2Projections} from "./S2Projections";
 import {R2Vector} from "./R2Vector";
-import {MutableInteger} from "./MutableInteger";
 import {S2} from "./S2";
 import {S2LatLngRect} from "./S2LatLngRect";
 import {R1Interval} from "./R1Interval";

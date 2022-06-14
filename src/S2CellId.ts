@@ -22,7 +22,6 @@ import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
 import { S2Projections, UvTransform } from './S2Projections';
-import { S2Cell } from './S2Cell';
 
 const parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
