@@ -31,7 +31,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "long": "^4.0.0"
+    "long": "^4.0.0",
+    "math-float64-exponent": "^1.0.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.32",

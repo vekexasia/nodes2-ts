@@ -8,6 +8,7 @@ import {S1Angle} from "./S1Angle";
 import {S2Cell} from "./S2Cell";
 import {S2EdgeUtil} from "./S2EdgeUtil";
 import {S2Cap} from "./S2Cap";
+import { Platform } from "./Platform";
 
 export class S2LatLngRect implements S2Region {
   constructor(public lat:R1Interval, public lng:S1Interval) {
@@ -125,6 +126,22 @@ export class S2LatLngRect implements S2Region {
     return new S2LatLng(this.lat.hi, this.lng.hi);
   }
 
+  public latLo(): S1Angle {
+    return S1Angle.radians(this.lat.lo);
+  }
+
+  public latHi(): S1Angle {
+    return S1Angle.radians(this.lat.hi);
+  }
+
+  public lngLo(): S1Angle {
+    return S1Angle.radians(this.lng.lo);
+  }
+
+  public lngHi(): S1Angle {
+    return S1Angle.radians(this.lng.hi);
+  }
+
   /**
    * Return true if the rectangle is empty, i.e. it contains no points at all.
    */
@@ -217,7 +234,7 @@ export class S2LatLngRect implements S2Region {
    * Return the minimum distance (measured along the surface of the sphere) to
    * the given S2LatLngRect. Both S2LatLngRects must be non-empty.
    */
-  public  getDistanceLLR(other:S2LatLngRect):S1Angle {
+  public getDistanceLLR(other:S2LatLngRect):S1Angle {
     const a = this;
     const b = other;
     if (a.isEmpty()) {
@@ -231,7 +248,7 @@ export class S2LatLngRect implements S2Region {
     // First, handle the trivial cases where the longitude intervals overlap.
     if (a.lng.intersects(b.lng)) {
       if (a.lat.intersects(b.lat)) {
-        return new S1Angle(0);  // Intersection between a and b.
+        return S1Angle.radians(0);  // Intersection between a and b.
       }
 
       // We found an overlap in the longitude interval, but not in the latitude
@@ -246,7 +263,7 @@ export class S2LatLngRect implements S2Region {
         lo = a.lat.hi;
         hi = b.lat.lo;
       }
-      return new S1Angle(hi.radians().minus(lo.radians()));
+      return S1Angle.radians(hi.radians() - lo.radians());
     }
 
     // The longitude intervals don't overlap. In this case, the closest points
@@ -353,7 +370,7 @@ export class S2LatLngRect implements S2Region {
     if (this.isEmpty()) {
       return false;
     }
-    if (this.containsP(cell.getCenter())) {
+    if (this.containsP(cell.getCenterRaw())) {
       return true;
     }
     if (cell.contains(this.getCenter().toPoint())) {
@@ -456,6 +473,14 @@ export class S2LatLngRect implements S2Region {
     );
   }
 
+  public polarClosure(): S2LatLngRect {
+    if (this.lat.lo == -S2.M_PI_2 || this.lat.hi == S2.M_PI_2) {
+      return new S2LatLngRect(this.lat, S1Interval.full());
+    } else {
+      return this;
+    }
+  }
+
   /**
    * Return the smallest rectangle containing the union of this rectangle and
    * the given rectangle.
@@ -547,38 +572,36 @@ export class S2LatLngRect implements S2Region {
 
 
   public getCapBound():S2Cap {
-    // We consider two possible bounding caps, one whose axis passes
-    // through the center of the lat-long rectangle and one whose axis
-    // is the north or south pole. We return the smaller of the two caps.
-
+    // We consider two possible bounding caps, one whose axis passes through the center of the
+    // lat-lng rectangle and one whose axis is the north or south pole. We return the smaller of the
+    // two caps.
     if (this.isEmpty()) {
       return S2Cap.empty();
     }
 
-    let poleZ, poleAngle;
-    if (this.lat.lo + (this.lat.hi) < (0)) {
+    let poleZ = 0;
+    let poleAngle = 0;
+    if (this.lat.lo + this.lat.hi < 0) {
       // South pole axis yields smaller cap.
       poleZ = -1;
-      poleAngle = this.lat.hi + (S2.M_PI_2);
+      poleAngle = S2.M_PI_2 + this.lat.hi;
     } else {
       poleZ = 1;
-      poleAngle = this.lat.lo * -1 + (S2.M_PI_2);
+      poleAngle = S2.M_PI_2 - this.lat.lo;
     }
+    const poleCap = S2Cap.fromAxisAngle(new S2Point(0, 0, poleZ), S1Angle.radians(poleAngle));
 
-    const poleCap = S2Cap.fromAxisAngle(new S2Point(0, 0, poleZ), new S1Angle(poleAngle));
-
-    // For bounding rectangles that span 180 degrees or less in longitude, the
-    // maximum cap size is achieved at one of the rectangle vertices. For
-    // rectangles that are larger than 180 degrees, we punt and always return a
-    // bounding cap centered at one of the two poles.
-    const lngSpan = this.lng.hi - (this.lng.lo);
-    if (S2.IEEEremainder(lngSpan, 2 * S2.M_PI) >= (0)) {
-      if (lngSpan < (2 * S2.M_PI)) {
-        let midCap = S2Cap.fromAxisAngle(this.getCenter().toPoint(), new S1Angle(0));
+    // For bounding rectangles that span 180 degrees or less in longitude, the maximum cap size is
+    // achieved at one of the rectangle vertices. For rectangles that are larger than 180 degrees,
+    // we punt and always return a bounding cap centered at one of the two poles.
+    const lngSpan = this.lng.hi - this.lng.lo;
+    if (Platform.IEEEremainder(lngSpan, 2 * S2.M_PI) >= 0) {
+      if (lngSpan < 2 * S2.M_PI) {
+        let midCap = S2Cap.fromAxisAngle(this.getCenter().toPoint(), S1Angle.radians(0));
         for (let k = 0; k < 4; ++k) {
           midCap = midCap.addPoint(this.getVertex(k).toPoint());
         }
-        if (midCap.height < (poleCap.height)) {
+        if (midCap.height() < poleCap.height()) {
           return midCap;
         }
       }
@@ -587,7 +610,7 @@ export class S2LatLngRect implements S2Region {
   }
 
 
-  public  getRectBound():S2LatLngRect {
+  public getRectBound():S2LatLngRect {
     return this;
   }
 

@@ -2,12 +2,8 @@ import {S2LatLng} from "../src/S2LatLng";
 import {expect} from "chai";
 import {S1Angle} from "../src/S1Angle";
 import {S2CellId} from "../src/S2CellId";
-import Long = require('long');
 import {S2Point} from "../src/S2Point";
-import {S2} from "../src/S2";
-import {S2Cap} from "../src/S2Cap";
-import {S2RegionCoverer} from "../src/S2RegionCoverer";
-import {S2Cell} from "../src/S2Cell";
+const Long = require('long');
 const genLocs = require('./assets/latlng-tests.json');
 describe('S2LatLng', () => {
   describe('creators', () => {

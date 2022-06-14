@@ -66,18 +66,208 @@
  * This data was produced using s2cell_unittest and s2cellid_unittest.
  *
  */
-import {S2, S2Metric} from "./S2";
-import {S2Point} from "./S2Point";
-import {R2Vector} from "./R2Vector";
-export enum Projections {
+import { S2, S2Metric } from "./S2";
+import { S2CellId } from "./S2CellId";
+import { S2Point } from "./S2Point";
+import { R2Vector } from "./R2Vector";
+
+import Long = require("long");
+
+enum Projections {
   S2_LINEAR_PROJECTION, S2_TAN_PROJECTION, S2_QUADRATIC_PROJECTION
 }
+
+export type UvTransformFunction = (x: number, y: number, z: number) => number
+export type XyzTransformFunction = (u: number, v: number) => number
+
+export type UvTransform = {
+  xyzToU: UvTransformFunction,
+  xyzToV: UvTransformFunction
+};
+
+export type XyzTransform = {
+  uvToX: XyzTransformFunction,
+  uvToY: XyzTransformFunction,
+  uvToZ: XyzTransformFunction,
+}
+
 export class S2Projections {
 
-  public static MIN_WIDTH= new S2Metric(1,S2.M_SQRT2 / 3);
-  public static AVG_AREA = new S2Metric(2, S2.M_PI / 6); // 0.524)
+  public static MIN_WIDTH = new S2Metric(1, 2 * S2.M_SQRT2 / 3); // 0.943
+  public static AVG_AREA = new S2Metric(2, 4 * S2.M_PI / 6); // ~2.094
+  public static MAX_LEVEL = 30;
 
-  public static getUNorm(face:number, u: number):S2Point {
+  private static FACE_UVW_AXES: S2Point[][] = [
+    [S2Point.Y_POS, S2Point.Z_POS, S2Point.X_POS],
+    [S2Point.X_NEG, S2Point.Z_POS, S2Point.Y_POS],
+    [S2Point.X_NEG, S2Point.Y_NEG, S2Point.Z_POS],
+    [S2Point.Z_NEG, S2Point.Y_NEG, S2Point.X_NEG],
+    [S2Point.Z_NEG, S2Point.X_POS, S2Point.Y_NEG],
+    [S2Point.Y_POS, S2Point.X_POS, S2Point.Z_NEG]
+  ];
+
+  private static UV_TRANSFORMS: UvTransform[] = [
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return y / x;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return z / x;
+      },
+    },
+
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return -x / y;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return z / y;
+      },
+    },
+
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return -x / z;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return -y / z;
+      },
+    },
+
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return z / x;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return y / x;
+      },
+    },
+
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return z / y;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return -x / y;
+      },
+    },
+
+    {
+      xyzToU: function xyzToU(x: number, y: number, z: number) {
+        return -y / z;
+      },
+
+      xyzToV: function xyzToV(x: number, y: number, z: number) {
+        return -x / z;
+      },
+    }
+  ];
+
+  private static XYZ_TRANSFORMS: XyzTransform[] = [
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return 1;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return u;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return v;
+      },
+    },
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return -u;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return 1;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return v;
+      },
+    },
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return -u;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return -v;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return 1;
+      },
+    },
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return -1;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return -v;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return -u;
+      },
+    },
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return v;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return -1;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return -u;
+      },
+    },
+    {
+      uvToX: function uvToX(u: number, v: number): number {
+        return v;
+      },
+
+
+      uvToY: function uvToY(u: number, v: number): number {
+        return u;
+      },
+
+
+      uvToZ: function uvToZ(u: number, v: number): number {
+        return -1;
+      },
+    }
+  ];
+
+  /**
+   * The maximum value of an si- or ti-coordinate. The range of valid (si,ti) values is
+   * [0..MAX_SiTi].
+   */
+  public static MAX_SITI = Long.fromInt(1).shiftLeft(S2Projections.MAX_LEVEL + 1)
+
+  public static getUNorm(face: number, u: number): S2Point {
     switch (face) {
       case 0:
         return new S2Point(u, -1, 0);
@@ -94,7 +284,7 @@ export class S2Projections {
     }
   }
 
-  public static getVNorm(face:number, v:number):S2Point {
+  public static getVNorm(face: number, v: number): S2Point {
     switch (face) {
       case 0:
         return new S2Point(-v, 0, 1);
@@ -111,42 +301,101 @@ export class S2Projections {
     }
   }
 
+  public static getUAxis(face: number): S2Point {
+    return S2Projections.getUVWAxis(face, 0);
+  }
 
-  public static  getUAxis(face:number):S2Point {
-    switch (face) {
+  public static getVAxis(face: number): S2Point {
+    return S2Projections.getUVWAxis(face, 1);
+  }
+
+  public static getNorm(face: number): S2Point {
+    return S2Projections.getUVWAxis(face, 2);
+  }
+
+  /** Returns the given axis of the given face (u=0, v=1, w=2). */
+  static getUVWAxis(face: number, axis: number): S2Point {
+    return S2Projections.FACE_UVW_AXES[face][axis];
+  }
+
+  /**
+   * Convert (face, si, ti) coordinates (see s2.h) to a direction vector (not
+   * necessarily unit length).
+   */
+  public static faceSiTiToXYZ(face: number, si: number, ti: number): S2Point {
+    const u = R2Vector.singleStTOUV(this.siTiToSt(si));
+    const v = R2Vector.singleStTOUV(this.siTiToSt(ti));
+
+    return this.faceUvToXyz(face, u, v)
+  }
+
+  public static faceUvToXyz(face: number, u: number, v: number): S2Point {
+    const t = this.faceToXyzTransform(face)
+    return new S2Point(t.uvToX(u, v), t.uvToY(u, v), t.uvToZ(u, v));
+  }
+
+  public static faceXyzToUv(face: number, p: S2Point): R2Vector {
+    if (face < 3) {
+      if (p.get(face) <= 0) {
+        return null;
+      }
+    } else {
+      if (p.get(face - 3) >= 0) {
+        return null;
+      }
+    }
+    return S2Projections.validFaceXyzToUv(face, p);
+  }
+
+  public static validFaceXyzToUv(face: number, p: S2Point ): R2Vector {
+    const t = S2Projections.faceToUvTransform(face);
+    return new R2Vector(t.xyzToU(p.x, p.y, p.z), t.xyzToV(p.x, p.y, p.z));
+  }
+
+  public static ijToStMin(i: number): number {
+    // assert (i >= 0 && i <= S2CellId.MAX_SIZE);
+    return (1.0 / S2CellId.MAX_SIZE) * i;
+  }
+
+  public static stToIj(s: number): number {
+    return Math.max(
+      0, Math.min(S2CellId.MAX_SIZE - 1, Math.round(S2CellId.MAX_SIZE * s - 0.5)));
+  }
+
+  public static siTiToSt(si: number): number {
+    return 1.0 / this.MAX_SITI.toNumber() * si;
+  }
+
+  public static ijToUV(ij: number, cellSize: number): number {
+    return R2Vector.singleStTOUV(S2Projections.ijToStMin(ij & -cellSize));
+  }
+
+  static xyzToFaceP(p: S2Point): number {
+    return this.xyzToFace(p.x, p.y, p.z)
+  }
+
+  static xyzToFace(x: number, y: number, z: number): number {
+    switch (S2Point.largestAbsComponent(x, y, z)) {
       case 0:
-        return new S2Point(0, 1, 0);
+        return (x < 0) ? 3 : 0;
       case 1:
-        return new S2Point(-1, 0, 0);
-      case 2:
-        return new S2Point(-1, 0, 0);
-      case 3:
-        return new S2Point(0, 0, -1);
-      case 4:
-        return new S2Point(0, 0, -1);
+        return (y < 0) ? 4 : 1;
       default:
-        return new S2Point(0, 1, 0);
+        return (z < 0) ? 5 : 2;
     }
   }
 
-  public static getVAxis(face:number):S2Point {
-    switch (face) {
-      case 0:
-        return new S2Point(0, 0, 1);
-      case 1:
-        return new S2Point(0, 0, 1);
-      case 2:
-        return new S2Point(0, -1, 0);
-      case 3:
-        return new S2Point(0, -1, 0);
-      case 4:
-        return new S2Point(1, 0, 0);
-      default:
-        return new S2Point(1, 0, 0);
-    }
+  public static faceToUvTransform(face: number): UvTransform {
+    return S2Projections.UV_TRANSFORMS[face];
   }
 
-  public static faceUvToXyz(face: number, u:number, v:number):S2Point {
-    return new R2Vector(u,v).toPoint(face);
+  public static faceToXyzTransform(face: number): XyzTransform {
+    // We map illegal face indices to the largest face index to preserve legacy behavior, i.e., we
+    // do not (yet) want to throw an index out of bounds exception. Note that S2CellId.face() is
+    // guaranteed to return a non-negative face index even for invalid S2 cells, so it is sufficient
+    // to just map all face indices greater than 5 to a face index of 5.
+    //
+    // TODO(bjj): Remove this legacy behavior.
+    return S2Projections.XYZ_TRANSFORMS[Math.min(5, face)];
   }
 }

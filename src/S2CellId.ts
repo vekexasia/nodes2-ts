@@ -21,6 +21,8 @@ import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";
 import {MutableInteger} from "./MutableInteger";
 import {S2LatLng} from "./S2LatLng";
+import { S2Projections, UvTransform } from './S2Projections';
+import { S2Cell } from './S2Cell';
 
 let parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
@@ -123,6 +125,16 @@ export class S2CellId {
   private static SWAP_MASK = 0x01;
   private static INVERT_MASK = 0x02;
 
+  private static I_SHIFT = 33;
+  private static J_SHIFT = 2;
+
+  private static J_MASK = Long.fromInt(1).shiftLeft(31).subtract(1);
+
+  private static SI_SHIFT = 32;
+  private static ORIENTATION_MASK = Long.fromInt(1).shiftLeft(2).subtract(1);
+
+  private static TI_MASK = Long.fromInt(1).shiftLeft(32).subtract(1);
+
   public static LOOKUP_POS = [] as Long[];
   public static LOOKUP_IJ = [] as number[];
 
@@ -150,7 +162,11 @@ export class S2CellId {
 
   /** Return the lowest-numbered bit that is on for cells at the given level. */
   public lowestOnBit():Long {
-    return this.id.and(this.id.negate());
+    return S2CellId.lowestOnBit(this.id);
+  }
+
+  static lowestOnBit(id: Long):Long {
+    return id.and(id.negate());
   }
 
   /** The default constructor returns an invalid cell id. */
@@ -195,23 +211,12 @@ export class S2CellId {
     return bits;
   }
 
-  /**
-   * Convert (face, si, ti) coordinates (see s2.h) to a direction vector (not
-   * necessarily unit length).
-   */
-  private faceSiTiToXYZ(face:number, si:number, ti:number):S2Point {
-    // console.log('faceSiTiToXYZ', si, ti);
-    let kScale = 1/ S2CellId.MAX_SIZE;
-    let uvVector = R2Vector.fromSTVector(new R2Vector(kScale*si, kScale * ti));
-    // console.log(uvVector.toString(), uvVector.x.toString());
-    return uvVector.toPoint(face);
-  }
-
   public static lowestOnBitForLevel(level:number):Long {
     return new Long(1).shiftLeft(2 * (S2CellId.MAX_LEVEL - level));
   }
 
   /**
+   * @deprecated use `toIJOrientation` instead
    * Return the (face, i, j) coordinates for the leaf cell corresponding to this
    * cell id. Since cells are represented by the Hilbert curve position at the
    * center of the cell, the returned (i,j) for non-leaf cells will be a leaf
@@ -254,6 +259,78 @@ export class S2CellId {
       orientation.val = bits;
     }
     return face;
+  }
+
+  public toIJOrientation(): Long {
+    const face = this.face;
+    let bits = (face & S2.SWAP_MASK);
+
+    // System.out.println("face = " + face + " bits = " + bits);
+
+    // Each iteration maps 8 bits of the Hilbert curve position into
+    // 4 bits of "i" and "j". The lookup table transforms a key of the
+    // form "ppppppppoo" to a value of the form "iiiijjjjoo", where the
+    // letters [ijpo] represents bits of "i", "j", the Hilbert curve
+    // position, and the Hilbert curve orientation respectively.
+    //
+    // On the first iteration we need to be careful to clear out the bits
+    // representing the cube face.
+    let i = 0;
+    let j = 0;
+    for (let k = 7; k >= 0; --k) {
+      let nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
+
+      bits += (this.id
+              .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
+              .getLowBitsUnsigned()
+              & ((1 << (2 * nbits)) - 1)) << 2;
+
+      /*
+      * System.out.println("id is: " + id_); System.out.println("bits is " +
+      * bits); System.out.println("lookup_ij[bits] is " + lookup_ij[bits]);
+      */
+      bits = S2CellId.LOOKUP_IJ[bits];
+      i = i + ((bits >> (S2CellId.LOOKUP_BITS + 2)) << (k * S2CellId.LOOKUP_BITS));
+      // i.setValue(i.intValue() + ((bits >> (LOOKUP_BITS + 2)) << (k * LOOKUP_BITS)));
+      /*
+      * System.out.println("left is " + ((bits >> 2) & ((1 << kLookupBits) -
+      * 1))); System.out.println("right is " + (k * kLookupBits));
+      * System.out.println("j is: " + j.intValue()); System.out.println("addition
+      * is: " + ((((bits >> 2) & ((1 << kLookupBits) - 1))) << (k *
+      * kLookupBits)));
+      */
+      j = j + ((((bits >> 2) & ((1 << S2CellId.LOOKUP_BITS) - 1))) << (k * S2CellId.LOOKUP_BITS));
+
+      bits &= (S2.SWAP_MASK | S2.INVERT_MASK);
+    }
+
+    if ((Long.fromString('0x1111111111111110', true, 16).and(this.lowestOnBit()).notEquals(0))) {
+      bits ^= S2.SWAP_MASK;
+    }
+
+    const orientation = bits;
+
+    return Long.fromInt(i).shiftLeft(S2CellId.I_SHIFT).or(Long.fromInt(j).shiftLeft(S2CellId.J_SHIFT)).or(orientation); 
+  }
+
+  public getI(): number {
+    return S2CellId.getI(this.toIJOrientation());
+  }
+
+  static getI(ijo: Long): number {
+    return ijo.shiftRightUnsigned(this.I_SHIFT).toInt();
+  }
+
+  public getJ(): number {
+    return S2CellId.getJ(this.toIJOrientation());
+  }
+
+  static getJ(ijo: Long): number {
+    return ijo.shiftRightUnsigned(this.J_SHIFT).and(S2CellId.J_MASK).toInt();
+  }
+
+  static getOrientation(ijo: Long): number {
+    return ijo.and(S2CellId.ORIENTATION_MASK).toInt()
   }
 
 
@@ -302,16 +379,21 @@ export class S2CellId {
     // return new S2CellId((((long) face) << POS_BITS) + (pos | 1)).parent(level);
   }
 
+  public static fromFace(face: number): S2CellId {
+    return new S2CellId(S2CellId.fromFaceAsLong(face));
+  }
+
 // /**
 //  * Return the leaf cell containing the given point (a direction vector, not
 //  * necessarily unit length).
 //  */
-  public static fromPoint(p:S2Point):S2CellId {
-    const face = p.toFace();
-    const uv = p.toR2Vector(face);
-    const i = S2CellId.stToIJ(uv.toSt(0));
-    const j = S2CellId.stToIJ(uv.toSt(1));
-    return S2CellId.fromFaceIJ(face, i, j);
+  public static fromPoint(p:S2Point): S2CellId {
+    const face = S2Projections.xyzToFaceP(p);
+    const t: UvTransform = S2Projections.faceToUvTransform(face);
+    const i = S2Projections.stToIj(R2Vector.singleUVToST(t.xyzToU(p.x, p.y, p.z)))
+    const j = S2Projections.stToIj(R2Vector.singleUVToST(t.xyzToV(p.x, p.y, p.z)))
+
+    return this.fromFaceIJ(face, i, j);
   }
 
 //
@@ -321,8 +403,32 @@ export class S2CellId {
 //   return fromPoint(ll.toPoint());
 // }
 
+  public getCenterUV():R2Vector {
+    const center = this.getCenterSiTi();
+    return new R2Vector(
+      R2Vector.singleStTOUV(S2Projections.siTiToSt(S2CellId.getSi(center))),
+      R2Vector.singleStTOUV(S2Projections.siTiToSt(S2CellId.getTi(center))));
+  }
+
   public toPoint():S2Point {
     return S2Point.normalize(this.toPointRaw());
+  }
+
+  getCenterSiTi(): Long {
+    const ijo = this.toIJOrientation();
+    const i = S2CellId.getI(ijo);
+    const j = S2CellId.getJ(ijo);
+    const delta = this.isLeaf() ? 1 : ((((new Long(i).getLowBits() ^ (( this.id.getLowBits()) >>> 2)) & 1) != 0) ? 2 : 0)
+
+    return Long.fromInt(2 * i + delta).shiftLeft(S2CellId.SI_SHIFT).or(S2CellId.TI_MASK.and(2 * j + delta));
+  }
+
+  static getSi(center: Long): number {
+    return center.shiftRight(S2CellId.SI_SHIFT).toInt();
+  }
+
+  static getTi(center: Long): number {
+    return center.toInt();
   }
 
   /**
@@ -330,41 +436,8 @@ export class S2CellId {
    * The vector returned by ToPointRaw is not necessarily unit length.
    */
   public toPointRaw():S2Point {
-    // First we compute the discrete (i,j) coordinates of a leaf cell contained
-    // within the given cell. Given that cells are represented by the Hilbert
-    // curve position corresponding at their center, it turns out that the cell
-    // returned by ToFaceIJOrientation is always one of two leaf cells closest
-    // to the center of the cell (unless the given cell is a leaf cell itself,
-    // in which case there is only one possibility).
-    //
-    // Given a cell of size s >= 2 (i.e. not a leaf cell), and letting (imin,
-    // jmin) be the coordinates of its lower left-hand corner, the leaf cell
-    // returned by ToFaceIJOrientation() is either (imin + s/2, jmin + s/2)
-    // (imin + s/2 - 1, jmin + s/2 - 1). We can distinguish these two cases by
-    // looking at the low bit of "i" or "j". In the first case the low bit is
-    // zero, unless s == 2 (i.e. the level just above leaf cells) in which case
-    // the low bit is one.
-    //
-    // The following calculation converts (i,j) to the (si,ti) coordinates of
-    // the cell center. (We need to multiply the coordinates by a factor of 2
-    // so that the center of leaf cells can be represented exactly.)
-    let i = new MutableInteger(0);
-    let j = new MutableInteger(0);
-    let face = this.toFaceIJOrientation(i, j, null);
-    // System.out.println("i= " + i.intValue() + " j = " + j.intValue());
-    // let delta = isLeaf() ? 1 : (((i.intValue() ^ (((int) id) >>> 2)) & 1) != 0) ? 2 : 0;
-    let delta = this.isLeaf()
-        ? 1 :
-        ((((new Long(i.val).getLowBits() ^ (( this.id.getLowBits()) >>> 2)) & 1) != 0)
-            ? 2 : 0);
-
-
-    // let delta = this.isLeaf() ? 1 : new Long(i.val).and(this.id.getLowBits() >>> 2).and(1).notEquals(1) ? 2 : 0
-    // ((i.val ? (((int)id) >>> 2))  & 1  ))
-    let si = new Long((i.val << 1) + delta - S2CellId.MAX_SIZE).getLowBits();
-    let ti = new Long((j.val << 1) + delta - S2CellId.MAX_SIZE).getLowBits();
-
-    return this.faceSiTiToXYZ(face, si, ti);
+    const center = this.getCenterSiTi();
+    return S2Projections.faceSiTiToXYZ(this.face, S2CellId.getSi(center), S2CellId.getTi(center));
   }
 
 
@@ -421,6 +494,22 @@ export class S2CellId {
     }
     // assert (level >= 0 && level <= MAX_LEVEL);
     return level;
+  }
+
+  public getSizeIJ(): number {
+    return S2CellId.getSizeIJ(this.level());
+  }
+
+  static getSizeIJ(level: number): number {
+    return 1 << (S2.MAX_LEVEL - level)
+  }
+
+  public getSizeST(): number {
+    return S2CellId.getSizeST(this.level())
+  }
+
+  static getSizeST(level: number): number {
+    return S2Projections.ijToStMin(S2CellId.getSizeIJ(level));
   }
 
   /**
@@ -483,29 +572,47 @@ export class S2CellId {
 
   public childBegin():S2CellId {
     // assert (isValid() && level() < MAX_LEVEL);
-    let oldLsb = this.lowestOnBit();
-    return new S2CellId(this.id.sub(oldLsb).add(oldLsb.shiftRight(2)));
-    // return new S2CellId(id - oldLsb + (oldLsb >>> 2));
+    return new S2CellId(S2CellId.childBeginAsLong(this.id));
   }
 
   public childBeginL(level:number):S2CellId {
     // assert (isValid() && level >= this.level() && level <= MAX_LEVEL);
-    return new S2CellId(this.id.sub(this.lowestOnBit()).add(S2CellId.lowestOnBitForLevel(level)));
-    // return new S2CellId(id - lowestOnBit() + lowestOnBitForLevel(level));
+    return new S2CellId(S2CellId.childBeginAsLongL(this.id, level));
   }
 
   public childEnd():S2CellId {
     // assert (isValid() && level() < MAX_LEVEL);
-    let oldLsb = this.lowestOnBit();
-    return new S2CellId(this.id.add(oldLsb).add(oldLsb.shiftRightUnsigned(2)));
-    // return new S2CellId(id + oldLsb + (oldLsb >>> 2));
+    return new S2CellId(S2CellId.childEndAsLong(this.id))
   }
 
   public childEndL(level:number):S2CellId {
     // assert (isValid() && level >= this.level() && level <= MAX_LEVEL);
-    return new S2CellId(this.id.add(this.lowestOnBit()).add(S2CellId.lowestOnBitForLevel(level)));
-    // return new S2CellId(id + lowestOnBit() + lowestOnBitForLevel(level));
+    return new S2CellId(S2CellId.childEndAsLongL(this.id, level));
   }
+
+  private static childBeginAsLong(id: Long): Long {
+    const oldLsb = S2CellId.lowestOnBit(id);
+    return id.subtract(oldLsb).add(oldLsb.shiftRightUnsigned(2));
+  }
+
+  private static childBeginAsLongL(id: Long, level: number): Long {
+    return id.subtract(S2CellId.lowestOnBit(id)).add(S2CellId.lowestOnBitForLevel(level))
+  }
+
+  private static childEndAsLong(id: Long) {
+    let oldLsb = S2CellId.lowestOnBit(id);
+
+    return id.add(oldLsb).add(oldLsb.shiftRightUnsigned(2));
+  }
+
+  private static childEndAsLongL(id: Long, level: number) {
+    return id.add(S2CellId.lowestOnBit(id)).add(S2CellId.lowestOnBitForLevel(level));
+  }
+
+  private static fromFaceAsLong(face: number): Long {
+    return Long.fromInt(face).shiftLeft(S2CellId.POS_BITS).add(S2CellId.lowestOnBitForLevel(0));
+  }
+
 
 //
 // Iterator-style methods for traversing the immediate children of a cell or
@@ -684,36 +791,29 @@ export class S2CellId {
    * neighbors are guaranteed to be distinct.
    */
   public getEdgeNeighbors():S2CellId[] {
-
-    const i = new MutableInteger(0);
-    const j = new MutableInteger(0);
-
     let level = this.level();
-    let size = 1 << (S2CellId.MAX_LEVEL - level);
-    let face = this.toFaceIJOrientation(i, j, null);
+    let size = this.getSizeIJ();
+    let face = this.face;
+
+    const ijo = this.toIJOrientation();
+    const i = S2CellId.getI(ijo);
+    const j = S2CellId.getJ(ijo);
 
     let neighbors = [] as S2CellId[];
     // Edges 0, 1, 2, 3 are in the S, E, N, W directions.
     neighbors.push(
-        S2CellId.fromFaceIJSame(face, i.val, j.val - size, j.val - size >= 0).parentL(level)
+        S2CellId.fromFaceIJSame(face, i, j - size, j - size >= 0).parentL(level)
     );
     neighbors.push(
-        S2CellId.fromFaceIJSame(face, i.val + size, j.val, i.val + size < S2CellId.MAX_SIZE).parentL(level)
+        S2CellId.fromFaceIJSame(face, i + size, j, i + size < S2CellId.MAX_SIZE).parentL(level)
     );
     neighbors.push(
-        S2CellId.fromFaceIJSame(face, i.val, j.val + size, j.val + size < S2CellId.MAX_SIZE).parentL(level)
+        S2CellId.fromFaceIJSame(face, i, j + size, j + size < S2CellId.MAX_SIZE).parentL(level)
     );
     neighbors.push(
-        S2CellId.fromFaceIJSame(face, i.val - size, j.val, i.val - size >= 0).parentL(level)
+        S2CellId.fromFaceIJSame(face, i - size, j, i - size >= 0).parentL(level)
     );
-    // neighbors[0] = fromFaceIJSame(face, i.intValue(), j.intValue() - size,
-    //     j.intValue() - size >= 0).parent(level);
-    // neighbors[1] = fromFaceIJSame(face, i.intValue() + size, j.intValue(),
-    //     i.intValue() + size < MAX_SIZE).parent(level);
-    // neighbors[2] = fromFaceIJSame(face, i.intValue(), j.intValue() + size,
-    //     j.intValue() + size < MAX_SIZE).parent(level);
-    // neighbors[3] = fromFaceIJSame(face, i.intValue() - size, j.intValue(),
-    //     i.intValue() - size >= 0).parent(level);
+
     return neighbors;
   }
 
@@ -727,68 +827,45 @@ export class S2CellId {
  * Requires: level < this.evel(), so that we can determine which vertex is
  * closest (in particular, level == MAX_LEVEL is not allowed).
  */
-public  getVertexNeighbors(level:number):S2CellId[] {
+public getVertexNeighbors(level:number):S2CellId[] {
   // "level" must be strictly less than this cell's level so that we can
   // determine which vertex this cell is closest to.
   // assert (level < this.level());
-  const i = new MutableInteger(0);
-  const j = new MutableInteger(0);
-  const face = this.toFaceIJOrientation(i, j, null);
+  const ijo = this.toIJOrientation();
+  const i = S2CellId.getI(ijo);
+  const j = S2CellId.getJ(ijo);
 
   // Determine the i- and j-offsets to the closest neighboring cell in each
   // direction. This involves looking at the next bit of "i" and "j" to
   // determine which quadrant of this->parent(level) this cell lies in.
-  const halfsize = 1 << (S2CellId.MAX_LEVEL - (level + 1));
+  const halfsize = S2CellId.getSizeIJ(level + 1);
   const size = halfsize << 1;
   let isame:boolean, jsame:boolean;
   let ioffset, joffset;
-  if ((i.val & halfsize) != 0) {
+  if ((i & halfsize) != 0) {
     ioffset = size;
-    isame = (i.val + size) < S2CellId.MAX_SIZE;
+    isame = (i+ size) < S2CellId.MAX_SIZE;
   } else {
     ioffset = -size;
-    isame = (i.val - size) >= 0;
+    isame = (i- size) >= 0;
   }
-  if ((j.val & halfsize) != 0) {
+  if ((j& halfsize) != 0) {
     joffset = size;
-    jsame = (j.val + size) < S2CellId.MAX_SIZE;
+    jsame = (j+ size) < S2CellId.MAX_SIZE;
   } else {
     joffset = -size;
-    jsame = (j.val - size) >= 0;
+    jsame = (j- size) >= 0;
   }
   const toRet = [];
-  toRet.push(this.parentL(level));
 
-  toRet.push(
-      S2CellId
-          .fromFaceIJSame(face, i.val+ ioffset, j.val, isame)
-          .parentL(level)
-  );
-  // output
-  //     .add(fromFaceIJSame(face, i.intValue() + ioffset, j.intValue(), isame)
-  //         .parent(level));
-  toRet.push(
-      S2CellId
-          .fromFaceIJSame(face, i.val, j.val+joffset, jsame)
-          .parentL(level)
-  );
-  // output
-  //     .add(fromFaceIJSame(face, i.intValue(), j.intValue() + joffset, jsame)
-  //         .parent(level));
-  // If i- and j- edge neighbors are *both* on a different face, then this
-  // vertex only has three neighbors (it is one of the 8 cube vertices).
+  const face = this.face;
+  toRet.push(this.parentL(level));
+  toRet.push(S2CellId.fromFaceIJSame(face, i + ioffset, j, isame).parentL(level));
+  toRet.push(S2CellId.fromFaceIJSame(face, i, j + joffset, jsame).parentL(level));
   if (isame || jsame) {
-    toRet.push(
-        S2CellId.fromFaceIJSame(
-            face,
-            i.val+ioffset,
-            j.val+joffset,
-            isame && jsame
-        ).parentL(level)
-    );
-    // output.add(fromFaceIJSame(face, i.intValue() + ioffset,
-    //     j.intValue() + joffset, isame && jsame).parent(level));
+    toRet.push(S2CellId.fromFaceIJSame(face, i + ioffset, j + joffset, isame && jsame).parentL(level));
   }
+
   return toRet;
 }
 
@@ -802,19 +879,17 @@ public  getVertexNeighbors(level:number):S2CellId[] {
    * face vertex, the same neighbor may be appended more than once.
    */
   public getAllNeighbors(nbrLevel:number):S2CellId[] {
-    const i = new MutableInteger(0);
-    const j = new MutableInteger(0);
-
-    let face = this.toFaceIJOrientation(i, j, null);
+    const ijo = this.toIJOrientation();
 
     // Find the coordinates of the lower left-hand leaf cell. We need to
-    // normalize (i,j) to a known position within the cell because nbr_level
+    // normalize (i,j) to a known position within the cell because nbrLevel
     // may be larger than this cell's level.
-    let size = 1 << (S2CellId.MAX_LEVEL - this.level());
-    i.val = i.val & -size;
-    j.val = j.val & -size;
+    const size = this.getSizeIJ()
+    let face = this.face;
+    const i = S2CellId.getI(ijo) & -size;
+    const j = S2CellId.getJ(ijo) & -size;
 
-    let nbrSize = 1 << (S2CellId.MAX_LEVEL - nbrLevel);
+    let nbrSize = S2CellId.getSizeIJ(nbrLevel);
     // assert (nbrSize <= size);
 
     let output = [];
@@ -823,23 +898,23 @@ public  getVertexNeighbors(level:number):S2CellId[] {
     for (let k = -nbrSize; ; k += nbrSize) {
       let sameFace;
       if (k < 0) {
-        sameFace = (j.val + k >= 0);
+        sameFace = (j + k >= 0);
       } else if (k >= size) {
-        sameFace = (j.val + k < S2CellId.MAX_SIZE);
+        sameFace = (j + k < S2CellId.MAX_SIZE);
       } else {
         sameFace = true;
         // North and South neighbors.
-        output.push(S2CellId.fromFaceIJSame(face, i.val + k,
-            j.val - nbrSize, j.val - size >= 0).parentL(nbrLevel));
-        output.push(S2CellId.fromFaceIJSame(face, i.val + k, j.val + size,
-            j.val + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
+        output.push(S2CellId.fromFaceIJSame(face, i + k,
+            j - nbrSize, j - size >= 0).parentL(nbrLevel));
+        output.push(S2CellId.fromFaceIJSame(face, i + k, j + size,
+            j + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
       }
       // East, West, and Diagonal neighbors.
-      output.push(S2CellId.fromFaceIJSame(face, i.val - nbrSize,
-          j.val + k, sameFace && i.val - size >= 0).parentL(
+      output.push(S2CellId.fromFaceIJSame(face, i - nbrSize,
+          j + k, sameFace && i - size >= 0).parentL(
           nbrLevel));
-      output.push(S2CellId.fromFaceIJSame(face, i.val + size, j.val + k,
-          sameFace && i.val + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
+      output.push(S2CellId.fromFaceIJSame(face, i + size, j + k,
+          sameFace && i + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
       if (k >= size) {
         break;
       }

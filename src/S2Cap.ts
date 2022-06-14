@@ -24,6 +24,8 @@ import {S2LatLng} from "./S2LatLng";
 import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
+import {S1ChordAngle} from "./S1ChordAngle";
+import { Platform } from './Platform';
 import Long = require('long');
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
@@ -49,18 +51,32 @@ export class S2Cap implements S2Region {
    */
    private static ROUND_UP = 1/new Long(1).shiftLeft(52).toNumber() + 1;
 
-  public axis:S2Point;
-  public height:number;
+  public axis: S2Point;
+  public radius: S1ChordAngle;
+
 
   /**
    * Create a cap given its axis and the cap height, i.e. the maximum projected
    * distance along the cap axis from the cap center. 'axis' should be a
    * unit-length vector.
    */
-  constructor(axis:S2Point, height:number) {
+  constructor(axis:S2Point, radius: S1ChordAngle) {
     this.axis = axis;
-    this.height = height;
+    this.radius = radius;
     // assert (isValid());
+  }
+
+  public static fromAxisChord(center: S2Point, radius: S1ChordAngle): S2Cap {
+    return new S2Cap(center, radius);
+  }
+
+  /**
+   * Create a cap given its axis and the cap height, i.e. the maximum projected distance along the
+   * cap axis from the cap center. 'axis' should be a unit-length vector.
+   */
+  public static fromAxisHeight(axis: S2Point, height: number): S2Cap {
+    // assert (S2.isUnitLength(axis));
+    return new S2Cap(axis, S1ChordAngle.fromLength2(2 * height));
   }
 
   /**
@@ -68,112 +84,107 @@ export class S2Cap implements S2Region {
    * between the axis and a point on the cap. 'axis' should be a unit-length
    * vector, and 'angle' should be between 0 and 180 degrees.
    */
-  public static fromAxisAngle(axis:S2Point, angle:S1Angle):S2Cap {
-    // The height of the cap can be computed as 1-cos(angle), but this isn't
-    // very accurate for angles close to zero (where cos(angle) is almost 1).
-    // Computing it as 2*(sin(angle/2)**2) gives much better precision.
-
+  public static fromAxisAngle(axis:S2Point, angle:S1Angle): S2Cap {
+    // The "min" calculation below is necessary to handle S1Angle.INFINITY.
     // assert (S2.isUnitLength(axis));
-    const d = Math.sin(angle.radians * 0.5);
-    // ecimal.sin(0.5 * angle.radians.times(0.5));
-    return new S2Cap(axis, d*d*2);
 
+    return this.fromAxisChord(
+      axis, S1ChordAngle.fromS1Angle(S1Angle.radians(Math.min(angle.radians, S2.M_PI))));
   }
 
   /**
-   * Create a cap given its axis and its area in steradians. 'axis' should be a
-   * unit-length vector, and 'area' should be between 0 and 4 * M_PI.
+   * Create a cap given its axis and its area in steradians. 'axis' should be a unit-length vector,
+   * and 'area' should be between 0 and 4 * M_PI.
    */
   public static fromAxisArea(axis:S2Point, area:number):S2Cap {
     // assert (S2.isUnitLength(axis));
-    return new S2Cap(axis, area/ (2*S2.M_PI));
+    return new S2Cap(axis, S1ChordAngle.fromLength2(area / S2.M_PI));
   }
 
   /** Return an empty cap, i.e. a cap that contains no points. */
-  public static empty():S2Cap {
-    return new S2Cap(new S2Point(1, 0, 0), -1);
+  public static empty(): S2Cap {
+    return new S2Cap(S2Point.X_POS, S1ChordAngle.NEGATIVE);
   }
 
   /** Return a full cap, i.e. a cap that contains all points. */
-  public static full():S2Cap {
-    return new S2Cap(new S2Point(1, 0, 0), 2);
+  public static full(): S2Cap {
+    return new S2Cap(S2Point.X_POS, S1ChordAngle.STRAIGHT);
   }
+
   getCapBound():S2Cap {
     return this;
   }
 
+  public height(): number {
+    return 0.5 * this.radius.getLength2();
+  }
+
   public area() {
-    return Math.max(
-        0,
-        this.height
-    ) * S2.M_PI * 2;
-    // return 2 * S2.M_PI * Math.max(0.0, this.height);
+    return 2 * S2.M_PI * Math.max(0.0, this.height());
   }
 
   /**
-   * Return the cap opening angle in radians, or a negative number for empty
-   * caps.
+   * Returns the cap radius as an S1Angle. Since the cap angle is stored internally as an
+   * S1ChordAngle, this method requires a trigonometric operation and may yield a slightly different
+   * result than the value passed to {@link #fromAxisAngle(S2Point, S1Angle)}.
    */
-  public  angle():S1Angle {
-    // This could also be computed as acos(1 - height_), but the following
-    // formula is much more accurate when the cap height is small. It
-    // follows from the relationship h = 1 - cos(theta) = 2 sin^2(theta/2).
-    if (this.isEmpty()) {
-      return new S1Angle(-1);
-    }
-    return new S1Angle(
-        Math.asin(
-            Math.sqrt(this.height* 0.5)
-        ) * 2
-    );
+  public angle():S1Angle {
+    return this.radius.toAngle();
   }
 
   /**
-   * We allow negative heights (to represent empty caps) but not heights greater
-   * than 2.
+   * Returns true if the axis is {@link S2#isUnitLength unit length}, and the angle is less than Pi.
+   *
+   * <p>Negative angles or heights are valid, and represent empty caps.
    */
   public isValid():boolean {
-    return S2.isUnitLength(this.axis) && this.height <= 2;
+    return S2.isUnitLength(this.axis) && this.radius.getLength2() <= 4;
   }
 
   /** Return true if the cap is empty, i.e. it contains no points. */
-  public  isEmpty():boolean {
-    return this.height < (0);
+  public isEmpty():boolean {
+    return this.radius.isNegative();
   }
 
   /** Return true if the cap is full, i.e. it contains all points. */
   public isFull():boolean {
-    return this.height >= (2);
+    return S1ChordAngle.STRAIGHT.equals(this.radius);
   }
 
   /**
-   * Return the complement of the interior of the cap. A cap and its complement
-   * have the same boundary but do not share any interior points. The complement
-   * operator is not a bijection, since the complement of a singleton cap
-   * (containing a single point) is the same as the complement of an empty cap.
+   * Return the complement of the interior of the cap. A cap and its complement have the same
+   * boundary but do not share any interior points. The complement operator is not a bijection,
+   * since the complement of a singleton cap (containing a single point) is the same as the
+   * complement of an empty cap.
    */
   public complement():S2Cap {
     // The complement of a full cap is an empty cap, not a singleton.
-    // Also make sure that the complement of an empty cap has height 2.
-    let cHeight = this.isFull() ? -1 : Math.max(this.height, 0) * -1 + 2;
-    return new S2Cap(S2Point.neg(this.axis), cHeight);
+    // Also make sure that the complement of an empty cap is full.
+    if (this.isFull()) {
+      return S2Cap.empty();
+    }
+    if (this.isEmpty()) {
+      return S2Cap.full();
+    }
+    return S2Cap.fromAxisChord(S2Point.neg(this.axis), S1ChordAngle.fromLength2(4 - this.radius.getLength2()));
   }
 
   /**
    * Return true if and only if this cap contains the given other cap (in a set
    * containment sense, e.g. every cap contains the empty cap).
    */
-  public  containsCap(other:S2Cap):boolean {
+  public containsCap(other:S2Cap):boolean {
     if (this.isFull() || other.isEmpty()) {
       return true;
+    } else {
+      const axialDistance = S1ChordAngle.fromS2Point(this.axis, other.axis);
+      return this.radius.compareTo(S1ChordAngle.add(axialDistance, other.radius)) >= 0;
     }
-    return this.angle().radians >= (this.axis.angle(other.axis) + (other.angle().radians));
   }
 
   /**
-   * Return true if and only if the interior of this cap intersects the given
-   * other cap. (This relationship is not symmetric, since only the interior of
-   * this cap is used.)
+   * Return true if and only if the interior of this cap intersects the given other cap. (This
+   * relationship is not symmetric, since only the interior of this cap is used.)
    */
   public interiorIntersects(other:S2Cap):boolean {
     // Interior(X) intersects Y if and only if Complement(Interior(X))
@@ -182,32 +193,30 @@ export class S2Cap implements S2Region {
   }
 
   /**
-   * Return true if and only if the given point is contained in the interior of
-   * the region (i.e. the region excluding its boundary). 'p' should be a
-   * unit-length vector.
+   * Return true if and only if the given point is contained in the interior of the region (i.e. the
+   * region excluding its boundary). 'p' should be a unit-length vector.
    */
-  public  interiorContains(p:S2Point):boolean {
+  public interiorContains(p:S2Point):boolean {
     // assert (S2.isUnitLength(p));
-    return this.isFull() || S2Point.sub(this.axis, p).norm2() < (this.height * 2);
+    return this.isFull() || S1ChordAngle.fromS2Point(this.axis, p).compareTo(this.radius) < 0;
   }
 
   /**
-   * Increase the cap height if necessary to include the given point. If the cap
-   * is empty the axis is set to the given point, but otherwise it is left
-   * unchanged. 'p' should be a unit-length vector.
+   * Increase the cap radius if necessary to include the given point. If the cap is empty the axis
+   * is set to the given point, but otherwise it is left unchanged.
+   *
+   * @param p must be {@link S2#isUnitLength unit length}
    */
   public addPoint(p:S2Point):S2Cap {
-    // Compute the squared chord length, then convert it into a height.
     // assert (S2.isUnitLength(p));
     if (this.isEmpty()) {
-      return new S2Cap(p, 0);
+      return new S2Cap(p, S1ChordAngle.ZERO);
     } else {
-      // To make sure that the resulting cap actually includes this point,
-      // we need to round up the distance calculation. That is, after
-      // calling cap.AddPoint(p), cap.Contains(p) should be true.
-      let dist2 = S2Point.sub(this.axis, p).norm2();
-      let newHeight = Math.max(this.height, S2Cap.ROUND_UP * (0.5) * (dist2));
-      return new S2Cap(this.axis, newHeight);
+      // After adding p to this cap, we require that the result contains p. However we don't need to
+      // do anything special to achieve this because contains() does exactly the same distance
+      // calculation that we do here.
+      return new S2Cap(
+          this.axis, S1ChordAngle.fromLength2(Math.max(this.radius.getLength2(), this.axis.getDistance2(p))));
     }
   }
 
@@ -215,27 +224,26 @@ export class S2Cap implements S2Region {
 // cap is empty it is set to the given other cap.
   public addCap(other:S2Cap):S2Cap {
     if (this.isEmpty()) {
-      return new S2Cap(other.axis, other.height);
+      return other;
+    } else if (other.isEmpty()) {
+      return this;
     } else {
-      // See comments for FromAxisAngle() and AddPoint(). This could be
-      // optimized by doing the calculation in terms of cap heights rather
-      // than cap opening angles.
-      let angle = this.axis.angle(other.axis) + (other.angle().radians);
-      if (angle >= (S2.M_PI)) {
-        return new S2Cap(this.axis, 2); //Full cap
-      } else {
-        let d = Math.sin(angle*(0.5));
-        let newHeight = Math.max(this.height, S2Cap.ROUND_UP * 2 * d * d);
-        return new S2Cap(this.axis, newHeight);
-      }
+      // We round up the distance to ensure that the cap is actually contained.
+      // TODO(user): Do some error analysis in order to guarantee this.
+      const dist = S1ChordAngle.add(S1ChordAngle.fromS2Point(this.axis, other.axis), other.radius);
+      const roundedUp = dist.plusError(S2.DBL_EPSILON * dist.getLength2());
+      return new S2Cap(this.axis, S1ChordAngle.max(this.radius, roundedUp));
     }
   }
 
 // //////////////////////////////////////////////////////////////////////
 // S2Region interface (see {@code S2Region} for details):
-  public  getRectBound():S2LatLngRect {
+  public getRectBound():S2LatLngRect {
     if (this.isEmpty()) {
       return S2LatLngRect.empty();
+    }
+    if (this.isFull()) {
+      return S2LatLngRect.full();
     }
 
     // Convert the axis to a (lat,lng) pair, and compute the cap angle.
@@ -243,21 +251,20 @@ export class S2Cap implements S2Region {
     const capAngle = this.angle().radians;
 
     let allLongitudes = false;
-    const lat:number[] = new Array(2);
-    const lng:number[] = new Array(2);
-
+    const lat = [];
+    const lng = [];
     lng[0] = -S2.M_PI;
     lng[1] = S2.M_PI;
 
     // Check whether cap includes the south pole.
-    lat[0] = axisLatLng.latRadians - (capAngle);
-    if (lat[0] <= (-S2.M_PI_2)) {
+    lat[0] = axisLatLng.lat().radians - capAngle;
+    if (lat[0] <= -S2.M_PI_2) {
       lat[0] = -S2.M_PI_2;
       allLongitudes = true;
     }
     // Check whether cap includes the north pole.
-    lat[1] = axisLatLng.latRadians + (capAngle);
-    if (lat[1] >= (S2.M_PI_2)) {
+    lat[1] = axisLatLng.lat().radians + capAngle;
+    if (lat[1] >= S2.M_PI_2) {
       lat[1] = S2.M_PI_2;
       allLongitudes = true;
     }
@@ -270,44 +277,15 @@ export class S2Cap implements S2Region {
       // we have sin(a)/sin(A) = sin(c)/sin(C), or sin(A) = sin(a)/sin(c).
       // Here "a" is the cap angle, and "c" is the colatitude (90 degrees
       // minus the latitude). This formula also works for negative latitudes.
-      //
-      // The formula for sin(a) follows from the relationship h = 1 - cos(a).
-
-      // double sinA = Math.sqrt(this.height * (2 - this.height));
-      // double sinC = Math.cos(axisLatLng.lat().radians());
-      const sinA = Math.sqrt(this.height * (2 - this.height));
-      const sinC = Math.cos(axisLatLng.latRadians)
-      if (sinA <= (sinC)) {
-        const angleA = Math.asin(sinA / (sinC));
-        lng[0] = S2.IEEEremainder(axisLatLng.lngRadians - (angleA),
-            2 * S2.M_PI);
-        lng[1] = S2.IEEEremainder(axisLatLng.lngRadians + (angleA),
-            2 * S2.M_PI);
+      const sinA = S1ChordAngle.sin(this.radius);
+      const sinC = Math.cos(axisLatLng.lat().radians);
+      if (sinA <= sinC) {
+        const angleA = Math.asin(sinA / sinC);
+        lng[0] = Platform.IEEEremainder(axisLatLng.lng().radians - angleA, 2 * S2.M_PI);
+        lng[1] = Platform.IEEEremainder(axisLatLng.lng().radians + angleA, 2 * S2.M_PI);
       }
     }
-    return new S2LatLngRect(
-        new R1Interval(lat[0], lat[1]),
-        new S1Interval(lng[0], lng[1])
-    );
-  }
-
-
-  public containsC(cell:S2Cell):boolean {
-    // If the cap does not contain all cell vertices, return false.
-    // We check the vertices before taking the Complement() because we can't
-    // accurately represent the complement of a very small cap (a height
-    // of 2-epsilon is rounded off to 2).
-    const vertices:S2Point[] = new Array(4);
-    for (let k = 0; k < 4; ++k) {
-      vertices[k] = cell.getVertex(k);
-      if (!this.contains(vertices[k])) {
-        return false;
-      }
-    }
-    // Otherwise, return true if the complement of the cap does not intersect
-    // the cell. (This test is slightly conservative, because technically we
-    // want Complement().InteriorIntersects() here.)
-    return !this.complement().intersects(cell, vertices);
+    return new S2LatLngRect(new R1Interval(lat[0], lat[1]), new S1Interval(lng[0], lng[1]));
   }
 
   // public mayIntersectC(cell:S2Cell):boolean {
@@ -315,7 +293,7 @@ export class S2Cap implements S2Region {
   //   console.log("intersects? ",toRet, cell.id.pos().toString(16), cell.level);
   //   return toRet;
   // }
-  public  mayIntersectC(cell:S2Cell):boolean {
+  public mayIntersectC(cell:S2Cell):boolean {
     // If the cap contains any cell vertex, return true.
     const vertices:S2Point[] = new Array(4);
     for (let k = 0; k < 4; ++k) {
@@ -331,14 +309,14 @@ export class S2Cap implements S2Region {
    * Return true if the cap intersects 'cell', given that the cap vertices have
    * alrady been checked.
    */
-  public intersects(cell:S2Cell, vertices:S2Point[]):boolean {
+  public intersects(cell:S2Cell, vertices:S2Point[]): boolean {
     // Return true if this cap intersects any point of 'cell' excluding its
     // vertices (which are assumed to already have been checked).
 
     // If the cap is a hemisphere or larger, the cell and the complement of the
     // cap are both convex. Therefore since no vertex of the cell is contained,
     // no other interior point of the cell is contained either.
-    if (this.height >= (1)) {
+    if (this.radius.compareTo(S1ChordAngle.RIGHT) >= 0) {
       return false;
     }
 
@@ -357,11 +335,10 @@ export class S2Cap implements S2Region {
     // and the cap does not contain any cell vertex. The only way that they
     // can intersect is if the cap intersects the interior of some edge.
 
-    const sin2Angle = this.height * (this.height * -1 + 2); // sin^2(capAngle)
-
+    const sin2Angle = S1ChordAngle.sin2(this.radius);
     for (let k = 0; k < 4; ++k) {
-      let edge = cell.getEdgeRaw(k);
-      let dot = this.axis.dotProd(edge);
+      const edge = cell.getEdgeRaw(k);
+      const dot = this.axis.dotProd(edge);
       if (dot > 0) {
         // The axis is in the interior half-space defined by the edge. We don't
         // need to consider these edges, since if the cap intersects this edge
@@ -370,15 +347,14 @@ export class S2Cap implements S2Region {
         continue;
       }
       // The Norm2() factor is necessary because "edge" is not normalized.
-      if (dot * dot > (sin2Angle * edge.norm2())) {
+      if (dot * dot > sin2Angle * edge.norm2()) {
         return false; // Entire cap is on the exterior side of this edge.
       }
       // Otherwise, the great circle containing this edge intersects
       // the interior of the cap. We just need to check whether the point
       // of closest approach occurs between the two edge endpoints.
       const dir = S2Point.crossProd(edge, this.axis);
-      if (dir.dotProd(vertices[k]) < (0)
-          && dir.dotProd(vertices[(k + 1) & 3]) > (0)) {
+      if (dir.dotProd(vertices[k]) < 0 && dir.dotProd(vertices[(k + 1) & 3]) > 0) {
         return true;
       }
     }
@@ -388,8 +364,25 @@ export class S2Cap implements S2Region {
   public contains(p:S2Point):boolean {
     // The point 'p' should be a unit-length vector.
     // assert (S2.isUnitLength(p));
-    return S2Point.sub(this.axis, p).norm2() <= (this.height * 2);
+    return S1ChordAngle.fromS2Point(this.axis, p).compareTo(this.radius) <= 0;
+  }
 
+  public containsC(cell: S2Cell): boolean {
+    // If the cap does not contain all cell vertices, return false.
+    // We check the vertices before taking the Complement() because we can't
+    // accurately represent the complement of a very small cap (a height
+    // of 2-epsilon is rounded off to 2).
+    const vertices = [];
+    for (let k = 0; k < 4; ++k) {
+      vertices[k] = cell.getVertex(k);
+      if (!this.contains(vertices[k])) {
+        return false;
+      }
+    }
+    // Otherwise, return true if the complement of the cap does not intersect
+    // the cell. (This test is slightly conservative, because technically we
+    // want Complement().InteriorIntersects() here.)
+    return !this.complement().intersects(cell, vertices);
   }
 
 //
@@ -429,15 +422,18 @@ export class S2Cap implements S2Region {
    * the given cap "other".
    */
   public approxEquals(other:S2Cap, maxError:number = 1e-14):boolean {
-    return (this.axis.aequal(other.axis, maxError) && this.height - (other.height) <= (maxError))
-        || (this.isEmpty() && other.height <= (maxError))
-        || (other.isEmpty() && this.height <= (maxError))
-        || (this.isFull() && other.height >= (2 - maxError))
-        || (other.isFull() && this.height >= (2 - maxError));
+    const r2 = this.radius.getLength2();
+    const otherR2 = other.radius.getLength2();
+
+    return (S2.approxEqualsPointError(this.axis, other.axis, maxError) && Math.abs(r2 - otherR2) <= maxError)
+        || (this.isEmpty() && otherR2 <= maxError)
+        || (other.isEmpty() && r2 <= maxError)
+        || (this.isFull() && otherR2 >= 2 - maxError)
+        || (other.isFull() && r2 >= 2 - maxError);
   }
 
   public toString():string {
-    return "[Point = " + this.axis.toString() + " Height = " + this.height.toString() + "]";
+    return "[Point = " + this.axis + " Radius = " + this.radius + "]";
   }
 
   public toGEOJSON(){

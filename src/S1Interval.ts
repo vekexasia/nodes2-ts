@@ -1,5 +1,6 @@
 import {Interval} from "./Interval";
 import {S2} from "./S2";
+import { Platform } from './Platform';
 export class S1Interval extends Interval {
 
   constructor(lo:number, hi:number, checked:boolean = false) {
@@ -259,8 +260,8 @@ export class S1Interval extends Interval {
     }
 
     // NOTE(dbeaumont): Should this remainder be 2 * M_PI or just M_PI ??
-    let lo = S2.IEEEremainder(this.lo - (radius), 2 * S2.M_PI);
-    let hi = S2.IEEEremainder(this.hi + (radius), 2 * S2.M_PI);
+    let lo = Platform.IEEEremainder(this.lo - (radius), 2 * S2.M_PI);
+    let hi = Platform.IEEEremainder(this.hi + (radius), 2 * S2.M_PI);
     if (lo == (-S2.M_PI)) {
       lo = (S2.M_PI);
     }
@@ -361,8 +362,8 @@ export class S1Interval extends Interval {
       return this.getLength() <= (maxError);
     }
 
-    return Math.abs(S2.IEEEremainder(y.lo - (this.lo), 2 * S2.M_PI))
-             + (Math.abs(S2.IEEEremainder(y.hi - (this.hi), 2 * S2.M_PI)))
+    return Math.abs(Platform.IEEEremainder(y.lo - (this.lo), 2 * S2.M_PI))
+             + (Math.abs(Platform.IEEEremainder(y.hi - (this.hi), 2 * S2.M_PI)))
              <= (maxError);
   }
 

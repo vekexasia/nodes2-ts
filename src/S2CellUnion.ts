@@ -23,6 +23,7 @@ import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
 import {S2Cap} from "./S2Cap";
+import { S1ChordAngle } from './S1ChordAngle';
 /**
  * An S2CellUnion is a region consisting of cells of various sizes. Typically a
  * cell union is used to approximate some other shape. There is a tradeoff
@@ -49,6 +50,11 @@ export class S2CellUnion implements S2Region {
    */
   public initFromIds(cellIds:Long[]|string[]) {
     this.initRawIds(cellIds);
+    this.normalize();
+  }
+
+  public initFromCellIds(cellIds:S2CellId[]) {
+    this.initRawCellIds(cellIds);
     this.normalize();
   }
 
@@ -387,12 +393,12 @@ public  getCapBound():S2Cap {
   }
   let centroid = new S2Point(0, 0, 0);
   this.cellIds.forEach(id => {
-    let area = S2Cell.averageArea(id.level());
+    const area = S2Cell.averageArea(id.level());
     centroid = S2Point.add(centroid, S2Point.mul(id.toPoint(), area));
   });
 
-  if (centroid.equals(new S2Point(0, 0, 0))) {
-    centroid = new S2Point(1, 0, 0);
+  if (centroid.equals(S2Point.ORIGIN)) {
+    centroid = S2Point.X_POS;
   } else {
     centroid = S2Point.normalize(centroid);
   }
@@ -401,7 +407,7 @@ public  getCapBound():S2Cap {
   // contains the bounding caps of all the individual cells. Note that it is
   // *not* sufficient to just bound all the cell vertices because the bounding
   // cap may be concave (i.e. cover more than one hemisphere).
-  let cap = new S2Cap(centroid, 0);
+  let cap = S2Cap.fromAxisChord(centroid, S1ChordAngle.ZERO);
   this.cellIds.forEach(id => {
     cap = cap.addCap(new S2Cell(id).getCapBound());
   });

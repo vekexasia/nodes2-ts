@@ -1,7 +1,6 @@
 
 import {S2Cell} from "../src/S2Cell";
 const genJavaLocs = require('./assets/cell-tests.json');
-import Long = require('long');
 declare var __dirname;
 
 import {expect} from "chai";
@@ -140,7 +139,7 @@ describe('S2Cell', () => {
     //       bits.push(s2Cap.toGEOJSON());
     //     });
     // console.log(s2Cap.axis.toString())
-    // console.log(s2Cap.height.toString())
+    // console.log(s2Cap.height().toString())
     // const geoJSONPoints = pointsAtDistance
     //     .map(p => p.toGEOJSON()) as any
     // console.log(JSON.stringify(s2Cap.toGEOJSON()));

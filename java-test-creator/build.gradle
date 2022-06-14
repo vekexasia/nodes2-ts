@@ -8,9 +8,10 @@ mainClassName = "com.andreabaccega.CreateTests"
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     implementation 'org.json:json:20160212'
-    implementation 'org.isuper:s2-geometry-library-java:0.0.1'
+    implementation 'com.github.google:s2-geometry-library-java:2.0.0'
 }

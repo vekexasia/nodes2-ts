@@ -102,7 +102,7 @@ export class R1Interval extends Interval {
    * point in this interval. Note that the expansion of an empty interval is
    * always empty.
    */
-  public  expanded(radius:number):R1Interval {
+  public expanded(radius:number):R1Interval {
     // assert (radius >= 0);
     if (this.isEmpty()) {
       return this;
@@ -114,7 +114,7 @@ export class R1Interval extends Interval {
    * Return the smallest interval that contains this interval and the given
    * interval "y".
    */
-  public  union(y:R1Interval):R1Interval {
+  public union(y:R1Interval):R1Interval {
     if (this.isEmpty()) {
       return y;
     }
@@ -175,8 +175,4 @@ export class R1Interval extends Interval {
       return new R1Interval(p2, p1);
     }
   }
-
-
-
-
 }

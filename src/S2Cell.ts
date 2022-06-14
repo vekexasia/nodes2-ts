@@ -16,32 +16,26 @@ export class S2Cell {
   private _face:number;
   private _level:number;
   private _orientation:number;
-  private _uv:number[][];
 
-  constructor(private cellID:S2CellId) {
-    this._uv = [];
-    this._uv.push([]);
-    this._uv.push([]);
-    this.init(cellID)
+  private uMin: number;
+  private uMax: number;
+  private vMin: number;
+  private vMax: number;
+
+  constructor(private cellID?:S2CellId) {
+    if (cellID != null) {
+      this.init(cellID)
+    }
   }
 
   get id():S2CellId {
     return this.cellID;
   }
 
-  get face():number {
-    return this._face;
+
+  public static fromFace(face: number): S2Cell {
+    return new S2Cell(S2CellId.fromFace(face));
   }
-
-  get level():number {
-    return this._level;
-  }
-
-  get orientation():number {
-    return this._orientation;
-  }
-
-
 
 // This is a static method in order to provide named parameters.
   public static fromFacePosLevel(face:number, pos:number, level:number):S2Cell {
@@ -59,7 +53,7 @@ export class S2Cell {
 
 
   public isLeaf():boolean {
-    return this.level == S2CellId.MAX_LEVEL;
+    return this._level == S2CellId.MAX_LEVEL;
   }
 
   public getVertex(k:number):S2Point {
@@ -73,10 +67,8 @@ export class S2Cell {
    */
   public getVertexRaw(k:number):S2Point {
     // Vertices are returned in the order SW, SE, NE, NW.
-
-    return new R2Vector(this._uv[0][(k >> 1) ^ (k & 1)], this._uv[1][k >> 1])
-        .toPoint(this.face);
-    // return S2Projections.faceUvToXyz(this.face, );
+    return S2Projections.faceUvToXyz(
+      this._face, ((k >> 1) ^ (k & 1)) == 0 ? this.uMin : this.uMax, (k >> 1) == 0 ? this.vMin : this.vMax);
   }
 
   public getEdge(k:number):S2Point {
@@ -86,13 +78,13 @@ export class S2Cell {
   public getEdgeRaw(k:number):S2Point {
     switch (k) {
       case 0:
-        return S2Projections.getVNorm(this.face, this._uv[1][0]); // South
+        return S2Projections.getVNorm(this._face, this.vMin); // South
       case 1:
-        return S2Projections.getUNorm(this.face, this._uv[0][1]); // East
+        return S2Projections.getUNorm(this._face, this.uMax); // East
       case 2:
-        return S2Point.neg(S2Projections.getVNorm(this.face, this._uv[1][1])); // North
+        return S2Point.neg(S2Projections.getVNorm(this._face, this.vMax)); // North
       default:
-        return S2Point.neg(S2Projections.getUNorm(this.face, this._uv[0][0])); // West
+        return S2Point.neg(S2Projections.getUNorm(this._face, this.uMin)); // West
     }
   }
 
@@ -115,29 +107,47 @@ export class S2Cell {
     // This function is equivalent to just iterating over the child cell ids
     // and calling the S2Cell constructor, but it is about 2.5 times faster.
 
-    if (this.isLeaf()) {
+    if (this.id.isLeaf()) {
       return null;
     }
-
-    // Compute the cell midpoint in uv-space.
-    // const uvMid = this.getCenterUV();
+    
     const children:S2Cell[] = new Array(4);
+    for (let i = 0; i < 4; ++i) {
+      children[i] = new S2Cell();
+    }
+
     // Create four children with the appropriate bounds.
-    let id = this.cellID.childBegin();
+    let id = this.id.childBegin();
+    const mid = this.getCenterUV();
+    const uMid = mid.x;
+    const vMid = mid.y;
+
     for (let pos = 0; pos < 4; ++pos, id = id.next()) {
-      children[pos] = new S2Cell(id);
-      // S2Cell child = children[pos];
-      // child.face = this.face;
-      // child.level = (byte) (this.level + 1);
-      // child.orientation = (byte) (this.orientation ^ S2.posToOrientation(pos));
-      // child.cellId = id;
-      // int ij = S2.posToIJ(this.orientation, pos);
-      // for (let d = 0; d < 2; ++d) {
-      //   // The dimension 0 index (i/u) is in bit 1 of ij.
-      //   int m = 1 - ((ij >> (1 - d)) & 1);
-      //   child._uv[d][m] = uvMid.get(d);
-      //   child._uv[d][1 - m] = this._uv[d][1 - m];
-      // }
+      const child = children[pos];
+      child._face = this.face;
+      child._level = this.level + 1;
+      child._orientation = this.orientation ^ S2.POS_TO_ORIENTATION[pos];
+      child.cellID = id;
+      // We want to split the cell in half in "u" and "v".  To decide which
+      // side to set equal to the midpoint value, we look at cell's (i,j)
+      // position within its parent.  The index for "i" is in bit 1 of ij.
+      const ij = S2.POS_TO_IJ[this.orientation][pos];
+      // The dimension 0 index (i/u) is in bit 1 of ij.
+      if ((ij & 0x2) != 0) {
+        child.uMin = uMid;
+        child.uMax = this.uMax;
+      } else {
+        child.uMin = this.uMin;
+        child.uMax = uMid;
+      }
+      // The dimension 1 index (j/v) is in bit 0 of ij.
+      if ((ij & 0x1) != 0) {
+        child.vMin = vMid;
+        child.vMax = this.vMax;
+      } else {
+        child.vMin = this.vMin;
+        child.vMax = vMid;
+      }
     }
     return children;
   }
@@ -164,21 +174,7 @@ export class S2Cell {
    * not at the midpoint of the (u,v) rectangle covered by the cell
    */
   public getCenterUV():R2Vector {
-    const i = new MutableInteger(0);
-    const j = new MutableInteger(0);
-    this.cellID.toFaceIJOrientation(i, j, null);
-    let cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
-
-    // TODO(dbeaumont): Figure out a better naming of the variables here (and elsewhere).
-    let si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let x = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * si)
-    // let x = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * si);
-
-    let sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let y = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * sj)
-    // double y = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sj);
-
-    return new R2Vector(x, y);
+    return this.cellID.getCenterUV();
   }
 
   /**
@@ -196,7 +192,7 @@ export class S2Cell {
    * compute.
    */
   public averageArea():number {
-    return S2Projections.AVG_AREA.getValue(this.level);
+    return S2Projections.AVG_AREA.getValue(this._level);
   }
 
   /**
@@ -208,7 +204,7 @@ export class S2Cell {
   public  approxArea():number {
 
     // All cells at the first two levels have the same area.
-    if (this.level < 2) {
+    if (this._level < 2) {
       return this.averageArea();
     }
 
@@ -258,11 +254,9 @@ export class S2Cell {
     // It's possible to show that the two vertices that are furthest from
     // the (u,v)-origin never determine the maximum cap size (this is a
     // possible future optimization).
-
-    const u = this._uv[0][0] + (this._uv[0][1]) * (0.5);
-    const v = this._uv[1][0] + (this._uv[1][1]) * (0.5);
-
-    let cap = new S2Cap(S2Point.normalize(S2Projections.faceUvToXyz(this.face, u, v)), 0);
+    const uv = this.getCenterUV();
+    const center = S2Point.normalize(S2Projections.faceUvToXyz(this._face, uv.x, uv.y));
+    let cap = S2Cap.fromAxisHeight(center, 0);
     for (let k = 0; k < 4; ++k) {
       cap = cap.addPoint(this.getVertex(k));
     }
@@ -285,8 +279,12 @@ export class S2Cell {
 // 35.26 degrees
 
 
+  private getPoint(i: number, j: number): S2Point {
+    return S2Projections.faceUvToXyz(this._face, i == 0 ? this.uMin : this.uMax, j == 0 ? this.vMin : this.vMax);
+  }
+
   public getRectBound():S2LatLngRect {
-    if (this.level > 0) {
+    if (this._level > 0) {
       // Except for cells at level 0, the latitude and longitude extremes are
       // attained at the vertices. Furthermore, the latitude range is
       // determined by one pair of diagonally opposite vertices and the
@@ -298,24 +296,30 @@ export class S2Cell {
       // absolute x- and y-coordinates. To do this we look at each coordinate
       // (u and v), and determine whether we want to minimize or maximize that
       // coordinate based on the axis direction and the cell's (u,v) quadrant.
-      const u = this._uv[0][0] + (this._uv[0][1]);
-      const v = this._uv[1][0] + (this._uv[1][1]);
-      const i = S2Projections.getUAxis(this.face).z == 0 ? (u < 0 ? 1 : 0) : (u > 0 ? 1 : 0);
-      const j = S2Projections.getVAxis(this.face).z == 0 ? (v < 0 ? 1 : 0) : (v > 0 ? 1 : 0);
+      const u = this.uMin + this.uMax;
+      const v = this.vMin + this.vMax;
+      const i = S2Projections.getUAxis(this._face).z == 0 ? (u < 0 ? 1 : 0) : (u > 0 ? 1 : 0);
+      const j = S2Projections.getVAxis(this._face).z == 0 ? (v < 0 ? 1 : 0) : (v > 0 ? 1 : 0);
 
-      let lat = R1Interval.fromPointPair(this.getLatitude(i, j), this.getLatitude(1 - i, 1 - j));
-      lat = lat.expanded(S2Cell.MAX_ERROR).intersection(S2LatLngRect.fullLat());
-      if (lat.lo == (-S2.M_PI_2) || lat.hi  == (S2.M_PI_2)) {
-        return new S2LatLngRect(lat, S1Interval.full());
-      }
-      let lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
-      return new S2LatLngRect(lat, lng.expanded(S2Cell.MAX_ERROR));
+      const lat = R1Interval.fromPointPair(
+          S2LatLng.latitude(this.getPoint(i, j)).radians,
+          S2LatLng.latitude(this.getPoint(1 - i, 1 - j)).radians);
+          
+      const lng = S1Interval.fromPointPair(
+              S2LatLng.longitude(this.getPoint(i, 1 - j)).radians,
+              S2LatLng.longitude(this.getPoint(1 - i, j)).radians);
+
+      
+      // DBL_EPSILON
+      return new S2LatLngRect(lat, lng)
+          .expanded(S2LatLng.fromRadians(S2.DBL_EPSILON, S2.DBL_EPSILON))
+          .polarClosure();
     }
 
 
     // The face centers are the +X, +Y, +Z, -X, -Y, -Z axes in that order.
     // assert (S2Projections.getNorm(face).get(face % 3) == ((face < 3) ? 1 : -1));
-    switch (this.face) {
+    switch (this._face) {
       case 0:
         return new S2LatLngRect(
             new R1Interval(-S2.M_PI_4, S2.M_PI_4), new S1Interval(-S2.M_PI_4, S2.M_PI_4));
@@ -339,7 +343,7 @@ export class S2Cell {
   }
 
 
-  public mayIntersect(cell:S2Cell):boolean {
+  public mayIntersectC(cell:S2Cell):boolean {
     return this.cellID.intersects(cell.cellID);
   }
 
@@ -348,13 +352,14 @@ export class S2Cell {
     // boundary between two faces (i.e. u or v is +1/-1) we need to return
     // true for both adjacent cells.
 
-    const uvPoint = p.toR2Vector(this.face);
-    // S2Projections.faceXyzToUv(this.face, p);
+    const uvPoint = S2Projections.faceXyzToUv(this._face, p);
     if (uvPoint == null) {
       return false;
     }
-    return (uvPoint.x >= (this._uv[0][0]) && uvPoint.x <= (this._uv[0][1])
-    && uvPoint.y >= (this._uv[1][0]) && uvPoint.y <= (this._uv[1][1]));
+    return (uvPoint.x >= this.uMin
+        && uvPoint.x <= this.uMax
+        && uvPoint.y >= this.vMin
+        && uvPoint.y <= this.vMax);
   }
 
 // The point 'p' does not need to be normalized.
@@ -365,57 +370,53 @@ export class S2Cell {
 
   private init(id:S2CellId) {
     this.cellID = id;
-    const ij:MutableInteger[] = [];
-    const mOrientation = new MutableInteger(0);
+    this._face = id.face
 
-    for (let d = 0; d < 2; ++d) {
-      ij[d] = new MutableInteger(0);
-    }
+    const ijo = id.toIJOrientation();
 
-    this._face = id.toFaceIJOrientation(ij[0], ij[1], mOrientation);
-    this._orientation = mOrientation.val; // Compress int to a byte.
+    this._orientation = S2CellId.getOrientation(ijo);
     this._level = id.level();
-    const cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
-    for (let d = 0; d < 2; ++d) {
-      // Compute the cell bounds in scaled (i,j) coordinates.
-      const sijLo = (ij[d].val & -cellSize) * 2 - S2Cell.MAX_CELL_SIZE;
-      const sijHi = sijLo + cellSize * 2;
 
-      const s = 1/S2Cell.MAX_CELL_SIZE;
-      this._uv[d][0] = R2Vector.singleStTOUV(s * (sijLo))
-      //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijLo);
-      this._uv[d][1] = R2Vector.singleStTOUV(s * (sijHi));
-      //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijHi);
-    }
+    const i = S2CellId.getI(ijo);
+    const j = S2CellId.getJ(ijo);
+    const cellSize = id.getSizeIJ();
+
+    this.uMin = S2Projections.ijToUV(i, cellSize);
+    this.uMax = S2Projections.ijToUV(i + cellSize, cellSize);
+    this.vMin = S2Projections.ijToUV(j, cellSize);
+    this.vMax = S2Projections.ijToUV(j + cellSize, cellSize);
+
+    // for (let d = 0; d < 2; ++d) {
+    //   // Compute the cell bounds in scaled (i,j) coordinates.
+    //   const sijLo = (ij[d].val & -cellSize) * 2 - S2Cell.MAX_CELL_SIZE;
+    //   const sijHi = sijLo + cellSize * 2;
+
+    //   const s = 1/S2Cell.MAX_CELL_SIZE;
+    //   this._uv[d][0] = R2Vector.singleStTOUV(s * (sijLo))
+    //   //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijLo);
+    //   this._uv[d][1] = R2Vector.singleStTOUV(s * (sijHi));
+    //   //S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sijHi);
+    // }
   }
 
-
-// Internal method that does the actual work in the constructors.
-
-  private getLatitude(i:number, j:number) {
-
-    const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-    return Math.atan2(
-        p.z,
-        Math.sqrt(p.x * p.x + p.y * p.y)
-    );
-    // return Math.atan2(p.z, Math.sqrt(p.x * p.x + p.y * p.y));
+  get face(): number {
+    return this._face;
   }
 
-  private getLongitude(i:number, j:number) {
-    const p = S2Projections.faceUvToXyz(this.face, this._uv[0][i], this._uv[1][j]);
-    return Math.atan2(
-        p.y,
-        p.x
-    );
-    // Math.atan2(p.y, p.x);
+  get orientation(): number {
+    return this._orientation;
   }
+
+  get level(): number {
+    return this._level;
+  }
+
 
 // Return the latitude or longitude of the cell vertex given by (i,j),
 // where "i" and "j" are either 0 or 1.
 
-  public  toString():string {
-    return "[" + this._face + ", " + this._level + ", " + this._orientation + ", " + this.cellID.toToken() + "]";
+  public toString():string {
+    return "[" + this._face + ", " + this._level + ", " + this.orientation + ", " + this.cellID + "]";
   }
 
   public toGEOJSON() {
@@ -431,7 +432,7 @@ export class S2Cell {
         coordinates: [coords]
       },
       properties: {},
-      title: `Cell: ${this.id.toToken()} lvl: ${this.level}`
+      title: `Cell: ${this.id.toToken()} lvl: ${this._level}`
     };
     // rectJSON.title = `Cell: ${this.id.toToken()}`;
     // return rectJSON;

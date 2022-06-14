@@ -19,7 +19,7 @@ describe('S2LatLngRect', () => {
 
       expect(capBound.angle().radians)
         .to.be.closeTo(parseFloat(i.rectBound.cap.angle), 1e-15);
-      expect(capBound.height)
+      expect(capBound.height())
         .to.be.closeTo(parseFloat(i.rectBound.cap.height), 1e-15);
 
     });
