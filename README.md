@@ -6,7 +6,7 @@ src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&
 
 An extensive port of google's s2 geometry library written in TypeScript.
 
-The only direct dependency is `long` to perform the needed math.
+The only direct dependencies are some math related npm packages (long and math-float64-exponent).
 
 Npm package is `nodes2ts`.
 
