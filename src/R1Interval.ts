@@ -142,7 +142,7 @@ export class R1Interval extends Interval {
    * Return true if the length of the symmetric difference between the two
    * intervals is at most the given tolerance.
    */
-  public approxEquals(y:R1Interval, maxError:number=1e-15):boolean {
+  public approxEquals(y:R1Interval, maxError=1e-15):boolean {
     if (this.isEmpty()) {
       return y.getLength() <= (maxError);
     }
