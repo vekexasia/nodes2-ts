@@ -31,7 +31,6 @@ import { S1Angle } from './S1Angle';
 import { S2 } from './S2';
 import { S2Point } from './S2Point';
 import { checkArgument } from './utils/preconditions';
-import { compareDouble } from './utils/comparison';
 
 export class S1ChordAngle {
 
@@ -345,7 +344,7 @@ export class S1ChordAngle {
   }
 
   public compareTo(that: S1ChordAngle): number {
-    return compareDouble(this.length2, that.length2);
+    return this.length2 - that.length2
   }
 
   public equals(that: S1ChordAngle): boolean {
