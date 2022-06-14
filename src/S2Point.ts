@@ -84,7 +84,7 @@ export class S2Point {
 
   /** return a vector orthogonal to this one */
   public ortho():S2Point {
-    let k = this.largestAbsComponent();
+    const k = this.largestAbsComponent();
     let temp;
     if (k == 1) {
       temp = new S2Point(1,0,0);
@@ -98,7 +98,7 @@ export class S2Point {
 
   /** Return the index of the largest component fabs */
   public largestAbsComponent():number {
-    let temp = S2Point.fabs(this);
+    const temp = S2Point.fabs(this);
     if (temp.x > (temp.y)) {
       if (temp.x > (temp.z)) {
         return 0;

@@ -155,7 +155,7 @@ export class S2Cap implements S2Region {
   public complement():S2Cap {
     // The complement of a full cap is an empty cap, not a singleton.
     // Also make sure that the complement of an empty cap has height 2.
-    let cHeight = this.isFull() ? -1 : Math.max(this.height, 0) * -1 + 2;
+    const cHeight = this.isFull() ? -1 : Math.max(this.height, 0) * -1 + 2;
     return new S2Cap(S2Point.neg(this.axis), cHeight);
   }
 
@@ -205,8 +205,8 @@ export class S2Cap implements S2Region {
       // To make sure that the resulting cap actually includes this point,
       // we need to round up the distance calculation. That is, after
       // calling cap.AddPoint(p), cap.Contains(p) should be true.
-      let dist2 = S2Point.sub(this.axis, p).norm2();
-      let newHeight = Math.max(this.height, S2Cap.ROUND_UP * (0.5) * (dist2));
+      const dist2 = S2Point.sub(this.axis, p).norm2();
+      const newHeight = Math.max(this.height, S2Cap.ROUND_UP * (0.5) * (dist2));
       return new S2Cap(this.axis, newHeight);
     }
   }
@@ -220,12 +220,12 @@ export class S2Cap implements S2Region {
       // See comments for FromAxisAngle() and AddPoint(). This could be
       // optimized by doing the calculation in terms of cap heights rather
       // than cap opening angles.
-      let angle = this.axis.angle(other.axis) + (other.angle().radians);
+      const angle = this.axis.angle(other.axis) + (other.angle().radians);
       if (angle >= (S2.M_PI)) {
         return new S2Cap(this.axis, 2); //Full cap
       } else {
-        let d = Math.sin(angle*(0.5));
-        let newHeight = Math.max(this.height, S2Cap.ROUND_UP * 2 * d * d);
+        const d = Math.sin(angle*(0.5));
+        const newHeight = Math.max(this.height, S2Cap.ROUND_UP * 2 * d * d);
         return new S2Cap(this.axis, newHeight);
       }
     }
@@ -360,8 +360,8 @@ export class S2Cap implements S2Region {
     const sin2Angle = this.height * (this.height * -1 + 2); // sin^2(capAngle)
 
     for (let k = 0; k < 4; ++k) {
-      let edge = cell.getEdgeRaw(k);
-      let dot = this.axis.dotProd(edge);
+      const edge = cell.getEdgeRaw(k);
+      const dot = this.axis.dotProd(edge);
       if (dot > 0) {
         // The axis is in the interior half-space defined by the edge. We don't
         // need to consider these edges, since if the cap intersects this edge
@@ -428,7 +428,7 @@ export class S2Cap implements S2Region {
    * Return true if the cap axis and height differ by at most "max_error" from
    * the given cap "other".
    */
-  public approxEquals(other:S2Cap, maxError:number = 1e-14):boolean {
+  public approxEquals(other:S2Cap, maxError= 1e-14):boolean {
     return (this.axis.aequal(other.axis, maxError) && this.height - (other.height) <= (maxError))
         || (this.isEmpty() && other.height <= (maxError))
         || (other.isEmpty() && this.height <= (maxError))

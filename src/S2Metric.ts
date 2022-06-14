@@ -25,8 +25,7 @@ export class S2Metric {
 
     /** Return the value of a metric for cells at the given level. */
     public getValue(level:number):number {
-        let scaleFactor = this.dim() * (1 - level);
-
+        const scaleFactor = this.dim() * (1 - level);
         return this.deriv() * (Math.pow(2, scaleFactor));
     }
 
@@ -54,8 +53,8 @@ export class S2Metric {
 
         // This code is equivalent to computing a floating-point "level"
         // value and rounding up.
-        let exponent = S2.exp(value / ((1 << this.dim()) * this.deriv()));
-        let level = Math.max(0,
+        const exponent = S2.exp(value / ((1 << this.dim()) * this.deriv()));
+        const level = Math.max(0,
             Math.min(S2.MAX_LEVEL, -((exponent - 1) >> (this.dim() - 1))));
         // assert (level == S2CellId.MAX_LEVEL || getValue(level) <= value);
         // assert (level == 0 || getValue(level - 1) > value);
@@ -76,8 +75,8 @@ export class S2Metric {
 
         // This code is equivalent to computing a floating-point "level"
         // value and rounding down.
-        let exponent = S2.exp((1 << this.dim()) * this.deriv() / value);
-        let level = Math.max(0,
+        const exponent = S2.exp((1 << this.dim()) * this.deriv() / value);
+        const level = Math.max(0,
             Math.min(S2.MAX_LEVEL, ((exponent - 1) >> (this.dim() - 1))));
         // assert (level == 0 || getValue(level) >= value);
         // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
