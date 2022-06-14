@@ -284,7 +284,7 @@ export class S2RegionCoverer {
     candidate.isTerminal = isTerminal;
     candidate.numChildren = 0;
     if (!isTerminal) {
-      candidate.children = Array.apply(null, new Array(1<<this.maxChildrenShift()));
+      candidate.children = [...  new Array(1<<this.maxChildrenShift())];
       // protonew Candidate[1 << this.maxChildrenShift()];
     }
     this.candidatesCreatedCounter++;
@@ -365,7 +365,7 @@ export class S2RegionCoverer {
         }
         continue;
       }
-      let child = this.newCandidate(childCells[i]);
+      const child = this.newCandidate(childCells[i]);
 
       if (child != null) {
         candidate.children[candidate.numChildren++] = child;

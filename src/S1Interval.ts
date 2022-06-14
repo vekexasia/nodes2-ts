@@ -2,7 +2,7 @@ import {Interval} from "./Interval";
 import {S2} from "./S2";
 export class S1Interval extends Interval {
 
-  constructor(lo:number, hi:number, checked:boolean = false) {
+  constructor(lo:number, hi:number, checked = false) {
     super(lo, hi);
     if (!checked) {
       if (this.lo == (-S2.M_PI) && this.hi != (S2.M_PI)) {
@@ -50,7 +50,7 @@ export class S1Interval extends Interval {
    * result is arbitrary.
    */
   public getCenter() {
-    let center = (this.lo + this.hi) / 2;
+    const center = (this.lo + this.hi) / 2;
     // let center = 0.5 * (this.lo + this.hi);
     if (!this.isInverted()) {
       return center;
@@ -230,8 +230,8 @@ export class S1Interval extends Interval {
       return S1Interval.fromPoint(p);
     } else {
       // Compute distance from p to each endpoint.
-      let dlo = S1Interval.positiveDistance(p, this.lo);
-      let dhi = S1Interval.positiveDistance(this.hi, p);
+      const dlo = S1Interval.positiveDistance(p, this.lo);
+      const dhi = S1Interval.positiveDistance(this.hi, p);
       if (dlo < (dhi)) {
         return new S1Interval(p, this.hi);
       } else {
@@ -260,7 +260,7 @@ export class S1Interval extends Interval {
 
     // NOTE(dbeaumont): Should this remainder be 2 * M_PI or just M_PI ??
     let lo = S2.IEEEremainder(this.lo - (radius), 2 * S2.M_PI);
-    let hi = S2.IEEEremainder(this.hi + (radius), 2 * S2.M_PI);
+    const hi = S2.IEEEremainder(this.hi + (radius), 2 * S2.M_PI);
     if (lo == (-S2.M_PI)) {
       lo = (S2.M_PI);
     }
@@ -301,8 +301,8 @@ export class S1Interval extends Interval {
     }
 
     // Check which pair of endpoints are closer together.
-    let dlo = S1Interval.positiveDistance(y.hi, this.lo);
-    let dhi = S1Interval.positiveDistance(this.hi, y.lo);
+    const dlo = S1Interval.positiveDistance(y.hi, this.lo);
+    const dhi = S1Interval.positiveDistance(this.hi, y.lo);
     if (dlo < dhi) {
       return new S1Interval(y.lo, this.hi, true);
     } else {
@@ -353,7 +353,7 @@ export class S1Interval extends Interval {
    * Return true if the length of the symmetric difference between the two
    * intervals is at most the given tolerance.
    */
-  public approxEquals(y:S1Interval, maxError:number=1e-9):boolean {
+  public approxEquals(y:S1Interval, maxError=1e-9):boolean {
     if (this.isEmpty()) {
       return y.getLength() <= (maxError);
     }
@@ -416,7 +416,7 @@ export class S1Interval extends Interval {
   public static positiveDistance(_a:number, _b:number): number {
     const a = (_a);
     const b = (_b);
-    let d = b - (a);
+    const d = b - (a);
     if (d >= (0)) {
       return d;
     }

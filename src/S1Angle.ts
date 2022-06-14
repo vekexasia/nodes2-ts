@@ -1,5 +1,5 @@
 import {S2Point} from "./S2Point";
-import {S2} from "./S2";
+
 export class S1Angle {
 
   public radians: number;

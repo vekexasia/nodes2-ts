@@ -6,10 +6,7 @@
     "experimentalDecorators": true,
     "outDir":                 "dist",
     "sourceMap":              true,
-    "moduleResolution":       "node",
-    "types": [
-      "node", "mocha"
-    ]
+    "moduleResolution":       "node"
   },
   "files": [
     "src/export.ts"

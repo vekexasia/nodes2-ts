@@ -1,7 +1,6 @@
 import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
-
-const Long = require('long');
+import Long = require('long');
 
 export class S2 {
 
@@ -32,7 +31,7 @@ export class S2 {
   static MAX_LEVEL = 30;
 
   public static IEEEremainder(f1:number, f2:number): number {
-    let r = f1 % f2;
+    const r = f1 % f2;
 
     if (isNaN(r) || r == (f2) || r <= (Math.abs(f2) / 2)) {
       return r;
@@ -99,7 +98,7 @@ export class S2 {
     // "a" and "b" even if they differ only in the lowest bit of one component.
 
     // assert (isUnitLength(a) && isUnitLength(b));
-    let x = S2Point.crossProd(S2Point.add(b, a), S2Point.sub(b, a));
+    const x = S2Point.crossProd(S2Point.add(b, a), S2Point.sub(b, a));
     if (!x.equals(new S2Point(0, 0, 0))) {
       return x;
     }

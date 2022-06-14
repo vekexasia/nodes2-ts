@@ -167,15 +167,15 @@ export class S2Cell {
     const i = new MutableInteger(0);
     const j = new MutableInteger(0);
     this.cellID.toFaceIJOrientation(i, j, null);
-    let cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
+    const cellSize = 1 << (S2CellId.MAX_LEVEL - this.level);
 
     // TODO(dbeaumont): Figure out a better naming of the variables here (and elsewhere).
-    let si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let x = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * si)
+    const si = (i.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
+    const x = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * si)
     // let x = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * si);
 
-    let sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
-    let y = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * sj)
+    const sj = (j.val & -cellSize) * 2 + cellSize - S2Cell.MAX_CELL_SIZE;
+    const y = R2Vector.singleStTOUV(1/S2Cell.MAX_CELL_SIZE * sj)
     // double y = S2Projections.stToUV((1.0 / S2Cell.MAX_CELL_SIZE) * sj);
 
     return new R2Vector(x, y);
@@ -215,7 +215,7 @@ export class S2Cell {
     // First, compute the approximate area of the cell when projected
     // perpendicular to its normal. The cross product of its diagonals gives
     // the normal, and the length of the normal is twice the projected area.
-    let flatArea = S2Point.crossProd(
+    const flatArea = S2Point.crossProd(
         S2Point.sub(this.getVertex(2), this.getVertex(0)),
         S2Point.sub(this.getVertex(3), this.getVertex(1))
     ).norm() * 0.5;
@@ -308,7 +308,7 @@ export class S2Cell {
       if (lat.lo == (-S2.M_PI_2) || lat.hi  == (S2.M_PI_2)) {
         return new S2LatLngRect(lat, S1Interval.full());
       }
-      let lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
+      const lng = S1Interval.fromPointPair(this.getLongitude(i, 1 - j), this.getLongitude(1 - i, j));
       return new S2LatLngRect(lat, lng.expanded(S2Cell.MAX_ERROR));
     }
 
