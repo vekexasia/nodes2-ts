@@ -211,7 +211,7 @@ export class S2Cell {
     // First, compute the approximate area of the cell when projected
     // perpendicular to its normal. The cross product of its diagonals gives
     // the normal, and the length of the normal is twice the projected area.
-    let flatArea = S2Point.crossProd(
+    const flatArea = S2Point.crossProd(
         S2Point.sub(this.getVertex(2), this.getVertex(0)),
         S2Point.sub(this.getVertex(3), this.getVertex(1))
     ).norm() * 0.5;

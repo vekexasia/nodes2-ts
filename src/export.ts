@@ -32,7 +32,7 @@ export class Utils {
    * @param points the number of points to calculate. The higher the better precision
    * @returns {S2Region}
    */
-  static calcRegionFromCenterRadius(center:S2LatLng, radiusInKM:number, points:number=16):S2Region {
+  static calcRegionFromCenterRadius(center:S2LatLng, radiusInKM:number, points=16):S2Region {
     const pointsAtDistance = center.pointsAtDistance(radiusInKM, points);
     let s2Cap = S2Cap.empty().addPoint(center.toPoint());
     // It would be probably enough to add one of the points/2 pair of opposite points in the circle such

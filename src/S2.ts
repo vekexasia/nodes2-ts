@@ -2,7 +2,8 @@ import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
 import { Platform } from "./Platform";
 
-const Long = require('long');
+import Long = require('long');
+
 
 export class S2 {
 
@@ -83,7 +84,7 @@ export class S2 {
     // "a" and "b" even if they differ only in the lowest bit of one component.
 
     // assert (isUnitLength(a) && isUnitLength(b));
-    let x = S2Point.crossProd(S2Point.add(b, a), S2Point.sub(b, a));
+    const x = S2Point.crossProd(S2Point.add(b, a), S2Point.sub(b, a));
     if (!x.equals(new S2Point(0, 0, 0))) {
       return x;
     }

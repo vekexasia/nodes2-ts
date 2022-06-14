@@ -179,8 +179,8 @@ export class S2LatLng {
    * @param nPoints
    * @returns {S2LatLng[]}
    */
-  pointsAtDistance(_distanceInKm:number, nPoints:number=4):S2LatLng[] {
-    return Array.apply(null, new Array(nPoints)) // create an array filled of undefined!
+  pointsAtDistance(_distanceInKm:number, nPoints=4):S2LatLng[] {
+    return [... new Array(nPoints)] // create an array filled of undefined!
         .map((p, idx) => 360 / nPoints * idx)
         .map(bearingDegree => S1Angle.degrees(bearingDegree).radians)
         .map(bearingRadians => this.pointAtDistance(_distanceInKm, bearingRadians));

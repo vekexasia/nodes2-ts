@@ -58,6 +58,7 @@ export class S2Metric {
         // let level = Math.max(0,
         //     Math.min(S2.MAX_LEVEL, -((exponent - 1) >> (this.dim() - 1))));
         const level = Math.max(0, Math.min(S2.MAX_LEVEL, -(exponent >> (this.dim() - 1))));
+
         // assert (level == S2CellId.MAX_LEVEL || getValue(level) <= value);
         // assert (level == 0 || getValue(level - 1) > value);
         return level;
@@ -79,6 +80,7 @@ export class S2Metric {
         // value and rounding down.
         const exponent = Platform.getExponent(this.deriv() / value);
         const level = Math.max(0, Math.min(S2.MAX_LEVEL, exponent >> (this.dim() - 1)));
+
         // assert (level == 0 || getValue(level) >= value);
         // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
         return level;

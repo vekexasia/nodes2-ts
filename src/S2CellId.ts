@@ -24,7 +24,7 @@ import {S2LatLng} from "./S2LatLng";
 import { S2Projections, UvTransform } from './S2Projections';
 import { S2Cell } from './S2Cell';
 
-let parseHex = function parseHex(str) {
+const parseHex = function parseHex(str) {
   return Long.fromString(str, false, 16);
 };
 /**
@@ -184,7 +184,7 @@ export class S2CellId {
 
 
   private  getBits1(i:MutableInteger, j:MutableInteger, k:number, bits:number):number {
-    let nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
+    const nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
 
     bits += (this.id
             .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
@@ -349,14 +349,14 @@ export class S2CellId {
    */
   public parentL(level:number):S2CellId {
     // assert (isValid() && level >= 0 && level <= this.level());
-    let newLsb = S2CellId.lowestOnBitForLevel(level);
+    const newLsb = S2CellId.lowestOnBitForLevel(level);
     return new S2CellId(this.id.and(newLsb.negate()).or(newLsb))
     // return new S2CellId((id & -newLsb) | newLsb);
   }
 
   public parent():S2CellId {
     // assert (isValid() && level() > 0);
-    let newLsb = this.lowestOnBit().shiftLeft(2);
+    const newLsb = this.lowestOnBit().shiftLeft(2);
     // return new S2CellId((id & -newLsb) | newLsb);
     return new S2CellId(this.id.and(newLsb.negate()).or(newLsb))
   }
@@ -655,7 +655,7 @@ export class S2CellId {
    * child_begin(), child_end(), Begin(), or End().
    */
   public nextWrap():S2CellId {
-    let n = this.next();
+    const n = this.next();
     if (S2CellId.unsignedLongLessThan(n.id, S2CellId.WRAP_OFFSET)) {
       return n;
     }
@@ -669,7 +669,7 @@ export class S2CellId {
    * child_begin(), child_end(), Begin(), or End().
    */
   public prevWrap():S2CellId {
-    let p = this.prev();
+    const p = this.prev();
     if (p.id.lessThan(S2CellId.WRAP_OFFSET)) {
       return p;
     }
@@ -742,7 +742,7 @@ export class S2CellId {
       return "X";
     }
 
-    let hex = this.id.toUnsigned().toString(16);
+    const hex = this.id.toUnsigned().toString(16);
 
     // Long.toHexString(id).toLowerCase(Locale.ENGLISH);
     let sb = '';
@@ -769,7 +769,7 @@ export class S2CellId {
    * Does not verify whether supplied radix is valid, passing an invalid radix
    * will give undefined results or an ArrayIndexOutOfBoundsException.
    */
-  private static overflowInParse(current:Long, digit:number, radix:number = 10):boolean {
+  private static overflowInParse(current:Long, digit:number, radix = 10):boolean {
     if (current.greaterThanOrEqual(0)) {
       if (current.lessThan(S2CellId.maxValueDivs[radix])) {
         return false;
@@ -799,7 +799,7 @@ export class S2CellId {
     const i = S2CellId.getI(ijo);
     const j = S2CellId.getJ(ijo);
 
-    let neighbors = [] as S2CellId[];
+    const neighbors = [] as S2CellId[];
     // Edges 0, 1, 2, 3 are in the S, E, N, W directions.
     neighbors.push(
         S2CellId.fromFaceIJSame(face, i, j - size, j - size >= 0).parentL(level)
@@ -881,6 +881,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
   public getAllNeighbors(nbrLevel:number):S2CellId[] {
     const ijo = this.toIJOrientation();
 
+
     // Find the coordinates of the lower left-hand leaf cell. We need to
     // normalize (i,j) to a known position within the cell because nbrLevel
     // may be larger than this cell's level.
@@ -890,9 +891,10 @@ public getVertexNeighbors(level:number):S2CellId[] {
     const j = S2CellId.getJ(ijo) & -size;
 
     let nbrSize = S2CellId.getSizeIJ(nbrLevel);
+
     // assert (nbrSize <= size);
 
-    let output = [];
+    const output = [];
     // We compute the N-S, E-W, and diagonal neighbors in one pass.
     // The loop test is at the end of the loop to avoid 32-bit overflow.
     for (let k = -nbrSize; ; k += nbrSize) {
@@ -1002,7 +1004,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
     // Converting from floating-point to integers via static_cast is very slow
     // on Intel processors because it requires changing the rounding mode.
     // Rounding to the nearest integer using FastIntRound() is much faster.
-    let m = S2CellId.MAX_SIZE / 2; // scaling multiplier
+    const m = S2CellId.MAX_SIZE / 2; // scaling multiplier
     return Math.max(
         0,
         Math.min(
@@ -1032,14 +1034,14 @@ public getVertexNeighbors(level:number):S2CellId[] {
     // Find the (s,t) coordinates corresponding to (i,j). At least one
     // of these coordinates will be just outside the range [0, 1].
     const kScale = 1/S2CellId.MAX_SIZE;
-    let s = kScale * (new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
-    let t = kScale * (new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+    const s = kScale * (new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
+    const t = kScale * (new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
     // Find the leaf cell coordinates on the adjacent face, and convert
     // them to a cell id at the appropriate level.
-    let p = new R2Vector(s, t).toPoint(face);
+    const p = new R2Vector(s, t).toPoint(face);
     face = p.toFace();
     // face = S2Projections.xyzToFace(p);
-    let st = p.toR2Vector(face)
+    const st = p.toR2Vector(face)
     // R2Vector st = S2Projections.validFaceXyzToUv(face, p);
 
     return S2CellId.fromFaceIJ(face, S2CellId.stToIJ(st.x), S2CellId.stToIJ(st.y));
@@ -1109,7 +1111,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
    * Returns the position of the id within the given list or a negative value with
    * the position of the index wher eit should be entered if the id was present
    */
-  public static binarySearch(ids:S2CellId[], _id:Long|string|S2CellId, low:number=0 ):number {
+  public static binarySearch(ids:S2CellId[], _id:Long|string|S2CellId, low=0 ):number {
     let id:S2CellId;
     if (_id instanceof S2CellId) {
       id = _id;
@@ -1121,7 +1123,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
     while (low <= high) {
       const mid = (low + high) >>> 1;
       const midVal = ids[mid];
-      let cmp = midVal.compareTo(id);
+      const cmp = midVal.compareTo(id);
 
       if (cmp < 0)
         low = mid + 1;
@@ -1133,7 +1135,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
     return -(low + 1);  // key not found
   }
 
-  public static indexedBinarySearch(ids:S2CellId[], id:Long|string|S2CellId, low:number=0 ):number {
+  public static indexedBinarySearch(ids:S2CellId[], id:Long|string|S2CellId, low=0 ):number {
     const toRet = this.binarySearch(ids, id, low)
     if (toRet >= 0) {
       return toRet;
@@ -1149,7 +1151,7 @@ public getVertexNeighbors(level:number):S2CellId[] {
 function initLookupCell(level:number, i:number, j:number,
                         origOrientation:number, pos:Long, orientation:number) {
   if (level == S2CellId.LOOKUP_BITS) {
-    let ij = (i << S2CellId.LOOKUP_BITS) + j;
+    const ij = (i << S2CellId.LOOKUP_BITS) + j;
     S2CellId.LOOKUP_POS[(ij << 2) + origOrientation] = pos.shiftLeft(2).add(orientation);
     S2CellId.LOOKUP_IJ[pos.shiftLeft(2).add(origOrientation).toNumber()] = (ij << 2) + orientation;
     // new Long((ij << 2)).add(orientation);
@@ -1160,8 +1162,8 @@ function initLookupCell(level:number, i:number, j:number,
     pos = pos.shiftLeft(2);
     // Initialize each sub-cell recursively.
     for (let subPos = 0; subPos < 4; subPos++) {
-      let ij = S2.POS_TO_IJ[orientation][subPos];
-      let orientationMask = S2.POS_TO_ORIENTATION[subPos];
+      const ij = S2.POS_TO_IJ[orientation][subPos];
+      const orientationMask = S2.POS_TO_ORIENTATION[subPos];
       initLookupCell(level, i + (ij >>> 1), j + (ij & 1), origOrientation,
           pos.add(subPos), orientation ^ orientationMask);
     }

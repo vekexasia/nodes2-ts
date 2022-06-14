@@ -1,5 +1,5 @@
-import { S2Point } from "./S2Point";
-import { S2 } from "./S2";
+import {S2Point} from "./S2Point";
+
 export class S1Angle {
   public static INFINITY: S1Angle = new S1Angle(Number.POSITIVE_INFINITY);
   public static ZERO: S1Angle = new S1Angle(0);

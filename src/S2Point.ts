@@ -133,7 +133,7 @@ export class S2Point {
 
   /** return a vector orthogonal to this one */
   public ortho():S2Point {
-    let k = this.largestAbsComponent();
+    const k = this.largestAbsComponent();
     let temp;
     if (k == 1) {
       temp = new S2Point(1,0,0);

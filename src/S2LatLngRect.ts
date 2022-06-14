@@ -81,7 +81,7 @@ export class S2LatLngRect implements S2Region {
    */
   public static  fromEdge(a:S2Point, b:S2Point):S2LatLngRect {
     // assert (S2.isUnitLength(a) && S2.isUnitLength(b));
-    let r = S2LatLngRect.fromPointPair(S2LatLng.fromPoint(a), S2LatLng.fromPoint(b));
+    const r = S2LatLngRect.fromPointPair(S2LatLng.fromPoint(a), S2LatLng.fromPoint(b));
 
     // Check whether the min/max latitude occurs in the edge interior.
     // We find the normal to the plane containing AB, and then a vector "dir" in
@@ -197,8 +197,7 @@ export class S2LatLngRect implements S2Region {
   public getDistanceLL(p:S2LatLng):S1Angle {
     // The algorithm here is the same as in getDistance(S2LagLngRect), only
     // with simplified calculations.
-    const a = this;
-    if (a.isEmpty()) {
+    if (this.isEmpty()) {
       throw new Error();
     }
     if (!p.isValid()) {
@@ -206,27 +205,27 @@ export class S2LatLngRect implements S2Region {
     }
 
 
-    if (a.lng.contains(p.lngRadians)) {
+    if (this.lng.contains(p.lngRadians)) {
       return new S1Angle(
           Math.max(
               0.0,
               Math.max(
-                  p.latRadians - a.lat.hi,
-                  a.lat.lo - p.latRadians
+                  p.latRadians - this.lat.hi,
+                  this.lat.lo - p.latRadians
               )
           )
       );
     }
 
-    let interval = new S1Interval(a.lng.hi, a.lng.complement().getCenter());
-    let aLng = a.lng.lo;
+    const interval = new S1Interval(this.lng.hi, this.lng.complement().getCenter());
+    let aLng = this.lng.lo;
     if (interval.contains(p.lngRadians)) {
-      aLng = a.lng.hi;
+      aLng = this.lng.hi;
     }
 
-    const lo = new S2LatLng(a.lat.lo, aLng).toPoint();
-    const hi = new S2LatLng(a.lat.hi, aLng).toPoint();
-    let loCrossHi = new S2LatLng(0, aLng - S2.M_PI_2).normalized().toPoint();
+    const lo = new S2LatLng(this.lat.lo, aLng).toPoint();
+    const hi = new S2LatLng(this.lat.hi, aLng).toPoint();
+    const loCrossHi = new S2LatLng(0, aLng - S2.M_PI_2).normalized().toPoint();
     return S2EdgeUtil.getDistance(p.toPoint(), lo, hi, loCrossHi);
   }
 
@@ -234,10 +233,9 @@ export class S2LatLngRect implements S2Region {
    * Return the minimum distance (measured along the surface of the sphere) to
    * the given S2LatLngRect. Both S2LatLngRects must be non-empty.
    */
-  public getDistanceLLR(other:S2LatLngRect):S1Angle {
-    const a = this;
+  public  getDistanceLLR(other:S2LatLngRect):S1Angle {
     const b = other;
-    if (a.isEmpty()) {
+    if (this.isEmpty()) {
       throw new Error();
     }
     if (b.isEmpty()) {
@@ -246,9 +244,9 @@ export class S2LatLngRect implements S2Region {
 
 
     // First, handle the trivial cases where the longitude intervals overlap.
-    if (a.lng.intersects(b.lng)) {
-      if (a.lat.intersects(b.lat)) {
-        return S1Angle.radians(0);  // Intersection between a and b.
+    if (this.lng.intersects(b.lng)) {
+      if (this.lat.intersects(b.lat)) {
+        return new S1Angle(0);  // Intersection between a and b.
       }
 
       // We found an overlap in the longitude interval, but not in the latitude
@@ -256,11 +254,11 @@ export class S2LatLngRect implements S2Region {
       // longitude connecting the high-latitude of the lower rect with the
       // low-latitude of the higher rect.
       let lo, hi;
-      if (a.lat.lo > b.lat.hi) {
+      if (this.lat.lo > b.lat.hi) {
         lo = b.lat.hi;
-        hi = a.lat.lo;
+        hi = this.lat.lo;
       } else {
-        lo = a.lat.hi;
+        lo = this.lat.hi;
         hi = b.lat.lo;
       }
       return S1Angle.radians(hi.radians() - lo.radians());
@@ -270,13 +268,13 @@ export class S2LatLngRect implements S2Region {
     // occur somewhere on the pair of longitudinal edges which are nearest in
     // longitude-space.
     let aLng, bLng;
-    const loHi = S1Interval.fromPointPair(a.lng.lo, b.lng.hi);
-    const hiLo = S1Interval.fromPointPair(a.lng.hi, b.lng.lo);
+    const loHi = S1Interval.fromPointPair(this.lng.lo, b.lng.hi);
+    const hiLo = S1Interval.fromPointPair(this.lng.hi, b.lng.lo);
     if (loHi.getLength() < (hiLo.getLength())) {
-      aLng = a.lng.lo;
+      aLng = this.lng.lo;
       bLng = b.lng.hi;
     } else {
-      aLng = a.lng.hi;
+      aLng = this.lng.hi;
       bLng = b.lng.lo;
     }
 
@@ -285,12 +283,12 @@ export class S2LatLngRect implements S2Region {
     // to a single point-edge distance by comparing the relative latitudes of the
     // endpoints, but for the sake of clarity, we'll do all four point-edge
     // distance tests.
-    let aLo = new S2LatLng(a.lat.lo, aLng).toPoint();
-    let aHi = new S2LatLng(a.lat.hi, aLng).toPoint();
-    let aLoCrossHi = new S2LatLng(0, aLng.radians().minus(S2.M_PI_2)).normalized().toPoint();
-    let bLo = new S2LatLng(b.lat.lo, bLng).toPoint();
-    let bHi = new S2LatLng(b.lat.hi, bLng).toPoint();
-    let bLoCrossHi = new S2LatLng(0, bLng.radians().minus(S2.M_PI_2)).normalized().toPoint();
+    const aLo = new S2LatLng(this.lat.lo, aLng).toPoint();
+    const aHi = new S2LatLng(this.lat.hi, aLng).toPoint();
+    const aLoCrossHi = new S2LatLng(0, aLng.radians().minus(S2.M_PI_2)).normalized().toPoint();
+    const bLo = new S2LatLng(b.lat.lo, bLng).toPoint();
+    const bHi = new S2LatLng(b.lat.hi, bLng).toPoint();
+    const bLoCrossHi = new S2LatLng(0, bLng.radians().minus(S2.M_PI_2)).normalized().toPoint();
 
     return S1Angle.min(S2EdgeUtil.getDistance(aLo, bLo, bHi, bLoCrossHi),
         S1Angle.min(S2EdgeUtil.getDistance(aHi, bLo, bHi, bLoCrossHi),
@@ -557,7 +555,7 @@ export class S2LatLngRect implements S2Region {
    * are the same up to the given tolerance (see r1interval.h and s1interval.h
    * for details).
    */
-  public approxEquals(other:S2LatLngRect, maxError:number = 1e-15):boolean {
+  public approxEquals(other:S2LatLngRect, maxError= 1e-15):boolean {
     return (this.lat.approxEquals(other.lat, maxError) && this.lng.approxEquals(
         other.lng, maxError));
   }
@@ -677,7 +675,7 @@ export class S2LatLngRect implements S2Region {
 
     // Compute the angle "theta" from the x-axis (in the x-y plane defined
     // above) where the great circle intersects the given line of latitude.
-    let sinLat = Math.sin(lat);
+    const sinLat = Math.sin(lat);
     if (Math.abs(sinLat) >= (x.z)) {
       return false; // The great circle does not reach the given latitude.
     }

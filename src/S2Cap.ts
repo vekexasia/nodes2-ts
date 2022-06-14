@@ -167,6 +167,7 @@ export class S2Cap implements S2Region {
       return S2Cap.full();
     }
     return S2Cap.fromAxisChord(S2Point.neg(this.axis), S1ChordAngle.fromLength2(4 - this.radius.getLength2()));
+
   }
 
   /**

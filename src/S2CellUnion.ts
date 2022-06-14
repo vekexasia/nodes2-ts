@@ -21,7 +21,6 @@ import {S1Angle} from "./S1Angle";
 import {S2Projections} from "./S2Projections";
 import {S2LatLngRect} from "./S2LatLngRect";
 import {S2Point} from "./S2Point";
-import {S2} from "./S2";
 import {S2Cap} from "./S2Cap";
 import { S1ChordAngle } from './S1ChordAngle';
 /**
@@ -37,10 +36,6 @@ export class S2CellUnion implements S2Region {
 
   /** The CellIds that form the Union */
   private cellIds:S2CellId[] = [];
-
-  public S2CellUnion() {
-  }
-
 
   /**
    * Populates a cell union with the given S2CellIds or 64-bit cells ids, and
@@ -552,7 +547,7 @@ public  getCapBound():S2Cap {
         let mask = id.lowestOnBit().shiftLeft(1) ;
         mask = mask.add(mask.shiftLeft(1)).not();
         // mask = ~(mask + (mask << 1));
-        let idMasked = id.id.and(mask);
+        const idMasked = id.id.and(mask);
         if ((output[size - 3].id.and(mask)).notEquals(idMasked)
             || (output[size - 2].id.and(mask)).notEquals(idMasked)
             || (output[size - 1].id.and(mask)).notEquals(idMasked) || id.isFace()) {

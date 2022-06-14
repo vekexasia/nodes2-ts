@@ -380,7 +380,7 @@ export class S2RegionCoverer {
         }
         continue;
       }
-      let child = this.newCandidate(childCells[i]);
+      const child = this.newCandidate(childCells[i]);
 
       if (child != null) {
         candidate.children[candidate.numChildren++] = child;
