@@ -1,4 +1,5 @@
 ### Node S2 Geometry Typescript
+<img src="https://github.com/vekexasia/nodes2-ts/actions/workflows/node.js.yml/badge.svg" />
 <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/> <img 
 src="https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown"/> <img 
 src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white"/>
