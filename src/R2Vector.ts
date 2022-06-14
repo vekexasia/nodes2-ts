@@ -23,7 +23,7 @@ export class R2Vector {
 
 
   public get(index:number) {
-    if (index > 1) {
+    if (index < 0 || index > 1) {
       throw new Error(`Index out fo bounds error ${index}`);
     }
     return index == 0 ? this._x : this._y;
@@ -102,18 +102,18 @@ export class R2Vector {
 
   // from S2Projections.stToUV (QUADRATIC)
   public static singleStTOUV(s:number): number {
-    if (s >= 0) {
-      return (1 / 3) * ((1 + s) * (1 + s) - 1);
+    if (s >= 0.5) {
+      return (1 / 3) * (4 * s * s - 1);
     } else {
-      return (1 / 3) * (1 - (1 - s) * (1 - s));
+      return (1 / 3) * (1 - 4 * (1 - s) * (1 - s));
     }
 
   }
-  public static singleUVToST(x:number) {
-    if (x >= 0) {
-      return (Math.sqrt(x * 3 + 1) - 1);
+  public static singleUVToST(u:number): number {
+    if (u >= 0) {
+      return 0.5 * Math.sqrt(1 + 3 * u);
     } else {
-      return (1 - Math.sqrt( 1 - x * 3));
+      return 1 - 0.5 * Math.sqrt(1 - 3 * u);
     }
   }
 

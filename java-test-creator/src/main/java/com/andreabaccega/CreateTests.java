@@ -6,10 +6,11 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.google.common.geometry.S2LatLng.EARTH_RADIUS_METERS;
+import static com.google.common.geometry.S2Projections.PROJ;
 
 /**
  * Created by abaccega on 09/08/16.
@@ -25,6 +26,13 @@ public class CreateTests {
   static double totLat = latRange[1] - latRange[0];
   static double totLng = lngRange[1] - lngRange[0];
 
+  /**
+   * Approximate "effective" radius of the Earth in meters.
+   * https://github.com/google/s2-geometry-library-java/blob/2ebcfda1f1b5e1d417b588a59a12944cb99c28ed/tests/com/google/common/geometry/GeometryTestCase.java
+   */
+  static final double EARTH_RADIUS_METERS = 6371010.0;
+
+  static Random random = new Random(10000);
 
   private static JSONObject capToJO(S2Cap cap) {
     JSONObject jO = new JSONObject();
@@ -86,6 +94,18 @@ public class CreateTests {
 
   private static String toJV(double d) {
     return Double.toString(d);
+  }
+
+  // Generates a point to be later converted to latlng
+  static S2Point randomPoint() {
+    return S2Point.normalize(new S2Point(2 * random.nextDouble() - 1, 2 * random.nextDouble() - 1, 2 * random.nextDouble() - 1));
+  }
+
+  static S2Cap getRandomCap(double minArea, double maxArea) {
+    double capArea = maxArea * Math.pow(minArea / maxArea, random.nextDouble());
+
+    // The surface area of a cap is 2*Pi times its height.
+    return S2Cap.fromAxisArea(randomPoint(), capArea);
   }
 
   private static void calcLatLngTests() {
@@ -254,11 +274,13 @@ public class CreateTests {
   private static void bit() {
     S2Point p = new S2Point(0.6835062002370579, 0.1533304467350615, 0.7136589159686337);
     S2Cap s2Cap = S2Cap.fromAxisHeight(p, 0.00012333643099245626815);
-    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
-    s2RegionCoverer.setMinLevel(6);
-    s2RegionCoverer.setMaxLevel(16);
-    s2RegionCoverer.setMaxCells(15);
-    s2RegionCoverer.setLevelMod(2);
+    S2RegionCoverer.Builder covererBuilder = S2RegionCoverer.builder();
+    covererBuilder.setMinLevel(6);
+    covererBuilder.setMaxLevel(16);
+    covererBuilder.setMaxCells(15);
+    covererBuilder.setLevelMod(2);
+    S2RegionCoverer s2RegionCoverer = covererBuilder.build();
+
     ArrayList<S2CellId> b = new ArrayList<>(15);
     s2RegionCoverer.getCovering(s2Cap, b);
 
@@ -275,11 +297,12 @@ public class CreateTests {
     for (S2Point p : s2Points) {
       empty = empty.addPoint(p);
     }
-    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
-    s2RegionCoverer.setMinLevel(6);
-    s2RegionCoverer.setMaxLevel(20);
-    s2RegionCoverer.setMaxCells(29);
-    s2RegionCoverer.setLevelMod(2);
+    S2RegionCoverer.Builder covererBuilder = S2RegionCoverer.builder();
+    covererBuilder.setMinLevel(6);
+    covererBuilder.setMaxLevel(20);
+    covererBuilder.setMaxCells(29);
+    covererBuilder.setLevelMod(2);
+    S2RegionCoverer s2RegionCoverer = covererBuilder.build();
     ArrayList<S2CellId> b = new ArrayList<>(10);
     s2RegionCoverer.getCovering(empty, b);
 
@@ -294,11 +317,12 @@ public class CreateTests {
       S2LatLng.fromDegrees(45.79529713006591, 9.485321044921877)
       );
 
-    S2RegionCoverer s2RegionCoverer = new S2RegionCoverer();
-    s2RegionCoverer.setMinLevel(6);
-    s2RegionCoverer.setMaxLevel(20);
-    s2RegionCoverer.setMaxCells(29);
-    s2RegionCoverer.setLevelMod(1);
+    S2RegionCoverer.Builder covererBuilder = S2RegionCoverer.builder();
+    covererBuilder.setMinLevel(6);
+    covererBuilder.setMaxLevel(20);
+    covererBuilder.setMaxCells(29);
+    covererBuilder.setLevelMod(1);
+    S2RegionCoverer s2RegionCoverer = covererBuilder.build();
     ArrayList<S2CellId> b = new ArrayList<>(10);
     s2RegionCoverer.getCovering(s2LatLngRect, b);
 
@@ -313,6 +337,65 @@ public class CreateTests {
 
   }
 
+  private static void latLngCovering() {
+    JSONArray jA = new JSONArray();
+    for (int i = 0; i < maxTestCases + 1; i++) {
+      final int kMaxLevel = S2CellId.MAX_LEVEL;
+      for (int j = 0; j < maxTestCases + 1; j++) {
+
+        S2RegionCoverer.Builder covererBuilder = S2RegionCoverer.builder();
+        covererBuilder.setMaxCells(random.nextInt(10));
+        covererBuilder.setLevelMod(1 + random.nextInt(3));
+        do {
+          covererBuilder.setMinLevel(random.nextInt(kMaxLevel + 1));
+          covererBuilder.setMaxLevel(random.nextInt(kMaxLevel + 1));
+        } while (covererBuilder.getMinLevel() > covererBuilder.getMaxLevel());
+        
+        S2RegionCoverer coverer = covererBuilder.build();
+        double maxArea =
+          Math.min(
+              4 * S2.M_PI, (3 * coverer.maxCells() + 1) * S2Cell.averageArea(coverer.minLevel()));
+
+        S2Cap cap = getRandomCap(0.1 * S2Cell.averageArea(kMaxLevel), maxArea);
+        S2LatLngRect rectBound = cap.getRectBound();
+        
+        ArrayList<S2CellId> covering = new ArrayList<S2CellId>();
+        ArrayList<S2CellId> interior = new ArrayList<S2CellId>();
+
+        S2CellUnion coveringUnion = coverer.getCovering(rectBound);
+        coverer.getCovering(rectBound, covering);
+        coverer.getInteriorCovering(rectBound, interior);
+        
+        JSONArray coveringUnionTokens = new JSONArray();
+        for (S2CellId cId : coveringUnion.cellIds()) {
+          coveringUnionTokens.put(cId.toToken());
+        }
+
+        JSONArray coveringTokens = new JSONArray();
+        for (S2CellId cId : covering) {
+          coveringTokens.put(cId.toToken());
+        }
+        
+        JSONArray interiorTokens = new JSONArray();
+        for (S2CellId cId : interior) {
+          interiorTokens.put(cId.toToken());
+        }
+        
+        JSONObject tmp = new JSONObject();
+        tmp.put("rectBound", latLngRectToJO(rectBound));
+        tmp.put("covering", coveringTokens);
+        tmp.put("coveringUnionTokens", coveringUnionTokens);
+        tmp.put("interior", interiorTokens);
+        tmp.put("maxCells", coverer.maxCells());
+        tmp.put("levelMod", coverer.levelMod());
+        tmp.put("maxLevel", coverer.maxLevel());
+        tmp.put("minLevel", coverer.minLevel());
+        jA.put(tmp);
+      }
+    }
+    saveJAToFile(jA, "latlng-covering-tests.json");
+  }
+
   private static void calcMainTests() {
 //bit();bit2();
     JSONArray jA = new JSONArray();
@@ -320,8 +403,8 @@ public class CreateTests {
     for (int i = 0; i < maxTestCases + 1; i++) {
       double lat = latRange[0] + (totLat / maxTestCases) * i;
       for (int j = 0; j < maxTestCases + 1; j++) {
-        MutableInteger mi = new MutableInteger(0);
-        MutableInteger mj = new MutableInteger(0);
+        Integer mi = 0;
+        Integer mj = 0;
 
         JSONObject jO = new JSONObject();
 
@@ -348,7 +431,8 @@ public class CreateTests {
         jO.put("pos", Long.toString(s2CellId.pos()));
         jO.put("area", Double.toString(new S2Cell(s2CellId).exactArea()));
 
-        s2CellId.toFaceIJOrientation(mi, mj, null);
+        mi = s2CellId.getI();
+        mj = s2CellId.getJ();
         jO.put("i", mi.intValue());
         jO.put("j", mj.intValue());
 
@@ -361,8 +445,8 @@ public class CreateTests {
 
         // ST
 
-        jO.put("s", Double.toString(S2Projections.uvToST(uv.x())));
-        jO.put("t", Double.toString(S2Projections.uvToST(uv.y())));
+        jO.put("s", Double.toString(PROJ.uvToST(uv.x())));
+        jO.put("t", Double.toString(PROJ.uvToST(uv.y())));
 
 
         S2CellId[] neighbors = new S2CellId[4];
@@ -441,7 +525,7 @@ public class CreateTests {
         cells.add(s2CellId);
       }
     }
-    Random random = new Random(10000);
+
     int maxUnionTests = 30;
     for (int i = 0; i < maxUnionTests; i++) {
       JSONObject test = new JSONObject();
@@ -485,8 +569,6 @@ public class CreateTests {
   }
 
   public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
-
-
     calcLatLngTests();
     calcCellsTests();
     calcMainTests();
@@ -495,7 +577,7 @@ public class CreateTests {
 
     covering();
 
-
+    latLngCovering();
   }
 
 }

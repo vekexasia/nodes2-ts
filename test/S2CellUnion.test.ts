@@ -86,5 +86,14 @@ describe('S2CellUnion', () => {
     })
   })
 
+  it('should denormalize correctly', () => {
+    // Test case for https://github.com/vekexasia/nodes2-ts/issues/16
+    const cellUnion = new S2CellUnion();
+    
+    cellUnion.initFromIds(['357ca574'].map(token=>S2CellId.fromToken(token).id))
+    const minLevel = S2CellId.fromToken('357ca571').level();
+    expect(cellUnion.denormalize(minLevel, 1).map(id=>id.toToken())).to.be.deep.eq(["357ca571", "357ca573", "357ca575", "357ca577"]);
+  })
+
 
 });

@@ -6,7 +6,6 @@ import Long = require('long');
 import {S2Point} from "../src/S2Point";
 import {R2Vector} from "../src/R2Vector";
 import {S1Angle} from "../src/S1Angle";
-import {MutableInteger} from "../src/MutableInteger";
 
 describe('S2CellId', () => {
   describe('java data', () => {
@@ -162,12 +161,14 @@ describe('S2CellId', () => {
         })
       });
       it('.toFaceIJOrientation should create correct i,j values', () => {
-        items.forEach(i => {
-          const mi= new MutableInteger(0),mj=new MutableInteger(0);
-          const face = i.cell.toFaceIJOrientation(mi, mj, null);
-          expect(face).to.be.eq(i.cell.face);
-          expect(mi.val).to.be.eq(i.item.i);
-          expect(mj.val).to.be.eq(i.item.j);
+        items.forEach(testCase => {
+          const ijo = testCase.cell.toIJOrientation();
+          const i = S2CellId.getI(ijo);
+          const j = S2CellId.getJ(ijo);
+          const face = testCase.cell.face;
+          expect(face).to.be.eq(testCase.cell.face);
+          expect(i).to.be.eq(testCase.item.i);
+          expect(j).to.be.eq(testCase.item.j);
         })
       });
       it('.getEdgeNeighbors should match', () => {

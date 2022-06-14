@@ -59,7 +59,7 @@ export class S2RegionCoverer {
    */
   public static DEFAULT_MAX_CELLS = 8;
 
-  private static FACE_CELLS:S2Cell[] = [0, 1, 2, 3, 4, 5].map(face => S2Cell.fromFacePosLevel(face, 0, 0));
+  private static FACE_CELLS:S2Cell[] = [0, 1, 2, 3, 4, 5].map(face => S2Cell.fromFace(face));
 
 
   private minLevel:number;
@@ -187,6 +187,22 @@ export class S2RegionCoverer {
     return this;
   }
 
+  public getMinLevel(): number {
+    return this.minLevel;
+  }
+
+  public getMaxLevel(): number {
+    return this.maxLevel;
+  }
+
+  public getMaxCells(): number {
+    return this.maxCells;
+  }
+
+  public getLevelMod(): number {
+    return this.levelMod;
+  }
+
   /**
    * Computes a list of cell ids that covers the given region and satisfies the
    * various restrictions specified above.
@@ -260,7 +276,6 @@ export class S2RegionCoverer {
    */
   private newCandidate(cell:S2Cell):Candidate {
     if (!this.region.mayIntersectC(cell)) {
-      // console.log("NOT INTERSECTING",this.region);
       return null;
     }
 
@@ -284,8 +299,11 @@ export class S2RegionCoverer {
     candidate.isTerminal = isTerminal;
     candidate.numChildren = 0;
     if (!isTerminal) {
-      candidate.children = [...  new Array(1<<this.maxChildrenShift())];
-      // protonew Candidate[1 << this.maxChildrenShift()];
+      candidate.children = [];
+      const numOfChildren = 1 << this.maxChildrenShift();
+      for (let i = 0; i < numOfChildren; i++) {
+        candidate.children.push(new Candidate())
+      }
     }
     this.candidatesCreatedCounter++;
     return candidate;
@@ -302,7 +320,6 @@ export class S2RegionCoverer {
    * NULL does nothing.
    */
   private addCandidate(candidate:Candidate) {
-
     if (candidate == null) {
       return;
     }
@@ -353,9 +370,7 @@ export class S2RegionCoverer {
   private expandChildren(candidate:Candidate, cell:S2Cell, numLevels:number):number {
     numLevels--;
 
-
     const childCells = cell.subdivide();
-
 
     let numTerminals = 0;
     for (let i = 0; i < 4; ++i) {
@@ -389,19 +404,20 @@ export class S2RegionCoverer {
       // Find the maximum level such that the bounding cap contains at most one
       // cell vertex at that level.
       const cap = this.region.getCapBound();
-      let level = Math.min(
-          S2Projections.MIN_WIDTH.getMaxLevel(cap.angle().radians * 2),
-          Math.min(this.maxLevel, S2CellId.MAX_LEVEL - 1)
-      );
+      let level =
+          Math.min(
+              S2Projections.MIN_WIDTH.getMaxLevel(2 * cap.angle().radians),
+              Math.min(this.maxLevel, S2CellId.MAX_LEVEL - 1));
       if (this.levelMod > 1 && level > this.minLevel) {
         level -= (level - this.minLevel) % this.levelMod;
       }
+
       // We don't bother trying to optimize the level == 0 case, since more than
       // four face cells may be required.
       if (level > 0) {
         // Find the leaf cell containing the cap axis, and determine which
         // subcell of the parent cell contains it.
-        // ArrayList<S2CellId> base = new ArrayList<>(4);
+        
         const id = S2CellId.fromPoint(cap.axis);
         const base = id.getVertexNeighbors(level);
         for (let i = 0; i < base.length; ++i) {
@@ -445,16 +461,14 @@ export class S2RegionCoverer {
 
     while (this.candidateQueue.size() !== 0 && (!this.interiorCovering || this.result.length < this.maxCells)) {
       const candidate = this.candidateQueue.poll().candidate;
-      // logger.info("Pop: " + candidate.cell.id());
-      if (candidate.cell.level < this.minLevel || candidate.numChildren == 1
-          || this.result.length + (this.interiorCovering ? 0 : this.candidateQueue.size()) + candidate.numChildren
-          <= this.maxCells) {
+      if (this.interiorCovering || candidate.cell.level < this.minLevel || candidate.numChildren == 1
+          || this.result.length + this.candidateQueue.size() + candidate.numChildren <= this.maxCells) {
         // Expand this candidate into its children.
         for (let i = 0; i < candidate.numChildren; ++i) {
-          this.addCandidate(candidate.children[i]);
+          if (!this.interiorCovering || this.result.length < this.maxCells) {
+            this.addCandidate(candidate.children[i]);
+          }
         }
-      } else if (this.interiorCovering) {
-        // Do nothing
       } else {
         candidate.isTerminal = true;
         this.addCandidate(candidate);
@@ -508,7 +522,7 @@ class Candidate {
   // elements.
 
   public toString() {
-    return `isTermina: ${this.isTerminal} - Cell: ${this.cell.toString()}`;
+    return `isTerminal: ${this.isTerminal} - Cell: ${this.cell.toString()}`;
   }
 }
 

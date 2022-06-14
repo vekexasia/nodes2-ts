@@ -1,3 +1,4 @@
+import { Platform } from "./Platform";
 import {S2} from "./S2";
 /**
  * Defines an area or a length cell metric.
@@ -25,8 +26,7 @@ export class S2Metric {
 
     /** Return the value of a metric for cells at the given level. */
     public getValue(level:number):number {
-        const scaleFactor = this.dim() * (1 - level);
-        return this.deriv() * (Math.pow(2, scaleFactor));
+        return this.deriv() * Math.pow(2, -this.dim() * level)
     }
 
     /**
@@ -36,7 +36,7 @@ export class S2Metric {
      * always a valid level.
      */
     public getClosestLevel(/*double*/value:number):number {
-        return this.getMinLevel(S2.M_SQRT2 * value);
+        return this.getMinLevel((this.dim() == 1 ? S2.M_SQRT2 : 2) * value);
     }
 
     /**
@@ -53,9 +53,12 @@ export class S2Metric {
 
         // This code is equivalent to computing a floating-point "level"
         // value and rounding up.
-        const exponent = S2.exp(value / ((1 << this.dim()) * this.deriv()));
-        const level = Math.max(0,
-            Math.min(S2.MAX_LEVEL, -((exponent - 1) >> (this.dim() - 1))));
+        // let exponent = Platform.getExponent(value / ((1 << this.dim()) * this.deriv()));
+        const exponent = Platform.getExponent(this.deriv() / value);
+        // let level = Math.max(0,
+        //     Math.min(S2.MAX_LEVEL, -((exponent - 1) >> (this.dim() - 1))));
+        const level = Math.max(0, Math.min(S2.MAX_LEVEL, -(exponent >> (this.dim() - 1))));
+
         // assert (level == S2CellId.MAX_LEVEL || getValue(level) <= value);
         // assert (level == 0 || getValue(level - 1) > value);
         return level;
@@ -75,9 +78,9 @@ export class S2Metric {
 
         // This code is equivalent to computing a floating-point "level"
         // value and rounding down.
-        const exponent = S2.exp((1 << this.dim()) * this.deriv() / value);
-        const level = Math.max(0,
-            Math.min(S2.MAX_LEVEL, ((exponent - 1) >> (this.dim() - 1))));
+        const exponent = Platform.getExponent(this.deriv() / value);
+        const level = Math.max(0, Math.min(S2.MAX_LEVEL, exponent >> (this.dim() - 1)));
+
         // assert (level == 0 || getValue(level) >= value);
         // assert (level == S2CellId.MAX_LEVEL || getValue(level + 1) < value);
         return level;

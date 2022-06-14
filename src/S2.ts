@@ -1,6 +1,9 @@
 import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
+import { Platform } from "./Platform";
+
 import Long = require('long');
+
 
 export class S2 {
 
@@ -20,6 +23,7 @@ export class S2 {
   private static EXPONENT_MASK = Long.fromString('0x7ff0000000000000', true, 16);
   /** Mapping from cell orientation + Hilbert traversal to IJ-index. */
   public static POS_TO_ORIENTATION = [S2.SWAP_MASK, 0, 0, S2.INVERT_MASK + S2.SWAP_MASK];
+  public static DBL_EPSILON = 2 * Number.EPSILON;
 
   public static POS_TO_IJ = [
     // 0 1 2 3
@@ -31,13 +35,7 @@ export class S2 {
   static MAX_LEVEL = 30;
 
   public static IEEEremainder(f1:number, f2:number): number {
-    const r = f1 % f2;
-
-    if (isNaN(r) || r == (f2) || r <= (Math.abs(f2) / 2)) {
-      return r;
-    } else {
-      return (f1 >= (0) ? 1 : -1) * (r - f2);
-    }
+    return Platform.IEEEremainder(f1, f2);
   }
 
   /**
@@ -60,19 +58,7 @@ export class S2 {
    * TODO(dbeaumont): Replace this with "DoubleUtils.getExponent(v) - 1" ?
    */
   static exp(v:number /*double*/):number {
-    if (v == 0) {
-      return 0;
-    }
-    // IT should always be ((int)log(2,v))+1;
-    const start = Math.floor(Math.log(v)/Math.log(2));
-    for(let i= start; i<start+10; i++) {
-      const curVal = Math.abs(v) * Math.pow(2,-i);
-      if (curVal >= 0.5 && curVal < 1 ) {
-        return i;
-      }
-    }
-    throw new Error('method not written yet');
-    // return (int)((S2.EXPONENT_MASK & bits) >> S2.EXPONENT_SHIFT) - 1022;
+    return Platform.getExponent(v);
   }
 
   /**
@@ -259,6 +245,22 @@ export class S2 {
     const dac = cd.dotProd(a);
 
     return (acb * (cbd) > (0)) && (cbd * (bda) > (0)) && (bda * (dac) > (0));
+  }
+
+  public static approxEqualsPointError(a: S2Point, b: S2Point, maxError: number): boolean {
+    return a.angle(b) <= maxError;
+  }
+
+  public static approxEqualsPoint(a: S2Point, b: S2Point): boolean {
+    return this.approxEqualsPointError(a, b, 1e-15);
+  }
+
+  public static approxEqualsNumberError(a: number, b: number, maxError: number): boolean {
+    return Math.abs(a - b) <= maxError;
+  }
+
+  public static approxEqualsNumber(a: number, b: number): boolean {
+    return this.approxEqualsNumberError(a, b, 1e-15);
   }
 
   static Metric = S2Metric

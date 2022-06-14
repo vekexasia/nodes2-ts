@@ -1,4 +1,6 @@
 ### Node S2 Geometry Typescript
+<img src="https://github.com/vekexasia/nodes2-ts/actions/workflows/node.js.yml/badge.svg" />
+
 <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/> <img 
 src="https://img.shields.io/badge/mocha.js-323330?style=for-the-badge&logo=mocha&logoColor=Brown"/> <img 
 src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white"/>
@@ -6,7 +8,7 @@ src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&
 
 An extensive port of google's s2 geometry library written in TypeScript.
 
-The only direct dependency is `long` to perform the needed math.
+The only direct dependencies are some math related npm packages (long and math-float64-exponent).
 
 Npm package is `nodes2ts`.
 

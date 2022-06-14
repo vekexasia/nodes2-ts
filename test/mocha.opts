@@ -1,3 +1,2 @@
 --compilers ts:ts-node/register
 --recursive
---bail

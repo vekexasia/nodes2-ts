@@ -17,6 +17,7 @@
 import {S1Angle} from "./S1Angle";
 import {S2Point} from "./S2Point";
 import {S2} from "./S2";
+import { Platform } from "./Platform";
 /**
  * This class represents a point on the unit sphere as a pair of
  * latitude-longitude coordinates. Like the rest of the "geometry" package, the
@@ -87,18 +88,19 @@ export class S2LatLng {
                 this.latRadians
             )
         ),
-        S2.IEEEremainder(
+        Platform.IEEEremainder(
             this.lngRadians,
             2* (S2.M_PI)
         )
     );
-    // return new S2LatLng(Math.max(-S2.M_PI_2, Math.min(S2.M_PI_2, this.latRadians)),
-    //     S2.IEEEremainder(this.lngRadians, 2 * S2.M_PI));
   }
 
   public static fromDegrees(latDegrees:number, lngDegrees:number):S2LatLng {
-
     return new S2LatLng(S1Angle.degrees(latDegrees).radians, S1Angle.degrees(lngDegrees).radians);
+  }
+
+  public static fromRadians(latRadians:number, lngRadians:number):S2LatLng {
+    return new S2LatLng(latRadians, lngRadians);
   }
 
   static fromPoint(p:S2Point) {
@@ -106,6 +108,16 @@ export class S2LatLng {
         S2LatLng.latitude(p).radians,
         S2LatLng.longitude(p).radians
     );
+  }
+
+  /** Returns the latitude of this point as a new S1Angle. */
+  public lat(): S1Angle {
+    return S1Angle.radians(this.latRadians);
+  }
+
+  /** Returns the longitude of this point as a new S1Angle. */
+  public lng(): S1Angle {
+    return S1Angle.radians(this.lngRadians);
   }
 
   /**
@@ -190,24 +202,15 @@ export class S2LatLng {
     // distance that way (which gives about 15 digits of accuracy for all
     // distances).
 
-    const dLat = Math.sin((other.latRadians - this.latRadians)*0.5);
-    const dLng = Math.sin((other.lngRadians - this.lngRadians)*0.5);
-    const x = dLat*dLat + dLng*dLng * Math.cos(this.latRadians) * Math.cos(other.latRadians);
+    const lat1 = this.latRadians;
+    const lat2 = other.latRadians
+    const lng1 = this.lngRadians;
+    const lng2 = other.lngRadians;
+    const dLat = Math.sin(0.5 * (lat2 - lat1));
+    const dLng = Math.sin(0.5 * (lng2 - lng1));
+    const x = dLat * dLat + dLng * dLng * Math.cos(lat1) * Math.cos(lat2)
 
-    return new S1Angle(
-        2
-            * (
-                Math.atan2(
-                    Math.sqrt(x),
-                    Math.sqrt(
-                      Math.max(
-                          0,
-                        (x * -1) + 1
-                      )
-                    )
-                )
-            )
-    );
+    return S1Angle.radians(2 * Math.asin(Math.sqrt(Math.min(1.0, x))));
     // Return the distance (measured along the surface of the sphere) to the
     // given S2LatLng. This is mathematically equivalent to:
     //

@@ -24,6 +24,28 @@ import {R2Vector} from "./R2Vector";
  *
  */
 export class S2Point {
+
+  /** Origin of the coordinate system, [0,0,0]. */
+  public static ORIGIN = new S2Point(0, 0, 0);
+
+  /** Direction of the x-axis. */
+  public static X_POS = new S2Point(1, 0, 0);
+
+  /** Opposite direction of the x-axis. */
+  public static X_NEG = new S2Point(-1, 0, 0);
+
+  /** Direction of the y-axis. */
+  public static Y_POS = new S2Point(0, 1, 0);
+
+  /** Opposite direction of the y-axis. */
+  public static Y_NEG = new S2Point(0, -1, 0);
+
+  /** Direction of the z-axis. */
+  public static Z_POS = new S2Point(0, 0, 1);
+
+  /** Opposite direction of the z-axis. */
+  public static Z_NEG = new S2Point(0, 0, -1);
+
   public x: number;
   public y: number;
   public z: number;
@@ -82,6 +104,33 @@ export class S2Point {
     return new S2Point(p.x / (m), p.y / (m), p.z / (m));
   }
 
+  /**
+   * Returns the distance in 3D coordinates from this to that.
+   *
+   * <p>Equivalent to {@code a.sub(b).norm()}, but significantly faster.
+   *
+   * <p>If ordering points by angle, this is faster than {@link #norm}, and much faster than {@link
+  * #angle}, but consider using {@link S1ChordAngle}.
+  */  
+  public getDistance(that: S2Point): number {
+    return Math.sqrt(this.getDistance2(that));
+  }
+
+  /**
+   * Returns the square of the distance in 3D coordinates from this to that.
+   *
+   * <p>Equivalent to {@code getDistance(that)<sup>2</sup>}, but significantly faster.
+   *
+   * <p>If ordering points by angle, this is much faster than {@link #angle}, but consider using
+   * {@link S1ChordAngle}.
+   */
+  public getDistance2(that: S2Point): number {
+    const dx = this.x - that.x;
+    const dy = this.y - that.y;
+    const dz = this.z - that.z;
+    return dx * dx + dy * dy + dz * dz;
+  }
+
   /** return a vector orthogonal to this one */
   public ortho():S2Point {
     const k = this.largestAbsComponent();
@@ -98,15 +147,21 @@ export class S2Point {
 
   /** Return the index of the largest component fabs */
   public largestAbsComponent():number {
-    const temp = S2Point.fabs(this);
-    if (temp.x > (temp.y)) {
-      if (temp.x > (temp.z)) {
+    return S2Point.largestAbsComponent(this.x, this.y, this.z);
+  }
+
+  public static largestAbsComponent(x: number, y: number, z: number): number {
+    const absX = Math.abs(x);
+    const absY = Math.abs(y);
+    const absZ = Math.abs(z);
+    if (absX > absY) {
+      if (absX > absZ) {
         return 0;
       } else {
         return 2;
       }
     } else {
-      if (temp.y > (temp.z)) {
+      if (absY > absZ) {
         return 1;
       } else {
         return 2;
@@ -114,15 +169,20 @@ export class S2Point {
     }
   }
 
+  public get(axis: number): number {
+    return (axis == 0) ? this.x : (axis == 1) ? this.y : this.z;
+  }
+
   public static fabs(p:S2Point):S2Point {
     return new S2Point(Math.abs(p.x), Math.abs(p.y), Math.abs(p.z));
   }
 
+  /** Returns a copy of 'p' rescaled to be unit-length. */
   public static normalize(p:S2Point) {
     let norm = p.norm();
 
-    if (norm != (0)) {
-      norm = 1/norm;
+    if (norm != 0) {
+      norm = 1 / norm;
     }
     return S2Point.mul(p, norm);
   }
