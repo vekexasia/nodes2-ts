@@ -19,6 +19,7 @@ import {S2Region} from "./S2Region";
 import {S2CellId} from "./S2CellId";
 import {S2CellUnion} from "./S2CellUnion";
 import {S2Projections} from "./S2Projections";
+import { S2Point } from "./S2Point";
 /**
  * An S2RegionCoverer is a class that allows arbitrary regions to be
  * approximated as unions of cells (S2CellUnion). This is useful for
@@ -246,6 +247,7 @@ export class S2RegionCoverer {
     this.interiorCovering = false;
     this.getCoveringInternal(region);
     covering.initSwap(this.result);
+    this.result = [];
     return covering;
   }
 
@@ -257,17 +259,17 @@ export class S2RegionCoverer {
     this.interiorCovering = true;
     this.getCoveringInternal(region);
     covering.initSwap(this.result);
+    this.result = [];
     return covering;
   }
 
-// /**
-//  * Given a connected region and a starting point, return a set of cells at the
-//  * given level that cover the region.
-//  */
-// public static getSimpleCovering(
-//     region:S2Region , start:S2Point , level:number):S2CellId[] {
-//   S2RegionCoverer.floodFill(region, S2CellId.fromPoint(start).parentL(level));
-// }
+  /**
+   * Given a connected region and a starting point, return a set of cells at the given level that
+   * cover the region.
+   */
+  public static getSimpleCovering(region: S2Region, start: S2Point, level: number): S2CellId[] {
+    return this.floodFill(region, S2CellId.fromPoint(start).parentL(level));
+  }
 
   /**
    * If the cell intersects the given region, return a new candidate with no
@@ -479,38 +481,36 @@ export class S2RegionCoverer {
     this.region = null;
   }
 
-//
-//   /**
-//    * Given a region and a starting cell, return the set of all the
-//    * edge-connected cells at the same level that intersect "region". The output
-//    * cells are returned in arbitrary order.
-//    */
-//   private static void floodFill(S2Region region, S2CellId start, ArrayList<S2CellId> output) {
-//   HashSet<S2CellId> all = new HashSet<>();
-//   ArrayList<S2CellId> frontier = new ArrayList<>();
-//   output.clear();
-//   all.add(start);
-//   frontier.add(start);
-//   while (!frontier.isEmpty()) {
-//   S2CellId id = frontier.get(frontier.size() - 1);
-//   frontier.remove(frontier.size() - 1);
-//   if (!region.mayIntersect(new S2Cell(id))) {
-//   continue;
-// }
-// output.add(id);
-//
-// S2CellId[] neighbors = new S2CellId[4];
-// id.getEdgeNeighbors(neighbors);
-// for (int edge = 0; edge < 4; ++edge) {
-//   S2CellId nbr = neighbors[edge];
-//   boolean hasNbr = all.contains(nbr);
-//   if (!all.contains(nbr)) {
-//     frontier.add(nbr);
-//     all.add(nbr);
-//   }
-// }
-// }
-// }
+  /**
+   * Given a region and a starting cell, return the set of all the edge-connected cells at the same
+   * level that intersect "region". The output cells are returned in arbitrary order.
+   */
+  private static floodFill(region: S2Region, start: S2CellId): S2CellId[] {
+    const all = new Set<string>();
+    const frontier: S2CellId[] = [];
+    const output: S2CellId[] = [];
+
+    all.add(start.toToken());
+    frontier.push(start);
+    while (frontier.length !== 0) {
+      const id = frontier.pop();
+      if (!region.mayIntersectC(new S2Cell(id))) {
+        continue;
+      }
+      output.push(id);
+
+      const neighbors: S2CellId[] = id.getEdgeNeighbors();
+      for (let edge = 0; edge < 4; ++edge) {
+        const nbr = neighbors[edge];
+        if (!all.has(nbr.toToken())) {
+          frontier.push(nbr);
+          all.add(nbr.toToken());
+        }
+      }
+    }
+
+    return output;
+  }
 }
 
 
