@@ -131,29 +131,28 @@ describe('S2RegionCoverer', () => {
           Math.min(
               4 * S2.M_PI, (3 * coverer.getMaxCells() + 1) * S2Cell.averageArea(coverer.getMinLevel()));
       const cap = getRandomCap(0.1 * S2Cell.averageArea(kMaxLevel), maxArea);
-      // const rectBound = cap.getRectBound();
       
       const covering = coverer.getCoveringCells(cap);
       checkCovering(coverer, cap, covering, false);
 
-      // const interior = coverer.getInteriorCoveringCells(cap, );
-      // checkCovering(coverer, cap, interior, true);
+      const interior = coverer.getInteriorCoveringCells(cap, );
+      checkCovering(coverer, cap, interior, true);
 
       // Check that GetCovering is deterministic.
-      // ArrayList<S2CellId> covering2 = new ArrayList<S2CellId>();
-      // coverer.getCovering(cap, covering2);
-      // assertEquals(covering, covering2);
+      const covering2 = coverer.getCoveringCells(cap);
+      checkCovering(coverer, cap, covering2, false);
+      expect(covering2).to.deep.eq(covering);
 
       // Also check S2CellUnion.denormalize(). The denormalized covering
       // may still be different and smaller than "covering" because
       // S2RegionCoverer does not guarantee that it will not output all four
       // children of the same parent.
-      // const cells = new S2CellUnion();
-      // cells.initFromCellIds(covering);
-      // const denormalized = cells.denormalize(coverer.getMinLevel(), coverer.getLevelMod());
-      // checkCovering(coverer, cap, denormalized, false);
+      const cells = new S2CellUnion();
+      cells.initFromCellIds(covering);
+      const denormalized = cells.denormalize(coverer.getMinLevel(), coverer.getLevelMod());
+      checkCovering(coverer, cap, denormalized, false);
     }
-  })
+  }).timeout(4000);
 
   it('Java tests produces valid coverings', () => {
     let i = 0
@@ -173,4 +172,44 @@ describe('S2RegionCoverer', () => {
       checkCovering(coverer, latLngRect, covering, false);
     });
   })
+
+  it('produces valid getSimpleCoverings', () => {
+    const kMaxLevel = S2CellId.MAX_LEVEL;
+    for (let i = 0; i < 1000; ++i) {
+      const level = Math.floor(Math.random() * (kMaxLevel + 1));
+      const coverer = new S2RegionCoverer()
+              .setMaxCells(Number.MAX_VALUE)
+              .setMinLevel(level)
+              .setMaxLevel(level);
+      const maxArea = Math.min(4 * S2.M_PI, 1000 * S2Cell.averageArea(level));
+      const cap = getRandomCap(0.1 * S2Cell.averageArea(kMaxLevel), maxArea);
+      const covering: S2CellId[] = S2RegionCoverer.getSimpleCovering(cap, cap.axis, level);
+      checkCovering(coverer, cap, covering, false);
+    }
+  }).timeout(5000);
+
+  // it("benchmark", () => {
+  //   const ITERATIONS = 1000;
+
+  //   const s2LatLngRect = S2LatLngRect.fromPointPair(
+  //     S2LatLng.fromDegrees(45.319323121350145, 12.122039794921875),
+  //     S2LatLng.fromDegrees(45.79529713006591, 9.485321044921877)
+  //     );
+
+  //   console.time('simpleCovering');
+  //   for (let i = 0; i < ITERATIONS; ++i) {
+  //     const simpleCovering: S2CellId[] = S2RegionCoverer.getSimpleCovering(s2LatLngRect, s2LatLngRect.getCenter().toPoint(), 10);
+  //   }
+  //   console.timeEnd('simpleCovering');
+
+  //   console.time('getCoveringCells');
+  //   for (let i = 0; i < ITERATIONS; ++i) {
+  //     const coverer = new S2RegionCoverer()
+  //             .setMaxCells(217)
+  //             .setMinLevel(10)
+  //             .setMaxLevel(10);
+  //     const coveringCells: S2CellId[] = coverer.getCoveringCells(s2LatLngRect);
+  //   }
+  //   console.timeEnd('getCoveringCells');
+  // }).timeout(10000)
 })
