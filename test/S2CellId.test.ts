@@ -1,18 +1,18 @@
-import {S2CellId} from "../src/S2CellId";
-import {expect} from "chai";
-const genJavaLocs = require('./assets/main-tests.json');
-const cellTests = require('./assets/cell-tests.json');
-import Long = require('long');
-import {S2Point} from "../src/S2Point";
-import {R2Vector} from "../src/R2Vector";
-import {S1Angle} from "../src/S1Angle";
+import { describe, it, expect, beforeAll } from 'vitest';
+import { S2CellId } from "../src/S2CellId";
+import Long from 'long';
+import { S2Point } from "../src/S2Point";
+import { R2Vector } from "../src/R2Vector";
+import { S1Angle } from "../src/S1Angle";
+import genJavaLocs from './assets/main-tests.json';
+import cellTests from './assets/cell-tests.json';
 
 describe('S2CellId', () => {
   describe('java data', () => {
     describe('decoding', () => {
       it('should decode fromFacePosLevel', () => {
         genJavaLocs
-            .forEach(item => {
+            .forEach((item: any) => {
 
               const pos = Long.fromString(item.pos, true, 10);
               const s2CellId = S2CellId.fromFacePosLevel(item.face, pos, item.lvl);
@@ -21,7 +21,7 @@ describe('S2CellId', () => {
       });
       it('should decode from token', () => {
         genJavaLocs
-            .forEach(item => {
+            .forEach((item: any) => {
               const s2CellId = S2CellId.fromToken(item.token);
               expect(s2CellId.id.toString()).to.be.equal(item.id);
 
@@ -29,7 +29,7 @@ describe('S2CellId', () => {
       });
       it('should decode from Face Ij', () => {
         genJavaLocs
-            .forEach(item => {
+            .forEach((item: any) => {
               const s2CellId = S2CellId.fromFaceIJ(item.face, parseInt(item.i), parseInt(item.j))
                   .parentL(item.lvl);
               expect(s2CellId.id.toString()).to.be.equal(item.id);
@@ -37,7 +37,7 @@ describe('S2CellId', () => {
       });
       it('should decode from point', () => {
         genJavaLocs
-            .forEach(item => {
+            .forEach((item: any) => {
               const s2Point = new S2Point(item.point.x, item.point.y, item.point.z);
               const s2CellId = S2CellId.fromPoint(s2Point)
                   .parentL(item.lvl);
@@ -46,9 +46,9 @@ describe('S2CellId', () => {
       })
     });
     describe('instance data', () => {
-      let items = [];
-      before(() => {
-        items = genJavaLocs.map(item => {
+      let items: any[] = [];
+      beforeAll(() => {
+        items = genJavaLocs.map((item: any) => {
           return {
             item,
             cell: S2CellId.fromToken(item.token)
@@ -173,7 +173,7 @@ describe('S2CellId', () => {
       });
       it('.getEdgeNeighbors should match', () => {
         items.forEach(i => {
-          const edgeIDs = i.cell.getEdgeNeighbors().map(cellId => cellId.id.toString());
+          const edgeIDs = i.cell.getEdgeNeighbors().map((cellId: S2CellId) => cellId.id.toString());
           expect(edgeIDs)
               .to.be.deep.equal(i.item.neighbors);
 
@@ -188,7 +188,7 @@ describe('S2CellId', () => {
 
       it('.getAllNeighbors should match', () => {
         items.forEach(i => {
-          const edgeIDs = i.cell.getAllNeighbors(i.cell.level()+1).map(cellId => cellId.id.toString());
+          const edgeIDs = i.cell.getAllNeighbors(i.cell.level()+1).map((cellId: S2CellId) => cellId.id.toString());
           expect(edgeIDs)
               .to.be.deep.equal(i.item.allNeighborsLvlP1);
         });
@@ -204,19 +204,19 @@ describe('S2CellId', () => {
 
   describe('cell-tests', () => {
     it('should calculate vertexNeighbors just fine', () => {
-      cellTests.forEach(c => {
+      cellTests.forEach((c: any) => {
         const cell = new S2CellId(c.id);
-        c.vertexNeighborsLvl.forEach(vnData => {
+        c.vertexNeighborsLvl.forEach((vnData: any) => {
           const calcTokens = cell.getVertexNeighbors(vnData.lvl)
-              .map(vC => vC.toToken())
+              .map((vC: S2CellId) => vC.toToken())
           expect(calcTokens, `Cell: ${c.id} ${cell.toToken()} - level ${vnData.lvl}`).to.be.deep.equal(vnData.v);
         });
       })
     });
     it('should calculate edgeNeighbors just fine', () => {
-      cellTests.forEach(c => {
+      cellTests.forEach((c: any) => {
         const cell = new S2CellId(c.id);
-        const edgeCellTokens = cell.getEdgeNeighbors().map(eN => eN.toToken());
+        const edgeCellTokens = cell.getEdgeNeighbors().map((eN: S2CellId) => eN.toToken());
         expect(edgeCellTokens).to.be.deep.equal(c.edgeNeighbors);
 
       })

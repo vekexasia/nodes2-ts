@@ -139,7 +139,7 @@ export class R2Vector {
     }
   }
 
-  public toSt(which) {
+  public toSt(which: number) {
     return which == 0?R2Vector.singleUVToST(this.x): R2Vector.singleUVToST(this.y);
   }
   public toString():string {

@@ -1,14 +1,13 @@
-import {S2LatLng} from "../src/S2LatLng";
-import {expect} from "chai";
-import {S1Angle} from "../src/S1Angle";
-import {S2CellId} from "../src/S2CellId";
-import {S2Point} from "../src/S2Point";
-const Long = require('long');
-const genLocs = require('./assets/latlng-tests.json');
+import { describe, it, expect, beforeAll } from 'vitest';
+import { S2LatLng } from "../src/S2LatLng";
+import { S1Angle } from "../src/S1Angle";
+import { S2Point } from "../src/S2Point";
+import genLocs from './assets/latlng-tests.json';
+
 describe('S2LatLng', () => {
   describe('creators', () => {
     it('should be able to create from radians', () => {
-      genLocs.forEach(item => {
+      genLocs.forEach((item: any) => {
         const s2LatLng = new S2LatLng(item.latR, item.lngR);
         expect(s2LatLng.latRadians.toString()).to.be.eq(item.latR.toString())
         expect(s2LatLng.lngRadians.toString()).to.be.eq(item.lngR.toString())
@@ -16,7 +15,7 @@ describe('S2LatLng', () => {
     });
     it('should be able to create from degrees', () => {
       genLocs
-          .forEach(item => {
+          .forEach((item: any) => {
         const s2LatLng = S2LatLng.fromDegrees(item.latD, item.lngD);
         expect(s2LatLng.latRadians).to.be.closeTo(parseFloat(item.latR), 1e-13)
 
@@ -26,8 +25,8 @@ describe('S2LatLng', () => {
 
     it('should be able to create from point', () => {
       genLocs
-          .filter((item,idx) => idx>2)
-          .forEach(item => {
+          .filter((_item: any, idx: number) => idx>2)
+          .forEach((item: any) => {
             const s2LatLng = S2LatLng.fromPoint(new S2Point(
                // 1,1,1
             item.point.x,
@@ -42,8 +41,8 @@ describe('S2LatLng', () => {
 
   describe('once created', () => {
     let items: Array<{item: any, ll: S2LatLng}> = [];
-    before(() => {
-      items = genLocs.map(item => {
+    beforeAll(() => {
+      items = genLocs.map((item: any) => {
         return {
           item,
           ll: new S2LatLng(item.latR, item.lngR)
@@ -104,17 +103,6 @@ describe('S2LatLng', () => {
           expect(pointsAtDistance[i].getEarthDistance(pointsAtDistance[i+1])).to.be.closeTo(firstDistance, 1e-10);
         }
       });
-      /**/
-
-      /*
-      it('botroob', () => {
-        const geojson = new S2Cell(S2CellId.fromToken('477bff')).toGEOJSON();
-        console.log(JSON.stringify(geojson, null, 2));
-      })
-      /**/
-
     })
-
   })
-
 });

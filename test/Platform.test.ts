@@ -1,8 +1,5 @@
-import { assert, expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { Platform } from '../src/Platform';
-import { S2 } from '../src/S2';
-import { S2Point } from '../src/S2Point';
-import { S2Projections } from '../src/S2Projections';
 
 describe('Platform', () => {
   it('should generate correct exponents', () => {
@@ -86,7 +83,7 @@ describe('Platform', () => {
         // Note that we can't just use assertEquals, since the GWT JUnit version returns false
         // for assertTrue(NaN, NaN).
         if (Number.isNaN(expected)) {
-            assert.isNaN(actual)
+            expect(actual).toBeNaN()
         } else {
             expect(actual).to.eq(expected, `expected ${f1} % ${f2} to be ${expected} but got ${actual}`)
         }

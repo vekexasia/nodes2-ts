@@ -1,17 +1,15 @@
-import * as Long from "long";
+import { describe, it, expect } from 'vitest';
+import Long from "long";
 import { S2Cell } from "../src/S2Cell";
 import { S2CellId } from "../src/S2CellId";
 import { S2CellUnion } from "../src/S2CellUnion";
 import { S2RegionCoverer } from "../src/S2RegionCoverer";
-import {assert, expect} from "chai";
 import { S2LatLngRect } from "../src/S2LatLngRect";
 import { S2LatLng } from "../src/S2LatLng";
 import { S2Region } from "../src/S2Region";
 import { S2 } from "../src/S2";
-import { S2Point } from "../src/S2Point";
-import { S2Cap } from "../src/S2Cap";
 import { getRandomCap } from "./geometricTestCase";
-const genLocs = require('./assets/latlng-covering-tests.json');
+import genLocs from './assets/latlng-covering-tests.json';
 
 // https://github.com/google/s2-geometry-library-java/blob/5bd8781f9c5e52d673dced401bd6b5424ba4582a/tests/com/google/common/geometry/GeometryTestCase.java#L91
 function getRandomCellID(): S2CellId {
@@ -44,7 +42,7 @@ function checkCoveringCoversGivenRegion(region: S2Region, covering: S2CellUnion,
   if (!region.mayIntersectC(new S2Cell(id))) {
     // If region does not intersect id, then neither should the covering.
     if (checkTight) {
-      assert(!covering.intersects(id));
+      expect(!covering.intersects(id)).toBeTruthy();
     }
   } else if (!covering.contains(id)) {
     // The region may intersect id, but we can't assert that the covering
@@ -86,7 +84,7 @@ function checkCovering(coverer: S2RegionCoverer, region: S2Region, covering: S2C
 
   if (interior) {
     for (let i = 0; i < covering.length; ++i) {
-      assert(region.containsC(new S2Cell(covering[i])));
+      expect(region.containsC(new S2Cell(covering[i]))).toBeTruthy();
     }
   } else {
     const cellUnion = new S2CellUnion();
@@ -116,7 +114,7 @@ describe('S2RegionCoverer', () => {
     }
   })
 
-  it('produces valid coverings', () => {
+  it('produces valid coverings', { timeout: 4000 }, () => {
     const kMaxLevel = S2CellId.MAX_LEVEL;
 
     for (let i = 0; i < 1000; ++i) {
@@ -131,7 +129,7 @@ describe('S2RegionCoverer', () => {
           Math.min(
               4 * S2.M_PI, (3 * coverer.getMaxCells() + 1) * S2Cell.averageArea(coverer.getMinLevel()));
       const cap = getRandomCap(0.1 * S2Cell.averageArea(kMaxLevel), maxArea);
-      
+
       const covering = coverer.getCoveringCells(cap);
       checkCovering(coverer, cap, covering, false);
 
@@ -152,11 +150,11 @@ describe('S2RegionCoverer', () => {
       const denormalized = cells.denormalize(coverer.getMinLevel(), coverer.getLevelMod());
       checkCovering(coverer, cap, denormalized, false);
     }
-  }).timeout(4000);
+  });
 
   it('Java tests produces valid coverings', () => {
     let i = 0
-    genLocs.forEach((testCase) => {
+    genLocs.forEach((testCase: any) => {
       const { maxCells, levelMod, maxLevel, minLevel, rectBound,
         covering: expectedCovering, interior: expectedInterior,
         coveringUnionTokens: expectedCoveringUnionTokens
@@ -166,14 +164,14 @@ describe('S2RegionCoverer', () => {
           S2LatLng.fromDegrees(rectBound.lo.lat, rectBound.lo.lng),
           S2LatLng.fromDegrees(rectBound.hi.lat, rectBound.hi.lng)
       );
-      
+
       const coverer = new S2RegionCoverer().setMaxCells(maxCells).setLevelMod(levelMod).setMaxLevel(maxLevel).setMinLevel(minLevel);
       const covering = coverer.getCoveringCells(latLngRect);
       checkCovering(coverer, latLngRect, covering, false);
     });
   })
 
-  it('produces valid getSimpleCoverings', () => {
+  it('produces valid getSimpleCoverings', { timeout: 5000 }, () => {
     const kMaxLevel = S2CellId.MAX_LEVEL;
     for (let i = 0; i < 1000; ++i) {
       const level = Math.floor(Math.random() * (kMaxLevel + 1));
@@ -186,30 +184,5 @@ describe('S2RegionCoverer', () => {
       const covering: S2CellId[] = S2RegionCoverer.getSimpleCovering(cap, cap.axis, level);
       checkCovering(coverer, cap, covering, false);
     }
-  }).timeout(5000);
-
-  // it("benchmark", () => {
-  //   const ITERATIONS = 1000;
-
-  //   const s2LatLngRect = S2LatLngRect.fromPointPair(
-  //     S2LatLng.fromDegrees(45.319323121350145, 12.122039794921875),
-  //     S2LatLng.fromDegrees(45.79529713006591, 9.485321044921877)
-  //     );
-
-  //   console.time('simpleCovering');
-  //   for (let i = 0; i < ITERATIONS; ++i) {
-  //     const simpleCovering: S2CellId[] = S2RegionCoverer.getSimpleCovering(s2LatLngRect, s2LatLngRect.getCenter().toPoint(), 10);
-  //   }
-  //   console.timeEnd('simpleCovering');
-
-  //   console.time('getCoveringCells');
-  //   for (let i = 0; i < ITERATIONS; ++i) {
-  //     const coverer = new S2RegionCoverer()
-  //             .setMaxCells(217)
-  //             .setMinLevel(10)
-  //             .setMaxLevel(10);
-  //     const coveringCells: S2CellId[] = coverer.getCoveringCells(s2LatLngRect);
-  //   }
-  //   console.timeEnd('getCoveringCells');
-  // }).timeout(10000)
+  });
 })

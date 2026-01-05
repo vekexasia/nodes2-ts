@@ -1,5 +1,5 @@
-import {Matrix3x3} from "../src/Matrix3x3";
-import {expect} from "chai";
+import { describe, it, expect } from 'vitest';
+import { Matrix3x3 } from "../src/Matrix3x3";
 
 describe('Matrix3x3', () => {
   it('passes basic tests', () => {

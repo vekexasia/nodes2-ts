@@ -1,10 +1,15 @@
+import { describe, it, expect } from 'vitest';
+import { S2Point } from "../src/S2Point";
 
-import {S2Point} from "../src/S2Point";
-import {expect} from "chai";
-import {S2LatLng} from "../src/S2LatLng";
-// const genLocs = require('./generated-locations.json');
 describe('S2Point', () => {
-  describe('real data', () => {
+  it('creates a valid point', () => {
+    const p = new S2Point(1, 0, 0);
+    expect(p.x).toBe(1);
+    expect(p.y).toBe(0);
+    expect(p.z).toBe(0);
+  });
+
+  describe.skip('real data', () => {
     // let points;
     // before(() => {
     //   points = genLocs.map(({lat, lng, cellid})=> S2LatLng.fromDegrees(lat, lng).toPoint());

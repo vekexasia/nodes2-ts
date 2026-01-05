@@ -1,5 +1,5 @@
+import { describe, it, expect } from 'vitest';
 import { S1ChordAngle } from "../src/S1ChordAngle";
-import { expect, assert } from "chai";
 import { getRandomFrame } from "./geometricTestCase";
 import { S2Point } from "../src/S2Point";
 import { S1Angle } from "../src/S1Angle";
@@ -32,7 +32,7 @@ describe('S2ChordAngle', () => {
     expect(S1ChordAngle.fromS1Angle(S1Angle.radians(Math.PI)).toAngle().radians).to.eq(Math.PI);
     expect(S1ChordAngle.fromS1Angle(S1Angle.INFINITY).toAngle()).to.eq(S1Angle.INFINITY);
     expect(S1ChordAngle.fromS1Angle(S1Angle.radians(Number.POSITIVE_INFINITY)).toAngle()).to.eq(S1Angle.INFINITY);
-    assert(S1ChordAngle.fromS1Angle(S1Angle.radians(-1)).toAngle().radians < 0.0);
+    expect(S1ChordAngle.fromS1Angle(S1Angle.radians(-1)).toAngle().radians < 0.0).toBeTruthy();
     expect(S1ChordAngle.fromS1Angle(S1Angle.radians(1.0)).toAngle().radians).to.be.closeTo(1.0, 1e-13);
   })
 });

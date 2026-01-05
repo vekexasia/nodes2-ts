@@ -15,7 +15,7 @@
  */
 
 //const Long = require("long");
-import * as Long from 'long';
+import Long from 'long';
 import {S2Point} from "./S2Point";
 import {R2Vector} from "./R2Vector";
 import {S2} from "./S2";

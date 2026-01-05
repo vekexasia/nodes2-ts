@@ -1,5 +1,5 @@
-import {S2Cap} from "../src/S2Cap";
-import {expect, assert} from "chai";
+import { describe, it, expect } from 'vitest';
+import { S2Cap } from "../src/S2Cap";
 import { S2Point } from "../src/S2Point";
 import { S1Angle } from "../src/S1Angle";
 import { S2LatLng } from "../src/S2LatLng";
@@ -19,49 +19,49 @@ describe('S2Cap', () => {
     // Test basic properties of empty and full caps.
     const empty = S2Cap.empty();
     const full = S2Cap.full();
-    assert(empty.isValid());
-    assert(empty.isEmpty());
-    assert(empty.complement().isFull());
-    assert(full.isValid());
-    assert(full.isFull());
-    assert(full.complement().isEmpty());
+    expect(empty.isValid()).toBeTruthy();
+    expect(empty.isEmpty()).toBeTruthy();
+    expect(empty.complement().isFull()).toBeTruthy();
+    expect(full.isValid()).toBeTruthy();
+    expect(full.isFull()).toBeTruthy();
+    expect(full.complement().isEmpty()).toBeTruthy();
     expect(full.height()).to.eq(2.0);
     expect(full.angle().degrees()).to.be.closeTo(180, 1e-9)
 
     // Test the S1Angle constructor using out-of-range arguments.
-    assert(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.radians(-20)).isEmpty());
-    assert(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.radians(5)).isFull());
-    assert(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.INFINITY).isFull());
+    expect(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.radians(-20)).isEmpty()).toBeTruthy();
+    expect(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.radians(5)).isFull()).toBeTruthy();
+    expect(S2Cap.fromAxisAngle(S2Point.X_POS, S1Angle.INFINITY).isFull()).toBeTruthy();
 
     // Containment and intersection of empty and full caps.
-    assert(empty.containsCap(empty));
-    assert(full.containsCap(empty));
-    assert(full.containsCap(full));
-    assert(!empty.interiorIntersects(empty));
-    assert(full.interiorIntersects(full));
-    assert(!full.interiorIntersects(empty));
+    expect(empty.containsCap(empty)).toBeTruthy();
+    expect(full.containsCap(empty)).toBeTruthy();
+    expect(full.containsCap(full)).toBeTruthy();
+    expect(!empty.interiorIntersects(empty)).toBeTruthy();
+    expect(full.interiorIntersects(full)).toBeTruthy();
+    expect(!full.interiorIntersects(empty)).toBeTruthy();
 
     // Singleton cap containing the x-axis.
     const xAxis = S2Cap.fromAxisHeight(new S2Point(1, 0, 0), 0);
-    assert(xAxis.contains(new S2Point(1, 0, 0)));
-    assert(!xAxis.contains(new S2Point(1, 1e-20, 0)));
+    expect(xAxis.contains(new S2Point(1, 0, 0))).toBeTruthy();
+    expect(!xAxis.contains(new S2Point(1, 1e-20, 0))).toBeTruthy();
     expect(xAxis.angle().radians).to.be.closeTo(0.0, 1e-9)
 
     // Singleton cap containing the y-axis.
     const yAxis = S2Cap.fromAxisAngle(new S2Point(0, 1, 0), S1Angle.radians(0));
-    assert(!yAxis.contains(xAxis.axis));
+    expect(!yAxis.contains(xAxis.axis)).toBeTruthy();
     expect(xAxis.height()).to.eq(0.0);
 
     // Check that the complement of a singleton cap is the full cap.
     const xComp = xAxis.complement();
-    assert(xComp.isValid());
-    assert(xComp.isFull());
-    assert(xComp.contains(xAxis.axis));
+    expect(xComp.isValid()).toBeTruthy();
+    expect(xComp.isFull()).toBeTruthy();
+    expect(xComp.contains(xAxis.axis)).toBeTruthy();
 
     // Check that the complement of the complement is *not* the original.
-    assert(xComp.complement().isValid());
-    assert(xComp.complement().isEmpty());
-    assert(!xComp.complement().contains(xAxis.axis));
+    expect(xComp.complement().isValid()).toBeTruthy();
+    expect(xComp.complement().isEmpty()).toBeTruthy();
+    expect(!xComp.complement().contains(xAxis.axis)).toBeTruthy();
 
     // Check that very small caps can be represented accurately.
     // Here "kTinyRad" is small enough that unit vectors perturbed by this
@@ -70,50 +70,50 @@ describe('S2Cap', () => {
     const tiny =
         S2Cap.fromAxisAngle(S2Point.normalize(new S2Point(1, 2, 3)), S1Angle.radians(kTinyRad));
     const tangent = S2Point.normalize(S2Point.crossProd(tiny.axis, new S2Point(3, 2, 1)));
-    assert(tiny.contains(S2Point.add(tiny.axis, S2Point.mul(tangent, 0.99 * kTinyRad))));
-    assert(!tiny.contains(S2Point.add(tiny.axis, S2Point.mul(tangent, 1.01 * kTinyRad))));
+    expect(tiny.contains(S2Point.add(tiny.axis, S2Point.mul(tangent, 0.99 * kTinyRad)))).toBeTruthy();
+    expect(!tiny.contains(S2Point.add(tiny.axis, S2Point.mul(tangent, 1.01 * kTinyRad)))).toBeTruthy();
 
     // Basic tests on a hemispherical cap.
     const hemi = S2Cap.fromAxisHeight(S2Point.normalize(new S2Point(1, 0, 1)), 1);
     expect(hemi.complement().axis.equals(S2Point.neg(hemi.axis))).to.eq(true);
     expect(hemi.complement().height()).to.eq(1.0);
-    assert(hemi.contains(new S2Point(1, 0, 0)));
-    assert(!hemi.complement().contains(new S2Point(1, 0, 0)));
-    assert(hemi.contains(S2Point.normalize(new S2Point(1, 0, -(1 - EPS)))));
-    assert(!hemi.interiorContains(S2Point.normalize(new S2Point(1, 0, -(1 + EPS)))));
+    expect(hemi.contains(new S2Point(1, 0, 0))).toBeTruthy();
+    expect(!hemi.complement().contains(new S2Point(1, 0, 0))).toBeTruthy();
+    expect(hemi.contains(S2Point.normalize(new S2Point(1, 0, -(1 - EPS))))).toBeTruthy();
+    expect(!hemi.interiorContains(S2Point.normalize(new S2Point(1, 0, -(1 + EPS))))).toBeTruthy();
 
     // A concave cap.
     const concave = S2Cap.fromAxisAngle(getLatLngPoint(80, 10), S1Angle.degrees(150));
-    assert(concave.contains(getLatLngPoint(-70 * (1 - EPS), 10)));
-    assert(!concave.contains(getLatLngPoint(-70 * (1 + EPS), 10)));
-    assert(concave.contains(getLatLngPoint(-50 * (1 - EPS), -170)));
-    assert(!concave.contains(getLatLngPoint(-50 * (1 + EPS), -170)));
+    expect(concave.contains(getLatLngPoint(-70 * (1 - EPS), 10))).toBeTruthy();
+    expect(!concave.contains(getLatLngPoint(-70 * (1 + EPS), 10))).toBeTruthy();
+    expect(concave.contains(getLatLngPoint(-50 * (1 - EPS), -170))).toBeTruthy();
+    expect(!concave.contains(getLatLngPoint(-50 * (1 + EPS), -170))).toBeTruthy();
 
     // Cap containment tests.
-    assert(!empty.containsCap(xAxis));
-    assert(!empty.interiorIntersects(xAxis));
-    assert(full.containsCap(xAxis));
-    assert(full.interiorIntersects(xAxis));
-    assert(!xAxis.containsCap(full));
-    assert(!xAxis.interiorIntersects(full));
-    assert(xAxis.containsCap(xAxis));
-    assert(!xAxis.interiorIntersects(xAxis));
-    assert(xAxis.containsCap(empty));
-    assert(!xAxis.interiorIntersects(empty));
-    assert(hemi.containsCap(tiny));
-    assert(
-        hemi.containsCap(S2Cap.fromAxisAngle(new S2Point(1, 0, 0), S1Angle.radians(S2.M_PI_4 - EPS))));
-    assert(
+    expect(!empty.containsCap(xAxis)).toBeTruthy();
+    expect(!empty.interiorIntersects(xAxis)).toBeTruthy();
+    expect(full.containsCap(xAxis)).toBeTruthy();
+    expect(full.interiorIntersects(xAxis)).toBeTruthy();
+    expect(!xAxis.containsCap(full)).toBeTruthy();
+    expect(!xAxis.interiorIntersects(full)).toBeTruthy();
+    expect(xAxis.containsCap(xAxis)).toBeTruthy();
+    expect(!xAxis.interiorIntersects(xAxis)).toBeTruthy();
+    expect(xAxis.containsCap(empty)).toBeTruthy();
+    expect(!xAxis.interiorIntersects(empty)).toBeTruthy();
+    expect(hemi.containsCap(tiny)).toBeTruthy();
+    expect(
+        hemi.containsCap(S2Cap.fromAxisAngle(new S2Point(1, 0, 0), S1Angle.radians(S2.M_PI_4 - EPS)))).toBeTruthy();
+    expect(
         !hemi.containsCap(
-            S2Cap.fromAxisAngle(new S2Point(1, 0, 0), S1Angle.radians(S2.M_PI_4 + EPS))));
-    assert(concave.containsCap(hemi));
-    assert(concave.interiorIntersects(hemi.complement()));
-    assert(!concave.containsCap(S2Cap.fromAxisHeight(S2Point.neg(concave.axis), 0.1)));
+            S2Cap.fromAxisAngle(new S2Point(1, 0, 0), S1Angle.radians(S2.M_PI_4 + EPS)))).toBeTruthy();
+    expect(concave.containsCap(hemi)).toBeTruthy();
+    expect(concave.interiorIntersects(hemi.complement())).toBeTruthy();
+    expect(!concave.containsCap(S2Cap.fromAxisHeight(S2Point.neg(concave.axis), 0.1))).toBeTruthy();
   });
   it('has correct rectBound', () => {
     // Empty and full caps.
-    assert(S2Cap.empty().getRectBound().isEmpty());
-    assert(S2Cap.full().getRectBound().isFull());
+    expect(S2Cap.empty().getRectBound().isEmpty()).toBeTruthy();
+    expect(S2Cap.full().getRectBound().isFull()).toBeTruthy();
 
     const kDegreeEps = 1e-13;
     // Maximum allowable error for latitudes and longitudes measured in
@@ -124,7 +124,7 @@ describe('S2Cap', () => {
         S2Cap.fromAxisAngle(getLatLngPoint(-45, 57), S1Angle.degrees(50)).getRectBound();
     assertDoubleNear(rect.latLo().degrees(), -90, kDegreeEps);
     assertDoubleNear(rect.latHi().degrees(), 5, kDegreeEps);
-    assert(rect.lng.isFull());
+    expect(rect.lng.isFull()).toBeTruthy();
 
     // Cap that is tangent to the north pole.
     rect =
@@ -132,14 +132,14 @@ describe('S2Cap', () => {
             .getRectBound();
     assertDoubleNear(rect.lat.lo, 0);
     assertDoubleNear(rect.lat.hi, S2.M_PI_2);
-    assert(rect.lng.isFull());
+    expect(rect.lng.isFull()).toBeTruthy();
 
     rect =
         S2Cap.fromAxisAngle(S2Point.normalize(new S2Point(1, 0, 1)), S1Angle.degrees(45))
             .getRectBound();
     assertDoubleNear(rect.latLo().degrees(), 0, kDegreeEps);
     assertDoubleNear(rect.latHi().degrees(), 90, kDegreeEps);
-    assert(rect.lng.isFull());
+    expect(rect.lng.isFull()).toBeTruthy();
 
     // The eastern hemisphere.
     rect =
@@ -147,7 +147,7 @@ describe('S2Cap', () => {
             .getRectBound();
     assertDoubleNear(rect.latLo().degrees(), -90, kDegreeEps);
     assertDoubleNear(rect.latHi().degrees(), 90, kDegreeEps);
-    assert(rect.lng.isFull());
+    expect(rect.lng.isFull()).toBeTruthy();
 
     // A cap centered on the equator.
     rect = S2Cap.fromAxisAngle(getLatLngPoint(0, 50), S1Angle.degrees(20)).getRectBound();
@@ -160,7 +160,7 @@ describe('S2Cap', () => {
     rect = S2Cap.fromAxisAngle(getLatLngPoint(90, 123), S1Angle.degrees(10)).getRectBound();
     assertDoubleNear(rect.latLo().degrees(), 80, kDegreeEps);
     assertDoubleNear(rect.latHi().degrees(), 90, kDegreeEps);
-    assert(rect.lng.isFull());
+    expect(rect.lng.isFull()).toBeTruthy();
   })
 
   it('passes cell tests', () => {
@@ -182,8 +182,8 @@ describe('S2Cap', () => {
       const cornerCell = S2Cell.fromPoint(S2Projections.faceUvToXyz(face, 1 - EPS, 1 - EPS));
 
       // Quick check for full and empty caps.
-      assert(S2Cap.full().containsC(rootCell));
-      assert(!S2Cap.empty().mayIntersectC(rootCell));
+      expect(S2Cap.full().containsC(rootCell)).toBeTruthy();
+      expect(!S2Cap.empty().mayIntersectC(rootCell)).toBeTruthy();
 
       // Check intersections with the bounding caps of the leaf cells that are
       // adjacent to 'corner_cell' along the Hilbert curve. Because this corner
@@ -211,23 +211,23 @@ describe('S2Cap', () => {
 
         // A cap that barely intersects the edges of 'cap_face'.
         const bulging = S2Cap.fromAxisAngle(center, S1Angle.radians(S2.M_PI_4 + EPS));
-        assert(!bulging.containsC(rootCell));
+        expect(!bulging.containsC(rootCell)).toBeTruthy();
         expect(bulging.mayIntersectC(rootCell)).to.be.eq( capFace != antiFace);
         expect(bulging.containsC(edgeCell)).to.be.eq( capFace == face);
         expect(bulging.mayIntersectC(edgeCell)).to.be.eq( center.dotProd(edgeCell.getCenter()) > 0.1);
-        assert(!bulging.containsC(cornerCell));
-        assert(!bulging.mayIntersectC(cornerCell));
+        expect(!bulging.containsC(cornerCell)).toBeTruthy();
+        expect(!bulging.mayIntersectC(cornerCell)).toBeTruthy();
 
         // A singleton cap.
         const singleton = S2Cap.fromAxisAngle(center, S1Angle.radians(0));
         expect(singleton.mayIntersectC(rootCell)).to.be.eq(capFace == face);
-        assert(!singleton.mayIntersectC(edgeCell));
-        assert(!singleton.mayIntersectC(cornerCell));
+        expect(!singleton.mayIntersectC(edgeCell)).toBeTruthy();
+        expect(!singleton.mayIntersectC(cornerCell)).toBeTruthy();
       }
     }
   })
 });
 
 function assertDoubleNear(arg0: number, arg1: number, kDegreeEps: number = 1e-9) {
-  expect(arg1).to.be.closeTo(arg1, kDegreeEps);
+  expect(arg0).to.be.closeTo(arg1, kDegreeEps);
 }

@@ -1,13 +1,12 @@
+import { describe, it, expect } from 'vitest';
+import { S2LatLng } from "../src/S2LatLng";
+import { S2Point } from "../src/S2Point";
+import { S2LatLngRect } from "../src/S2LatLngRect";
+import genLocs from './assets/cell-tests.json';
 
-import {S2LatLng} from "../src/S2LatLng";
-import {expect} from "chai";
-import {S2Point} from "../src/S2Point";
-import {S2} from "../src/S2";
-import {S2LatLngRect} from "../src/S2LatLngRect";
-const genLocs = require('./assets/cell-tests.json');
 describe('S2LatLngRect', () => {
   it('should return correct Cap', () => {
-    genLocs.forEach(i => {
+    genLocs.forEach((i: any) => {
       const llr = S2LatLngRect.fromLatLng(
           S2LatLng.fromDegrees(i.rectBound.lo.lat, i.rectBound.lo.lng),
           S2LatLng.fromDegrees(i.rectBound.hi.lat, i.rectBound.hi.lng)

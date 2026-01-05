@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "target":                 "es6",
-    "module":                 "commonjs",
-    "emitDecoratorMetadata":  true,
-    "experimentalDecorators": true,
-    "outDir":                 "dist",
-    "sourceMap":              true,
-    "moduleResolution":       "node"
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
-  "files": [
-    "src/export.ts"
-  ],
-  "exclude":         [
-    "node_modules/"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
 }

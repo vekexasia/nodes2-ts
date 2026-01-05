@@ -2,7 +2,22 @@
   "name": "nodes2ts",
   "version": "3.0.0",
   "description": "a Typescript porting of the great S2 Geometry library from Google ",
-  "main": "dist/export.js",
+  "type": "module",
+  "main": "./dist/export.cjs",
+  "module": "./dist/export.js",
+  "types": "./dist/export.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/export.d.ts",
+        "default": "./dist/export.js"
+      },
+      "require": {
+        "types": "./dist/export.d.cts",
+        "default": "./dist/export.cjs"
+      }
+    }
+  },
   "homepage": "https://github.com/vekexasia/nodes2-ts",
   "repository": {
     "type": "git",
@@ -15,16 +30,14 @@
     "geohash"
   ],
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha",
-    "lint": "eslint .",
-    "wtest": "cross-env NODE_ENV=test nodemon -q -e ts --exec npm run test",
-    "cover": "cross-env NODE_ENV=test nyc npm t",
-    "prepublish": "shx rm -rf ./dist/ && npm run build",
-    "clean": "shx rm -rf ./dist",
-    "build": "tsc -d",
-    "//postinstall": "npm run prepublish"
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src test",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
   },
-  "typings": "./dist/export.d.ts",
   "author": {
     "url": "http://www.andreabaccega.com/",
     "email": "vekexasia@gmail.com",
@@ -32,49 +45,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "long": "^4.0.0",
+    "long": "^5.0.0",
     "math-float64-exponent": "^1.0.0"
   },
   "devDependencies": {
-    "@types/chai": "4.3.1",
-    "@types/gulp": "4.0.9",
-    "@types/long": "^4.0.0",
-    "@types/mocha": "9.1.1",
-    "@types/sinon": "10.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
-    "chai": "4.3.6",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.17.0",
-    "gulp": "4.0.2",
-    "gulp-spawn-mocha": "6.0.0",
-    "gulp-watch": "5.0.1",
-    "karma": "6.4.0",
-    "mocha": "10.0.0",
-    "nodemon": "2.0.16",
-    "nyc": "15.1.0",
-    "shx": "0.3.4",
-    "sinon": "14.0.0",
-    "ts-node": "10.8.1",
-    "typescript": "^4.7.3"
-  },
-  "nyc": {
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "typings"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "html"
-    ],
-    "all": false
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2",
+    "vitest": "^2.1.8"
   }
 }

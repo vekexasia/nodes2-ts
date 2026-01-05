@@ -1,4 +1,4 @@
-import { assert, expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { S2 } from '../src/S2';
 import { S2Point } from '../src/S2Point';
 import { S2Projections } from '../src/S2Projections';

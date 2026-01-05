@@ -2,7 +2,7 @@ import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
 import { Platform } from "./Platform";
 
-import Long = require('long');
+import Long from 'long';
 
 
 export class S2 {

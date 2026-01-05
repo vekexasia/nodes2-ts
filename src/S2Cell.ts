@@ -1,4 +1,4 @@
-import Long = require('long');
+import Long from 'long';
 import {S2CellId} from "./S2CellId";
 import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";

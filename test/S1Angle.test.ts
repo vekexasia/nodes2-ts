@@ -1,4 +1,4 @@
-import { assert, expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { S1Angle } from '../src/S1Angle';
 
 const EPSILON = 1e-12;

@@ -1,15 +1,10 @@
+import { describe, it, expect } from 'vitest';
 import { S2CellUnion } from '../src/S2CellUnion';
 import { S2CellId } from '../src/S2CellId';
-import {expect} from "chai";
 import { S2Cell } from '../src/S2Cell';
-declare var __dirname;
+import unionTests from './assets/union-tests.json';
+import cellTests from './assets/cell-tests.json';
 
-// import {S2Cap} from "../src/S2Cap";
-// import {S2RegionCoverer} from "../src/S2RegionCoverer";
-// import {S2LatLng} from "../src/S2LatLng";
-// S2Cap.addCap()
-const unionTests = require('./assets/union-tests.json');
-const cellTests = require('./assets/cell-tests.json');
 function createUnionFromTokensList(tokens:string[]):S2CellUnion {
   let s2CellUnion = new S2CellUnion();
   s2CellUnion.initFromIds(tokens.map(token => S2CellId.fromToken(token))
@@ -19,32 +14,32 @@ function createUnionFromTokensList(tokens:string[]):S2CellUnion {
 describe('S2CellUnion', () => {
   describe('java data', () => {
     it ('should reorder cells correctly when creating from cellids', () => {
-      unionTests.forEach((test) => {
-        expect(createUnionFromTokensList(test.firstCells).getCellIds().map(c => c.toToken())).to.be.deep.eq(test.firstUnionResultCells);
-        expect(createUnionFromTokensList(test.scndCells).getCellIds().map(c => c.toToken())).to.be.deep.eq(test.scndUnionResultCells);
+      unionTests.forEach((test: any) => {
+        expect(createUnionFromTokensList(test.firstCells).getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.firstUnionResultCells);
+        expect(createUnionFromTokensList(test.scndCells).getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.scndUnionResultCells);
       });
     });
 
     it('should compute union correctly', () => {
-      unionTests.forEach((test) => {
+      unionTests.forEach((test: any) => {
         const result = new S2CellUnion();
         result.getUnion(
           createUnionFromTokensList(test.firstCells),
           createUnionFromTokensList(test.scndCells)
         );
-        expect(result.getCellIds().map(c => c.toToken())).to.be.deep.eq(test.union);
+        expect(result.getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.union);
       });
     });
 
     it('should compute intersection correctly', () => {
-      unionTests.forEach((test) => {
+      unionTests.forEach((test: any) => {
         const result = new S2CellUnion();
         result.getIntersectionUU(
           createUnionFromTokensList(test.firstCells),
           createUnionFromTokensList(test.scndCells)
         );
 
-        expect(result.getCellIds().map(c => c.toToken())).to.be.deep.eq(test.intersectionUnionCells);
+        expect(result.getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.intersectionUnionCells);
       })
     });
 
@@ -73,26 +68,26 @@ describe('S2CellUnion', () => {
     const cellUnion = new S2CellUnion();
     const s2CellIDs = ["357ca571", "357ca573", "357ca575", "357ca577"].map(token=>S2CellId.fromToken(token).id);
     cellUnion.initFromIds(s2CellIDs);
-    expect(cellUnion.getCellIds().map(id=>id.toToken())).to.be.deep.eq(['357ca574']);
+    expect(cellUnion.getCellIds().map((id: S2CellId) => id.toToken())).to.be.deep.eq(['357ca574']);
 
-    cellTests.forEach((test) => {
+    cellTests.forEach((test: any) => {
       const cell = new S2Cell(new S2CellId(test.id))
       const { children } = test;
 
       const cellUnion = new S2CellUnion();
-      cellUnion.initFromIds(children.map(token=>S2CellId.fromToken(token).id))
+      cellUnion.initFromIds(children.map((token: string) => S2CellId.fromToken(token).id))
 
-      expect(cellUnion.getCellIds().map(id=>id.toToken())).to.be.deep.eq([cell.id.toToken()]);
+      expect(cellUnion.getCellIds().map((id: S2CellId) => id.toToken())).to.be.deep.eq([cell.id.toToken()]);
     })
   })
 
   it('should denormalize correctly', () => {
     // Test case for https://github.com/vekexasia/nodes2-ts/issues/16
     const cellUnion = new S2CellUnion();
-    
+
     cellUnion.initFromIds(['357ca574'].map(token=>S2CellId.fromToken(token).id))
     const minLevel = S2CellId.fromToken('357ca571').level();
-    expect(cellUnion.denormalize(minLevel, 1).map(id=>id.toToken())).to.be.deep.eq(["357ca571", "357ca573", "357ca575", "357ca577"]);
+    expect(cellUnion.denormalize(minLevel, 1).map((id: S2CellId) => id.toToken())).to.be.deep.eq(["357ca571", "357ca573", "357ca575", "357ca577"]);
   })
 
 
