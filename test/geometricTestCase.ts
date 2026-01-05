@@ -25,6 +25,5 @@ export function getRandomCap(minArea: number, maxArea: number): S2Cap {
   const capArea = maxArea * Math.pow(minArea / maxArea, Math.random());
 
   // The surface area of a cap is 2*Pi times its height.
-  const point = randomPoint();
   return S2Cap.fromAxisArea(randomPoint(), capArea);
 }

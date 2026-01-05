@@ -63,7 +63,7 @@ describe('S2Cell', () => {
                 S1Interval.fromPointPair(S1Angle.degrees(i.item.rectBound.lo.lng).radians,S1Angle.degrees(i.item.rectBound.hi.lng).radians)
             );
             // console.log(`CALC ${rectBound.toString()}\nORIG ${origBound.toString()}`);
-            expect(rectBound.approxEquals(origBound)).is.true;
+            expect(rectBound.approxEquals(origBound)).toBe(true);
           }
       )
     });
@@ -78,7 +78,7 @@ describe('S2Cell', () => {
                 i.item.center.z
             );
             // console.log(`CALC ${rectBound.toString()}\nORIG ${origBound.toString()}`);
-            expect(center.aequal(origCenter, 1e-15)).is.true;
+            expect(center.aequal(origCenter, 1e-15)).toBe(true);
           }
       )
     });
@@ -93,7 +93,7 @@ describe('S2Cell', () => {
                   i.item.vertices[idxVertex].y,
                   i.item.vertices[idxVertex].z
               );
-              expect(calcVertex.aequal(origVertex, 1e-15)).is.true
+              expect(calcVertex.aequal(origVertex, 1e-15)).toBe(true);
 
             });
       });
@@ -107,7 +107,7 @@ describe('S2Cell', () => {
                   i.item.edges[idxVertex].y,
                   i.item.edges[idxVertex].z
               );
-              expect(calcEdge.aequal(origEdge, 1e-15)).is.true
+              expect(calcEdge.aequal(origEdge, 1e-15)).toBe(true);
 
             });
       });

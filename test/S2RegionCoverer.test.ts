@@ -153,12 +153,8 @@ describe('S2RegionCoverer', () => {
   });
 
   it('Java tests produces valid coverings', () => {
-    let i = 0
     genLocs.forEach((testCase: any) => {
-      const { maxCells, levelMod, maxLevel, minLevel, rectBound,
-        covering: expectedCovering, interior: expectedInterior,
-        coveringUnionTokens: expectedCoveringUnionTokens
-       } = testCase;
+      const { maxCells, levelMod, maxLevel, minLevel, rectBound } = testCase;
 
       const latLngRect = S2LatLngRect.fromLatLng(
           S2LatLng.fromDegrees(rectBound.lo.lat, rectBound.lo.lng),

@@ -90,7 +90,7 @@ describe('S2CellId', () => {
           expect(
               i.cell.toPoint().aequal(new S2Point(i.item.point.x, i.item.point.y, i.item.point.z), 1e-15),
               `a${i.cell.toPoint().toString()} - ${i.item.point.x},${i.item.point.y},${i.item.point.z}`
-          ).is.true;
+          ).toBe(true);
         });
       });
       it('.next should match', () => {
@@ -195,7 +195,7 @@ describe('S2CellId', () => {
       });
       it('.contains should work with direct parent', () => {
         items.forEach(i => {
-          expect(i.cell.parent().contains(i.cell)).is.true;
+          expect(i.cell.parent().contains(i.cell)).toBe(true);
         });
       });
 

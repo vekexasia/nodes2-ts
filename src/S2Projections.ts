@@ -73,10 +73,6 @@ import { R2Vector } from "./R2Vector";
 
 import Long from 'long';
 
-enum Projections {
-  S2_LINEAR_PROJECTION, S2_TAN_PROJECTION, S2_QUADRATIC_PROJECTION
-}
-
 export type UvTransformFunction = (x: number, y: number, z: number) => number
 export type XyzTransformFunction = (u: number, v: number) => number
 
@@ -108,61 +104,61 @@ export class S2Projections {
 
   private static UV_TRANSFORMS: UvTransform[] = [
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(x: number, y: number, _z: number) {
         return y / x;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(x: number, _y: number, z: number) {
         return z / x;
       },
     },
 
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(x: number, y: number, _z: number) {
         return -x / y;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(_x: number, y: number, z: number) {
         return z / y;
       },
     },
 
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(x: number, _y: number, z: number) {
         return -x / z;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(_x: number, y: number, z: number) {
         return -y / z;
       },
     },
 
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(x: number, _y: number, z: number) {
         return z / x;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(x: number, y: number, _z: number) {
         return y / x;
       },
     },
 
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(_x: number, y: number, z: number) {
         return z / y;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(x: number, y: number, _z: number) {
         return -x / y;
       },
     },
 
     {
-      xyzToU: function xyzToU(x: number, y: number, z: number) {
+      xyzToU: function xyzToU(_x: number, y: number, z: number) {
         return -y / z;
       },
 
-      xyzToV: function xyzToV(x: number, y: number, z: number) {
+      xyzToV: function xyzToV(x: number, _y: number, z: number) {
         return -x / z;
       },
     }
@@ -170,92 +166,92 @@ export class S2Projections {
 
   private static XYZ_TRANSFORMS: XyzTransform[] = [
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(_u: number, _v: number): number {
         return 1;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(u: number, _v: number): number {
         return u;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(_u: number, v: number): number {
         return v;
       },
     },
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(u: number, _v: number): number {
         return -u;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(_u: number, _v: number): number {
         return 1;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(_u: number, v: number): number {
         return v;
       },
     },
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(u: number, _v: number): number {
         return -u;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(_u: number, v: number): number {
         return -v;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(_u: number, _v: number): number {
         return 1;
       },
     },
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(_u: number, _v: number): number {
         return -1;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(_u: number, v: number): number {
         return -v;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(u: number, _v: number): number {
         return -u;
       },
     },
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(_u: number, v: number): number {
         return v;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(_u: number, _v: number): number {
         return -1;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(u: number, _v: number): number {
         return -u;
       },
     },
     {
-      uvToX: function uvToX(u: number, v: number): number {
+      uvToX: function uvToX(_u: number, v: number): number {
         return v;
       },
 
 
-      uvToY: function uvToY(u: number, v: number): number {
+      uvToY: function uvToY(u: number, _v: number): number {
         return u;
       },
 
 
-      uvToZ: function uvToZ(u: number, v: number): number {
+      uvToZ: function uvToZ(_u: number, _v: number): number {
         return -1;
       },
     }

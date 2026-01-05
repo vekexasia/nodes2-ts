@@ -6,7 +6,7 @@ import unionTests from './assets/union-tests.json';
 import cellTests from './assets/cell-tests.json';
 
 function createUnionFromTokensList(tokens:string[]):S2CellUnion {
-  let s2CellUnion = new S2CellUnion();
+  const s2CellUnion = new S2CellUnion();
   s2CellUnion.initFromIds(tokens.map(token => S2CellId.fromToken(token))
     .map((c:S2CellId) => c.id));
   return s2CellUnion

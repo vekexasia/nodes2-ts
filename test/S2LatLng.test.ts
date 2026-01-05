@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { S2LatLng } from "../src/S2LatLng";
-import { S1Angle } from "../src/S1Angle";
 import { S2Point } from "../src/S2Point";
 import genLocs from './assets/latlng-tests.json';
 
@@ -70,7 +69,7 @@ describe('S2LatLng', () => {
         expect(
             item.ll.toPoint().aequal(s2Point, 1e-15),
             `calc: ${item.ll.toPoint().toString()} - orig: ${s2Point.toString()}`
-        ).is.true;
+        ).toBe(true);
       });
     });
   });

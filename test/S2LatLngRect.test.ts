@@ -14,7 +14,7 @@ describe('S2LatLngRect', () => {
       const capBound = llr.getCapBound();
       //cap axis
       expect(capBound.axis.aequal(new S2Point(i.rectBound.cap.axis.x,i.rectBound.cap.axis.y,i.rectBound.cap.axis.z), 1e-15))
-          .is.true;
+          .toBe(true);
 
       expect(capBound.angle().radians)
         .to.be.closeTo(parseFloat(i.rectBound.cap.angle), 1e-15);
@@ -27,52 +27,52 @@ describe('S2LatLngRect', () => {
   describe('methods', () => {
     it('.isEmpty() should work', () => {
       expect(S2LatLngRect.empty().isEmpty())
-          .is.true;
+          .toBe(true);
       expect(S2LatLngRect.full().isEmpty())
-          .is.false;
+          .toBe(false);
     });
     it('.isFull() should work', () => {
       expect(S2LatLngRect.empty().isFull())
-          .is.false;
+          .toBe(false);
       expect(S2LatLngRect.full().isFull())
-          .is.true;
+          .toBe(true);
     });
     it('.containsLL and interiorContainsLL center should be true',() => {
       const target = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
       const center = target.getCenter();
-      expect(target.containsLL(center)).is.true;
-      expect(target.interiorContainsLL(center)).is.true;
+      expect(target.containsLL(center)).toBe(true);
+      expect(target.interiorContainsLL(center)).toBe(true);
     });
     it('.containsLL true and interiorContainsLL false for vertex',() => {
       const target = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
       for (let i=0; i<4; i++) {
         const v = target.getVertex(i);
-        expect(target.containsLL(v)).is.true;
-        expect(target.interiorContainsLL(v)).is.false;
+        expect(target.containsLL(v)).toBe(true);
+        expect(target.interiorContainsLL(v)).toBe(false);
       }
     });
     it ('.addPoint should not modify rect if point is already within boundaries', () => {
       const target = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
       const newTarget = target.addPoint(S2LatLng.CENTER.toPoint());
-      expect(target).is.not.eq(newTarget); // OBJECT COMPARISON
-      expect(target.equals(newTarget)).is.true; // CONTENT COMPARISON
+      expect(target).not.toBe(newTarget); // OBJECT COMPARISON
+      expect(target.equals(newTarget)).toBe(true); // CONTENT COMPARISON
     });
     it ('.addPointLL should not modify rect if point is vertex', () => {
       const target = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
       for (let v=0; v<4; v++) {
         const newTarget = target.addPointLL(target.getVertex(v));
-        expect(target).is.not.eq(newTarget); // OBJECT COMPARISON
-        expect(target.equals(newTarget)).is.true; // CONTENT COMPARISON
+        expect(target).not.toBe(newTarget); // OBJECT COMPARISON
+        expect(target.equals(newTarget)).toBe(true); // CONTENT COMPARISON
       }
     });
 
     it('.interiorContainsLLR & .containsLLR', () => {
       const one = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
       const biggerOne = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(2,2));
-      expect(biggerOne.interiorContainsLLR(one)).is.true;
-      expect(one.interiorContainsLLR(biggerOne)).is.false;
-      expect(one.interiorContainsLLR(one)).is.false;
-      expect(one.containsLLR(one)).is.true;
+      expect(biggerOne.interiorContainsLLR(one)).toBe(true);
+      expect(one.interiorContainsLLR(biggerOne)).toBe(false);
+      expect(one.interiorContainsLLR(one)).toBe(false);
+      expect(one.containsLLR(one)).toBe(true);
     });
 
     it('intersectsLLR & interiorIntersectsLLR', () => {
@@ -92,25 +92,25 @@ describe('S2LatLngRect', () => {
 
 
 
-      expect(center1Left.intersectsLLR(center1Right)).is.true; //Vertex SE (0,0)
-      expect(center1Left.interiorIntersects(center1Right)).is.false; //exclude vertex
+      expect(center1Left.intersectsLLR(center1Right)).toBe(true); //Vertex SE (0,0)
+      expect(center1Left.interiorIntersects(center1Right)).toBe(false); //exclude vertex
       // the other way around
-      expect(center1Right.intersectsLLR(center1Left)).is.true; //Vertex NW (0,0)
-      expect(center1Right.interiorIntersects(center1Left)).is.false; //exclude Vertex
+      expect(center1Right.intersectsLLR(center1Left)).toBe(true); //Vertex NW (0,0)
+      expect(center1Right.interiorIntersects(center1Left)).toBe(false); //exclude Vertex
 
-      expect(center1Left.intersectsLLR(notMatching)).is.false;
-      expect(center1Right.intersectsLLR(notMatching)).is.false;
+      expect(center1Left.intersectsLLR(notMatching)).toBe(false);
+      expect(center1Right.intersectsLLR(notMatching)).toBe(false);
     });
 
     it('getDistanceLL', () => {
       const tmp = S2LatLngRect.fromCenterSize(S2LatLng.CENTER, S2LatLng.fromDegrees(1,1));
-      expect(tmp.getDistanceLL(S2LatLng.CENTER).radians).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(0)).radians).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(1)).radians).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(2)).radians).is.eq(0);
-      expect(tmp.getDistanceLL(tmp.getVertex(3)).radians).is.eq(0);
-      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(2,0)).degrees()).is.eq(1.5);
-      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(0,2)).degrees()-1.5).is.lessThan(1e-13)
+      expect(tmp.getDistanceLL(S2LatLng.CENTER).radians).toBe(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(0)).radians).toBe(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(1)).radians).toBe(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(2)).radians).toBe(0);
+      expect(tmp.getDistanceLL(tmp.getVertex(3)).radians).toBe(0);
+      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(2,0)).degrees()).toBe(1.5);
+      expect(tmp.getDistanceLL(S2LatLng.fromDegrees(0,2)).degrees()-1.5).toBeLessThan(1e-13)
     })
 
 
