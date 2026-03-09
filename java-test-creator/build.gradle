@@ -3,15 +3,24 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = "com.andreabaccega.CreateTests"
+
+application {
+    mainClass = 'com.andreabaccega.CreateTests'
+}
 
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }
 
+ext {
+    s2JavaCommit = '57151fc0f7'
+    s2JavaVersion = 'HEAD-SNAPSHOT'
+}
+
 dependencies {
     implementation 'org.json:json:20160212'
-    implementation 'com.github.google:s2-geometry-library-java:2.0.0'
+    implementation "com.google.geometry:s2-geometry-library:${s2JavaVersion}"
 }

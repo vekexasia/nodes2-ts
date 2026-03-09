@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.google.common.geometry.S2Projections.PROJ;
-
 /**
  * Created by abaccega on 09/08/16.
  */
@@ -445,8 +443,8 @@ public class CreateTests {
 
         // ST
 
-        jO.put("s", Double.toString(PROJ.uvToST(uv.x())));
-        jO.put("t", Double.toString(PROJ.uvToST(uv.y())));
+        jO.put("s", Double.toString(S2Projections.uvToST(uv.x())));
+        jO.put("t", Double.toString(S2Projections.uvToST(uv.y())));
 
 
         S2CellId[] neighbors = new S2CellId[4];
