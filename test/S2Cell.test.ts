@@ -8,6 +8,9 @@ import { S1Angle } from "../src/S1Angle";
 import { S2Point } from "../src/S2Point";
 import genJavaLocs from './assets/cell-tests.json';
 
+/** Convert a signed-decimal Java Long string to unsigned decimal. */
+const toU = (s: string): string => BigInt.asUintN(64, BigInt(s)).toString();
+
 describe('S2Cell', () => {
   describe('java data', () => {
     let items: Array<{item: any, cell: S2Cell}>;
@@ -22,7 +25,7 @@ describe('S2Cell', () => {
     it('should set id equal', () => {
       items.forEach(
           i => {
-            expect(i.cell.id.id.toString()).to.be.eq(i.item.id);
+            expect(i.cell.id.id.toString()).to.be.eq(toU(i.item.id));
           }
       );
     });

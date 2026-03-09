@@ -90,5 +90,86 @@ describe('S2CellUnion', () => {
     expect(cellUnion.denormalize(minLevel, 1).map((id: S2CellId) => id.toToken())).to.be.deep.eq(["357ca571", "357ca573", "357ca575", "357ca577"]);
   })
 
+  // -----------------------------------------------------------------------
+  // intersectsUnion regression tests
+  // -----------------------------------------------------------------------
+  describe('intersectsUnion', () => {
+    // Helper: build a union from a list of tokens
+    function makeUnion(tokens: string[]): S2CellUnion {
+      return createUnionFromTokensList(tokens);
+    }
 
+    it('returns true for partially overlapping unions', () => {
+      // Use sibling cells so we have known overlap/non-overlap at the same level.
+      // 357ca571..357ca577 are level-29 cells that share the parent 357ca574.
+      const A = makeUnion(['357ca571', '357ca573']);
+      const B = makeUnion(['357ca573', '357ca575']);
+      // cell 357ca573 is common → must intersect
+      expect(A.intersectsUnion(B)).toBe(true);
+      expect(B.intersectsUnion(A)).toBe(true);
+    });
+
+    it('returns false for completely disjoint unions', () => {
+      // Pick two geographically distant cells at leaf level.
+      // 1 (face 0 sentinel) and 3 (face 0 next) are far from any face-3 token.
+      // Use parent-level tokens on opposite faces to guarantee disjoint coverage.
+      // face-0 and face-3 top-level cells are disjoint.
+      const faceZero  = S2CellId.fromFace(0);  // face 0 sentinel token
+      const faceThree = S2CellId.fromFace(3);  // face 3 sentinel token
+
+      const A = new S2CellUnion();
+      A.initFromIds([faceZero.id]);
+      const B = new S2CellUnion();
+      B.initFromIds([faceThree.id]);
+
+      expect(A.intersectsUnion(B)).toBe(false);
+      expect(B.intersectsUnion(A)).toBe(false);
+    });
+
+    it('returns true when one union is fully contained in the other', () => {
+      // 357ca574 is the parent of 357ca571..357ca577
+      const parent = makeUnion(['357ca574']);
+      const child  = makeUnion(['357ca571']);
+      expect(parent.intersectsUnion(child)).toBe(true);
+      expect(child.intersectsUnion(parent)).toBe(true);
+    });
+
+    it('returns false for an empty "that" union (vacuous)', () => {
+      const A     = makeUnion(['357ca571']);
+      const empty = new S2CellUnion();
+      empty.initFromIds([]);
+      expect(A.intersectsUnion(empty)).toBe(false);
+    });
+
+    it('symmetry: A.intersectsUnion(B) === B.intersectsUnion(A)', () => {
+      const pairs: Array<[string[], string[]]> = [
+        [['357ca571'], ['357ca573']],
+        [['357ca571', '357ca573'], ['357ca575', '357ca577']],
+        [['357ca571'], ['357ca574']],   // child vs parent
+        [['1'], ['3']],                 // adjacent face-0 level-1 cells
+      ];
+      pairs.forEach(([tokA, tokB]) => {
+        const A = makeUnion(tokA);
+        const B = makeUnion(tokB);
+        expect(A.intersectsUnion(B)).toBe(B.intersectsUnion(A));
+      });
+    });
+
+    it('was previously broken: non-first-cell disjoint did not short-circuit incorrectly', () => {
+      // The old (broken) implementation returned false as soon as ONE cell in "that"
+      // did not intersect "this". Construct a case where only the *second* cell of B
+      // intersects A — the old code would wrongly return false.
+      //
+      // A = {357ca574} (parent)
+      // B = {1 (far away), 357ca571 (child of parent)}
+      //   → first cell of B (1) does NOT intersect A
+      //   → second cell of B (357ca571) DOES intersect A
+      // Correct answer: true.
+      const faceZeroChild = S2CellId.fromToken('1');
+      const A = makeUnion(['357ca574']);
+      const B = new S2CellUnion();
+      B.initFromIds([faceZeroChild.id, S2CellId.fromToken('357ca571').id]);
+      expect(A.intersectsUnion(B)).toBe(true);
+    });
+  });
 });

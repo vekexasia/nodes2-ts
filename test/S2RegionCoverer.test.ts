@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import Long from "long";
 import { S2Cell } from "../src/S2Cell";
 import { S2CellId } from "../src/S2CellId";
 import { S2CellUnion } from "../src/S2CellUnion";
@@ -16,13 +15,12 @@ function getRandomCellID(): S2CellId {
   const randLevel = Math.floor(Math.random() * S2CellId.MAX_LEVEL);
   const randFace = Math.floor(Math.random() * S2CellId.NUM_FACES);
 
-  const randomLow32 = Math.floor(Math.random() * (Math.pow(2, 31) - 1));
-  const randomHigh32 = Math.floor(Math.random() * (Math.pow(2, 31) - 1));
-  const randomLong = new Long(randomLow32, randomHigh32);
+  const randomLow32 = BigInt(Math.floor(Math.random() * 0x100000000));
+  const randomHigh32 = BigInt(Math.floor(Math.random() * 0x100000000));
+  const randomBigInt = (randomHigh32 << 32n) | randomLow32;
+  const randPos = randomBigInt & ((1n << BigInt(2 * S2CellId.MAX_LEVEL)) - 1n);
 
-  const randPos = randomLong.and((new Long(1)).shiftLeft(2 * S2CellId.MAX_LEVEL).subtract(1));
-
-  return S2CellId.fromFacePosLevel(randFace, randPos, randLevel)
+  return S2CellId.fromFacePosLevel(randFace, randPos, randLevel);
 }
 
 /**
@@ -34,7 +32,7 @@ function checkCoveringCoversGivenRegion(region: S2Region, covering: S2CellUnion,
 
   if (!id.isValid()) {
     for (let face = 0; face < S2CellId.NUM_FACES; ++face) {
-      checkCoveringCoversGivenRegion(region, covering, checkTight, S2CellId.fromFacePosLevel(face, Long.fromNumber(0), 0))
+      checkCoveringCoversGivenRegion(region, covering, checkTight, S2CellId.fromFacePosLevel(face, 0n, 0))
     }
     return;
   }
@@ -89,7 +87,7 @@ function checkCovering(coverer: S2RegionCoverer, region: S2Region, covering: S2C
   } else {
     const cellUnion = new S2CellUnion();
     cellUnion.initFromCellIds(covering);
-    checkCoveringCoversGivenRegion(region, cellUnion, true, new S2CellId(Long.fromNumber(0)))
+    checkCoveringCoversGivenRegion(region, cellUnion, true, new S2CellId(0n))
   }
 }
 

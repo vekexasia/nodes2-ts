@@ -1,6 +1,6 @@
 {
   "name": "nodes2ts",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "a Typescript porting of the great S2 Geometry library from Google ",
   "type": "module",
   "main": "./dist/export.cjs",
@@ -44,8 +44,10 @@
     "name": "Andrea Baccega"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "long": "^5.0.0",
     "math-float64-exponent": "^1.0.0"
   },
   "devDependencies": {

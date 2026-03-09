@@ -26,7 +26,7 @@ import {S1Interval} from "./S1Interval";
 import {S2Cell} from "./S2Cell";
 import {S1ChordAngle} from "./S1ChordAngle";
 import { Platform } from './Platform';
-import Long from 'long';
+
 /**
  * This class represents a spherical cap, i.e. a portion of a sphere cut off by
  * a plane. The cap is defined by its axis and height. This representation has
@@ -49,7 +49,7 @@ export class S2Cap implements S2Region {
    * floating point operation is at least as large as the true
    * infinite-precision result.
    */
-   private static ROUND_UP = 1/new Long(1).shiftLeft(52).toNumber() + 1;
+   private static ROUND_UP = 1 / Number(1n << 52n) + 1;
 
   public axis: S2Point;
   public radius: S1ChordAngle;

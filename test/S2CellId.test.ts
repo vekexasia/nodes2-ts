@@ -1,11 +1,16 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { S2CellId } from "../src/S2CellId";
-import Long from 'long';
 import { S2Point } from "../src/S2Point";
 import { R2Vector } from "../src/R2Vector";
 import { S1Angle } from "../src/S1Angle";
 import genJavaLocs from './assets/main-tests.json';
 import cellTests from './assets/cell-tests.json';
+
+/**
+ * Convert a signed-decimal string (Java Long.toString()) to an unsigned
+ * decimal string, matching what S2CellId.id.toString() now returns.
+ */
+const toU = (s: string): string => BigInt.asUintN(64, BigInt(s)).toString();
 
 describe('S2CellId', () => {
   describe('java data', () => {
@@ -13,18 +18,16 @@ describe('S2CellId', () => {
       it('should decode fromFacePosLevel', () => {
         genJavaLocs
             .forEach((item: any) => {
-
-              const pos = Long.fromString(item.pos, true, 10);
+              const pos = BigInt(item.pos); // item.pos is always positive (61-bit)
               const s2CellId = S2CellId.fromFacePosLevel(item.face, pos, item.lvl);
-              expect(s2CellId.id.toString()).to.be.equal(item.id);
+              expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             });
       });
       it('should decode from token', () => {
         genJavaLocs
             .forEach((item: any) => {
               const s2CellId = S2CellId.fromToken(item.token);
-              expect(s2CellId.id.toString()).to.be.equal(item.id);
-
+              expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             })
       });
       it('should decode from Face Ij', () => {
@@ -32,7 +35,7 @@ describe('S2CellId', () => {
             .forEach((item: any) => {
               const s2CellId = S2CellId.fromFaceIJ(item.face, parseInt(item.i), parseInt(item.j))
                   .parentL(item.lvl);
-              expect(s2CellId.id.toString()).to.be.equal(item.id);
+              expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             });
       });
       it('should decode from point', () => {
@@ -41,7 +44,7 @@ describe('S2CellId', () => {
               const s2Point = new S2Point(item.point.x, item.point.y, item.point.z);
               const s2CellId = S2CellId.fromPoint(s2Point)
                   .parentL(item.lvl);
-              expect(s2CellId.id.toString()).to.be.equal(item.id);
+              expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             })
       })
     });
@@ -55,7 +58,7 @@ describe('S2CellId', () => {
           }
         });
         items.forEach(i => {
-          expect(i.item.id).to.be.eq(i.cell.id.toString())
+          expect(toU(i.item.id)).to.be.eq(i.cell.id.toString())
         })
       });
       it('token should match', () => {
@@ -96,13 +99,13 @@ describe('S2CellId', () => {
       it('.next should match', () => {
         items.forEach(i => {
           expect(i.cell.next().id.toString())
-              .to.be.eq(i.item.next)
+              .to.be.eq(toU(i.item.next))
         });
       });
       it('.prev should match', () => {
         items.forEach(i => {
           expect(i.cell.prev().id.toString())
-              .to.be.eq(i.item.prev);
+              .to.be.eq(toU(i.item.prev));
         })
       });
       it('.level should match', () => {
@@ -132,25 +135,25 @@ describe('S2CellId', () => {
       it('.parent shouold match', () => {
         items.forEach(i => {
           expect(i.cell.parent().id.toString())
-              .to.be.eq(i.item.parent)
+              .to.be.eq(toU(i.item.parent))
         })
       });
       it('.parentL(1) shouold match', () => {
         items.forEach(i => {
           expect(i.cell.parentL(1).id.toString())
-              .to.be.eq(i.item.parentLvl1)
+              .to.be.eq(toU(i.item.parentLvl1))
         })
       });
       it('.rangeMin should match', () => {
         items.forEach(i => {
           expect(i.cell.rangeMin().id.toString())
-              .to.be.eq(i.item.rangeMin);
+              .to.be.eq(toU(i.item.rangeMin));
         })
       });
       it('.rangeMax should match', () => {
         items.forEach(i => {
           expect(i.cell.rangeMax().id.toString())
-              .to.be.eq(i.item.rangeMax);
+              .to.be.eq(toU(i.item.rangeMax));
         })
       });
 
@@ -175,13 +178,12 @@ describe('S2CellId', () => {
         items.forEach(i => {
           const edgeIDs = i.cell.getEdgeNeighbors().map((cellId: S2CellId) => cellId.id.toString());
           expect(edgeIDs)
-              .to.be.deep.equal(i.item.neighbors);
-
-
+              .to.be.deep.equal(i.item.neighbors.map(toU));
         });
       });
       it('.pos should match', () => {
         items.forEach(i => {
+          // item.pos is always positive (61-bit), so toString() matches directly
           expect(i.cell.pos().toString()).to.be.eq(i.item.pos);
         });
       });
@@ -190,7 +192,7 @@ describe('S2CellId', () => {
         items.forEach(i => {
           const edgeIDs = i.cell.getAllNeighbors(i.cell.level()+1).map((cellId: S2CellId) => cellId.id.toString());
           expect(edgeIDs)
-              .to.be.deep.equal(i.item.allNeighborsLvlP1);
+              .to.be.deep.equal(i.item.allNeighborsLvlP1.map(toU));
         });
       });
       it('.contains should work with direct parent', () => {
@@ -205,6 +207,7 @@ describe('S2CellId', () => {
   describe('cell-tests', () => {
     it('should calculate vertexNeighbors just fine', () => {
       cellTests.forEach((c: any) => {
+        // c.id may be signed decimal — the constructor handles it
         const cell = new S2CellId(c.id);
         c.vertexNeighborsLvl.forEach((vnData: any) => {
           const calcTokens = cell.getVertexNeighbors(vnData.lvl)
@@ -218,8 +221,103 @@ describe('S2CellId', () => {
         const cell = new S2CellId(c.id);
         const edgeCellTokens = cell.getEdgeNeighbors().map((eN: S2CellId) => eN.toToken());
         expect(edgeCellTokens).to.be.deep.equal(c.edgeNeighbors);
-
       })
+    });
+  });
+
+  // -----------------------------------------------------------------------
+  // Migration helpers (v3 → v4 compatibility)
+  // -----------------------------------------------------------------------
+  describe('migration helpers', () => {
+    // Known pair: Java signed decimal ↔ unsigned bigint ↔ token
+    const SIGNED   = '-6533045114107854848';
+    const UNSIGNED =  11913698959601696768n;
+    const TOKEN    = 'a555f6151';
+
+    describe('S2CellId.fromSignedDecimalString()', () => {
+      it('produces the same cell as new S2CellId(signedString)', () => {
+        const a = S2CellId.fromSignedDecimalString(SIGNED);
+        const b = new S2CellId(SIGNED);
+        expect(a.id).toBe(b.id);
+      });
+
+      it('produces the correct unsigned id for the known pair', () => {
+        const cell = S2CellId.fromSignedDecimalString(SIGNED);
+        expect(cell.id).toBe(UNSIGNED);
+      });
+
+      it('is equivalent to BigInt.asUintN(64, BigInt(s)) for negative strings', () => {
+        const cell = S2CellId.fromSignedDecimalString(SIGNED);
+        expect(cell.id).toBe(BigInt.asUintN(64, BigInt(SIGNED)));
+      });
+    });
+
+    describe('cellId.toSignedDecimalString()', () => {
+      it('returns the Java-compatible signed decimal', () => {
+        const cell = new S2CellId(UNSIGNED);
+        expect(cell.toSignedDecimalString()).toBe(SIGNED);
+      });
+
+      it('round-trip: fromSignedDecimalString → toSignedDecimalString', () => {
+        const cell = S2CellId.fromSignedDecimalString(SIGNED);
+        expect(cell.toSignedDecimalString()).toBe(SIGNED);
+      });
+
+      it('positive ids produce non-negative signed string', () => {
+        const cell = new S2CellId(123n);
+        expect(cell.toSignedDecimalString()).toBe('123');
+      });
+    });
+
+    describe('cellId.toUnsignedDecimalString()', () => {
+      it('returns the same string as cell.id.toString()', () => {
+        const cell = new S2CellId(UNSIGNED);
+        expect(cell.toUnsignedDecimalString()).toBe(UNSIGNED.toString());
+      });
+
+      it('produces the unsigned string for the known pair', () => {
+        const cell = S2CellId.fromSignedDecimalString(SIGNED);
+        expect(cell.toUnsignedDecimalString()).toBe(UNSIGNED.toString());
+      });
+    });
+
+    describe('constructor string/bigint variants', () => {
+      it('signed decimal string constructor: new S2CellId(signedStr)', () => {
+        const cell = new S2CellId(SIGNED);
+        expect(cell.id).toBe(UNSIGNED);
+        expect(cell.toToken()).toBe(TOKEN);
+      });
+
+      it('unsigned decimal string constructor: new S2CellId(unsignedStr)', () => {
+        const cell = new S2CellId(UNSIGNED.toString());
+        expect(cell.id).toBe(UNSIGNED);
+        expect(cell.toToken()).toBe(TOKEN);
+      });
+
+      it('bigint constructor: new S2CellId(bigintLiteral)', () => {
+        const cell = new S2CellId(UNSIGNED);
+        expect(cell.id).toBe(UNSIGNED);
+        expect(cell.toToken()).toBe(TOKEN);
+      });
+
+      it('negative bigint constructor is wrapped via BigInt.asUintN', () => {
+        const negBigInt = -6533045114107854848n;
+        const cell = new S2CellId(negBigInt);
+        expect(cell.id).toBe(UNSIGNED);
+        expect(cell.toToken()).toBe(TOKEN);
+      });
+
+      it('all four constructor forms produce the same cell', () => {
+        const bySignedStr  = new S2CellId(SIGNED);
+        const byUnsignedStr = new S2CellId(UNSIGNED.toString());
+        const byBigInt      = new S2CellId(UNSIGNED);
+        const byNegBigInt   = new S2CellId(-6533045114107854848n);
+
+        expect(bySignedStr.id).toBe(UNSIGNED);
+        expect(byUnsignedStr.id).toBe(UNSIGNED);
+        expect(byBigInt.id).toBe(UNSIGNED);
+        expect(byNegBigInt.id).toBe(UNSIGNED);
+      });
     });
   });
 });

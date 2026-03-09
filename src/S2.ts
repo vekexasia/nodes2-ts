@@ -2,9 +2,6 @@ import {S2Point} from "./S2Point";
 import {S2Metric} from "./S2Metric";
 import { Platform } from "./Platform";
 
-import Long from 'long';
-
-
 export class S2 {
 
   public static M_PI = Math.PI;
@@ -17,10 +14,6 @@ export class S2 {
   public static SWAP_MASK = 0x01;
   public static INVERT_MASK = 0x02;
 
-  // Number of bits in the mantissa of a double.
-  private static EXPONENT_SHIFT = 52;
-  // Mask to extract the exponent from a double.
-  private static EXPONENT_MASK = Long.fromString('0x7ff0000000000000', true, 16);
   /** Mapping from cell orientation + Hilbert traversal to IJ-index. */
   public static POS_TO_ORIENTATION = [S2.SWAP_MASK, 0, 0, S2.INVERT_MASK + S2.SWAP_MASK];
   public static DBL_EPSILON = 2 * Number.EPSILON;

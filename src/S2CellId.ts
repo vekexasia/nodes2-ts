@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-//const Long = require("long");
-import Long from 'long';
-import {S2Point} from "./S2Point";
-import {R2Vector} from "./R2Vector";
-import {S2} from "./S2";
-import {MutableInteger} from "./MutableInteger";
-import {S2LatLng} from "./S2LatLng";
+import { u64, low32s, UINT64_MAX } from './uint64';
+import { S2Point } from "./S2Point";
+import { R2Vector } from "./R2Vector";
+import { S2 } from "./S2";
+import { MutableInteger } from "./MutableInteger";
+import { S2LatLng } from "./S2LatLng";
 import { S2Projections, UvTransform } from './S2Projections';
 
-const parseHex = function parseHex(str) {
-  return Long.fromString(str, false, 16);
-};
 /**
  * An S2CellId is a 64-bit unsigned integer that uniquely identifies a cell in
  * the S2 cell decomposition. It has the following format:
@@ -54,7 +50,8 @@ const parseHex = function parseHex(str) {
  * representations. For cells that represent 2D regions rather than discrete
  * point, it is better to use the S2Cell class.
  *
- *
+ * v4 CHANGE: S2CellId.id is now a native bigint (unsigned uint64).
+ * The constructor accepts both bigint and string (signed or unsigned decimal).
  */
 export class S2CellId {
 
@@ -64,62 +61,14 @@ export class S2CellId {
   public static FACE_BITS = 3;
   public static NUM_FACES = 6;
   public static MAX_LEVEL = 30; // Valid levels: 0..MAX_LEVEL
-  public static POS_BITS = 2 * S2CellId.MAX_LEVEL + 1;
-  public static MAX_SIZE = 1 << S2CellId.MAX_LEVEL;
+  public static POS_BITS = 2 * S2CellId.MAX_LEVEL + 1;  // 61
+  public static MAX_SIZE = 1 << S2CellId.MAX_LEVEL;      // 2^30
 
-
-//
-// calculated as 0xffffffffffffffff / radix
-
-  private static maxValueDivs = [new Long(0), new Long(0), // 0 and 1 are invalid
-    parseHex('9223372036854775807'), parseHex('6148914691236517205'), parseHex('4611686018427387903'), // 2-4
-    parseHex('3689348814741910323'), parseHex('3074457345618258602'), parseHex('2635249153387078802'), // 5-7
-    parseHex('2305843009213693951'), parseHex('2049638230412172401'), parseHex('1844674407370955161'), // 8-10
-    parseHex('1676976733973595601'), parseHex('1537228672809129301'), parseHex('1418980313362273201'), // 11-13
-    parseHex('1317624576693539401'), parseHex('1229782938247303441'), parseHex('1152921504606846975'), // 14-16
-    parseHex('1085102592571150095'), parseHex('1024819115206086200'), parseHex('970881267037344821'), // 17-19
-    parseHex('922337203685477580'), parseHex('878416384462359600'), parseHex('838488366986797800'), // 20-22
-    parseHex('802032351030850070'), parseHex('768614336404564650'), parseHex('737869762948382064'), // 23-25
-    parseHex('709490156681136600'), parseHex('683212743470724133'), parseHex('658812288346769700'), // 26-28
-    parseHex('636094623231363848'), parseHex('614891469123651720'), parseHex('595056260442243600'), // 29-31
-    parseHex('576460752303423487'), parseHex('558992244657865200'), parseHex('542551296285575047'), // 32-34
-    parseHex('527049830677415760'), parseHex('512409557603043100')] as Long[]; // 35-36
-
-
-// calculated as 0xffffffffffffffff % radix
-  private static maxValueMods = [0, 0, // 0 and 1 are invalid
-    1, 0, 3, 0, 3, 1, 7, 6, 5, 4, 3, 2, 1, 0, 15, 0, 15, 16, 15, 15, // 2-21
-    15, 5, 15, 15, 15, 24, 15, 23, 15, 15, 31, 15, 17, 15, 15]; // 22-36
-
-  // Constant related to unsigned long's
-  // '18446744073709551615'
-  // Long.fromString('0xffffffffffffffff', true, 16).toString()
-  // new Decimal(2).pow(64).sub(1);
-  public static MAX_UNSIGNED = Long.fromString('0xffffffffffffffff', true, 16);
-
+  /** Maximum unsigned 64-bit value (sentinel). */
+  public static MAX_UNSIGNED: bigint = UINT64_MAX;
 
   // The following lookup tables are used to convert efficiently between an
   // (i,j) cell index and the corresponding position along the Hilbert curve.
-  // "lookup_pos" maps 4 bits of "i", 4 bits of "j", and 2 bits representing the
-  // orientation of the current cell into 8 bits representing the order in which
-  // that subcell is visited by the Hilbert curve, plus 2 bits indicating the
-  // new orientation of the Hilbert curve within that subcell. (Cell
-  // orientations are represented as combination of kSwapMask and kInvertMask.)
-  //
-  // "lookup_ij" is an inverted table used for mapping in the opposite
-  // direction.
-  //
-  // We also experimented with looking up 16 bits at a time (14 bits of position
-  // plus 2 of orientation) but found that smaller lookup tables gave better
-  // performance. (2KB fits easily in the primary cache.)
-
-
-  // Values for these constants are *declared* in the *.h file. Even though
-  // the declaration specifies a value for the constant, that declaration
-  // is not a *definition* of storage for the value. Because the values are
-  // supplied in the declaration, we don't need the values here. Failing to
-  // define storage causes link errors for any code that tries to take the
-  // address of one of these values.
   public static LOOKUP_BITS = 4;
   private static SWAP_MASK = 0x01;
   private static INVERT_MASK = 0x02;
@@ -127,132 +76,165 @@ export class S2CellId {
   private static I_SHIFT = 33;
   private static J_SHIFT = 2;
 
-  private static J_MASK = Long.fromInt(1).shiftLeft(31).subtract(1);
+  private static J_MASK = (1n << 31n) - 1n;           // 2^31 - 1
 
   private static SI_SHIFT = 32;
-  private static ORIENTATION_MASK = Long.fromInt(1).shiftLeft(2).subtract(1);
+  private static ORIENTATION_MASK = 3n;
 
-  private static TI_MASK = Long.fromInt(1).shiftLeft(32).subtract(1);
+  private static TI_MASK = 0xFFFF_FFFFn;              // lower 32 bits
 
-  public static LOOKUP_POS = [] as Long[];
-  public static LOOKUP_IJ = [] as number[];
+  /** LOOKUP_POS[10-bit key] = 10-bit value (stored as bigint) */
+  public static LOOKUP_POS: bigint[] = [];
+  /** LOOKUP_IJ[10-bit key] = 10-bit value */
+  public static LOOKUP_IJ: number[] = [];
 
   /**
    * This is the offset required to wrap around from the beginning of the
    * Hilbert curve to the end or vice versa; see next_wrap() and prev_wrap().
    */
-  private static WRAP_OFFSET = new Long(S2CellId.NUM_FACES).shiftLeft(S2CellId.POS_BITS);
-  //new Decimal(S2CellId.NUM_FACES).times(new Decimal(2).pow(S2CellId.POS_BITS));
+  private static WRAP_OFFSET: bigint =
+      BigInt(S2CellId.NUM_FACES) << BigInt(S2CellId.POS_BITS);
 
-  public id: Long;
-  constructor(id:Long|string) {
-    if (typeof(id) === 'string') {
-      this.id = Long.fromString(id as string);
+  /**
+   * The 64-bit unsigned cell ID.
+   * v4: changed from Long to bigint. Always in [0, 2^64-1].
+   */
+  public id: bigint;
+
+  /**
+   * Construct an S2CellId from a bigint or decimal string.
+   *
+   * The string may be signed ("-6533045114107854848") or unsigned
+   * ("11913698959601696768"); both are handled via BigInt.asUintN(64, ...).
+   */
+  constructor(id: bigint | string) {
+    if (typeof id === 'string') {
+      // BigInt() parses the signed decimal, asUintN reinterprets as unsigned.
+      this.id = BigInt.asUintN(64, BigInt(id));
     } else {
-      this.id = id as Long;
+      this.id = BigInt.asUintN(64, id);
     }
-
   }
+
+  // -------------------------------------------------------------------------
+  // Migration helpers (v3 → v4 compatibility)
+  // -------------------------------------------------------------------------
+
+  /**
+   * Construct an S2CellId from a **signed**-decimal string produced by Java's
+   * Long.toString() or the v3 Long-based API. Equivalent to `new S2CellId(s)`
+   * but makes the intent explicit.
+   *
+   * @example
+   * S2CellId.fromSignedDecimalString('-6533045114107854848')
+   */
+  public static fromSignedDecimalString(s: string): S2CellId {
+    return new S2CellId(BigInt.asUintN(64, BigInt(s)));
+  }
+
+  /**
+   * Return this cell id as a signed-decimal string, matching the output of
+   * Java's Long.toString() and the v3 Long-based API.
+   *
+   * @example
+   * cellId.toSignedDecimalString() // '-6533045114107854848'
+   */
+  public toSignedDecimalString(): string {
+    return BigInt.asIntN(64, this.id).toString();
+  }
+
+  /**
+   * Return this cell id as an unsigned-decimal string (same as `this.id.toString()`).
+   *
+   * @example
+   * cellId.toUnsignedDecimalString() // '11913698959601696768'
+   */
+  public toUnsignedDecimalString(): string {
+    return this.id.toString();
+  }
+
+  // -------------------------------------------------------------------------
+  // Core geometry
+  // -------------------------------------------------------------------------
 
   /** Which cube face this cell belongs to, in the range 0..5. */
-  get face() {
-    return this.id.shiftRightUnsigned(S2CellId.POS_BITS).toInt();
+  get face(): number {
+    return Number(this.id >> BigInt(S2CellId.POS_BITS));
   }
 
-  /** Return the lowest-numbered bit that is on for cells at the given level. */
-  public lowestOnBit():Long {
+  /** Return the lowest-numbered bit that is on for this cell. */
+  public lowestOnBit(): bigint {
     return S2CellId.lowestOnBit(this.id);
   }
 
-  static lowestOnBit(id: Long):Long {
-    return id.and(id.negate());
+  static lowestOnBit(id: bigint): bigint {
+    // id & (-id) using two's-complement unsigned arithmetic
+    return id & u64(-id);
   }
 
-  /** The default constructor returns an invalid cell id. */
-  public static none():S2CellId {
-    return new S2CellId(new Long(0));
+  /** Return an invalid cell id (id == 0). */
+  public static none(): S2CellId {
+    return new S2CellId(0n);
   }
 
   /**
    * Returns an invalid cell id guaranteed to be larger than any valid cell id.
    * Useful for creating indexes.
    */
-  public static sentinel():S2CellId {
-    return new S2CellId(S2CellId.MAX_UNSIGNED); // -1
+  public static sentinel(): S2CellId {
+    return new S2CellId(UINT64_MAX);
   }
 
+  private getBits1(
+    i: MutableInteger,
+    j: MutableInteger,
+    k: number,
+    bits: number,
+  ): number {
+    const nbits =
+      k === 7
+        ? S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS
+        : S2CellId.LOOKUP_BITS;
 
-  private  getBits1(i:MutableInteger, j:MutableInteger, k:number, bits:number):number {
-    const nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
+    const shift = k * 2 * S2CellId.LOOKUP_BITS + 1;
+    const mask = (1 << (2 * nbits)) - 1;
+    bits += (Number((this.id >> BigInt(shift)) & BigInt(mask))) << 2;
 
-    bits += (this.id
-            .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
-            .getLowBitsUnsigned()
-            & ((1 << (2 * nbits)) - 1)) << 2;
-
-    /*
-     * System.out.println("id is: " + id_); System.out.println("bits is " +
-     * bits); System.out.println("lookup_ij[bits] is " + lookup_ij[bits]);
-     */
     bits = S2CellId.LOOKUP_IJ[bits];
-    i.val = i.val + ((bits >> (S2CellId.LOOKUP_BITS + 2)) << (k * S2CellId.LOOKUP_BITS));
-    // i.setValue(i.intValue() + ((bits >> (LOOKUP_BITS + 2)) << (k * LOOKUP_BITS)));
-    /*
-     * System.out.println("left is " + ((bits >> 2) & ((1 << kLookupBits) -
-     * 1))); System.out.println("right is " + (k * kLookupBits));
-     * System.out.println("j is: " + j.intValue()); System.out.println("addition
-     * is: " + ((((bits >> 2) & ((1 << kLookupBits) - 1))) << (k *
-     * kLookupBits)));
-     */
-    j.val = j.val + ((((bits >> 2) & ((1 << S2CellId.LOOKUP_BITS) - 1))) << (k * S2CellId.LOOKUP_BITS));
+    i.val =
+      i.val +
+      ((bits >> (S2CellId.LOOKUP_BITS + 2)) << (k * S2CellId.LOOKUP_BITS));
+    j.val =
+      j.val +
+      (((bits >> 2) & ((1 << S2CellId.LOOKUP_BITS) - 1)) <<
+        (k * S2CellId.LOOKUP_BITS));
 
-    bits &= (S2.SWAP_MASK | S2.INVERT_MASK);
+    bits &= S2.SWAP_MASK | S2.INVERT_MASK;
     return bits;
   }
 
-  public static lowestOnBitForLevel(level:number):Long {
-    return new Long(1).shiftLeft(2 * (S2CellId.MAX_LEVEL - level));
+  /** Return the lowest-numbered bit that is on for cells at the given level. */
+  public static lowestOnBitForLevel(level: number): bigint {
+    return 1n << BigInt(2 * (S2CellId.MAX_LEVEL - level));
   }
 
   /**
    * @deprecated use `toIJOrientation` instead
-   * Return the (face, i, j) coordinates for the leaf cell corresponding to this
-   * cell id. Since cells are represented by the Hilbert curve position at the
-   * center of the cell, the returned (i,j) for non-leaf cells will be a leaf
-   * cell adjacent to the cell center. If "orientation" is non-NULL, also return
-   * the Hilbert curve orientation for the current cell.
    */
-  public toFaceIJOrientation(pi:MutableInteger, pj:MutableInteger, orientation:MutableInteger) {
-    // System.out.println("Entering toFaceIjorientation");
+  public toFaceIJOrientation(
+    pi: MutableInteger,
+    pj: MutableInteger,
+    orientation: MutableInteger,
+  ): number {
     const face = this.face;
-    let bits = (face & S2.SWAP_MASK);
+    let bits = face & S2.SWAP_MASK;
 
-    // System.out.println("face = " + face + " bits = " + bits);
-
-    // Each iteration maps 8 bits of the Hilbert curve position into
-    // 4 bits of "i" and "j". The lookup table transforms a key of the
-    // form "ppppppppoo" to a value of the form "iiiijjjjoo", where the
-    // letters [ijpo] represents bits of "i", "j", the Hilbert curve
-    // position, and the Hilbert curve orientation respectively.
-    //
-    // On the first iteration we need to be careful to clear out the bits
-    // representing the cube face.
     for (let k = 7; k >= 0; --k) {
       bits = this.getBits1(pi, pj, k, bits);
-      // System.out.println("pi = " + pi + " pj= " + pj + " bits = " + bits);
     }
 
     if (orientation != null) {
-      // The position of a non-leaf cell at level "n" consists of a prefix of
-      // 2*n bits that identifies the cell, followed by a suffix of
-      // 2*(MAX_LEVEL-n)+1 bits of the form 10*. If n==MAX_LEVEL, the suffix is
-      // just "1" and has no effect. Otherwise, it consists of "10", followed
-      // by (MAX_LEVEL-n-1) repetitions of "00", followed by "0". The "10" has
-      // no effect, while each occurrence of "00" has the effect of reversing
-      // the kSwapMask bit.
-      // assert (S2.POS_TO_ORIENTATION[2] == 0);
-      // assert (S2.POS_TO_ORIENTATION[0] == S2.SWAP_MASK);
-      if ((Long.fromString('0x1111111111111110', true, 16).and(this.lowestOnBit()).notEquals(0))) {
+      if ((0x1111111111111110n & this.lowestOnBit()) !== 0n) {
         bits ^= S2.SWAP_MASK;
       }
       orientation.val = bits;
@@ -260,238 +242,220 @@ export class S2CellId {
     return face;
   }
 
-  public toIJOrientation(): Long {
+  /**
+   * Return a packed bigint encoding (i << I_SHIFT | j << J_SHIFT | orientation).
+   * Use getI(), getJ(), getOrientation() to unpack.
+   */
+  public toIJOrientation(): bigint {
     const face = this.face;
-    let bits = (face & S2.SWAP_MASK);
+    let bits = face & S2.SWAP_MASK;
 
-    // System.out.println("face = " + face + " bits = " + bits);
-
-    // Each iteration maps 8 bits of the Hilbert curve position into
-    // 4 bits of "i" and "j". The lookup table transforms a key of the
-    // form "ppppppppoo" to a value of the form "iiiijjjjoo", where the
-    // letters [ijpo] represents bits of "i", "j", the Hilbert curve
-    // position, and the Hilbert curve orientation respectively.
-    //
-    // On the first iteration we need to be careful to clear out the bits
-    // representing the cube face.
     let i = 0;
     let j = 0;
     for (let k = 7; k >= 0; --k) {
-      const nbits = (k == 7) ? (S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS) : S2CellId.LOOKUP_BITS;
+      const nbits =
+        k === 7
+          ? S2CellId.MAX_LEVEL - 7 * S2CellId.LOOKUP_BITS
+          : S2CellId.LOOKUP_BITS;
 
-      bits += (this.id
-              .shiftRightUnsigned((k * 2 * S2CellId.LOOKUP_BITS + 1))
-              .getLowBitsUnsigned()
-              & ((1 << (2 * nbits)) - 1)) << 2;
+      const shift = k * 2 * S2CellId.LOOKUP_BITS + 1;
+      const mask = (1 << (2 * nbits)) - 1;
+      bits += (Number((this.id >> BigInt(shift)) & BigInt(mask))) << 2;
 
-      /*
-      * System.out.println("id is: " + id_); System.out.println("bits is " +
-      * bits); System.out.println("lookup_ij[bits] is " + lookup_ij[bits]);
-      */
       bits = S2CellId.LOOKUP_IJ[bits];
-      i = i + ((bits >> (S2CellId.LOOKUP_BITS + 2)) << (k * S2CellId.LOOKUP_BITS));
-      // i.setValue(i.intValue() + ((bits >> (LOOKUP_BITS + 2)) << (k * LOOKUP_BITS)));
-      /*
-      * System.out.println("left is " + ((bits >> 2) & ((1 << kLookupBits) -
-      * 1))); System.out.println("right is " + (k * kLookupBits));
-      * System.out.println("j is: " + j.intValue()); System.out.println("addition
-      * is: " + ((((bits >> 2) & ((1 << kLookupBits) - 1))) << (k *
-      * kLookupBits)));
-      */
-      j = j + ((((bits >> 2) & ((1 << S2CellId.LOOKUP_BITS) - 1))) << (k * S2CellId.LOOKUP_BITS));
+      i += (bits >> (S2CellId.LOOKUP_BITS + 2)) << (k * S2CellId.LOOKUP_BITS);
+      j +=
+        ((bits >> 2) & ((1 << S2CellId.LOOKUP_BITS) - 1)) <<
+        (k * S2CellId.LOOKUP_BITS);
 
-      bits &= (S2.SWAP_MASK | S2.INVERT_MASK);
+      bits &= S2.SWAP_MASK | S2.INVERT_MASK;
     }
 
-    if ((Long.fromString('0x1111111111111110', true, 16).and(this.lowestOnBit()).notEquals(0))) {
+    if ((0x1111111111111110n & this.lowestOnBit()) !== 0n) {
       bits ^= S2.SWAP_MASK;
     }
 
     const orientation = bits;
-
-    return Long.fromInt(i).shiftLeft(S2CellId.I_SHIFT).or(Long.fromInt(j).shiftLeft(S2CellId.J_SHIFT)).or(orientation); 
+    return (
+      (BigInt(i) << BigInt(S2CellId.I_SHIFT)) |
+      (BigInt(j) << BigInt(S2CellId.J_SHIFT)) |
+      BigInt(orientation)
+    );
   }
 
   public getI(): number {
     return S2CellId.getI(this.toIJOrientation());
   }
 
-  static getI(ijo: Long): number {
-    return ijo.shiftRightUnsigned(this.I_SHIFT).toInt();
+  static getI(ijo: bigint): number {
+    return Number(ijo >> BigInt(S2CellId.I_SHIFT));
   }
 
   public getJ(): number {
     return S2CellId.getJ(this.toIJOrientation());
   }
 
-  static getJ(ijo: Long): number {
-    return ijo.shiftRightUnsigned(this.J_SHIFT).and(S2CellId.J_MASK).toInt();
+  static getJ(ijo: bigint): number {
+    return Number((ijo >> BigInt(S2CellId.J_SHIFT)) & S2CellId.J_MASK);
   }
 
-  static getOrientation(ijo: Long): number {
-    return ijo.and(S2CellId.ORIENTATION_MASK).toInt()
+  static getOrientation(ijo: bigint): number {
+    return Number(ijo & S2CellId.ORIENTATION_MASK);
   }
 
+  /** Return true if this is a leaf cell (level() == MAX_LEVEL). */
+  public isLeaf(): boolean {
+    return (this.id & 1n) !== 0n;
+  }
 
   /**
-   * Return true if this is a leaf cell (more efficient than checking whether
-   * level() == MAX_LEVEL).
+   * Return the cell at the given level (which must be ≤ the current level).
    */
-  public  isLeaf():boolean {
-    return this.id.and(1).getLowBits() != 0;
-  }
-
-
-  /**
-   * Return the cell at the previous level or at the given level (which must be
-   * less than or equal to the current level).
-   */
-  public parentL(level:number):S2CellId {
-    // assert (isValid() && level >= 0 && level <= this.level());
+  public parentL(level: number): S2CellId {
     const newLsb = S2CellId.lowestOnBitForLevel(level);
-    return new S2CellId(this.id.and(newLsb.negate()).or(newLsb))
-    // return new S2CellId((id & -newLsb) | newLsb);
+    return new S2CellId((this.id & u64(-newLsb)) | newLsb);
   }
 
-  public parent():S2CellId {
-    // assert (isValid() && level() > 0);
-    const newLsb = this.lowestOnBit().shiftLeft(2);
-    // return new S2CellId((id & -newLsb) | newLsb);
-    return new S2CellId(this.id.and(newLsb.negate()).or(newLsb))
+  public parent(): S2CellId {
+    const oldLsb = this.lowestOnBit();
+    const newLsb = oldLsb << 2n;
+    return new S2CellId((this.id & u64(-newLsb)) | newLsb);
   }
 
   /**
    * Return a cell given its face (range 0..5), 61-bit Hilbert curve position
-   * within that face, and level (range 0..MAX_LEVEL). The given position will
-   * be modified to correspond to the Hilbert curve position at the center of
-   * the returned cell. This is a static function rather than a constructor in
-   * order to give names to the arguments.
+   * within that face, and level (range 0..MAX_LEVEL).
+   *
+   * v4: `pos` is now `bigint` (was `Long`).
    */
-  public static fromFacePosLevel(face:number, pos:Long, level:number):S2CellId {
-    // equivalent to pos | 1
-
+  public static fromFacePosLevel(
+    face: number,
+    pos: bigint,
+    level: number,
+  ): S2CellId {
     return new S2CellId(
-        new Long(face)
-            .shiftLeft(S2CellId.POS_BITS)
-            .add(pos.or(1))
+      (BigInt(face) << BigInt(S2CellId.POS_BITS)) + (pos | 1n),
     ).parentL(level);
-    // return new S2CellId((((long) face) << POS_BITS) + (pos | 1)).parent(level);
   }
 
   public static fromFace(face: number): S2CellId {
-    return new S2CellId(S2CellId.fromFaceAsLong(face));
+    return new S2CellId(S2CellId.fromFaceAsBigInt(face));
   }
 
-// /**
-//  * Return the leaf cell containing the given point (a direction vector, not
-//  * necessarily unit length).
-//  */
-  public static fromPoint(p:S2Point): S2CellId {
+  public static fromPoint(p: S2Point): S2CellId {
     const face = S2Projections.xyzToFaceP(p);
     const t: UvTransform = S2Projections.faceToUvTransform(face);
-    const i = S2Projections.stToIj(R2Vector.singleUVToST(t.xyzToU(p.x, p.y, p.z)))
-    const j = S2Projections.stToIj(R2Vector.singleUVToST(t.xyzToV(p.x, p.y, p.z)))
-
+    const i = S2Projections.stToIj(
+      R2Vector.singleUVToST(t.xyzToU(p.x, p.y, p.z)),
+    );
+    const j = S2Projections.stToIj(
+      R2Vector.singleUVToST(t.xyzToV(p.x, p.y, p.z)),
+    );
     return this.fromFaceIJ(face, i, j);
   }
 
-//
-//
-// /** Return the leaf cell containing the given S2LatLng. */
-// public static S2CellId fromLatLng(S2LatLng ll) {
-//   return fromPoint(ll.toPoint());
-// }
-
-  public getCenterUV():R2Vector {
+  public getCenterUV(): R2Vector {
     const center = this.getCenterSiTi();
     return new R2Vector(
-      R2Vector.singleStTOUV(S2Projections.siTiToSt(S2CellId.getSi(center))),
-      R2Vector.singleStTOUV(S2Projections.siTiToSt(S2CellId.getTi(center))));
+      R2Vector.singleStTOUV(
+        S2Projections.siTiToSt(S2CellId.getSi(center)),
+      ),
+      R2Vector.singleStTOUV(
+        S2Projections.siTiToSt(S2CellId.getTi(center)),
+      ),
+    );
   }
 
-  public toPoint():S2Point {
+  public toPoint(): S2Point {
     return S2Point.normalize(this.toPointRaw());
   }
 
-  getCenterSiTi(): Long {
+  /**
+   * Returns packed (si << 32 | ti) as a bigint.
+   * v4: return type changed from Long to bigint.
+   */
+  getCenterSiTi(): bigint {
     const ijo = this.toIJOrientation();
     const i = S2CellId.getI(ijo);
     const j = S2CellId.getJ(ijo);
-    const delta = this.isLeaf() ? 1 : ((((new Long(i).getLowBits() ^ (( this.id.getLowBits()) >>> 2)) & 1) != 0) ? 2 : 0)
+    const delta = this.isLeaf()
+      ? 1
+      : ((i ^ (low32s(this.id) >>> 2)) & 1) !== 0
+        ? 2
+        : 0;
 
-    return Long.fromInt(2 * i + delta).shiftLeft(S2CellId.SI_SHIFT).or(S2CellId.TI_MASK.and(2 * j + delta));
+    return (
+      (BigInt(2 * i + delta) << BigInt(S2CellId.SI_SHIFT)) |
+      (S2CellId.TI_MASK & BigInt(2 * j + delta))
+    );
   }
 
-  static getSi(center: Long): number {
-    return center.shiftRight(S2CellId.SI_SHIFT).toInt();
+  static getSi(center: bigint): number {
+    return Number(center >> BigInt(S2CellId.SI_SHIFT));
   }
 
-  static getTi(center: Long): number {
-    return center.toInt();
+  static getTi(center: bigint): number {
+    return Number(center & S2CellId.TI_MASK);
   }
 
-  /**
-   * Return the direction vector corresponding to the center of the given cell.
-   * The vector returned by ToPointRaw is not necessarily unit length.
-   */
-  public toPointRaw():S2Point {
+  public toPointRaw(): S2Point {
     const center = this.getCenterSiTi();
-    return S2Projections.faceSiTiToXYZ(this.face, S2CellId.getSi(center), S2CellId.getTi(center));
+    return S2Projections.faceSiTiToXYZ(
+      this.face,
+      S2CellId.getSi(center),
+      S2CellId.getTi(center),
+    );
   }
 
-
-  /** Return the S2LatLng corresponding to the center of the given cell. */
-  public toLatLng():S2LatLng {
+  public toLatLng(): S2LatLng {
     return S2LatLng.fromPoint(this.toPointRaw());
   }
 
-
   /** Return true if id() represents a valid cell. */
-  public isValid():boolean {
-    return this.face < S2CellId.NUM_FACES && ((this.lowestOnBit().and(Long.fromString('0x1555555555555555', false, 16)).notEquals(0)));
-    // return this.face() < NUM_FACES && ((lowestOnBit() & (0x1555555555555555L)) != 0);
+  public isValid(): boolean {
+    return (
+      this.face < S2CellId.NUM_FACES &&
+      (this.lowestOnBit() & 0x1555555555555555n) !== 0n
+    );
   }
 
-
   /**
-   * The position of the cell center along the Hilbert curve over this face, in
-   * the range 0..(2**kPosBits-1).
+   * The position of the cell center along the Hilbert curve over this face,
+   * in the range 0..(2**kPosBits-1).
+   *
+   * v4: return type changed from Long to bigint.
    */
-  public pos():Long {
-    return this.id.and(S2CellId.MAX_UNSIGNED.shiftRightUnsigned(S2CellId.FACE_BITS));
-    // return (id & (-1L >>> FACE_BITS));
+  public pos(): bigint {
+    return this.id & (UINT64_MAX >> BigInt(S2CellId.FACE_BITS));
   }
 
   /** Return the subdivision level of the cell (range 0..MAX_LEVEL). */
-  public level():number {
-    // Fast path for leaf cells.
+  public level(): number {
     if (this.isLeaf()) {
       return S2CellId.MAX_LEVEL;
     }
-    let x = this.id.getLowBits();
+    // Fast path using lower 32 bits
+    let x = low32s(this.id); // signed 32-bit lower half (equiv. to Java getLowBits())
     let level = -1;
-    if (x != 0) {
+    if (x !== 0) {
       level += 16;
     } else {
-      x = this.id.shiftRightUnsigned(32).getLowBits();
-      // (int) (id >>> 32);
+      x = low32s(this.id >> 32n);
     }
-    // We only need to look at even-numbered bits to determine the
-    // level of a valid cell id.
-    x &= -x; // Get lowest bit.
-    if ((x & 0x00005555) != 0) {
+    // We only need to look at even-numbered bits to determine the level.
+    x &= -x; // isolate lowest set bit
+    if ((x & 0x00005555) !== 0) {
       level += 8;
     }
-    if ((x & 0x00550055) != 0) {
+    if ((x & 0x00550055) !== 0) {
       level += 4;
     }
-    if ((x & 0x05050505) != 0) {
+    if ((x & 0x05050505) !== 0) {
       level += 2;
     }
-    if ((x & 0x11111111) != 0) {
+    if ((x & 0x11111111) !== 0) {
       level += 1;
     }
-    // assert (level >= 0 && level <= MAX_LEVEL);
     return level;
   }
 
@@ -500,296 +464,166 @@ export class S2CellId {
   }
 
   static getSizeIJ(level: number): number {
-    return 1 << (S2.MAX_LEVEL - level)
+    return 1 << (S2.MAX_LEVEL - level);
   }
 
   public getSizeST(): number {
-    return S2CellId.getSizeST(this.level())
+    return S2CellId.getSizeST(this.level());
   }
 
   static getSizeST(level: number): number {
     return S2Projections.ijToStMin(S2CellId.getSizeIJ(level));
   }
 
-  /**
-   * Return true if this is a top-level face cell (more efficient than checking
-   * whether level() == 0).
-   */
-  public isFace():boolean {
+  public isFace(): boolean {
     return this.level() === 0;
-    // return (id & (lowestOnBitForLevel(0) - 1)) == 0;
   }
 
-  /**
-   * Return the child position (0..3) of this cell's ancestor at the given
-   * level, relative to its parent. The argument should be in the range
-   * 1..MAX_LEVEL. For example, child_position(1) returns the position of this
-   * cell's level-1 ancestor within its top-level face cell.
-   */
-  public childPosition(level:number):number {
-    return this.id.shiftRight((2 * (S2CellId.MAX_LEVEL - level) + 1)).and(3).getLowBits();
-    // return (int) (id >>> (2 * (MAX_LEVEL - level) + 1)) & 3;
+  public childPosition(level: number): number {
+    return Number(
+      (this.id >> BigInt(2 * (S2CellId.MAX_LEVEL - level) + 1)) & 3n,
+    );
   }
 
-// Methods that return the range of cell ids that are contained
-// within this cell (including itself). The range is *inclusive*
-// (i.e. test using >= and <=) and the return values of both
-// methods are valid leaf cell ids.
-//
-// These methods should not be used for iteration. If you want to
-// iterate through all the leaf cells, call child_begin(MAX_LEVEL) and
-// child_end(MAX_LEVEL) instead.
-//
-// It would in fact be error-prone to define a range_end() method,
-// because (range_max().id() + 1) is not always a valid cell id, and the
-// iterator would need to be tested using "<" rather that the usual "!=".
-  public rangeMin():S2CellId {
-    return new S2CellId(this.id.sub(this.lowestOnBit().sub(1)));
-    // return new S2CellId(id - (lowestOnBit() - 1));
+  public rangeMin(): S2CellId {
+    // id - (lowestOnBit() - 1)
+    return new S2CellId(u64(this.id - this.lowestOnBit() + 1n));
   }
 
-  public rangeMax():S2CellId {
-    return new S2CellId(this.id.add(this.lowestOnBit().sub(1)));
-    // return new S2CellId(id + (lowestOnBit() - 1));
+  public rangeMax(): S2CellId {
+    // id + (lowestOnBit() - 1)
+    return new S2CellId(this.id + this.lowestOnBit() - 1n);
   }
 
-//
-//
-  /** Return true if the given cell is contained within this one. */
-  public contains(other:S2CellId):boolean {
-    // assert (isValid() && other.isValid());
-    return other.greaterOrEquals(this.rangeMin()) && other.lessOrEquals(this.rangeMax());
+  public contains(other: S2CellId): boolean {
+    return (
+      other.greaterOrEquals(this.rangeMin()) &&
+      other.lessOrEquals(this.rangeMax())
+    );
   }
 
-  /** Return true if the given cell intersects this one. */
-  public intersects(other:S2CellId):boolean {
-    // assert (isValid() && other.isValid());
-    return other.rangeMin().lessOrEquals(this.rangeMax())
-        && other.rangeMax().greaterOrEquals(this.rangeMin());
+  public intersects(other: S2CellId): boolean {
+    return (
+      other.rangeMin().lessOrEquals(this.rangeMax()) &&
+      other.rangeMax().greaterOrEquals(this.rangeMin())
+    );
   }
 
-
-  public childBegin():S2CellId {
-    // assert (isValid() && level() < MAX_LEVEL);
-    return new S2CellId(S2CellId.childBeginAsLong(this.id));
+  public childBegin(): S2CellId {
+    return new S2CellId(S2CellId.childBeginAsBigInt(this.id));
   }
 
-  public childBeginL(level:number):S2CellId {
-    // assert (isValid() && level >= this.level() && level <= MAX_LEVEL);
-    return new S2CellId(S2CellId.childBeginAsLongL(this.id, level));
+  public childBeginL(level: number): S2CellId {
+    return new S2CellId(S2CellId.childBeginAsBigIntL(this.id, level));
   }
 
-  public childEnd():S2CellId {
-    // assert (isValid() && level() < MAX_LEVEL);
-    return new S2CellId(S2CellId.childEndAsLong(this.id))
+  public childEnd(): S2CellId {
+    return new S2CellId(S2CellId.childEndAsBigInt(this.id));
   }
 
-  public childEndL(level:number):S2CellId {
-    // assert (isValid() && level >= this.level() && level <= MAX_LEVEL);
-    return new S2CellId(S2CellId.childEndAsLongL(this.id, level));
+  public childEndL(level: number): S2CellId {
+    return new S2CellId(S2CellId.childEndAsBigIntL(this.id, level));
   }
 
-  private static childBeginAsLong(id: Long): Long {
+  private static childBeginAsBigInt(id: bigint): bigint {
     const oldLsb = S2CellId.lowestOnBit(id);
-    return id.subtract(oldLsb).add(oldLsb.shiftRightUnsigned(2));
+    return u64(id - oldLsb + (oldLsb >> 2n));
   }
 
-  private static childBeginAsLongL(id: Long, level: number): Long {
-    return id.subtract(S2CellId.lowestOnBit(id)).add(S2CellId.lowestOnBitForLevel(level))
+  private static childBeginAsBigIntL(id: bigint, level: number): bigint {
+    return u64(
+      id - S2CellId.lowestOnBit(id) + S2CellId.lowestOnBitForLevel(level),
+    );
   }
 
-  private static childEndAsLong(id: Long) {
+  private static childEndAsBigInt(id: bigint): bigint {
     const oldLsb = S2CellId.lowestOnBit(id);
-
-    return id.add(oldLsb).add(oldLsb.shiftRightUnsigned(2));
+    return u64(id + oldLsb + (oldLsb >> 2n));
   }
 
-  private static childEndAsLongL(id: Long, level: number) {
-    return id.add(S2CellId.lowestOnBit(id)).add(S2CellId.lowestOnBitForLevel(level));
+  private static childEndAsBigIntL(id: bigint, level: number): bigint {
+    return u64(
+      id + S2CellId.lowestOnBit(id) + S2CellId.lowestOnBitForLevel(level),
+    );
   }
 
-  private static fromFaceAsLong(face: number): Long {
-    return Long.fromInt(face).shiftLeft(S2CellId.POS_BITS).add(S2CellId.lowestOnBitForLevel(0));
+  private static fromFaceAsBigInt(face: number): bigint {
+    return (
+      (BigInt(face) << BigInt(S2CellId.POS_BITS)) +
+      S2CellId.lowestOnBitForLevel(0)
+    );
   }
 
-
-//
-// Iterator-style methods for traversing the immediate children of a cell or
-// all of the children at a given level (greater than or equal to the current
-// level). Note that the end value is exclusive, just like standard STL
-// iterators, and may not even be a valid cell id. You should iterate using
-// code like this:
-//
-// for(S2CellId c = id.childBegin(); !c.equals(id.childEnd()); c = c.next())
-// ...
-//
-// The convention for advancing the iterator is "c = c.next()", so be sure
-// to use 'equals()' in the loop guard, or compare 64-bit cell id's,
-// rather than "c != id.childEnd()".
-
-  /**
-   * Return the next cell at the same level along the Hilbert curve. Works
-   * correctly when advancing from one face to the next, but does *not* wrap
-   * around from the last face to the first or vice versa.
-   */
-  public next():S2CellId {
-    return new S2CellId(this.id.add(this.lowestOnBit().shiftLeft(1)));
-    // return new S2CellId(id + (lowestOnBit() << 1));
+  /** Return the next cell at the same level along the Hilbert curve. */
+  public next(): S2CellId {
+    return new S2CellId(u64(this.id + (this.lowestOnBit() << 1n)));
   }
 
-  /**
-   * Return the previous cell at the same level along the Hilbert curve. Works
-   * correctly when advancing from one face to the next, but does *not* wrap
-   * around from the last face to the first or vice versa.
-   */
-  public prev():S2CellId {
-    return new S2CellId(this.id.sub(this.lowestOnBit().shiftLeft(1)));
-    // return new S2CellId(id - (lowestOnBit() << 1));
+  /** Return the previous cell at the same level along the Hilbert curve. */
+  public prev(): S2CellId {
+    return new S2CellId(u64(this.id - (this.lowestOnBit() << 1n)));
   }
 
-
-  /**
-   * Like next(), but wraps around from the last face to the first and vice
-   * versa. Should *not* be used for iteration in conjunction with
-   * child_begin(), child_end(), Begin(), or End().
-   */
-  public nextWrap():S2CellId {
+  public nextWrap(): S2CellId {
     const n = this.next();
-    if (S2CellId.unsignedLongLessThan(n.id, S2CellId.WRAP_OFFSET)) {
+    if (n.id < S2CellId.WRAP_OFFSET) {
       return n;
     }
-    return new S2CellId(n.id.sub(S2CellId.WRAP_OFFSET));
-    // return new S2CellId(n.id - WRAP_OFFSET);
+    return new S2CellId(u64(n.id - S2CellId.WRAP_OFFSET));
   }
 
-  /**
-   * Like prev(), but wraps around from the last face to the first and vice
-   * versa. Should *not* be used for iteration in conjunction with
-   * child_begin(), child_end(), Begin(), or End().
-   */
-  public prevWrap():S2CellId {
+  public prevWrap(): S2CellId {
     const p = this.prev();
-    if (p.id.lessThan(S2CellId.WRAP_OFFSET)) {
+    if (p.id < S2CellId.WRAP_OFFSET) {
       return p;
     }
-    return new S2CellId(p.id.add(S2CellId.WRAP_OFFSET));
+    return new S2CellId(p.id + S2CellId.WRAP_OFFSET);
   }
 
-
-  static begin(level:number):S2CellId {
-    return S2CellId.fromFacePosLevel(0, new Long(0), 0).childBeginL(level);
+  static begin(level: number): S2CellId {
+    return S2CellId.fromFacePosLevel(0, 0n, 0).childBeginL(level);
   }
 
-  static end(level:number):S2CellId {
-    return S2CellId.fromFacePosLevel(5, new Long(0), 0).childEndL(level);
+  static end(level: number): S2CellId {
+    return S2CellId.fromFacePosLevel(5, 0n, 0).childEndL(level);
   }
-
 
   /**
-   * Decodes the cell id from a compact text string suitable for display or
-   * indexing. Cells at lower levels (i.e. larger cells) are encoded into
-   * fewer characters. The maximum token length is 16.
-   *
-   * @param token the token to decode
-   * @return the S2CellId for that token
-   * @throws NumberFormatException if the token is not formatted correctly
+   * Decodes a cell id from a compact hex token string.
+   * The maximum token length is 16 hex characters.
    */
-  public static fromToken(token:string):S2CellId {
+  public static fromToken(token: string): S2CellId {
     if (token == null) {
-      throw new Error("Null string in S2CellId.fromToken");
+      throw new Error('Null string in S2CellId.fromToken');
     }
-    if (token.length == 0) {
-      throw new Error("Empty string in S2CellId.fromToken");
+    if (token.length === 0) {
+      throw new Error('Empty string in S2CellId.fromToken');
     }
-    if (token.length > 16 || "X" == token) {
+    if (token.length > 16 || token === 'X') {
       return S2CellId.none();
     }
-
-    let value = new Long(0);
-    for (let pos = 0; pos < 16; pos++) {
-      let digit = new Long(0);
-      if (pos < token.length) {
-        digit = Long.fromString(token[pos], true, 16);
-        if (digit.equals(-1)) {
-          throw new Error(token);
-        }
-        if (S2CellId.overflowInParse(value, digit.toNumber())) {
-          throw new Error("Too large for unsigned long: " + token);
-        }
-      }
-      value = value.mul(16).add(digit);
-      // (value * 16) + digit;
-    }
-
-    return new S2CellId(value);
+    // Pad with trailing zeros to 16 hex chars, then parse as 64-bit unsigned.
+    const padded = token.padEnd(16, '0');
+    return new S2CellId(BigInt('0x' + padded));
   }
 
   /**
-   * Encodes the cell id to compact text strings suitable for display or indexing.
-   * Cells at lower levels (i.e. larger cells) are encoded into fewer characters.
-   * The maximum token length is 16.
-   *
-   * Simple implementation: convert the id to hex and strip trailing zeros. We
-   * could use base-32 or base-64, but assuming the cells used for indexing
-   * regions are at least 100 meters across (level 16 or less), the savings
-   * would be at most 3 bytes (9 bytes hex vs. 6 bytes base-64).
-   *
-   * @return the encoded cell id
+   * Encodes the cell id to a compact hex token string.
+   * Cells at lower levels are encoded into fewer characters.
    */
-  public toToken():string {
-    if (this.id.equals(0)) {
-      return "X";
+  public toToken(): string {
+    if (this.id === 0n) {
+      return 'X';
     }
-
-    const hex = this.id.toUnsigned().toString(16);
-
-    // Long.toHexString(id).toLowerCase(Locale.ENGLISH);
-    let sb = '';
-    for (let i = hex.length; i < 16; i++) {
-      sb += '0';
-      // sb.append('0');
+    const hex = this.id.toString(16).padStart(16, '0');
+    let len = 16;
+    while (len > 0 && hex[len - 1] === '0') {
+      len--;
     }
-    sb += hex;
-    // sb.append(hex);
-    for (let len = 16; len > 0; len--) {
-      if (sb[len - 1] != '0') {
-        return sb.substring(0, len);
-      }
-    }
-
-    throw new Error("Shouldn't make it here");
+    return hex.substring(0, len);
   }
 
-
-  /**
-   * Returns true if (current * radix) + digit is a number too large to be
-   * represented by an unsigned long.  This is useful for detecting overflow
-   * while parsing a string representation of a number.
-   * Does not verify whether supplied radix is valid, passing an invalid radix
-   * will give undefined results or an ArrayIndexOutOfBoundsException.
-   */
-  private static overflowInParse(current:Long, digit:number, radix = 10):boolean {
-    if (current.greaterThanOrEqual(0)) {
-      if (current.lessThan(S2CellId.maxValueDivs[radix])) {
-        return false;
-      }
-      if (current.greaterThan(S2CellId.maxValueDivs[radix])) {
-        return true;
-      }
-      // current == maxValueDivs[radix]
-      return (digit > S2CellId.maxValueMods[radix]);
-    }
-
-    // current < 0: high bit is set
-    return true;
-  }
-
-  /**
-   * Return the four cells that are adjacent across the cell's four edges.
-   * Neighbors are returned in the order defined by S2Cell::GetEdge. All
-   * neighbors are guaranteed to be distinct.
-   */
-  public getEdgeNeighbors():S2CellId[] {
+  public getEdgeNeighbors(): S2CellId[] {
     const level = this.level();
     const size = this.getSizeIJ();
     const face = this.face;
@@ -798,124 +632,126 @@ export class S2CellId {
     const i = S2CellId.getI(ijo);
     const j = S2CellId.getJ(ijo);
 
-    const neighbors = [] as S2CellId[];
-    // Edges 0, 1, 2, 3 are in the S, E, N, W directions.
-    neighbors.push(
-        S2CellId.fromFaceIJSame(face, i, j - size, j - size >= 0).parentL(level)
-    );
-    neighbors.push(
-        S2CellId.fromFaceIJSame(face, i + size, j, i + size < S2CellId.MAX_SIZE).parentL(level)
-    );
-    neighbors.push(
-        S2CellId.fromFaceIJSame(face, i, j + size, j + size < S2CellId.MAX_SIZE).parentL(level)
-    );
-    neighbors.push(
-        S2CellId.fromFaceIJSame(face, i - size, j, i - size >= 0).parentL(level)
-    );
-
-    return neighbors;
+    return [
+      S2CellId.fromFaceIJSame(face, i, j - size, j - size >= 0).parentL(
+        level,
+      ),
+      S2CellId.fromFaceIJSame(
+        face,
+        i + size,
+        j,
+        i + size < S2CellId.MAX_SIZE,
+      ).parentL(level),
+      S2CellId.fromFaceIJSame(
+        face,
+        i,
+        j + size,
+        j + size < S2CellId.MAX_SIZE,
+      ).parentL(level),
+      S2CellId.fromFaceIJSame(face, i - size, j, i - size >= 0).parentL(
+        level,
+      ),
+    ];
   }
 
+  public getVertexNeighbors(level: number): S2CellId[] {
+    const ijo = this.toIJOrientation();
+    const i = S2CellId.getI(ijo);
+    const j = S2CellId.getJ(ijo);
 
-/**
- * Return the neighbors of closest vertex to this cell at the given level, by
- * appending them to "output". Normally there are four neighbors, but the
- * closest vertex may only have three neighbors if it is one of the 8 cube
- * vertices.
- *
- * Requires: level < this.evel(), so that we can determine which vertex is
- * closest (in particular, level == MAX_LEVEL is not allowed).
- */
-public getVertexNeighbors(level:number):S2CellId[] {
-  // "level" must be strictly less than this cell's level so that we can
-  // determine which vertex this cell is closest to.
-  // assert (level < this.level());
-  const ijo = this.toIJOrientation();
-  const i = S2CellId.getI(ijo);
-  const j = S2CellId.getJ(ijo);
+    const halfsize = S2CellId.getSizeIJ(level + 1);
+    const size = halfsize << 1;
+    let isame: boolean, jsame: boolean;
+    let ioffset: number, joffset: number;
 
-  // Determine the i- and j-offsets to the closest neighboring cell in each
-  // direction. This involves looking at the next bit of "i" and "j" to
-  // determine which quadrant of this->parent(level) this cell lies in.
-  const halfsize = S2CellId.getSizeIJ(level + 1);
-  const size = halfsize << 1;
-  let isame:boolean, jsame:boolean;
-  let ioffset, joffset;
-  if ((i & halfsize) != 0) {
-    ioffset = size;
-    isame = (i+ size) < S2CellId.MAX_SIZE;
-  } else {
-    ioffset = -size;
-    isame = (i- size) >= 0;
-  }
-  if ((j& halfsize) != 0) {
-    joffset = size;
-    jsame = (j+ size) < S2CellId.MAX_SIZE;
-  } else {
-    joffset = -size;
-    jsame = (j- size) >= 0;
-  }
-  const toRet = [];
+    if ((i & halfsize) !== 0) {
+      ioffset = size;
+      isame = i + size < S2CellId.MAX_SIZE;
+    } else {
+      ioffset = -size;
+      isame = i - size >= 0;
+    }
+    if ((j & halfsize) !== 0) {
+      joffset = size;
+      jsame = j + size < S2CellId.MAX_SIZE;
+    } else {
+      joffset = -size;
+      jsame = j - size >= 0;
+    }
 
-  const face = this.face;
-  toRet.push(this.parentL(level));
-  toRet.push(S2CellId.fromFaceIJSame(face, i + ioffset, j, isame).parentL(level));
-  toRet.push(S2CellId.fromFaceIJSame(face, i, j + joffset, jsame).parentL(level));
-  if (isame || jsame) {
-    toRet.push(S2CellId.fromFaceIJSame(face, i + ioffset, j + joffset, isame && jsame).parentL(level));
+    const face = this.face;
+    const toRet: S2CellId[] = [this.parentL(level)];
+    toRet.push(
+      S2CellId.fromFaceIJSame(face, i + ioffset, j, isame).parentL(level),
+    );
+    toRet.push(
+      S2CellId.fromFaceIJSame(face, i, j + joffset, jsame).parentL(level),
+    );
+    if (isame || jsame) {
+      toRet.push(
+        S2CellId.fromFaceIJSame(
+          face,
+          i + ioffset,
+          j + joffset,
+          isame && jsame,
+        ).parentL(level),
+      );
+    }
+    return toRet;
   }
 
-  return toRet;
-}
-
-  /**
-   * Append all neighbors of this cell at the given level to "output". Two cells
-   * X and Y are neighbors if their boundaries intersect but their interiors do
-   * not. In particular, two cells that intersect at a single point are
-   * neighbors.
-   *
-   * Requires: nbr_level >= this->level(). Note that for cells adjacent to a
-   * face vertex, the same neighbor may be appended more than once.
-   */
-  public getAllNeighbors(nbrLevel:number):S2CellId[] {
+  public getAllNeighbors(nbrLevel: number): S2CellId[] {
     const ijo = this.toIJOrientation();
 
-
-    // Find the coordinates of the lower left-hand leaf cell. We need to
-    // normalize (i,j) to a known position within the cell because nbrLevel
-    // may be larger than this cell's level.
-    const size = this.getSizeIJ()
+    const size = this.getSizeIJ();
     const face = this.face;
     const i = S2CellId.getI(ijo) & -size;
     const j = S2CellId.getJ(ijo) & -size;
 
     const nbrSize = S2CellId.getSizeIJ(nbrLevel);
 
-    // assert (nbrSize <= size);
-
-    const output = [];
-    // We compute the N-S, E-W, and diagonal neighbors in one pass.
-    // The loop test is at the end of the loop to avoid 32-bit overflow.
+    const output: S2CellId[] = [];
     for (let k = -nbrSize; ; k += nbrSize) {
-      let sameFace;
+      let sameFace: boolean;
       if (k < 0) {
-        sameFace = (j + k >= 0);
+        sameFace = j + k >= 0;
       } else if (k >= size) {
-        sameFace = (j + k < S2CellId.MAX_SIZE);
+        sameFace = j + k < S2CellId.MAX_SIZE;
       } else {
         sameFace = true;
-        // North and South neighbors.
-        output.push(S2CellId.fromFaceIJSame(face, i + k,
-            j - nbrSize, j - size >= 0).parentL(nbrLevel));
-        output.push(S2CellId.fromFaceIJSame(face, i + k, j + size,
-            j + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
+        output.push(
+          S2CellId.fromFaceIJSame(
+            face,
+            i + k,
+            j - nbrSize,
+            j - size >= 0,
+          ).parentL(nbrLevel),
+        );
+        output.push(
+          S2CellId.fromFaceIJSame(
+            face,
+            i + k,
+            j + size,
+            j + size < S2CellId.MAX_SIZE,
+          ).parentL(nbrLevel),
+        );
       }
-      // East, West, and Diagonal neighbors.
-      output.push(S2CellId.fromFaceIJSame(face, i - nbrSize,
-          j + k, sameFace && i - size >= 0).parentL(
-          nbrLevel));
-      output.push(S2CellId.fromFaceIJSame(face, i + size, j + k,
-          sameFace && i + size < S2CellId.MAX_SIZE).parentL(nbrLevel));
+      output.push(
+        S2CellId.fromFaceIJSame(
+          face,
+          i - nbrSize,
+          j + k,
+          sameFace && i - size >= 0,
+        ).parentL(nbrLevel),
+      );
+      output.push(
+        S2CellId.fromFaceIJSame(
+          face,
+          i + size,
+          j + k,
+          sameFace && i + size < S2CellId.MAX_SIZE,
+        ).parentL(nbrLevel),
+      );
       if (k >= size) {
         break;
       }
@@ -923,253 +759,215 @@ public getVertexNeighbors(level:number):S2CellId[] {
     return output;
   }
 
-// ///////////////////////////////////////////////////////////////////
-// Low-level methods.
+  // ///////////////////////////////////////////////////////////////////
+  // Low-level methods.
 
-  /**
-   * Return a leaf cell given its cube face (range 0..5) and i- and
-   * j-coordinates (see s2.h).
-   */
-  public static fromFaceIJ(face:number, i:number, j:number):S2CellId {
-    // Optimization notes:
-    // - Non-overlapping bit fields can be combined with either "+" or "|".
-    // Generally "+" seems to produce better code, but not always.
+  public static fromFaceIJ(face: number, i: number, j: number): S2CellId {
+    // n[1] holds the high 32 bits, n[0] holds the low 32 bits.
+    const n: bigint[] = [0n, BigInt(face) << BigInt(S2CellId.POS_BITS - 33)];
 
-    // gcc doesn't have very good code generation for 64-bit operations.
-    // We optimize this by computing the result as two 32-bit integers
-    // and combining them at the end. Declaring the result as an array
-    // rather than local variables helps the compiler to do a better job
-    // of register allocation as well. Note that the two 32-bits halves
-    // get shifted one bit to the left when they are combined.
-    const faceL = new Long(face);
-    const n = [new Long(0), faceL.shiftLeft(S2CellId.POS_BITS - 33)];
-
-    // Alternating faces have opposite Hilbert curve orientations; this
-    // is necessary in order for all faces to have a right-handed
-    // coordinate system.
-    let bits = faceL.and(S2CellId.SWAP_MASK);
-
-    // Each iteration maps 4 bits of "i" and "j" into 8 bits of the Hilbert
-    // curve position. The lookup table transforms a 10-bit key of the form
-    // "iiiijjjjoo" to a 10-bit value of the form "ppppppppoo", where the
-    // letters [ijpo] denote bits of "i", "j", Hilbert curve position, and
-    // Hilbert curve orientation respectively.
+    let bits = face & S2CellId.SWAP_MASK;
 
     for (let k = 7; k >= 0; --k) {
       bits = S2CellId.getBits(n, i, j, k, bits);
     }
 
-    // S2CellId s = new S2CellId((((n[1] << 32) + n[0]) << 1) + 1);
-    return new S2CellId(
-        n[1].shiftLeft(32)
-            .add(n[0])
-            .shiftLeft(1)
-            .add(1)
-    );
+    // Combine halves, shift left 1, set leaf bit.
+    return new S2CellId(((n[1] << 32n) | n[0]) << 1n | 1n);
   }
 
-  private static getBits(n:Long[], i:number, j:number, k:number, bits:Long):Long {
+  private static getBits(
+    n: bigint[],
+    i: number,
+    j: number,
+    k: number,
+    bits: number,
+  ): number {
+    const mask = (1 << S2CellId.LOOKUP_BITS) - 1; // 15
+    bits += ((i >> (k * S2CellId.LOOKUP_BITS)) & mask) << (S2CellId.LOOKUP_BITS + 2);
+    bits += ((j >> (k * S2CellId.LOOKUP_BITS)) & mask) << 2;
 
-    const mask = new Long(1).shiftLeft(S2CellId.LOOKUP_BITS).sub(1);
-    bits = bits.add(
-        new Long(i)
-            .shiftRight(k * S2CellId.LOOKUP_BITS)
-            .and(mask)
-            .shiftLeft(S2CellId.LOOKUP_BITS + 2)
-    );
-    // bits += (((i >> (k * LOOKUP_BITS)) & mask) << (LOOKUP_BITS + 2));
-    bits = bits.add(
-        new Long(j)
-            .shiftRight(k * S2CellId.LOOKUP_BITS)
-            .and(mask)
-            .shiftLeft(2)
-    );
-    // bits += (((j >> (k * LOOKUP_BITS)) & mask) << 2);
+    const lookupBits = S2CellId.LOOKUP_POS[bits]; // bigint
+    n[k >> 2] =
+      n[k >> 2] |
+      ((lookupBits >> 2n) <<
+        BigInt((k & 3) * 2 * S2CellId.LOOKUP_BITS));
 
-    bits = S2CellId.LOOKUP_POS[bits.toNumber()];
-    n[k >> 2] = n[k >> 2].or(
-        bits.shiftRight(2).shiftLeft((k & 3) * 2 * S2CellId.LOOKUP_BITS)
-    );
-    // n[k >> 2] |= ((((long) bits) >> 2) << ((k & 3) * 2 * LOOKUP_BITS));
-
-    return bits.and(S2CellId.SWAP_MASK | S2CellId.INVERT_MASK);
+    return Number(lookupBits) & (S2CellId.SWAP_MASK | S2CellId.INVERT_MASK);
   }
 
-  /**
-   * Return the i- or j-index of the leaf cell containing the given s- or
-   * t-value.
-   */
-  private static stToIJ(s:number):number {
-    // Converting from floating-point to integers via static_cast is very slow
-    // on Intel processors because it requires changing the rounding mode.
-    // Rounding to the nearest integer using FastIntRound() is much faster.
-    const m = S2CellId.MAX_SIZE / 2; // scaling multiplier
-    return Math.max(
-        0,
-        Math.min(
-            m * 2 - 1,
-            Math.round(
-                m*s+m-0.5
-            )
-        )
-    );
-    // return Math.max(0,  Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
-    // return (int) Math.max(0, Math.min(2 * m - 1, Math.round(m * s + (m - 0.5))));
+  private static stToIJ(s: number): number {
+    const m = S2CellId.MAX_SIZE / 2;
+    return Math.max(0, Math.min(m * 2 - 1, Math.round(m * s + m - 0.5)));
   }
 
-
-  /**
-   * Given (i, j) coordinates that may be out of bounds, normalize them by
-   * returning the corresponding neighbor cell on an adjacent face.
-   */
-  private static  fromFaceIJWrap(face:number, i:number, j:number):S2CellId {
-    // Convert i and j to the coordinates of a leaf cell just beyond the
-    // boundary of this face. This prevents 32-bit overflow in the case
-    // of finding the neighbors of a face cell, and also means that we
-    // don't need to worry about the distinction between (s,t) and (u,v).
+  private static fromFaceIJWrap(face: number, i: number, j: number): S2CellId {
     i = Math.max(-1, Math.min(S2CellId.MAX_SIZE, i));
     j = Math.max(-1, Math.min(S2CellId.MAX_SIZE, j));
 
-    // Find the (s,t) coordinates corresponding to (i,j). At least one
-    // of these coordinates will be just outside the range [0, 1].
-    const kScale = 1/S2CellId.MAX_SIZE;
-    const s = kScale * (new Long(i).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
-    const t = kScale * (new Long(j).shiftLeft(1).add(1).sub(S2CellId.MAX_SIZE).toInt());
-    // Find the leaf cell coordinates on the adjacent face, and convert
-    // them to a cell id at the appropriate level.
+    const kScale = 1 / S2CellId.MAX_SIZE;
+    // Plain number arithmetic: values fit in 32-bit int
+    const s = kScale * (2 * i + 1 - S2CellId.MAX_SIZE);
+    const t = kScale * (2 * j + 1 - S2CellId.MAX_SIZE);
+
     const p = new R2Vector(s, t).toPoint(face);
     face = p.toFace();
-    // face = S2Projections.xyzToFace(p);
-    const st = p.toR2Vector(face)
-    // R2Vector st = S2Projections.validFaceXyzToUv(face, p);
+    const st = p.toR2Vector(face);
+    return S2CellId.fromFaceIJ(
+      face,
+      S2CellId.stToIJ(st.x),
+      S2CellId.stToIJ(st.y),
+    );
+  }
 
-    return S2CellId.fromFaceIJ(face, S2CellId.stToIJ(st.x), S2CellId.stToIJ(st.y));
+  public static fromFaceIJSame(
+    face: number,
+    i: number,
+    j: number,
+    sameFace: boolean,
+  ): S2CellId {
+    return sameFace
+      ? S2CellId.fromFaceIJ(face, i, j)
+      : S2CellId.fromFaceIJWrap(face, i, j);
+  }
+
+  // -------------------------------------------------------------------------
+  // Unsigned comparison helpers (trivial now that bigint is always positive)
+  // -------------------------------------------------------------------------
+
+  /** Returns true if x1 < x2 (unsigned comparison). */
+  public static unsignedLongLessThan(x1: bigint, x2: bigint): boolean {
+    return x1 < x2;
+  }
+
+  /** Returns true if x1 > x2 (unsigned comparison). */
+  public static unsignedLongGreaterThan(x1: bigint, x2: bigint): boolean {
+    return x1 > x2;
+  }
+
+  public lessThan(x: S2CellId): boolean {
+    return this.id < x.id;
+  }
+
+  public greaterThan(x: S2CellId): boolean {
+    return this.id > x.id;
+  }
+
+  public lessOrEquals(x: S2CellId): boolean {
+    return this.id <= x.id;
+  }
+
+  public greaterOrEquals(x: S2CellId): boolean {
+    return this.id >= x.id;
+  }
+
+  public toString(): string {
+    return (
+      '(face=' +
+      this.face +
+      ', pos=' +
+      this.pos().toString(16) +
+      ', level=' +
+      this.level() +
+      ')'
+    );
+  }
+
+  public compareTo(that: S2CellId): number {
+    return this.id < that.id ? -1 : this.id > that.id ? 1 : 0;
+  }
+
+  public equals(that: S2CellId): boolean {
+    return this.id === that.id;
   }
 
   /**
-   * Public helper function that calls FromFaceIJ if sameFace is true, or
-   * FromFaceIJWrap if sameFace is false.
+   * Binary search in a sorted S2CellId array.
+   * Returns index if found, or -(insertionPoint+1) if not found.
+   *
+   * v4: `_id` accepts bigint, string, or S2CellId (was Long, string, or S2CellId).
    */
-  public static fromFaceIJSame(face:number, i:number, j:number, sameFace:boolean):S2CellId {
-    if (sameFace) {
-      return S2CellId.fromFaceIJ(face, i, j);
-    } else {
-      return S2CellId.fromFaceIJWrap(face, i, j);
-    }
-  }
-
-
-  /**
-   * Returns true if x1 < x2, when both values are treated as unsigned.
-   */
-  public static unsignedLongLessThan(x1:Long, x2:Long):boolean {
-    return x1.toUnsigned().lessThan(x2.toUnsigned());
-
-    // return (x1 + Long.MIN_VALUE) < (x2 + Long.MIN_VALUE);
-  }
-
-  /**
-   * Returns true if x1 > x2, when both values are treated as unsigned.
-   */
-  public static unsignedLongGreaterThan(x1:Long, x2:Long):boolean {
-    return x1.toUnsigned().greaterThan(x2.toUnsigned());
-    // return (x1 + Long.MIN_VALUE) > (x2 + Long.MIN_VALUE);
-  }
-
-  public lessThan(x:S2CellId):boolean {
-    return S2CellId.unsignedLongLessThan(this.id, x.id);
-  }
-
-  public greaterThan(x:S2CellId):boolean {
-    return S2CellId.unsignedLongGreaterThan(this.id, x.id);
-  }
-
-  public lessOrEquals(x:S2CellId):boolean {
-    return S2CellId.unsignedLongLessThan(this.id, x.id) || this.id.equals(x.id);
-  }
-
-  public greaterOrEquals(x:S2CellId):boolean {
-    return S2CellId.unsignedLongGreaterThan(this.id, x.id) || this.id.equals(x.id);
-  }
-
-  public  toString():string {
-    return "(face=" + this.face + ", pos=" + this.pos().toString(16) + ", level="
-        + this.level() + ")";
-  }
-
-  public compareTo(that:S2CellId ):number {
-    return S2CellId.unsignedLongLessThan(this.id, that.id) ? -1 :
-        S2CellId.unsignedLongGreaterThan(this.id, that.id) ? 1 : 0;
-  }
-
-  public equals(that:S2CellId): boolean {
-    return this.compareTo(that) === 0;
-  }
-
-  /**
-   * Returns the position of the id within the given list or a negative value with
-   * the position of the index wher eit should be entered if the id was present
-   */
-  public static binarySearch(ids:S2CellId[], _id:Long|string|S2CellId, low=0 ):number {
-    let id:S2CellId;
+  public static binarySearch(
+    ids: S2CellId[],
+    _id: bigint | string | S2CellId,
+    low = 0,
+  ): number {
+    let id: S2CellId;
     if (_id instanceof S2CellId) {
       id = _id;
-    } else if(_id instanceof Long) {
-      id = new S2CellId(_id);
+    } else {
+      id = new S2CellId(_id as bigint | string);
     }
-    let high = ids.length-1;
+    let high = ids.length - 1;
 
     while (low <= high) {
       const mid = (low + high) >>> 1;
       const midVal = ids[mid];
       const cmp = midVal.compareTo(id);
 
-      if (cmp < 0)
-        low = mid + 1;
-      else if (cmp > 0)
-        high = mid - 1;
-      else
-        return mid; // key found
+      if (cmp < 0) low = mid + 1;
+      else if (cmp > 0) high = mid - 1;
+      else return mid;
     }
-    return -(low + 1);  // key not found
+    return -(low + 1);
   }
 
-  public static indexedBinarySearch(ids:S2CellId[], id:Long|string|S2CellId, low=0 ):number {
-    const toRet = this.binarySearch(ids, id, low)
-    if (toRet >= 0) {
-      return toRet;
-    } else {
-      return -(toRet+1);
-    }
-
+  public static indexedBinarySearch(
+    ids: S2CellId[],
+    id: bigint | string | S2CellId,
+    low = 0,
+  ): number {
+    const toRet = this.binarySearch(ids, id, low);
+    return toRet >= 0 ? toRet : -(toRet + 1);
   }
-
 }
 
+// -------------------------------------------------------------------------
+// Lookup table initialisation
+// -------------------------------------------------------------------------
 
-function initLookupCell(level:number, i:number, j:number,
-                        origOrientation:number, pos:Long, orientation:number) {
-  if (level == S2CellId.LOOKUP_BITS) {
+function initLookupCell(
+  level: number,
+  i: number,
+  j: number,
+  origOrientation: number,
+  pos: bigint,
+  orientation: number,
+): void {
+  if (level === S2CellId.LOOKUP_BITS) {
     const ij = (i << S2CellId.LOOKUP_BITS) + j;
-    S2CellId.LOOKUP_POS[(ij << 2) + origOrientation] = pos.shiftLeft(2).add(orientation);
-    S2CellId.LOOKUP_IJ[pos.shiftLeft(2).add(origOrientation).toNumber()] = (ij << 2) + orientation;
-    // new Long((ij << 2)).add(orientation);
+    S2CellId.LOOKUP_POS[(ij << 2) + origOrientation] =
+      (pos << 2n) + BigInt(orientation);
+    S2CellId.LOOKUP_IJ[Number((pos << 2n) + BigInt(origOrientation))] =
+      (ij << 2) + orientation;
   } else {
     level++;
     i <<= 1;
     j <<= 1;
-    pos = pos.shiftLeft(2);
-    // Initialize each sub-cell recursively.
+    pos = pos << 2n;
     for (let subPos = 0; subPos < 4; subPos++) {
       const ij = S2.POS_TO_IJ[orientation][subPos];
       const orientationMask = S2.POS_TO_ORIENTATION[subPos];
-      initLookupCell(level, i + (ij >>> 1), j + (ij & 1), origOrientation,
-          pos.add(subPos), orientation ^ orientationMask);
+      initLookupCell(
+        level,
+        i + (ij >>> 1),
+        j + (ij & 1),
+        origOrientation,
+        pos + BigInt(subPos),
+        orientation ^ orientationMask,
+      );
     }
   }
 }
 
-initLookupCell(0, 0, 0, 0, new Long(0), 0);
-initLookupCell(0, 0, 0, S2.SWAP_MASK, new Long(0), S2.SWAP_MASK);
-initLookupCell(0, 0, 0, S2.INVERT_MASK, new Long(0), S2.INVERT_MASK);
-initLookupCell(0, 0, 0, S2.SWAP_MASK | S2.INVERT_MASK, new Long(0), S2.SWAP_MASK | S2.INVERT_MASK);
+initLookupCell(0, 0, 0, 0, 0n, 0);
+initLookupCell(0, 0, 0, S2.SWAP_MASK, 0n, S2.SWAP_MASK);
+initLookupCell(0, 0, 0, S2.INVERT_MASK, 0n, S2.INVERT_MASK);
+initLookupCell(
+  0,
+  0,
+  0,
+  S2.SWAP_MASK | S2.INVERT_MASK,
+  0n,
+  S2.SWAP_MASK | S2.INVERT_MASK,
+);

@@ -1,4 +1,3 @@
-import Long from 'long';
 import {S2CellId} from "./S2CellId";
 import {S2Point} from "./S2Point";
 import {S2LatLng} from "./S2LatLng";
@@ -38,7 +37,7 @@ export class S2Cell {
 
 // This is a static method in order to provide named parameters.
   public static fromFacePosLevel(face:number, pos:number, level:number):S2Cell {
-    return new S2Cell(S2CellId.fromFacePosLevel(face, new Long(pos), level));
+    return new S2Cell(S2CellId.fromFacePosLevel(face, BigInt(pos), level));
   }
 
 // Convenience methods.
@@ -267,7 +266,7 @@ export class S2Cell {
 // maximum result magnitude is Pi, with a floating-point exponent of 1.
 // Therefore adding or subtracting 2**-51 will always change the result.
 //   private static MAX_ERROR = S2.toDecimal(1.0).dividedBy(S2.toDecimal(new Long(1).shiftLeft(51).toString()));
-  private static MAX_ERROR = 1/new Long(1).shiftLeft(51).toNumber();
+  private static MAX_ERROR = 1 / Number(1n << 51n);
 
 // The 4 cells around the equator extend to +/-45 degrees latitude at the
 // midpoints of their top and bottom edges. The two cells covering the

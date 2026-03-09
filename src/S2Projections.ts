@@ -71,7 +71,7 @@ import { S2CellId } from "./S2CellId";
 import { S2Point } from "./S2Point";
 import { R2Vector } from "./R2Vector";
 
-import Long from 'long';
+
 
 export type UvTransformFunction = (x: number, y: number, z: number) => number
 export type XyzTransformFunction = (u: number, v: number) => number
@@ -261,7 +261,7 @@ export class S2Projections {
    * The maximum value of an si- or ti-coordinate. The range of valid (si,ti) values is
    * [0..MAX_SiTi].
    */
-  public static MAX_SITI = Long.fromInt(1).shiftLeft(S2Projections.MAX_LEVEL + 1)
+  public static MAX_SITI = 1n << BigInt(S2Projections.MAX_LEVEL + 1)
 
   public static getUNorm(face: number, u: number): S2Point {
     switch (face) {
@@ -359,7 +359,7 @@ export class S2Projections {
   }
 
   public static siTiToSt(si: number): number {
-    return 1.0 / this.MAX_SITI.toNumber() * si;
+    return 1.0 / Number(this.MAX_SITI) * si;
   }
 
   public static ijToUV(ij: number, cellSize: number): number {
