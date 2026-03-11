@@ -1,6 +1,6 @@
 {
   "name": "nodes2ts",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "a Typescript porting of the great S2 Geometry library from Google ",
   "type": "module",
   "main": "./dist/export.cjs",
