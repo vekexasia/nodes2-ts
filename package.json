@@ -21,7 +21,7 @@
   "homepage": "https://github.com/vekexasia/nodes2-ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vekexasia/nodes2-ts"
+    "url": "git+https://github.com/vekexasia/nodes2-ts.git"
   },
   "keywords": [
     "s2",
