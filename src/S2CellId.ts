@@ -51,7 +51,7 @@ import { S2Projections, UvTransform } from './S2Projections';
  * point, it is better to use the S2Cell class.
  *
  * v4 CHANGE: S2CellId.id is now a native bigint (unsigned uint64).
- * The constructor accepts both bigint and string (signed or unsigned decimal).
+ * The constructor accepts bigint, string (signed or unsigned decimal), or number.
  */
 export class S2CellId {
 
@@ -102,14 +102,34 @@ export class S2CellId {
   public id: bigint;
 
   /**
-   * Construct an S2CellId from a bigint or decimal string.
+   * Construct an S2CellId from a bigint, decimal string, or number.
    *
    * The string may be signed ("-6533045114107854848") or unsigned
    * ("11913698959601696768"); both are handled via BigInt.asUintN(64, ...).
+   *
+   * Numbers must be finite integers within the safe-integer range
+   * (|n| ≤ Number.MAX_SAFE_INTEGER = 2^53 − 1). Values outside that range
+   * may have silently lost precision in JS before reaching this constructor,
+   * so a RangeError is thrown. Use a bigint literal for large cell IDs
+   * (e.g. `-9182983676231680000n`).
+   *
+   * @throws {TypeError}  if `id` is a non-integer or non-finite number.
+   * @throws {RangeError} if `id` exceeds safe-integer precision (> 2^53 − 1).
    */
-  constructor(id: bigint | string) {
+  constructor(id: bigint | string | number) {
     if (typeof id === 'string') {
       // BigInt() parses the signed decimal, asUintN reinterprets as unsigned.
+      this.id = BigInt.asUintN(64, BigInt(id));
+    } else if (typeof id === 'number') {
+      if (!Number.isInteger(id) || !isFinite(id)) {
+        throw new TypeError(`S2CellId: non-integer or non-finite number: ${id}`);
+      }
+      if (!Number.isSafeInteger(id)) {
+        throw new RangeError(
+          `S2CellId: number ${id} exceeds safe integer precision (> 2^53). ` +
+          `Use a bigint literal instead, e.g. ${BigInt(id)}n`
+        );
+      }
       this.id = BigInt.asUintN(64, BigInt(id));
     } else {
       this.id = BigInt.asUintN(64, id);
@@ -885,18 +905,18 @@ export class S2CellId {
    * Binary search in a sorted S2CellId array.
    * Returns index if found, or -(insertionPoint+1) if not found.
    *
-   * v4: `_id` accepts bigint, string, or S2CellId (was Long, string, or S2CellId).
+   * v4: `_id` accepts bigint, string, number, or S2CellId (was Long, string, or S2CellId).
    */
   public static binarySearch(
     ids: S2CellId[],
-    _id: bigint | string | S2CellId,
+    _id: bigint | string | number | S2CellId,
     low = 0,
   ): number {
     let id: S2CellId;
     if (_id instanceof S2CellId) {
       id = _id;
     } else {
-      id = new S2CellId(_id as bigint | string);
+      id = new S2CellId(_id as bigint | string | number);
     }
     let high = ids.length - 1;
 
@@ -914,7 +934,7 @@ export class S2CellId {
 
   public static indexedBinarySearch(
     ids: S2CellId[],
-    id: bigint | string | S2CellId,
+    id: bigint | string | number | S2CellId,
     low = 0,
   ): number {
     const toRet = this.binarySearch(ids, id, low);

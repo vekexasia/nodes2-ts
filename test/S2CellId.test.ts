@@ -319,6 +319,11 @@ describe('S2CellId', () => {
         expect(byBigInt.id).toBe(UNSIGNED);
         expect(byNegBigInt.id).toBe(UNSIGNED);
       });
+
+      it('number constructor: new S2CellId(numberLiteral)', () => {
+        const cell = new S2CellId(42);
+        expect(cell.id).toBe(42n);
+      });
     });
   });
 });

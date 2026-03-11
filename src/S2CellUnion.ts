@@ -36,9 +36,9 @@ export class S2CellUnion implements S2Region {
    * Populates a cell union with the given S2CellIds or 64-bit cell ids, and
    * then calls Normalize().
    *
-   * v4: `cellIds` accepts `bigint[] | string[]` (was `Long[] | string[]`).
+   * v4: `cellIds` accepts `bigint[] | string[] | number[]` (was `Long[] | string[]`).
    */
-  public initFromIds(cellIds: bigint[] | string[]) {
+  public initFromIds(cellIds: bigint[] | string[] | number[]) {
     this.initRawIds(cellIds);
     this.normalize();
   }
@@ -57,11 +57,11 @@ export class S2CellUnion implements S2Region {
     this.cellIds = cellIds;
   }
 
-  public initRawIds(cellIds: bigint[] | string[]) {
+  public initRawIds(cellIds: bigint[] | string[] | number[]) {
     const size = cellIds.length;
     this.cellIds = [];
     for (let i = 0; i < size; i++) {
-      this.cellIds.push(new S2CellId(cellIds[i] as bigint | string));
+      this.cellIds.push(new S2CellId(cellIds[i] as bigint | string | number));
     }
   }
 

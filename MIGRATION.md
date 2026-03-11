@@ -22,17 +22,22 @@ const id: bigint = cellId.id;
 id.toString(); // unsigned decimal, e.g. "11913698959601696768"
 ```
 
-### `S2CellId` constructor — `Long | string` → `bigint | string`
+### `S2CellId` constructor — `Long | string` → `bigint | string | number`
 
 ```ts
 // v3
 new S2CellId(Long.fromString('-6533045114107854848'))
 
-// v4 – both signed and unsigned decimal strings work
+// v4 – signed/unsigned strings, bigint, and number all work
 new S2CellId('-6533045114107854848')   // signed string still accepted
 new S2CellId('11913698959601696768')   // unsigned string
 new S2CellId(11913698959601696768n)    // bigint literal
+new S2CellId(42)                       // number (for small/safe integers)
 ```
+
+> **⚠️ Precision:** Numbers beyond `Number.MAX_SAFE_INTEGER` (2^53 − 1) may
+> silently lose precision before reaching the constructor. Prefer `bigint`
+> literals (e.g. `11913698959601696768n`) for values above 2^53.
 
 ### `S2CellId.fromFacePosLevel` — `pos: Long` → `pos: bigint`
 
@@ -60,7 +65,7 @@ S2CellId.fromFacePosLevel(face, 0n, level)
 
 These are now trivial (`<` / `>`) since bigint is always unsigned-positive.
 
-### `S2CellUnion.initFromIds()` / `initRawIds()` — `Long[] | string[]` → `bigint[] | string[]`
+### `S2CellUnion.initFromIds()` / `initRawIds()` — `Long[] | string[]` → `bigint[] | string[] | number[]`
 
 ```ts
 // v3
