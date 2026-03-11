@@ -61,8 +61,18 @@ export class S2CellId {
   public static FACE_BITS = 3;
   public static NUM_FACES = 6;
   public static MAX_LEVEL = 30; // Valid levels: 0..MAX_LEVEL
-  public static POS_BITS = 2 * S2CellId.MAX_LEVEL + 1;  // 61
-  public static MAX_SIZE = 1 << S2CellId.MAX_LEVEL;      // 2^30
+  /**
+   * The number of bits used by a position along the Hilbert curve over all
+   * faces (range 1..2*MAX_LEVEL+1). This is a fixed constant encoding the
+   * canonical 64-bit S2 cell ID layout; it must NEVER be derived from a
+   * mutable MAX_LEVEL.
+   */
+  public static readonly POS_BITS = 2 * 30 + 1; // = 61
+  /**
+   * The maximum coordinate value for an (i,j) cell index. Equal to 2^30.
+   * Fixed constant matching the 30-level S2 grid.
+   */
+  public static readonly MAX_SIZE = 1 << 30; // = 1073741824
 
   /** Maximum unsigned 64-bit value (sentinel). */
   public static MAX_UNSIGNED: bigint = UINT64_MAX;
@@ -92,8 +102,12 @@ export class S2CellId {
    * This is the offset required to wrap around from the beginning of the
    * Hilbert curve to the end or vice versa; see next_wrap() and prev_wrap().
    */
-  private static WRAP_OFFSET: bigint =
-      BigInt(S2CellId.NUM_FACES) << BigInt(S2CellId.POS_BITS);
+  /**
+   * Precomputed wrap offset. Fixed constant; must not be derived from a
+   * mutable POS_BITS.
+   */
+  private static readonly WRAP_OFFSET: bigint =
+    BigInt(S2CellId.NUM_FACES) << BigInt(S2CellId.POS_BITS);
 
   /**
    * The 64-bit unsigned cell ID.

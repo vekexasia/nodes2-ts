@@ -9,7 +9,9 @@ import {R1Interval} from "./R1Interval";
 import {S1Interval} from "./S1Interval";
 import {S2Cap} from "./S2Cap";
 export class S2Cell {
-  private static MAX_CELL_SIZE = 1 << S2CellId.MAX_LEVEL;
+  public static get MAX_CELL_SIZE(): number {
+    return 1 << S2CellId.MAX_LEVEL;
+  }
 
   private _face:number;
   private _level:number;

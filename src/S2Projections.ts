@@ -261,7 +261,9 @@ export class S2Projections {
    * The maximum value of an si- or ti-coordinate. The range of valid (si,ti) values is
    * [0..MAX_SiTi].
    */
-  public static MAX_SITI = 1n << BigInt(S2Projections.MAX_LEVEL + 1)
+  public static get MAX_SITI(): bigint {
+    return 1n << BigInt(S2Projections.MAX_LEVEL + 1);
+  }
 
   public static getUNorm(face: number, u: number): S2Point {
     switch (face) {
