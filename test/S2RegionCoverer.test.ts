@@ -9,6 +9,7 @@ import { S2Region } from "../src/S2Region";
 import { S2 } from "../src/S2";
 import { getRandomCap } from "./geometricTestCase";
 import genLocs from './assets/latlng-covering-tests.json';
+import { CoveringTestItem } from './test-types';
 
 // https://github.com/google/s2-geometry-library-java/blob/5bd8781f9c5e52d673dced401bd6b5424ba4582a/tests/com/google/common/geometry/GeometryTestCase.java#L91
 function getRandomCellID(): S2CellId {
@@ -151,7 +152,7 @@ describe('S2RegionCoverer', () => {
   });
 
   it('Java tests produces valid coverings', () => {
-    genLocs.forEach((testCase: any) => {
+    genLocs.forEach((testCase: CoveringTestItem) => {
       const { maxCells, levelMod, maxLevel, minLevel, rectBound } = testCase;
 
       const latLngRect = S2LatLngRect.fromLatLng(

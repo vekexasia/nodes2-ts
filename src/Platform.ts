@@ -1,4 +1,12 @@
-import exponent = require("math-float64-exponent");
+const exponentBuffer = new ArrayBuffer(8);
+const exponentView = new DataView(exponentBuffer);
+
+function getFloat64Exponent(value: number): number {
+  exponentView.setFloat64(0, value, false);
+  const highWord = exponentView.getUint32(0, false);
+  return ((highWord & 0x7ff00000) >>> 20) - 1023;
+}
+
 export class Platform {
   public static IEEEremainder(f1: number, f2: number): number {
     // let r = f1 % f2;
@@ -49,6 +57,6 @@ export class Platform {
     // }
     // throw new Error('method not written yet');
     // // return (int)((S2.EXPONENT_MASK & bits) >> S2.EXPONENT_SHIFT) - 1022;
-    return exponent(v);
+    return getFloat64Exponent(v);
   }
 }

@@ -543,7 +543,7 @@ export class S2LatLngRect implements S2Region {
 
   /** Return true if two rectangles contains the same set of points. */
 
-  public equals(that:any):boolean {
+  public equals(that: S2LatLngRect):boolean {
     if (!(that instanceof S2LatLngRect)) {
       return false;
     }
@@ -577,16 +577,9 @@ export class S2LatLngRect implements S2Region {
       return S2Cap.empty();
     }
 
-    let poleZ = 0;
-    let poleAngle = 0;
-    if (this.lat.lo + this.lat.hi < 0) {
-      // South pole axis yields smaller cap.
-      poleZ = -1;
-      poleAngle = S2.M_PI_2 + this.lat.hi;
-    } else {
-      poleZ = 1;
-      poleAngle = S2.M_PI_2 - this.lat.lo;
-    }
+    const useSouthPole = this.lat.lo + this.lat.hi < 0;
+    const poleZ = useSouthPole ? -1 : 1;
+    const poleAngle = useSouthPole ? S2.M_PI_2 + this.lat.hi : S2.M_PI_2 - this.lat.lo;
     const poleCap = S2Cap.fromAxisAngle(new S2Point(0, 0, poleZ), S1Angle.radians(poleAngle));
 
     // For bounding rectangles that span 180 degrees or less in longitude, the maximum cap size is
@@ -722,7 +715,7 @@ export class S2LatLngRect implements S2Region {
     ]
   }
 
-  public toGEOJSON():any {
+  public toGEOJSON() {
     return {
       type: 'Feature',
       geometry: {

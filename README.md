@@ -8,12 +8,11 @@ src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&
 
 An extensive port of google's s2 geometry library written in TypeScript.
 
-The only direct dependency is `math-float64-exponent` (no more `long`!). Cell IDs use native
-JavaScript `bigint` (v4+).
+The library has **no runtime dependencies**. Cell IDs use native JavaScript `bigint` (v4+).
 
 Npm package is `nodes2ts`.
 
-> Requires **Node.js 18+**.
+> Requires **Node.js 20+**.
 
 ## Breaking Changes in v4
 

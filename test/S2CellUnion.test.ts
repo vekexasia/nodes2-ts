@@ -4,6 +4,7 @@ import { S2CellId } from '../src/S2CellId';
 import { S2Cell } from '../src/S2Cell';
 import unionTests from './assets/union-tests.json';
 import cellTests from './assets/cell-tests.json';
+import { UnionTestItem, CellTestItem } from './test-types';
 
 function createUnionFromTokensList(tokens:string[]):S2CellUnion {
   const s2CellUnion = new S2CellUnion();
@@ -14,14 +15,14 @@ function createUnionFromTokensList(tokens:string[]):S2CellUnion {
 describe('S2CellUnion', () => {
   describe('java data', () => {
     it ('should reorder cells correctly when creating from cellids', () => {
-      unionTests.forEach((test: any) => {
+      unionTests.forEach((test: UnionTestItem) => {
         expect(createUnionFromTokensList(test.firstCells).getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.firstUnionResultCells);
         expect(createUnionFromTokensList(test.scndCells).getCellIds().map((c: S2CellId) => c.toToken())).to.be.deep.eq(test.scndUnionResultCells);
       });
     });
 
     it('should compute union correctly', () => {
-      unionTests.forEach((test: any) => {
+      unionTests.forEach((test: UnionTestItem) => {
         const result = new S2CellUnion();
         result.getUnion(
           createUnionFromTokensList(test.firstCells),
@@ -32,7 +33,7 @@ describe('S2CellUnion', () => {
     });
 
     it('should compute intersection correctly', () => {
-      unionTests.forEach((test: any) => {
+      unionTests.forEach((test: UnionTestItem) => {
         const result = new S2CellUnion();
         result.getIntersectionUU(
           createUnionFromTokensList(test.firstCells),
@@ -70,7 +71,7 @@ describe('S2CellUnion', () => {
     cellUnion.initFromIds(s2CellIDs);
     expect(cellUnion.getCellIds().map((id: S2CellId) => id.toToken())).to.be.deep.eq(['357ca574']);
 
-    cellTests.forEach((test: any) => {
+    cellTests.forEach((test: CellTestItem) => {
       const cell = new S2Cell(new S2CellId(test.id))
       const { children } = test;
 

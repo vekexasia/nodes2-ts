@@ -5,6 +5,7 @@ import { R2Vector } from "../src/R2Vector";
 import { S1Angle } from "../src/S1Angle";
 import genJavaLocs from './assets/main-tests.json';
 import cellTests from './assets/cell-tests.json';
+import { MainTestItem, CellTestItem } from './test-types';
 
 /**
  * Convert a signed-decimal string (Java Long.toString()) to an unsigned
@@ -17,7 +18,7 @@ describe('S2CellId', () => {
     describe('decoding', () => {
       it('should decode fromFacePosLevel', () => {
         genJavaLocs
-            .forEach((item: any) => {
+            .forEach((item: MainTestItem) => {
               const pos = BigInt(item.pos); // item.pos is always positive (61-bit)
               const s2CellId = S2CellId.fromFacePosLevel(item.face, pos, item.lvl);
               expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
@@ -25,22 +26,22 @@ describe('S2CellId', () => {
       });
       it('should decode from token', () => {
         genJavaLocs
-            .forEach((item: any) => {
+            .forEach((item: MainTestItem) => {
               const s2CellId = S2CellId.fromToken(item.token);
               expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             })
       });
       it('should decode from Face Ij', () => {
         genJavaLocs
-            .forEach((item: any) => {
-              const s2CellId = S2CellId.fromFaceIJ(item.face, parseInt(item.i), parseInt(item.j))
+            .forEach((item: MainTestItem) => {
+              const s2CellId = S2CellId.fromFaceIJ(item.face, item.i, item.j)
                   .parentL(item.lvl);
               expect(s2CellId.id.toString()).to.be.equal(toU(item.id));
             });
       });
       it('should decode from point', () => {
         genJavaLocs
-            .forEach((item: any) => {
+            .forEach((item: MainTestItem) => {
               const s2Point = new S2Point(item.point.x, item.point.y, item.point.z);
               const s2CellId = S2CellId.fromPoint(s2Point)
                   .parentL(item.lvl);
@@ -49,9 +50,9 @@ describe('S2CellId', () => {
       })
     });
     describe('instance data', () => {
-      let items: any[] = [];
+      let items: Array<{item: MainTestItem, cell: S2CellId}> = [];
       beforeAll(() => {
-        items = genJavaLocs.map((item: any) => {
+        items = genJavaLocs.map((item: MainTestItem) => {
           return {
             item,
             cell: S2CellId.fromToken(item.token)
@@ -206,10 +207,10 @@ describe('S2CellId', () => {
 
   describe('cell-tests', () => {
     it('should calculate vertexNeighbors just fine', () => {
-      cellTests.forEach((c: any) => {
+      cellTests.forEach((c: CellTestItem) => {
         // c.id may be signed decimal — the constructor handles it
         const cell = new S2CellId(c.id);
-        c.vertexNeighborsLvl.forEach((vnData: any) => {
+        c.vertexNeighborsLvl.forEach((vnData) => {
           const calcTokens = cell.getVertexNeighbors(vnData.lvl)
               .map((vC: S2CellId) => vC.toToken())
           expect(calcTokens, `Cell: ${c.id} ${cell.toToken()} - level ${vnData.lvl}`).to.be.deep.equal(vnData.v);
@@ -217,7 +218,7 @@ describe('S2CellId', () => {
       })
     });
     it('should calculate edgeNeighbors just fine', () => {
-      cellTests.forEach((c: any) => {
+      cellTests.forEach((c: CellTestItem) => {
         const cell = new S2CellId(c.id);
         const edgeCellTokens = cell.getEdgeNeighbors().map((eN: S2CellId) => eN.toToken());
         expect(edgeCellTokens).to.be.deep.equal(c.edgeNeighbors);

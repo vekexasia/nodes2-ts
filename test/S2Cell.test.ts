@@ -7,15 +7,16 @@ import { S1Interval } from "../src/S1Interval";
 import { S1Angle } from "../src/S1Angle";
 import { S2Point } from "../src/S2Point";
 import genJavaLocs from './assets/cell-tests.json';
+import { CellTestItem } from './test-types';
 
 /** Convert a signed-decimal Java Long string to unsigned decimal. */
 const toU = (s: string): string => BigInt.asUintN(64, BigInt(s)).toString();
 
 describe('S2Cell', () => {
   describe('java data', () => {
-    let items: Array<{item: any, cell: S2Cell}>;
+    let items: Array<{item: CellTestItem, cell: S2Cell}>;
     beforeAll(() => {
-      items = genJavaLocs.map((item: any) => {
+      items = genJavaLocs.map((item: CellTestItem) => {
         return {
           item,
           cell: new S2Cell(new S2CellId(item.id))

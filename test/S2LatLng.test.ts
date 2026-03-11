@@ -2,11 +2,12 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { S2LatLng } from "../src/S2LatLng";
 import { S2Point } from "../src/S2Point";
 import genLocs from './assets/latlng-tests.json';
+import { LatLngTestItem } from './test-types';
 
 describe('S2LatLng', () => {
   describe('creators', () => {
     it('should be able to create from radians', () => {
-      genLocs.forEach((item: any) => {
+      genLocs.forEach((item: LatLngTestItem) => {
         const s2LatLng = new S2LatLng(item.latR, item.lngR);
         expect(s2LatLng.latRadians.toString()).to.be.eq(item.latR.toString())
         expect(s2LatLng.lngRadians.toString()).to.be.eq(item.lngR.toString())
@@ -14,7 +15,7 @@ describe('S2LatLng', () => {
     });
     it('should be able to create from degrees', () => {
       genLocs
-          .forEach((item: any) => {
+          .forEach((item: LatLngTestItem) => {
         const s2LatLng = S2LatLng.fromDegrees(item.latD, item.lngD);
         expect(s2LatLng.latRadians).to.be.closeTo(parseFloat(item.latR), 1e-13)
 
@@ -24,8 +25,8 @@ describe('S2LatLng', () => {
 
     it('should be able to create from point', () => {
       genLocs
-          .filter((_item: any, idx: number) => idx>2)
-          .forEach((item: any) => {
+          .filter((_item: LatLngTestItem, idx: number) => idx>2)
+          .forEach((item: LatLngTestItem) => {
             const s2LatLng = S2LatLng.fromPoint(new S2Point(
                // 1,1,1
             item.point.x,
@@ -39,9 +40,9 @@ describe('S2LatLng', () => {
   });
 
   describe('once created', () => {
-    let items: Array<{item: any, ll: S2LatLng}> = [];
+    let items: Array<{item: LatLngTestItem, ll: S2LatLng}> = [];
     beforeAll(() => {
-      items = genLocs.map((item: any) => {
+      items = genLocs.map((item: LatLngTestItem) => {
         return {
           item,
           ll: new S2LatLng(item.latR, item.lngR)

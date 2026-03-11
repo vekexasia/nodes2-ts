@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-// import {S2LatLngRect} from "./S2LatLngRect";
-import {S2Cell} from "./S2Cell";
-import {S2Cap} from "./S2Cap";
+import type {S2LatLngRect} from "./S2LatLngRect";
+import type {S2Cell} from "./S2Cell";
+import type {S2Cap} from "./S2Cap";
 /**
  * An S2Region represents a two-dimensional region over the unit sphere. It is
  * an abstract interface with various concrete subtypes.
@@ -35,7 +35,7 @@ export interface S2Region {
 
 
   /** Return a bounding latitude-longitude rectangle. */
-  getRectBound():any;
+  getRectBound(): S2LatLngRect;
 
   /**
    * If this method returns true, the region completely contains the given cell.

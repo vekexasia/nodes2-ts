@@ -35,8 +35,8 @@ export abstract class Interval {
   /**
    * Return true if two intervals contains the same set of points.
    */
-  public equals(that:any):boolean {
-    if (typeof(that) === typeof(this)) {
+  public equals(that: Interval):boolean {
+    if (that instanceof Interval) {
       return this.lo == that.lo && this.hi == that.hi;
     }
     return false;
