@@ -53,10 +53,7 @@
     "eslint": "^10.0.3",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1",
+    "typescript-eslint": "^8.57.0",
     "vitest": "^4.0.18"
-  },
-  "overrides": {
-    "rollup": "^4.59.0"
   }
 }

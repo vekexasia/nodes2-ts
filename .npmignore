@@ -1,8 +1,12 @@
 src/
 test/
 .idea/
-gulpfile.js
-README.md
 tsconfig.json
-tslint.json
-java-test-creator
+java-test-creator/
+eslint.config.js
+vitest.config.ts
+tsup.config.ts
+CLAUDE.md
+MIGRATION.md
+.github/
+coverage/

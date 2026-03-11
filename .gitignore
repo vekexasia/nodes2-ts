@@ -1,8 +1,5 @@
 node_modules/
-typings/
-coverage/
-.nyc_output/
-src/*.js
 dist/
-.idea
+coverage/
+.idea/
 java-test-creator/bin/
