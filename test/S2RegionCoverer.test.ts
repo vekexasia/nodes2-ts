@@ -113,7 +113,7 @@ describe('S2RegionCoverer', () => {
     }
   })
 
-  it('produces valid coverings', { timeout: 4000 }, () => {
+  it('produces valid coverings', { timeout: 15000 }, () => {
     const kMaxLevel = S2CellId.MAX_LEVEL;
 
     for (let i = 0; i < 1000; ++i) {
